@@ -1,0 +1,79 @@
+[
+    {
+        "feature": "snackbarMessages",
+        "labels": [
+            {
+                "error": 200,
+                "message": "Everything OK."
+            },
+            {
+                "error": 400,
+                "message": "The model is invalid."
+            },
+            {
+                "error": 401,
+                "message": "Authentication wasn't successful."
+            },
+            {
+                "error": 404,
+                "message": "This record can not be found."
+            },
+            {
+                "error": 412,
+                "message": "The password cannot be changed. Possibly, the current password is wrong."
+            },
+            {
+                "error": 415,
+                "message": "This record has already been updated by another user!"
+            },
+            {
+                "error": 491,
+                "message": "This record is in use and can't be deleted."
+            },
+            {
+                "error": 492,
+                "message": "We are unable to continue. Please make sure that the username and/or the email don't belong to another user."
+            },
+            {
+                "error": 500,
+                "message": "Something went not so well, but it has been reported."
+            },
+            {
+                "id": "authenticationFailed",
+                "message": "Authentication was not successful."
+            },
+            {
+                "id": "emailSent",
+                "message": "We've just sent you an email."
+            },
+            {
+                "id": "emailNotSent",
+                "message": "We can't send you an email right now, please try again in a little while."
+            },
+            {
+                "id": "unableToResetPassword",
+                "message": "The new password cannot be saved. The link in the email you were sent may no longer be valid."
+            },
+            {
+                "id": "noContactWithServer",
+                "message": "There is no response from the database."
+            },
+            {
+                "id": "success",
+                "message": "Everything OK."
+            },
+            {
+                "id": "warning",
+                "message": "Shall we delete this record?"
+            },
+            {
+                "id": "confirmLogout",
+                "message": "Please confirm that you want to logout!"
+            },
+            {
+                "id": "passwordCanBeChangedOnlyByAccountOwner",
+                "message": "The password can be changed only by the owner of the account."
+            }
+        ]
+    }
+]

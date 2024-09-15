@@ -1,0 +1,115 @@
+@model API.Infrastructure.Users.UserDetailsForEmailVM
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <style>
+        html {
+            min-height: 100%;
+            position: relative;
+        }
+
+        body {
+            margin: 0;
+        }
+
+        #wrapper {
+            display: flex;
+            flex-direction: column;
+            max-width: 600px;
+            padding: 0.5rem;
+        }
+
+        #header {
+            align-items: flex-start;
+            background-color: #457b9d;
+            border-radius: 1rem 1rem 0 0;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 1rem 0 1rem 2rem;
+        }
+
+        #footer {
+            align-items: center;
+            background-color: #457b9d;
+            border-radius: 0 0 1rem 1rem;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            font-size: 0.8rem;
+            justify-content: center;
+            padding: 1rem 0 1rem 0;
+        }
+
+        #footer > span {
+            text-align: center;
+        }
+
+        #content {
+            background-color: #caf0f8;
+            display: flex;
+            flex-direction: column;
+            padding: 0 1rem 0 1rem;
+        }
+
+        #description {
+            display: flex;
+            flex-direction: column;
+        }
+
+        a.primary {
+            text-decoration: none;
+            background-color: orange;
+            color: #000000;
+            padding: 0.5rem 2.5rem;
+        }
+
+        #reminder {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #button {
+            display: flex;
+            margin: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrapper">
+        <div id="header">
+            <div id="logo" style="@Model.LogoTextBase64"></div>
+        </div>
+        <div id="content">
+            <p>👋 Hello @Model.Displayname,</p>
+            <div id="description">
+                <span>Welcome to our reservations platform!</span>
+                <span>You are receiving this email because we have opened a new account for you.</span>
+                <span>We have also set a temporary password, which you must change before you're allowed to login. Please click on the link below and then on the 'I forgot my password' to reset it.</span>
+            </div>
+            <div id=button>
+                <a class="primary" href="@Model.Url">Set new password</a>
+            </div>
+            <div id="reminder">
+                <span>As a friendly reminder, your account details are:</span>
+                <ul>
+                    <li>Username: @Model.Username</li>
+                    <li>Email: @Model.Email</li>
+                </ul>
+            </div>
+        </div>
+        <div id="footer">
+            <span>Problems or questions? Please call</span>
+            <span>@Model.CompanyPhones</span>
+            <span>Don't reply to this email</span>
+        </div>
+    </div>
+</body>
+
+</html>
