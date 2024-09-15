@@ -57,10 +57,6 @@
             "description": "This field is required"
         },
         {
-            "id": "shouldBeFiveCapitalLetters",
-            "description": "Only five (5) Latin capital letters are allowed"
-        },
-        {
             "id": "spacesNotAllowed",
             "description": "This field can't contain spaces"
         }

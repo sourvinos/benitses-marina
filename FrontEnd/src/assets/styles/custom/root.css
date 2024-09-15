@@ -38,11 +38,6 @@
 @import url("../prime/prime-tabview.css");
 
 @font-face {
-    font-family: Aka-Acid-CanterBold;
-    src: url("/assets/fonts/ACCanterBold.ttf");
-}
-
-@font-face {
     font-family: Consolas;
     src: url("/assets/fonts/Consolas.ttf");
 }

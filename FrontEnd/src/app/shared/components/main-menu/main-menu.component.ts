@@ -8,12 +8,12 @@ import { MessageMenuService } from 'src/app/shared/services/message-menu.service
 import { SessionStorageService } from 'src/app/shared/services/session-storage.service'
 
 @Component({
-    selector: 'reservations-menu',
-    templateUrl: './bookings-menu.component.html',
-    styleUrls: ['./bookings-menu.component.css']
+    selector: 'main-menu',
+    templateUrl: './main-menu.component.html',
+    styleUrls: ['./main-menu.component.css']
 })
 
-export class ReservationsMenuComponent {
+export class MainMenuComponent {
 
     //#region variables
 

@@ -38,7 +38,7 @@ export class MessageLabelService {
 
     public getMessages(): Promise<any> {
         const promise = new Promise((resolve) => {
-            firstValueFrom(this.httpClient.get('assets/languages/labels/labels.' + this.localStorageService.getLanguage() + '.json')).then(response => {
+            firstValueFrom(this.httpClient.get('assets/languages/labels.' + this.localStorageService.getLanguage() + '.json')).then(response => {
                 this.messages = response
                 resolve(this.messages)
             })

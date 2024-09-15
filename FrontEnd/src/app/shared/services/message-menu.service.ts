@@ -32,7 +32,7 @@ export class MessageMenuService {
 
     public getMessages(): Promise<any> {
         const promise = new Promise((resolve) => {
-            firstValueFrom(this.httpClient.get('assets/languages/menus/menu.' + this.localStorageService.getLanguage() + '.json')).then(response => {
+            firstValueFrom(this.httpClient.get('assets/languages/menu.' + this.localStorageService.getLanguage() + '.json')).then(response => {
                 this.messages = response
                 resolve(this.messages)
             })

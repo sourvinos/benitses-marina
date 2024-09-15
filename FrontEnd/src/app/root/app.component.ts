@@ -4,6 +4,7 @@ import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Rout
 import { AccountService } from '../shared/services/account.service'
 import { CryptoService } from '../shared/services/crypto.service'
 import { LoadingSpinnerService } from '../shared/services/loading-spinner.service'
+import { LocalStorageService } from '../shared/services/local-storage.service'
 import { SessionStorageService } from '../shared/services/session-storage.service'
 import { environment } from 'src/environments/environment'
 import { routeAnimation } from '../shared/animations/animations'
@@ -23,7 +24,7 @@ export class AppComponent {
 
     //#endregion
 
-    constructor(private accountService: AccountService, private changeDetector: ChangeDetectorRef, private cryptoService: CryptoService, private loadingSpinnerService: LoadingSpinnerService, private router: Router, private sessionStorageService: SessionStorageService) {
+    constructor(private accountService: AccountService, private changeDetector: ChangeDetectorRef, private cryptoService: CryptoService, private loadingSpinnerService: LoadingSpinnerService, private localStorageService: LocalStorageService, private router: Router, private sessionStorageService: SessionStorageService) {
         this.router.events.subscribe((routerEvent) => {
             if (routerEvent instanceof NavigationStart) {
                 this.isLoading = true
@@ -47,7 +48,6 @@ export class AppComponent {
     ngOnInit(): void {
         this.initLoadingSpinner()
         this.setUserSelect()
-        this.setBackgroundImage()
         this.openBroadcastChannel()
         this.isUserConnected()
     }
@@ -71,10 +71,6 @@ export class AppComponent {
 
     private openBroadcastChannel(): void {
         new BroadcastChannel('test').postMessage('open')
-    }
-
-    private setBackgroundImage(): void {
-        document.getElementById('wrapper').style.backgroundImage = 'url(../../assets/images/themes/background.svg'
     }
 
     private setUserSelect(): void {

@@ -68,7 +68,7 @@
             },
             {
                 "id": "confirmLogout",
-                "message": "Please confirm that you want to logout!"
+                "message": "Please confirm you want to logout!"
             },
             {
                 "id": "passwordCanBeChangedOnlyByAccountOwner",
