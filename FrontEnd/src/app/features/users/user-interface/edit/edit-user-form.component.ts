@@ -2,8 +2,6 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { Component } from '@angular/core'
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms'
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete'
-import { Observable } from 'rxjs'
-import { map, startWith } from 'rxjs/operators'
 // Custom
 import { CryptoService } from 'src/app/shared/services/crypto.service'
 import { DexieService } from 'src/app/shared/services/dexie.service'
@@ -16,16 +14,15 @@ import { MessageDialogService } from 'src/app/shared/services/message-dialog.ser
 import { MessageInputHintService } from 'src/app/shared/services/message-input-hint.service'
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
 import { SessionStorageService } from 'src/app/shared/services/session-storage.service'
-import { SimpleEntity } from './../../../../../shared/classes/simple-entity'
 import { UpdateUserDto } from '../../classes/dtos/update-user-dto'
 import { UserReadDto } from '../../classes/dtos/user-read-dto'
 import { UserService } from '../../classes/services/user.service'
-import { ValidationService } from '../../../../../shared/services/validation.service'
+import { ValidationService } from '../../../../shared/services/validation.service'
 
 @Component({
     selector: 'edit-user-form',
     templateUrl: './edit-user-form.component.html',
-    styleUrls: ['../../../../../../assets/styles/custom/forms.css', './edit-user-form.component.css']
+    styleUrls: ['../../../../../assets/styles/custom/forms.css', './edit-user-form.component.css']
 })
 
 export class EditUserFormComponent {

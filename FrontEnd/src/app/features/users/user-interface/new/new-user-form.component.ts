@@ -1,7 +1,7 @@
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Component } from '@angular/core'
 // Custom
-import { ConfirmValidParentMatcher, ValidationService } from '../../../../../shared/services/validation.service'
+import { ConfirmValidParentMatcher, ValidationService } from '../../../../shared/services/validation.service'
 import { DialogService } from 'src/app/shared/services/modal-dialog.service'
 import { HelperService } from 'src/app/shared/services/helper.service'
 import { InputTabStopDirective } from 'src/app/shared/directives/input-tabstop.directive'
@@ -14,7 +14,7 @@ import { UserService } from '../../classes/services/user.service'
 @Component({
     selector: 'new-user-form',
     templateUrl: './new-user-form.component.html',
-    styleUrls: ['../../../../../../assets/styles/custom/forms.css']
+    styleUrls: ['../../../../../assets/styles/custom/forms.css']
 })
 
 export class NewUserFormComponent {

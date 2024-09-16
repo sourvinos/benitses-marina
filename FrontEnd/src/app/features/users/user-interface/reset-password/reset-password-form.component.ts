@@ -1,9 +1,8 @@
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import { Component } from '@angular/core'
 // Custom
 import { AccountService } from 'src/app/shared/services/account.service'
-import { ChangePasswordViewModel } from '../../classes/view-models/change-password-view-model'
 import { ConfirmValidParentMatcher, ValidationService } from 'src/app/shared/services/validation.service'
 import { DialogService } from 'src/app/shared/services/modal-dialog.service'
 import { EmojiService } from 'src/app/shared/services/emoji.service'
@@ -12,45 +11,47 @@ import { InputTabStopDirective } from 'src/app/shared/directives/input-tabstop.d
 import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
 import { MessageInputHintService } from 'src/app/shared/services/message-input-hint.service'
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
+import { ResetPasswordViewModel } from '../../classes/view-models/reset-password-view-model'
 
 @Component({
-    selector: 'change-password-form',
-    templateUrl: './change-password-form.component.html',
-    styleUrls: ['../../../../../../assets/styles/custom/forms.css', './change-password-form.component.css']
+    selector: 'reset-password-form',
+    templateUrl: './reset-password-form.component.html',
+    styleUrls: ['../../../../../assets/styles/custom/forms.css', './reset-password-form.component.css']
 })
 
-export class ChangePasswordFormComponent {
+export class ResetPasswordFormComponent {
 
-    //#region common #6
+    //#region common #7
 
-    public feature = 'changePasswordForm'
+    public feature = 'resetPasswordForm'
     public featureIcon = 'password'
     public form: FormGroup
-    public icon = 'arrow_back'
+    public icon = null
     public input: InputTabStopDirective
-    public parentUrl = '/users'
+    public isLoading: boolean
+    public parentUrl = null
 
     //#endregion
 
-    //#region specific #3
+    //#region specific #2
 
-    private userId: string
     public confirmValidParentMatcher = new ConfirmValidParentMatcher()
     public hidePassword = true
 
     //#endregion
 
-    constructor(private accountService: AccountService, private activatedRoute: ActivatedRoute, private dialogService: DialogService, private emojiService: EmojiService, private formBuilder: FormBuilder, private helperService: HelperService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService) { }
+    constructor(private accountService: AccountService, private activatedRoute: ActivatedRoute, private dialogService: DialogService, private emojiService: EmojiService, private formBuilder: FormBuilder, private helperService: HelperService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private router: Router) { }
 
     //#region lifecycle hooks
 
     ngOnInit(): void {
         this.initForm()
-        this.doPostInitTasks()
+        this.setVariables()
+        this.focusOnField()
     }
 
     ngAfterViewInit(): void {
-        this.focusOnField()
+        this.clearFields()
     }
 
     //#endregion
@@ -77,32 +78,35 @@ export class ChangePasswordFormComponent {
 
     //#region private methods
 
-    private doPostInitTasks(): void {
-        this.activatedRoute.params.subscribe(x => {
-            this.form.patchValue({
-                'userId': x.id
-            })
-            this.parentUrl = this.parentUrl + '/' + x.id
-        })
-    }
-
-    private flattenForm(): ChangePasswordViewModel {
-        return {
-            userId: this.form.value.userId,
-            currentPassword: this.form.value.currentPassword,
+    private flattenForm(): ResetPasswordViewModel {
+        const vm = {
+            email: this.form.value.email,
             password: this.form.value.passwords.password,
-            confirmPassword: this.form.value.passwords.confirmPassword
+            confirmPassword: this.form.value.passwords.confirmPassword,
+            token: this.form.value.token
         }
+        return vm
     }
 
     private focusOnField(): void {
         this.helperService.focusOnField()
     }
 
+    private clearFields(): void {
+        setTimeout(() => {
+            this.form.patchValue({
+                'passwords': {
+                    'password': '', // ALT + 08 = Backspace
+                    'confirmPassword': '' // ALT + 08 = Backspace
+                }
+            })
+        }, 800)
+    }
+
     private initForm(): void {
         this.form = this.formBuilder.group({
-            userId: this.userId,
-            currentPassword: ['', [Validators.required]],
+            email: [''],
+            token: [''],
             passwords: this.formBuilder.group({
                 password: ['', [
                     Validators.required,
@@ -119,26 +123,34 @@ export class ChangePasswordFormComponent {
         })
     }
 
-    private saveRecord(vm: ChangePasswordViewModel): void {
-        this.accountService.changePassword(vm).subscribe({
+    private saveRecord(form: ResetPasswordViewModel): void {
+        this.isLoading = true
+        this.accountService.resetPassword(form).subscribe({
             complete: () => {
-                this.helperService.doPostSaveFormTasks(this.messageDialogService.success(), 'ok', '', true).then(() => {
-                    this.accountService.logout()
-                })
+                this.helperService.doPostSaveFormTasks(this.messageDialogService.success(), 'ok', this.parentUrl, true)
+                this.router.navigate(['/login'])
+                this.isLoading = false
             },
-            error: (errorFromInterceptor) => {
-                this.dialogService.open(this.messageDialogService.filterResponse(errorFromInterceptor), 'error', ['ok'])
+            error: () => {
+                this.dialogService.open(this.messageDialogService.unableToResetPassword(), 'error', ['ok'])
+                this.router.navigate(['/login'])
+                this.isLoading = false
             }
+        })
+    }
+
+    private setVariables(): void {
+        this.activatedRoute.queryParams.subscribe(x => {
+            this.form.patchValue({
+                'email': x.email,
+                'token': x.token
+            })
         })
     }
 
     //#endregion
 
     //#region getters
-
-    get currentPassword(): AbstractControl {
-        return this.form.get('currentPassword')
-    }
 
     get passwords(): AbstractControl {
         return this.form.get('passwords')

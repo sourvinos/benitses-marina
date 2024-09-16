@@ -3,10 +3,10 @@ import { NgModule } from '@angular/core'
 import { NoPreloading, RouteReuseStrategy, RouterModule, Routes } from '@angular/router'
 // Components
 import { EmptyPageComponent } from '../shared/components/empty-page/empty-page.component'
-import { ForgotPasswordFormComponent } from '../features/bookings/users/user-interface/forgot-password/forgot-password-form.component'
+import { ForgotPasswordFormComponent } from '../features/users/user-interface/forgot-password/forgot-password-form.component'
 import { HomeComponent } from '../shared/components/home/home.component'
-import { LoginFormComponent } from '../features/bookings/login/user-interface/login-form.component'
-import { ResetPasswordFormComponent } from '../features/bookings/users/user-interface/reset-password/reset-password-form.component'
+import { LoginFormComponent } from '../shared/components/login/user-interface/login-form.component'
+import { ResetPasswordFormComponent } from '../features/users/user-interface/reset-password/reset-password-form.component'
 // Utils
 import { AuthGuardService } from '../shared/services/auth-guard.service'
 import { CustomRouteReuseStrategyService } from '../shared/services/route-reuse-strategy.service'
@@ -21,7 +21,7 @@ const appRoutes: Routes = [
     // Home
     { path: 'home', component: HomeComponent, canActivate: [AuthGuardService] },
     // Main menu
-    { path: 'users', loadChildren: () => import('../features/bookings/users/classes/modules/user.module').then(m => m.UserModule) },
+    { path: 'users', loadChildren: () => import('../features/users/classes/modules/user.module').then(m => m.UserModule) },
     // Empty
     { path: '**', component: EmptyPageComponent }
 ]

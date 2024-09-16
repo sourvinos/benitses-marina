@@ -15,7 +15,7 @@ import { environment } from 'src/environments/environment'
 @Component({
     selector: 'forgot-password-form',
     templateUrl: './forgot-password-form.component.html',
-    styleUrls: ['../../../../../../assets/styles/custom/forms.css']
+    styleUrls: ['../../../../../assets/styles/custom/forms.css']
 })
 
 export class ForgotPasswordFormComponent {

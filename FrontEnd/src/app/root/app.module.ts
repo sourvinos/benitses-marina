@@ -7,7 +7,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 // Modules
 import { AppComponent } from './app.component'
 import { AppRoutingModule } from './app.routing.module'
-import { LoginModule } from '../features/bookings/login/classes/modules/login.module'
+import { LoginModule } from '../shared/components/login/classes/modules/login.module'
 import { PrimeNgModule } from '../shared/modules/primeng.module'
 import { SharedModule } from 'src/app/shared/modules/shared.module'
 // Components
