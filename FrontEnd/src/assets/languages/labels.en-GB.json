@@ -212,6 +212,10 @@
             {
                 "id": "newRecord",
                 "description": "New record"
+            },
+            {
+                "id": "contextMenuEdit",
+                "description": "Edit record"
             }
         ]
     },

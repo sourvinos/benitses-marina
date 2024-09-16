@@ -1,19 +1,13 @@
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { Observable } from 'rxjs'
 import { Component } from '@angular/core'
-import { map, startWith } from 'rxjs/operators'
 // Custom
 import { ConfirmValidParentMatcher, ValidationService } from '../../../../../shared/services/validation.service'
-import { DexieService } from 'src/app/shared/services/dexie.service'
 import { DialogService } from 'src/app/shared/services/modal-dialog.service'
-import { EmojiService } from 'src/app/shared/services/emoji.service'
 import { HelperService } from 'src/app/shared/services/helper.service'
 import { InputTabStopDirective } from 'src/app/shared/directives/input-tabstop.directive'
-import { MatAutocompleteTrigger } from '@angular/material/autocomplete'
 import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
 import { MessageInputHintService } from 'src/app/shared/services/message-input-hint.service'
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
-import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 import { UserNewDto } from '../../classes/dtos/new-user-dto'
 import { UserService } from '../../classes/services/user.service'
 
@@ -43,20 +37,12 @@ export class NewUserFormComponent {
 
     //#endregion
 
-    //#region autocompletes #2
-
-    public isAutoCompleteDisabled = true
-    public dropdownCustomers: Observable<SimpleEntity[]>
-
-    //#endregion
-
-    constructor(private dexieService: DexieService, private dialogService: DialogService, private emojiService: EmojiService, private formBuilder: FormBuilder, private helperService: HelperService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private userService: UserService) { }
+    constructor(private dialogService: DialogService, private formBuilder: FormBuilder, private helperService: HelperService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private userService: UserService) { }
 
     //#region lifecycle hooks
 
     ngOnInit(): void {
         this.initForm()
-        this.populateDropdowns()
     }
 
     ngAfterViewInit(): void {
@@ -68,18 +54,6 @@ export class NewUserFormComponent {
 
     //#region public methods
 
-    public autocompleteFields(fieldName: any, object: any): any {
-        return object ? object[fieldName] : undefined
-    }
-
-    public checkForEmptyAutoComplete(event: { target: { value: any } }): void {
-        if (event.target.value == '') this.isAutoCompleteDisabled = true
-    }
-
-    public enableOrDisableAutoComplete(event: any): void {
-        this.isAutoCompleteDisabled = this.helperService.enableOrDisableAutoComplete(event)
-    }
-
     public getHint(id: string, minmax = 0): string {
         return this.messageHintService.getDescription(id, minmax)
     }
@@ -90,10 +64,6 @@ export class NewUserFormComponent {
 
     public onSave(): void {
         this.saveRecord(this.flattenForm())
-    }
-
-    public openOrCloseAutoComplete(trigger: MatAutocompleteTrigger, element: any): void {
-        this.helperService.openOrCloseAutocomplete(this.form, element, trigger)
     }
 
     //#endregion
@@ -131,23 +101,10 @@ export class NewUserFormComponent {
         this.form = this.formBuilder.group({
             username: ['', [Validators.required, ValidationService.containsSpace, Validators.maxLength(256)]],
             displayname: ['', [Validators.required, ValidationService.beginsOrEndsWithSpace, Validators.maxLength(32)]],
-            customer: ['', ValidationService.RequireAutocomplete],
             email: ['x@x.com', [Validators.email, Validators.maxLength(128), Validators.required]],
             isFirstFieldFocused: false,
             isAdmin: false,
             isActive: true
-        })
-    }
-
-    private populateDropdowns(): void {
-        this.populateDropdownFromDexieDB('customers', 'dropdownCustomers', 'customer', 'description', 'description', true)
-    }
-
-    private populateDropdownFromDexieDB(dexieTable: string, filteredTable: string, formField: string, modelProperty: string, orderBy: string, includeWildCard: boolean): void {
-        this.dexieService.table(dexieTable).orderBy(orderBy).toArray().then((response) => {
-            this[dexieTable] = response.filter(x => x.isActive)
-            includeWildCard ? this[dexieTable].unshift({ 'id': '0', 'description': '[' + this.emojiService.getEmoji('wildcard') + ']' }) : null
-            this[filteredTable] = this.form.get(formField).valueChanges.pipe(startWith(''), map(value => this.filterAutocomplete(dexieTable, modelProperty, value)))
         })
     }
 
@@ -172,10 +129,6 @@ export class NewUserFormComponent {
 
     get displayname(): AbstractControl {
         return this.form.get('displayname')
-    }
-
-    get customer(): AbstractControl {
-        return this.form.get('customer')
     }
 
     get email(): AbstractControl {

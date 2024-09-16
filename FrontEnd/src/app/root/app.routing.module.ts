@@ -20,7 +20,7 @@ const appRoutes: Routes = [
     { path: 'resetPassword', component: ResetPasswordFormComponent },
     // Home
     { path: 'home', component: HomeComponent, canActivate: [AuthGuardService] },
-    // Reservations
+    // Main menu
     { path: 'users', loadChildren: () => import('../features/bookings/users/classes/modules/user.module').then(m => m.UserModule) },
     // Empty
     { path: '**', component: EmptyPageComponent }

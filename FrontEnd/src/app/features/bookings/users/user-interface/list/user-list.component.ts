@@ -1,5 +1,6 @@
 import { ActivatedRoute, Router } from '@angular/router'
 import { Component, ViewChild } from '@angular/core'
+import { MenuItem } from 'primeng/api'
 import { Table } from 'primeng/table'
 // Custom
 import { DialogService } from 'src/app/shared/services/modal-dialog.service'
@@ -19,7 +20,7 @@ import { UserListVM } from '../../classes/view-models/user-list-vm'
 
 export class UserListComponent {
 
-    //#region common #9
+    //#region common
 
     @ViewChild('table') table: Table
 
@@ -34,6 +35,13 @@ export class UserListComponent {
 
     //#endregion
 
+    //#region context menu
+
+    public menuItems!: MenuItem[]
+    public selectedRecord!: UserListVM
+
+    //#endregion
+
     constructor(private activatedRoute: ActivatedRoute, private dialogService: DialogService, private emojiService: EmojiService, private helperService: HelperService, private messageDialogService: MessageDialogService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService) { }
 
     //#region lifecycle hooks
@@ -43,6 +51,7 @@ export class UserListComponent {
             this.filterTableFromStoredFilters()
             this.setTabTitle()
             this.setSidebarsHeight()
+            this.initContextMenu()
         })
     }
 
@@ -58,18 +67,7 @@ export class UserListComponent {
 
     //#endregion
 
-    //#region public common methods #7
-
-    public editRecord(id: number): void {
-        this.storeScrollTop()
-        this.storeSelectedId(id)
-        this.navigateToRecord(id)
-    }
-
-    public filterRecords(event: any): void {
-        this.sessionStorageService.saveItem(this.feature + '-' + 'filters', JSON.stringify(this.table.filters))
-        this.recordsFilteredCount = event.filteredValue.length
-    }
+    //#region public 
 
     public getEmoji(anything: any): string {
         return typeof anything == 'string'
@@ -81,11 +79,22 @@ export class UserListComponent {
         return this.messageLabelService.getDescription(this.feature, id)
     }
 
-    public highlightRow(id: any): void {
+    public onEditRecord(id: string): void {
+        this.storeScrollTop()
+        this.storeSelectedId(id)
+        this.navigateToRecord(id)
+    }
+
+    public onFilterRecords(event: any): void {
+        this.sessionStorageService.saveItem(this.feature + '-' + 'filters', JSON.stringify(this.table.filters))
+        this.recordsFilteredCount = event.filteredValue.length
+    }
+
+    public onHighlightRow(id: any): void {
         this.helperService.highlightRow(id)
     }
 
-    public newRecord(): void {
+    public onNewRecord(): void {
         this.router.navigate([this.url + '/new'])
     }
 
@@ -95,7 +104,7 @@ export class UserListComponent {
 
     //#endregion
 
-    //#region private common list methods #13
+    //#region private
 
     private enableDisableFilters(): void {
         this.records.length == 0 ? this.helperService.disableTableFilters() : this.helperService.enableTableFilters()
@@ -132,6 +141,12 @@ export class UserListComponent {
         this.helperService.highlightSavedRow(this.feature)
     }
 
+    private initContextMenu(): void {
+        this.menuItems = [
+            { label: this.getLabel('contextMenuEdit'), command: () => this.onEditRecord(this.selectedRecord.id) }
+        ]
+    }
+
     private loadRecords(): Promise<any> {
         return new Promise((resolve) => {
             const listResolved: ListResolved = this.activatedRoute.snapshot.data[this.feature]
@@ -163,8 +178,8 @@ export class UserListComponent {
         this.helperService.setTabTitle(this.feature)
     }
 
-    private storeSelectedId(id: number): void {
-        this.sessionStorageService.saveItem(this.feature + '-id', id.toString())
+    private storeSelectedId(id: string): void {
+        this.sessionStorageService.saveItem(this.feature + '-id', id)
     }
 
     private storeScrollTop(): void {
@@ -173,7 +188,7 @@ export class UserListComponent {
 
     //#endregion
 
-    //#region private specific list methods #1
+    //#region private specific
 
     private storeReturnUrl(): void {
         this.sessionStorageService.saveItem('returnUrl', '/users')
