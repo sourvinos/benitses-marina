@@ -9,7 +9,6 @@ import { CryptoService } from './crypto.service'
 import { DexieService } from './dexie.service'
 import { DotNetVersion } from '../classes/dotnet-version'
 import { HttpDataService } from './http-data.service'
-import { InteractionService } from './interaction.service'
 import { ResetPasswordViewModel } from 'src/app/features/bookings/users/classes/view-models/reset-password-view-model'
 import { SessionStorageService } from './session-storage.service'
 import { TokenRequest } from '../classes/token-request'
@@ -28,7 +27,7 @@ export class AccountService extends HttpDataService {
 
     //#endregion
 
-    constructor(httpClient: HttpClient, private cryptoService: CryptoService, private dexieService: DexieService, private interactionService: InteractionService, private ngZone: NgZone, private router: Router, private sessionStorageService: SessionStorageService) {
+    constructor(httpClient: HttpClient, private cryptoService: CryptoService, private dexieService: DexieService, private ngZone: NgZone, private router: Router, private sessionStorageService: SessionStorageService) {
         super(httpClient, environment.apiUrl)
     }
 
@@ -83,14 +82,12 @@ export class AccountService extends HttpDataService {
             this.setAuthSettings(response)
             this.populateDexieFromAPI()
             this.setSelectedYear()
-            this.refreshMenus()
             this.clearConsole()
         }))
     }
 
     public logout(): void {
         this.clearUserTokens()
-        this.refreshMenus()
         this.navigateToLogin()
         this.clearSessionStorage()
     }
@@ -118,10 +115,6 @@ export class AccountService extends HttpDataService {
         this.ngZone.run(() => {
             this.router.navigate(['/'])
         })
-    }
-
-    private refreshMenus(): void {
-        this.interactionService.updateMenus()
     }
 
     private setAuthSettings(response: any): void {

@@ -2,7 +2,6 @@ import { Component } from '@angular/core'
 import { Router } from '@angular/router'
 // Custom
 import { CryptoService } from '../../services/crypto.service'
-import { InteractionService } from 'src/app/shared/services/interaction.service'
 import { Menu } from 'src/app/shared/classes/menu'
 import { MessageMenuService } from 'src/app/shared/services/message-menu.service'
 import { SessionStorageService } from 'src/app/shared/services/session-storage.service'
@@ -21,7 +20,7 @@ export class MainMenuComponent {
 
     //#endregion
 
-    constructor(private cryptoService: CryptoService, private interactionService: InteractionService, private messageMenuService: MessageMenuService, private router: Router, private sessionStorageService: SessionStorageService) { }
+    constructor(private cryptoService: CryptoService, private messageMenuService: MessageMenuService, private router: Router, private sessionStorageService: SessionStorageService) { }
 
     //#region lifecycle hooks
 
@@ -54,7 +53,6 @@ export class MainMenuComponent {
     private buildMenu(): void {
         this.messageMenuService.getMessages().then((response) => {
             this.createMenu(response)
-            this.subscribeToMenuLanguageChanges()
         })
     }
 
@@ -62,12 +60,6 @@ export class MainMenuComponent {
         this.menuItems = []
         items.forEach(item => {
             this.menuItems.push(item)
-        })
-    }
-
-    private subscribeToMenuLanguageChanges(): void {
-        this.interactionService.refreshMenus.subscribe(() => {
-            this.buildMenu()
         })
     }
 
