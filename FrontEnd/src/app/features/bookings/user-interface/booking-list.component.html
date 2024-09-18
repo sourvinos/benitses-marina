@@ -1,0 +1,46 @@
+<div id="list-wrapper">
+
+    <div id="content">
+
+        <div id="header">
+            <home-button-and-title [featureIcon]="featureIcon" [feature]="feature" [icon]="icon" [parentUrl]="parentUrl"></home-button-and-title>
+        </div>
+
+        <div id="table-wrapper">
+            <p-contextMenu #contextMenu [model]="menuItems"></p-contextMenu>
+            <p-table #table (onFilter)="onFilterRecords($event)" [(contextMenuSelection)]="selectedRecord" [contextMenu]="contextMenu" [scrollable]="true" [value]="records" [virtualScrollItemSize]="32" [virtualScroll]="true" dataKey="id" scrollHeight="flex" selectionMode="single" sortMode="multiple">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th class="no-border-bottom width-18" pSortableColumn="boatName">{{ getLabel("headerBoatName") }}</th>
+                        <th class="no-border-bottom width-18" pSortableColumn="boatLength">{{ getLabel("headerBoatLength") }}</th>
+                        <th class="no-border-bottom width-18" pSortableColumn="fromDate">{{ getLabel("headerFromDate") }}</th>
+                        <th class="no-border-bottom width-18" pSortableColumn="toDate">{{ getLabel("headerToDate") }}</th>
+                    </tr>
+                    <tr>
+                        <th class="no-border-top width-18"><p-columnFilter (input)="onFilter($event.target.value,'boatLength','contains')" field="boatLength"></p-columnFilter></th>
+                        <th class="no-border-top width-18"><p-columnFilter (input)="onFilter($event.target.value,'boatLength','contains')" field="boatLength"></p-columnFilter></th>
+                        <th class="no-border-top width-18"><p-columnFilter (input)="onFilter($event.target.value,'fromDate','contains')" field="fromDate"></p-columnFilter></th>
+                        <th class="no-border-top width-18"><p-columnFilter (input)="onFilter($event.target.value,'toDate','contains')" field="toDate"></p-columnFilter></th>
+                    </tr>
+                </ng-template>
+                <ng-template let-record pTemplate="body">
+                    <tr (click)="onHighlightRow(record.bookingId)" (contextmenu)="onHighlightRow(record.bookingId)" (dblclick)="onEditRecord(record.id)" [attr.id]=record.bookingId [pContextMenuRow]="record" style="height: 32px;">
+                        <td class="width-18"><span>{{ record.boatName }}</span></td>
+                        <td class="width-18"><span>{{ record.boatLength }}</span></td>
+                        <td class="width-18"><span>{{ record.fromDate }}</span></td>
+                        <td class="width-18"><span>{{ record.toDate }}</span></td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+    </div>
+
+    <div id="footer">
+        <table-total-filtered-records (resetTableFilters)="onResetTableFilters()" [filteredRecordCount]="recordsFilteredCount" [recordCount]="records.length"></table-total-filtered-records>
+        <div id="align-right">
+            <button (click)="onNewRecord()" class="primary" mat-flat-button>{{ getLabel("newRecord") | uppercase }}</button>
+        </div>
+    </div>
+
+</div>

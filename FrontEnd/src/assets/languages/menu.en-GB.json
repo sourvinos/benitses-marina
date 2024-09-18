@@ -4,6 +4,10 @@
         "description": "Piers"
     },
     {
+        "id": "bookings",
+        "description": "Bookings"
+    },
+    {
         "id": "users",
         "description": "Users"
     }

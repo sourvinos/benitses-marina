@@ -1,0 +1,7 @@
+:host {
+    height: 100%;
+}
+
+.group-input-field:last-child {
+    margin-top: auto;
+}
