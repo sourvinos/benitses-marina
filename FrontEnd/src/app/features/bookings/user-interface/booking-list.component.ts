@@ -48,6 +48,7 @@ export class BookingListComponent {
 
     ngOnInit(): void {
         this.loadRecords().then(() => {
+            this.joinPiers()
             this.filterTableFromStoredFilters()
             this.setTabTitle()
             this.setSidebarsHeight()
@@ -148,6 +149,15 @@ export class BookingListComponent {
         this.menuItems = [
             { label: this.getLabel('contextMenuEdit'), command: () => this.onEditRecord(this.selectedRecord.bookingId) }
         ]
+    }
+
+    private joinPiers(): void {
+        this.records.forEach(record => {
+            const joinedPiers = record.piers.map((pier) => {
+                return pier.description
+            }).join(' / ')
+            record.joinedPiers = joinedPiers
+        })
     }
 
     private loadRecords(): Promise<any> {

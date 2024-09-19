@@ -29,31 +29,43 @@
         ]
     },
     {
-        "feature": "customerList",
+        "feature": "bookingList",
         "labels": [
             {
                 "id": "header",
-                "description": "Customers"
+                "description": "Bookings"
             },
             {
-                "id": "headerIsActive",
-                "description": "Active"
+                "id": "headerBoatName",
+                "description": "Name"
             },
             {
-                "id": "headerDescription",
-                "description": "Abbr."
+                "id": "headerBoatLength",
+                "description": "Length"
             },
             {
-                "id": "headerVatNumber",
-                "description": "ΑΦΜ"
+                "id": "headerFromDate",
+                "description": "From"
             },
             {
-                "id": "headerPhones",
-                "description": "Phones"
+                "id": "headerToDate",
+                "description": "To"
             },
             {
-                "id": "headerEmail",
-                "description": "Email"
+                "id": "headerPiers",
+                "description": "Piers"
+            },
+            {
+                "id": "headerIsConfirmed",
+                "description": "Confirmed"
+            },
+            {
+                "id": "headerIsDocked",
+                "description": "Docked"
+            },
+            {
+                "id": "headerIsPaid",
+                "description": "Paid"
             },
             {
                 "id": "newRecord",

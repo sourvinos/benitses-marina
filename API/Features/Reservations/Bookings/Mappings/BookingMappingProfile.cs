@@ -11,7 +11,7 @@ namespace API.Features.Reservations.Bookings {
             CreateMap<Booking, BookingListVM>()
                 .ForMember(x => x.FromDate, x => x.MapFrom(x => DateHelpers.DateToISOString(x.FromDate)))
                 .ForMember(x => x.ToDate, x => x.MapFrom(x => DateHelpers.DateToISOString(x.ToDate)))
-                .ForMember(x => x.Piers, x => x.MapFrom(x => x.Piers.Select(pier => new BookingPierVM {
+                .ForMember(x => x.Piers, x => x.MapFrom(x => x.BookingPiers.Select(pier => new BookingPierVM {
                     Id = pier.Id,
                     BookingId = pier.BookingId.ToString(),
                     Description = pier.Description
@@ -20,7 +20,7 @@ namespace API.Features.Reservations.Bookings {
             CreateMap<Booking, BookingReadDto>()
                 .ForMember(x => x.FromDate, x => x.MapFrom(x => DateHelpers.DateToISOString(x.FromDate)))
                 .ForMember(x => x.ToDate, x => x.MapFrom(x => DateHelpers.DateToISOString(x.ToDate)))
-                .ForMember(x => x.Piers, x => x.MapFrom(x => x.Piers.Select(pier => new BookingPierVM {
+                .ForMember(x => x.Piers, x => x.MapFrom(x => x.BookingPiers.Select(pier => new BookingPierVM {
                     Id = pier.Id,
                     BookingId = pier.BookingId.ToString(),
                     Description = pier.Description,

@@ -12,23 +12,35 @@
                 <ng-template pTemplate="header">
                     <tr>
                         <th class="no-border-bottom width-18" pSortableColumn="boatName">{{ getLabel("headerBoatName") }}</th>
-                        <th class="no-border-bottom width-18" pSortableColumn="boatLength">{{ getLabel("headerBoatLength") }}</th>
-                        <th class="no-border-bottom width-18" pSortableColumn="fromDate">{{ getLabel("headerFromDate") }}</th>
-                        <th class="no-border-bottom width-18" pSortableColumn="toDate">{{ getLabel("headerToDate") }}</th>
+                        <th class="no-border-bottom width-5" pSortableColumn="boatLength">{{ getLabel("headerBoatLength") }}</th>
+                        <th class="no-border-bottom width-4" pSortableColumn="fromDate">{{ getLabel("headerFromDate") }}</th>
+                        <th class="no-border-bottom width-4" pSortableColumn="toDate">{{ getLabel("headerToDate") }}</th>
+                        <th class="no-border-bottom width-4" pSortableColumn="joinedPiers">{{ getLabel("headerPiers") }}</th>
+                        <th class="no-border-bottom width-5" pSortableColumn="isConfirmed">{{ getLabel("headerIsConfirmed") }}</th>
+                        <th class="no-border-bottom width-5" pSortableColumn="isDocked">{{ getLabel("headerIsDocked") }}</th>
+                        <th class="no-border-bottom width-5" pSortableColumn="isPaid">{{ getLabel("headerIsPaid") }}</th>
                     </tr>
                     <tr>
-                        <th class="no-border-top width-18"><p-columnFilter (input)="onFilter($event.target.value,'boatLength','contains')" field="boatLength"></p-columnFilter></th>
-                        <th class="no-border-top width-18"><p-columnFilter (input)="onFilter($event.target.value,'boatLength','contains')" field="boatLength"></p-columnFilter></th>
-                        <th class="no-border-top width-18"><p-columnFilter (input)="onFilter($event.target.value,'fromDate','contains')" field="fromDate"></p-columnFilter></th>
-                        <th class="no-border-top width-18"><p-columnFilter (input)="onFilter($event.target.value,'toDate','contains')" field="toDate"></p-columnFilter></th>
+                        <th class="no-border-top width-18"><p-columnFilter (input)="onFilter($event.target.value,'boatName','contains')" field="boatName"></p-columnFilter></th>
+                        <th class="no-border-top width-5"><p-columnFilter (input)="onFilter($event.target.value,'boatLength','contains')" field="boatLength"></p-columnFilter></th>
+                        <th class="no-border-top width-4"><p-columnFilter (input)="onFilter($event.target.value,'fromDate','contains')" field="fromDate"></p-columnFilter></th>
+                        <th class="no-border-top width-4"><p-columnFilter (input)="onFilter($event.target.value,'toDate','contains')" field="toDate"></p-columnFilter></th>
+                        <th class="no-border-top width-18"><p-columnFilter (input)="onFilter($event.target.value,'joinedPiers','contains')" field="joinedPiers"></p-columnFilter></th>
+                        <th class="no-border-top width-5"><p-columnFilter field="isConfirmed" type="boolean"></p-columnFilter></th>
+                        <th class="no-border-top width-5"><p-columnFilter field="isDocked" type="boolean"></p-columnFilter></th>
+                        <th class="no-border-top width-5"><p-columnFilter field="isPaid" type="boolean"></p-columnFilter></th>
                     </tr>
                 </ng-template>
                 <ng-template let-record pTemplate="body">
                     <tr (click)="onHighlightRow(record.bookingId)" (contextmenu)="onHighlightRow(record.bookingId)" (dblclick)="onEditRecord(record.id)" [attr.id]=record.bookingId [pContextMenuRow]="record" style="height: 32px;">
                         <td class="width-18"><span>{{ record.boatName }}</span></td>
-                        <td class="width-18"><span>{{ record.boatLength }}</span></td>
-                        <td class="width-18"><span>{{ record.fromDate }}</span></td>
-                        <td class="width-18"><span>{{ record.toDate }}</span></td>
+                        <td class="width-5"><span class="center">{{ record.boatLength }}</span></td>
+                        <td class="width-4"><span class="center">{{ record.fromDate }}</span></td>
+                        <td class="width-4"><span class="center">{{ record.toDate }}</span></td>
+                        <td class="width-18"><span>{{ record.joinedPiers }}</span></td>
+                        <td class="width-5"><span class="center no-left-padding no-overflow" style="font-size: 0.5rem; padding-top: 0 !important;">{{ getEmoji(record.isConfirmed) }}</span></td>
+                        <td class="width-5"><span class="center no-left-padding no-overflow" style="font-size: 0.5rem; padding-top: 0 !important;">{{ getEmoji(record.isDocked) }}</span></td>
+                        <td class="width-5"><span class="center no-left-padding no-overflow" style="font-size: 0.5rem; padding-top: 0 !important;">{{ getEmoji(record.isPaid) }}</span></td>
                     </tr>
                 </ng-template>
             </p-table>

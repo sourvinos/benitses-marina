@@ -1,3 +1,5 @@
+import { BookingListPierVM } from './booking-list-pier-vm'
+
 export interface BookingListVM {
 
     bookingId: string
@@ -6,5 +8,7 @@ export interface BookingListVM {
     fromDate: string
     toDate: string
     stayDuration: number
+    piers: BookingListPierVM[]
+    joinedPiers: string
 
 }

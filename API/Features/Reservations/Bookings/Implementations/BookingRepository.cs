@@ -27,7 +27,7 @@ namespace API.Features.Reservations.Bookings {
         public async Task<IEnumerable<BookingListVM>> GetAsync() {
             var bookings = await context.Bookings
                 .AsNoTracking()
-                .Include(x => x.Piers)
+                .Include(x => x.BookingPiers)
                 .ToListAsync();
             return mapper.Map<IEnumerable<Booking>, IEnumerable<BookingListVM>>(bookings);
         }
@@ -36,7 +36,7 @@ namespace API.Features.Reservations.Bookings {
             return includeTables
                 ? await context.Bookings
                     .AsNoTracking()
-                    .Include(x => x.Piers)
+                    .Include(x => x.BookingPiers)
                     .Where(x => x.BookingId.ToString() == bookingId)
                     .SingleOrDefaultAsync()
                : await context.Bookings
@@ -48,7 +48,7 @@ namespace API.Features.Reservations.Bookings {
         public Booking Update(Guid bookingId, Booking booking) {
             using var transaction = context.Database.BeginTransaction();
             UpdateBooking(booking);
-            DeletePiers(bookingId, booking.Piers);
+            DeletePiers(bookingId, booking.BookingPiers);
             context.SaveChanges();
             DisposeOrCommit(transaction);
             return booking;

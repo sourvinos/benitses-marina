@@ -55,8 +55,3 @@
 .reset-table-filter:hover {
     cursor: pointer;
 }
-
-.overbooked {
-    background-color: var(--color-button-delete) !important;
-    width: auto !important;
-}

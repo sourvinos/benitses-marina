@@ -21,6 +21,7 @@ const appRoutes: Routes = [
     // Home
     { path: 'home', component: HomeComponent, canActivate: [AuthGuardService] },
     // Main menu
+    { path: 'bookings', loadChildren: () => import('../features/bookings/classes/modules/booking.module').then(m => m.BookingModule) },
     { path: 'users', loadChildren: () => import('../features/users/classes/modules/user.module').then(m => m.UserModule) },
     // Empty
     { path: '**', component: EmptyPageComponent }
