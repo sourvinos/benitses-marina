@@ -1,4 +1,4 @@
-using API.Features.Reservations.Bookings;
+using API.Features.Reservations;
 using API.Features.Reservations.Piers;
 using API.Infrastructure.Auth;
 using API.Infrastructure.Users;
@@ -10,12 +10,12 @@ namespace API.Infrastructure.Extensions {
 
         public static void AddInterfaces(IServiceCollection services) {
             #region reservations
-            services.AddTransient<IBookingRepository, BookingRepository>();
+            services.AddTransient<IReservationRepository, ReservationRepository>();
             services.AddTransient<IPierRepository, PierRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             #endregion
             #region validations
-            services.AddTransient<IBookingValidation, BookingValidation>();
+            services.AddTransient<IReservationValidation, ReservationValidation>();
             services.AddTransient<IPierValidation, PierValidation>();
             services.AddTransient<IUserValidation<IUser>, UserValidation>();
             #endregion

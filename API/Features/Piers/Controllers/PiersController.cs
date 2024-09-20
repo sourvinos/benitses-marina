@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.Infrastructure.Extensions;
 using API.Infrastructure.Helpers;
@@ -7,41 +7,47 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Features.Reservations.Bookings {
+namespace API.Features.Reservations.Piers {
 
     [Route("api/[controller]")]
-    public class BookingsController : ControllerBase {
+    public class PiersController : ControllerBase {
 
         #region variables
 
-        private readonly IBookingRepository bookingRepo;
-        private readonly IBookingValidation bookingValidation;
         private readonly IMapper mapper;
+        private readonly IPierRepository PierRepo;
+        private readonly IPierValidation PierValidation;
 
         #endregion
 
-        public BookingsController(IBookingRepository bookingRepo, IBookingValidation bookingValidation, IMapper mapper) {
+        public PiersController(IMapper mapper, IPierRepository PierRepo, IPierValidation PierValidation) {
             this.mapper = mapper;
-            this.bookingRepo = bookingRepo;
-            this.bookingValidation = bookingValidation;
+            this.PierRepo = PierRepo;
+            this.PierValidation = PierValidation;
         }
 
-        [HttpGet()]
-        [Authorize(Roles = "user, admin")]
-        public async Task<IEnumerable<BookingListVM>> GetAsync() {
-            return await bookingRepo.GetAsync();
+        [HttpGet]
+        [Authorize(Roles = "admin")]
+        public async Task<IEnumerable<PierListVM>> GetAsync() {
+            return await PierRepo.GetAsync();
         }
 
-        [HttpGet("{bookingId}")]
+        [HttpGet("[action]")]
         [Authorize(Roles = "user, admin")]
-        public async Task<ResponseWithBody> GetByIdAsync(string bookingId) {
-            var x = await bookingRepo.GetByIdAsync(bookingId, true);
+        public async Task<IEnumerable<PierBrowserVM>> GetForBrowserAsync() {
+            return await PierRepo.GetForBrowserAsync();
+        }
+
+        [HttpGet("{id}")]
+        [Authorize(Roles = "admin")]
+        public async Task<ResponseWithBody> GetByIdAsync(int id) {
+            var x = await PierRepo.GetByIdAsync(id, true);
             if (x != null) {
                 return new ResponseWithBody {
                     Code = 200,
                     Icon = Icons.Info.ToString(),
                     Message = ApiMessages.OK(),
-                    Body = mapper.Map<Booking, BookingReadDto>(x)
+                    Body = mapper.Map<Pier, PierReadDto>(x),
                 };
             } else {
                 throw new CustomException() {
@@ -53,19 +59,19 @@ namespace API.Features.Reservations.Bookings {
         [HttpPost]
         [Authorize(Roles = "admin")]
         [ServiceFilter(typeof(ModelValidationAttribute))]
-        public Response Post([FromBody] BookingWriteDto booking) {
-            var z = bookingValidation.IsValid(null, booking);
-            if (z == 200) {
-                var x = bookingRepo.Create(mapper.Map<BookingWriteDto, Booking>((BookingWriteDto)bookingRepo.AttachMetadataToPostDto(booking)));
-                return new Response {
+        public ResponseWithBody Post([FromBody] PierWriteDto Pier) {
+            var x = PierValidation.IsValid(null, Pier);
+            if (x == 200) {
+                var z = PierRepo.Create(mapper.Map<PierWriteDto, Pier>((PierWriteDto)PierRepo.AttachMetadataToPostDto(Pier)));
+                return new ResponseWithBody {
                     Code = 200,
                     Icon = Icons.Success.ToString(),
-                    Id = x.BookingId.ToString(),
+                    Body = PierRepo.GetByIdForBrowserAsync(z.Id).Result,
                     Message = ApiMessages.OK()
                 };
             } else {
                 throw new CustomException() {
-                    ResponseCode = z
+                    ResponseCode = x
                 };
             }
         }
@@ -73,17 +79,17 @@ namespace API.Features.Reservations.Bookings {
         [HttpPut]
         [Authorize(Roles = "admin")]
         [ServiceFilter(typeof(ModelValidationAttribute))]
-        public async Task<Response> PutAsync([FromBody] BookingWriteDto booking) {
-            var x = await bookingRepo.GetByIdAsync(booking.BookingId.ToString(), false);
+        public async Task<ResponseWithBody> Put([FromBody] PierWriteDto Pier) {
+            var x = await PierRepo.GetByIdAsync(Pier.Id, false);
             if (x != null) {
-                var z = bookingValidation.IsValid(x, booking);
+                var z = PierValidation.IsValid(x, Pier);
                 if (z == 200) {
-                    bookingRepo.Update(booking.BookingId, mapper.Map<BookingWriteDto, Booking>((BookingWriteDto)bookingRepo.AttachMetadataToPutDto(x, booking)));
-                    return new Response {
+                    PierRepo.Update(mapper.Map<PierWriteDto, Pier>((PierWriteDto)PierRepo.AttachMetadataToPutDto(x, Pier)));
+                    return new ResponseWithBody {
                         Code = 200,
                         Icon = Icons.Success.ToString(),
-                        Id = x.BookingId.ToString(),
-                        Message = ApiMessages.OK()
+                        Body = PierRepo.GetByIdForBrowserAsync(Pier.Id).Result,
+                        Message = ApiMessages.OK(),
                     };
                 } else {
                     throw new CustomException() {
@@ -99,14 +105,14 @@ namespace API.Features.Reservations.Bookings {
 
         [HttpDelete("{id}")]
         [Authorize(Roles = "admin")]
-        public async Task<Response> Delete([FromRoute] string id) {
-            var x = await bookingRepo.GetByIdAsync(id, false);
+        public async Task<Response> Delete([FromRoute] int id) {
+            var x = await PierRepo.GetByIdAsync(id, false);
             if (x != null) {
-                bookingRepo.Delete(x);
+                PierRepo.Delete(x);
                 return new Response {
                     Code = 200,
                     Icon = Icons.Success.ToString(),
-                    Id = x.BookingId.ToString(),
+                    Id = x.Id.ToString(),
                     Message = ApiMessages.OK()
                 };
             } else {

@@ -2,31 +2,31 @@ using System.Linq;
 using API.Infrastructure.Helpers;
 using AutoMapper;
 
-namespace API.Features.Reservations.Bookings {
+namespace API.Features.Reservations {
 
-    public class BookingMappingProfile : Profile {
+    public class ReservationMappingProfile : Profile {
 
-        public BookingMappingProfile() {
+        public ReservationMappingProfile() {
             // List
-            CreateMap<Booking, BookingListVM>()
+            CreateMap<Reservation, ReservationListVM>()
                 .ForMember(x => x.FromDate, x => x.MapFrom(x => DateHelpers.DateToISOString(x.FromDate)))
                 .ForMember(x => x.ToDate, x => x.MapFrom(x => DateHelpers.DateToISOString(x.ToDate)))
-                .ForMember(x => x.Piers, x => x.MapFrom(x => x.BookingPiers.Select(pier => new BookingPierVM {
+                .ForMember(x => x.Piers, x => x.MapFrom(x => x.ReservationPiers.Select(pier => new ReservationPierVM {
                     Id = pier.Id,
-                    BookingId = pier.BookingId.ToString(),
+                    ReservationId = pier.ReservationId.ToString(),
                     Description = pier.Description
                 })));
             // GetById
-            CreateMap<Booking, BookingReadDto>()
+            CreateMap<Reservation, ReservationReadDto>()
                 .ForMember(x => x.FromDate, x => x.MapFrom(x => DateHelpers.DateToISOString(x.FromDate)))
                 .ForMember(x => x.ToDate, x => x.MapFrom(x => DateHelpers.DateToISOString(x.ToDate)))
-                .ForMember(x => x.Piers, x => x.MapFrom(x => x.BookingPiers.Select(pier => new BookingPierVM {
+                .ForMember(x => x.Piers, x => x.MapFrom(x => x.ReservationPiers.Select(pier => new ReservationPierVM {
                     Id = pier.Id,
-                    BookingId = pier.BookingId.ToString(),
+                    ReservationId = pier.ReservationId.ToString(),
                     Description = pier.Description,
                 })));
             // Write
-            CreateMap<BookingWriteDto, Booking>()
+            CreateMap<ReservationWriteDto, Reservation>()
                 .ForMember(x => x.BoatName, x => x.MapFrom(x => x.BoatName.Trim()));
         }
 

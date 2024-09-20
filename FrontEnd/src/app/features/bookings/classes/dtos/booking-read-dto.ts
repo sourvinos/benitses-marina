@@ -6,8 +6,8 @@ import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 export interface BookingReadDto extends Metadata {
 
     bookingId: Guid
-    boatType: SimpleEntity
     boatName: string
+    boatType: SimpleEntity
     boatLength: string
     fromDate: string
     toDate: string

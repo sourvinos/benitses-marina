@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/fo
 // Custom
 import { BookingHttpService } from '../classes/services/booking-http.service'
 import { BookingReadDto } from '../classes/dtos/booking-read-dto'
+import { BookingWriteDto } from '../classes/dtos/booking-write-dto'
 import { DexieService } from 'src/app/shared/services/dexie.service'
 import { DialogService } from 'src/app/shared/services/modal-dialog.service'
 import { FormResolved } from 'src/app/shared/classes/form-resolved'
@@ -16,7 +17,6 @@ import { MessageLabelService } from 'src/app/shared/services/message-label.servi
 import { Observable, map, startWith } from 'rxjs'
 import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 import { ValidationService } from 'src/app/shared/services/validation.service'
-import { BookingWriteDto } from '../classes/dtos/booking-write-dto'
 
 @Component({
     selector: 'booking-form',
@@ -28,8 +28,8 @@ export class BookingFormComponent {
 
     //#region common
 
-    private record: BookingReadDto
-    private recordId: number
+    private booking: BookingReadDto
+    private bookingId: string
     public feature = 'bookingForm'
     public featureIcon = 'bookings'
     public form: FormGroup
@@ -42,8 +42,7 @@ export class BookingFormComponent {
     //#region autocompletes
 
     public isAutoCompleteDisabled = true
-    public dropdownNationalities: Observable<SimpleEntity[]>
-    public dropdownTaxOffices: Observable<SimpleEntity[]>
+    public dropdownBoatTypes: Observable<SimpleEntity[]>
 
     //#endregion
 
@@ -77,13 +76,6 @@ export class BookingFormComponent {
 
     public enableOrDisableAutoComplete(event: any): void {
         this.isAutoCompleteDisabled = this.helperService.enableOrDisableAutoComplete(event)
-    }
-
-    public formatPriceField(fieldName: string, digits: number): void {
-        this.patchNumericFieldsWithZeroIfNullOrEmpty(fieldName, digits)
-        this.form.patchValue({
-            [fieldName]: parseFloat(this.form.value[fieldName]).toFixed(digits)
-        })
     }
 
     public getHint(id: string, minmax = 0): string {
@@ -122,27 +114,6 @@ export class BookingFormComponent {
         this.helperService.openOrCloseAutocomplete(this.form, element, trigger)
     }
 
-    public async processAadeResponse(response: any): Promise<any> {
-        const document = new DOMParser().parseFromString(response.message, 'text/xml')
-        this.form.patchValue({
-            'fullDescription': document.querySelector('onomasia').innerHTML,
-            'vatNumber': document.querySelector('afm').innerHTML,
-            'taxOffice': await this.dexieService.getByDescription('taxOffices', document.querySelector('doy_descr').innerHTML),
-            'profession': document.querySelector('firm_act_descr').innerHTML,
-            'street': document.querySelector('postal_address').innerHTML,
-            'number': document.querySelector('postal_address_no').innerHTML,
-            'postalCode': document.querySelector('postal_zip_code').innerHTML,
-            'city': document.querySelector('postal_area_description').innerHTML,
-            'nationality': await this.dexieService.getByDescription('nationalities', 'GREECE'),
-            'vatExemptionId': document.querySelector('normal_vat_system_flag').innerHTML == 'Y' ? 0 : 1
-        })
-    }
-
-    public isBookingFound(response: any): boolean {
-        const document = new DOMParser().parseFromString(response.message, 'text/xml')
-        return document.querySelector('afm').innerHTML ? true : false
-    }
-
     //#endregion
 
     //#region private methods
@@ -163,10 +134,9 @@ export class BookingFormComponent {
             boatLength: this.form.value.vatPercent,
             fromDate: this.form.value.vatPercentId,
             toDate: this.form.value.vatExemptionId,
-            stayDuration: this.form.value.description,
-            contactDetails: this.form.value.fullDescription,
+            days: this.form.value.description,
             email: this.form.value.vatNumber,
-            remarks: this.form.value.branch,
+            remarks: this.form.value.fullDescription,
             isConfirmed: this.form.value.profession,
             isDocked: this.form.value.street,
             isPaid: this.form.value.number,
@@ -179,12 +149,12 @@ export class BookingFormComponent {
     }
 
     private getRecord(): Promise<any> {
-        if (this.recordId != undefined) {
+        if (this.bookingId != undefined) {
             return new Promise((resolve) => {
                 const formResolved: FormResolved = this.activatedRoute.snapshot.data['bookingForm']
                 if (formResolved.error == null) {
-                    this.record = formResolved.record.body
-                    resolve(this.record)
+                    this.booking = formResolved.record.body
+                    resolve(this.booking)
                 } else {
                     this.dialogService.open(this.messageDialogService.filterResponse(formResolved.error), 'error', ['ok']).subscribe(() => {
                         this.resetForm()
@@ -202,26 +172,18 @@ export class BookingFormComponent {
     private initForm(): void {
         this.form = this.formBuilder.group({
             id: 0,
-            nationality: ['', [Validators.required, ValidationService.RequireAutocomplete]],
-            taxOffice: ['', [Validators.required, ValidationService.RequireAutocomplete]],
-            vatPercent: [13, [Validators.required, Validators.min(0), Validators.max(100)]],
-            vatPercentId: [2, [Validators.required, Validators.min(1), Validators.max(9)]],
-            vatExemptionId: [0, [Validators.required, Validators.min(0), Validators.max(30)]],
-            description: ['', [Validators.required, Validators.maxLength(128)]],
-            fullDescription: ['', [Validators.required, Validators.maxLength(512)]],
-            vatNumber: ['', [Validators.required, Validators.maxLength(36)]],
-            branch: [0, [Validators.required, Validators.min(0), Validators.max(10)]],
-            profession: ['', [Validators.maxLength(128)]],
-            street: ['', [Validators.maxLength(128)]],
-            number: ['', [Validators.maxLength(4)]],
-            postalCode: ['', [Validators.required, Validators.maxLength(10)]],
-            city: ['', [Validators.required, Validators.maxLength(128)]],
-            phones: ['', [Validators.maxLength(128)]],
-            personInCharge: ['', [Validators.maxLength(128)]],
-            email: ['', [Validators.maxLength(128)]],
-            balanceLimit: [0, [Validators.required, Validators.min(0), Validators.max(99999.99)]],
-            remarks: ['', Validators.maxLength(2048)],
-            isActive: true,
+            boatName: ['', [Validators.required]],
+            boatType: ['', [Validators.required, ValidationService.RequireAutocomplete]],
+            boatLength: [0, [Validators.required, Validators.min(0), Validators.max(30)]],
+            fromDate: ['', [Validators.required]],
+            toDate: ['', [Validators.required]],
+            days: [0, [Validators.required]],
+            contactDetails: ['', [Validators.required, Validators.maxLength(512)]],
+            email: ['', [Validators.maxLength(128), Validators.email]],
+            remarks: ['', Validators.maxLength(128)],
+            isConfirmed: false,
+            isDocked: false,
+            isPaid: false,
             postAt: [''],
             postUser: [''],
             putAt: [''],
@@ -242,20 +204,20 @@ export class BookingFormComponent {
 
     private populateDropdownFromDexieDB(dexieTable: string, filteredTable: string, formField: string, modelProperty: string, orderBy: string): void {
         this.dexieService.table(dexieTable).orderBy(orderBy).toArray().then((response) => {
-            this[dexieTable] = this.recordId == undefined ? response.filter(x => x.isActive) : response
+            this[dexieTable] = this.bookingId == undefined ? response.filter(x => x.isActive) : response
             this[filteredTable] = this.form.get(formField).valueChanges.pipe(startWith(''), map(value => this.filterAutocomplete(dexieTable, modelProperty, value)))
         })
     }
 
     private populateFields(): void {
-        if (this.record != undefined) {
+        if (this.booking != undefined) {
             this.form.setValue({
-                id: this.record.bookingId,
-                boatType: { 'id': this.record.boatType.id, 'description': this.record.boatType.description },
-                postAt: this.record.postAt,
-                postUser: this.record.postUser,
-                putAt: this.record.putAt,
-                putUser: this.record.putUser
+                id: this.booking.bookingId,
+                boatType: { 'id': this.booking.boatType.id, 'description': this.booking.boatType.description },
+                postAt: this.booking.postAt,
+                postUser: this.booking.postUser,
+                putAt: this.booking.putAt,
+                putUser: this.booking.putUser
             })
         }
     }
@@ -288,7 +250,7 @@ export class BookingFormComponent {
 
     private setRecordId(): void {
         this.activatedRoute.params.subscribe(x => {
-            this.recordId = x.id
+            this.bookingId = x.id
         })
     }
 
@@ -296,76 +258,32 @@ export class BookingFormComponent {
 
     //#region getters
 
-    get nationality(): AbstractControl {
-        return this.form.get('nationality')
+    get boatName(): AbstractControl {
+        return this.form.get('boatName')
     }
 
-    get taxOffice(): AbstractControl {
+    get boatType(): AbstractControl {
         return this.form.get('taxOffice')
     }
 
-    get vatPercent(): AbstractControl {
-        return this.form.get('vatPercent')
+    get boatLength(): AbstractControl {
+        return this.form.get('boatLength')
     }
 
-    get vatPercentId(): AbstractControl {
-        return this.form.get('vatPercentId')
+    get fromDate(): AbstractControl {
+        return this.form.get('fromDate')
     }
 
-    get vatExemptionId(): AbstractControl {
-        return this.form.get('vatExemptionId')
+    get toDate(): AbstractControl {
+        return this.form.get('toDate')
     }
 
-    get description(): AbstractControl {
-        return this.form.get('description')
-    }
-
-    get fullDescription(): AbstractControl {
-        return this.form.get('fullDescription')
-    }
-
-    get vatNumber(): AbstractControl {
-        return this.form.get('vatNumber')
-    }
-
-    get branch(): AbstractControl {
-        return this.form.get('branch')
-    }
-
-    get profession(): AbstractControl {
-        return this.form.get('profession')
-    }
-
-    get street(): AbstractControl {
-        return this.form.get('street')
-    }
-
-    get number(): AbstractControl {
-        return this.form.get('number')
-    }
-
-    get postalCode(): AbstractControl {
-        return this.form.get('postalCode')
-    }
-
-    get city(): AbstractControl {
-        return this.form.get('city')
-    }
-
-    get personInCharge(): AbstractControl {
-        return this.form.get('personInCharge')
-    }
-
-    get phones(): AbstractControl {
-        return this.form.get('phones')
+    get days(): AbstractControl {
+        return this.form.get('days')
     }
 
     get email(): AbstractControl {
         return this.form.get('email')
-    }
-
-    get balanceLimit(): AbstractControl {
-        return this.form.get('balanceLimit')
     }
 
     get remarks(): AbstractControl {

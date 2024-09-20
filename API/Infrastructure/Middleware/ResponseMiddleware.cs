@@ -92,7 +92,6 @@ namespace API.Infrastructure.Middleware {
                 415 => ApiMessages.ConcurrencyError(),
                 419 => ApiMessages.PriceCloningNotCompleted(),
                 431 => ApiMessages.SimpleUserCanNotAddReservationAfterDepartureTime(),
-                433 => ApiMessages.PortHasNoFreeSeats(),
                 449 => ApiMessages.InvalidShipOwner(),
                 450 => ApiMessages.InvalidCustomer(),
                 451 => ApiMessages.InvalidDestination(),

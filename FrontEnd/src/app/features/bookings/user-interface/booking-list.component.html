@@ -32,7 +32,7 @@
                     </tr>
                 </ng-template>
                 <ng-template let-record pTemplate="body">
-                    <tr (click)="onHighlightRow(record.bookingId)" (contextmenu)="onHighlightRow(record.bookingId)" (dblclick)="onEditRecord(record.id)" [attr.id]=record.bookingId [pContextMenuRow]="record" style="height: 32px;">
+                    <tr (click)="onHighlightRow(record.bookingId)" (contextmenu)="onHighlightRow(record.bookingId)" (dblclick)="onEditRecord(record.bookingId)" [attr.id]=record.bookingId [pContextMenuRow]="record" style="height: 32px;">
                         <td class="width-18"><span>{{ record.boatName }}</span></td>
                         <td class="width-5"><span class="center">{{ record.boatLength }}</span></td>
                         <td class="width-4"><span class="center">{{ record.fromDate }}</span></td>

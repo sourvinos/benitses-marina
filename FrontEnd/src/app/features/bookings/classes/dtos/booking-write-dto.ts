@@ -8,8 +8,7 @@ export interface BookingWriteDto {
     boatLength: string
     fromDate: string
     toDate: string
-    stayDuration: number
-    contactDetails: string
+    days: number
     email: string
     remarks: string
     isConfirmed: boolean

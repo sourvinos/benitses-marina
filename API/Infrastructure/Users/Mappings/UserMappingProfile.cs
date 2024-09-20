@@ -1,5 +1,4 @@
 using System;
-using API.Infrastructure.Classes;
 using AutoMapper;
 
 namespace API.Infrastructure.Users {

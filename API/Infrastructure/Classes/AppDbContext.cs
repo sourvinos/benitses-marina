@@ -4,7 +4,7 @@ using API.Infrastructure.Users;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using API.Features.Reservations.Bookings;
+using API.Features.Reservations;
 
 namespace API.Infrastructure.Classes {
 
@@ -12,8 +12,8 @@ namespace API.Infrastructure.Classes {
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        public DbSet<Booking> Bookings { get; set; }
-        public DbSet<BookingPier> BookingPiers { get; set; }
+        public DbSet<Reservation> Reservations { get; set; }
+        public DbSet<ReservationPier> ReservationPiers { get; set; }
         public DbSet<Pier> Piers { get; set; }
         public DbSet<Token> Tokens { get; set; }
 
@@ -25,8 +25,8 @@ namespace API.Infrastructure.Classes {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
 
         private static void ApplyConfigurations(ModelBuilder modelBuilder) {
-            modelBuilder.ApplyConfiguration(new BookingsConfig());
-            modelBuilder.ApplyConfiguration(new BookingPiersConfig());
+            modelBuilder.ApplyConfiguration(new ReservationsConfig());
+            modelBuilder.ApplyConfiguration(new ReservationPiersConfig());
             modelBuilder.ApplyConfiguration(new PiersConfig());
             modelBuilder.ApplyConfiguration(new UsersConfig());
         }

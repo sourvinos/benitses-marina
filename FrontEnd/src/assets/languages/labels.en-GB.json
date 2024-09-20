@@ -78,111 +78,55 @@
         ]
     },
     {
-        "feature": "customerForm",
+        "feature": "bookingForm",
         "labels": [
             {
                 "id": "header",
-                "description": "Πελάτης"
+                "description": "Reservation"
             },
             {
-                "id": "tab1",
-                "description": "Γενικά"
+                "id": "boatName",
+                "description": "Boat name"
             },
             {
-                "id": "tab2",
-                "description": "Επικοινωνία"
+                "id": "boatType",
+                "description": "Type"
             },
             {
-                "id": "description",
-                "description": "Συντ."
+                "id": "boatLength",
+                "description": "Length"
             },
             {
-                "id": "fullDescription",
-                "description": "Επωνυμία"
+                "id": "fromDate",
+                "description": "From"
             },
             {
-                "id": "vatNumber",
-                "description": "ΑΦΜ"
+                "id": "toDate",
+                "description": "To"
             },
             {
-                "id": "taxOffice",
-                "description": "ΔΟΥ"
-            },
-            {
-                "id": "vatPercent",
-                "description": "Ποσοστό ΦΠΑ"
-            },
-            {
-                "id": "vatPercentId",
-                "description": "Κατηγορία ΦΠΑ - Πίνακας 8.2"
-            },
-            {
-                "id": "vatExemptionId",
-                "description": "Κατηγορία Αιτίας Εξαίρεσης ΦΠΑ - Πίνακας 8.3"
-            },
-            {
-                "id": "branch",
-                "description": "Αρ. εγκατάστασης"
-            },
-            {
-                "id": "profession",
-                "description": "Δραστηριότητα"
-            },
-            {
-                "id": "street",
-                "description": "Οδός"
-            },
-            {
-                "id": "number",
-                "description": "Αριθμός"
-            },
-            {
-                "id": "postalCode",
-                "description": "ΤΚ"
-            },
-            {
-                "id": "city",
-                "description": "Πόλη"
-            },
-            {
-                "id": "nationality",
-                "description": "Χώρα"
-            },
-            {
-                "id": "personInCharge",
-                "description": "Υπεύθυνος επικοινωνίας"
-            },
-            {
-                "id": "phones",
-                "description": "Τηλέφωνα"
+                "id": "days",
+                "description": "Days"
             },
             {
                 "id": "email",
                 "description": "Email"
             },
             {
-                "id": "balanceLimit",
-                "description": "Οριο οφειλής"
-            },
-            {
                 "id": "remarks",
-                "description": "Σχόλια"
+                "description": "Remarks"
             },
             {
-                "id": "isActive",
-                "description": "Ενεργός"
+                "id": "isConfirmed",
+                "description": "Confirmed"
             },
             {
-                "id": "post",
-                "description": "Αρχική καταχώριση"
+                "id": "isDocked",
+                "description": "Docked"
             },
             {
-                "id": "put",
-                "description": "Τελευταία ενημέρωση"
-            },
-            {
-                "id": "searchAadeRegistry",
-                "description": "Αναζήτηση στοιχείων στο μητρώο επιχειρήσεων"
+                "id": "isPaid",
+                "description": "Paid"
             },
             {
                 "id": "deleteButton",

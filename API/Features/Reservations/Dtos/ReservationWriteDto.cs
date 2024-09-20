@@ -2,26 +2,26 @@ using System;
 using System.Collections.Generic;
 using API.Infrastructure.Interfaces;
 
-namespace API.Features.Reservations.Bookings {
+namespace API.Features.Reservations {
 
-    public class BookingReadDto : IMetadata {
+    public class ReservationWriteDto : IMetadata {
 
         // PK
-        public Guid BookingId { get; set; }
+        public Guid ReservationId { get; set; }
         // FKs
         public int BoatTypeId { get; set; }
-        // Fields
+        //  Fields
         public string BoatName { get; set; }
-        public decimal Length { get; set; }
-        public decimal Width { get; set; }
+        public decimal BoatLength { get; set; }
         public string FromDate { get; set; }
         public string ToDate { get; set; }
         public int Days { get; set; }
-        public string ContactDetails { get; set; }
         public string Email { get; set; }
         public string Remarks { get; set; }
         public bool IsConfirmed { get; set; }
-        public List<BookingPierVM> Piers { get; set; }
+        public bool IsDocked { get; set; }
+        public bool IsPaid { get; set; }
+        public List<ReservationPier> Piers { get; set; }
         // Metadata
         public string PostAt { get; set; }
         public string PostUser { get; set; }

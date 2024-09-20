@@ -1,13 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace API.Features.Reservations.Bookings {
+namespace API.Features.Reservations {
 
-    internal class BookingsConfig : IEntityTypeConfiguration<Booking> {
+    internal class ReservationsConfig : IEntityTypeConfiguration<Reservation> {
 
-        public void Configure(EntityTypeBuilder<Booking> entity) {
+        public void Configure(EntityTypeBuilder<Reservation> entity) {
             // PK
-            entity.Property(x => x.BookingId).IsFixedLength().HasMaxLength(36).IsRequired(true);
+            entity.Property(x => x.ReservationId).IsFixedLength().HasMaxLength(36).IsRequired(true);
             // FKs
             entity.Property(x => x.BoatTypeId).IsRequired(true);
             // Fields
