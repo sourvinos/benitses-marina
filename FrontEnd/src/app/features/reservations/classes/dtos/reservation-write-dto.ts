@@ -1,8 +1,8 @@
 import { Guid } from 'guid-typescript'
 
-export interface BookingWriteDto {
+export interface ReservationWriteDto {
 
-    bookingId: Guid
+    reservationId: Guid
     boatTypeId: number
     boatName: string
     boatLength: string

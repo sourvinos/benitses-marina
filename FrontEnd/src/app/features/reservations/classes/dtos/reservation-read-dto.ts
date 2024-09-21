@@ -3,9 +3,9 @@ import { Guid } from 'guid-typescript'
 import { Metadata } from 'src/app/shared/classes/metadata'
 import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 
-export interface BookingReadDto extends Metadata {
+export interface ReservationReadDto extends Metadata {
 
-    bookingId: Guid
+    reservationId: Guid
     boatName: string
     boatType: SimpleEntity
     boatLength: string

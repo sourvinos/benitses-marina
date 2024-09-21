@@ -93,23 +93,11 @@ export class InterceptorService {
     private trapError(err: number): Observable<any> {
         switch (err) {
             case 400: return throwError(() => new Error('400')) // invalid model
-            case 402: return throwError(() => new Error('402')) // aade not updated
             case 404: return throwError(() => new Error('404')) // not found
-            case 409: return throwError(() => new Error('409')) // duplicate record (date, destination, customer, ticket no)
-            case 410: return throwError(() => new Error('410')) // we don't have a departure for the selected date, destination and port
             case 412: return throwError(() => new Error('412')) // the password can't be changed because the current password is wrong
-            case 414: return throwError(() => new Error('414')) // refNo must be unique
             case 415: return throwError(() => new Error('415')) // concurrency error
-            case 416: return throwError(() => new Error('416')) // update user when admin should not have customer id
-            case 417: return throwError(() => new Error('417')) // update user when simple user customer id must not be null
-            case 418: return throwError(() => new Error('418')) // update user when simple user customer id must be active
-            case 431: return throwError(() => new Error('431')) // simple users can't add a reservation in the past
-            case 433: return throwError(() => new Error('433')) // simple user is causing overbooking
-            case 459: return throwError(() => new Error('459')) // reservation with transfer has night restrictions for simple user
-            case 467: return throwError(() => new Error('467')) // transactions have deleted records
             case 491: return throwError(() => new Error('491')) // record can't be deleted because it's in use
             case 492: return throwError(() => new Error('492')) // unable to create user or update user, username and/or password not unique
-            case 493: return throwError(() => new Error('493')) // port approach order already exists
             default:
                 return throwError(() => new Error('500'))
         }

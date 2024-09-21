@@ -3,34 +3,34 @@ import { Component, ViewChild } from '@angular/core'
 import { MenuItem } from 'primeng/api'
 import { Table } from 'primeng/table'
 // Custom
-import { BookingListVM } from '../classes/view-models/booking-list-vm'
 import { DialogService } from 'src/app/shared/services/modal-dialog.service'
 import { EmojiService } from 'src/app/shared/services/emoji.service'
 import { HelperService } from 'src/app/shared/services/helper.service'
 import { ListResolved } from 'src/app/shared/classes/list-resolved'
 import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
+import { ReservationListVM } from '../classes/view-models/reservation-list-vm'
 import { SessionStorageService } from 'src/app/shared/services/session-storage.service'
 
 @Component({
-    selector: 'booking-list',
-    templateUrl: './booking-list.component.html',
+    selector: 'reservation-list',
+    templateUrl: './reservation-list.component.html',
     styleUrls: ['../../../../assets/styles/custom/lists.css']
 })
 
-export class BookingListComponent {
+export class ReservationListComponent {
 
     //#region common
 
     @ViewChild('table') table: Table
 
-    private url = 'bookings'
+    private url = 'reservations'
     private virtualElement: any
-    public feature = 'bookingList'
-    public featureIcon = 'bookings'
+    public feature = 'reservationList'
+    public featureIcon = 'reservations'
     public icon = 'home'
     public parentUrl = '/home'
-    public records: BookingListVM[] = []
+    public records: ReservationListVM[] = []
     public recordsFilteredCount = 0
 
     //#endregion
@@ -38,7 +38,7 @@ export class BookingListComponent {
     //#region context menu
 
     public menuItems!: MenuItem[]
-    public selectedRecord!: BookingListVM
+    public selectedRecord!: ReservationListVM
 
     //#endregion
 
@@ -79,10 +79,10 @@ export class BookingListComponent {
         return this.messageLabelService.getDescription(this.feature, id)
     }
 
-    public onEditRecord(bookingId: string): void {
+    public onEditRecord(reservationId: string): void {
         this.storeScrollTop()
-        this.storeSelectedId(bookingId)
-        this.navigateToRecord(bookingId)
+        this.storeSelectedId(reservationId)
+        this.navigateToRecord(reservationId)
     }
 
     public onFilter(event: any, column: string, matchMode: string): void {
@@ -147,7 +147,7 @@ export class BookingListComponent {
 
     private initContextMenu(): void {
         this.menuItems = [
-            { label: this.getLabel('contextMenuEdit'), command: () => this.onEditRecord(this.selectedRecord.bookingId) }
+            { label: this.getLabel('contextMenuEdit'), command: () => this.onEditRecord(this.selectedRecord.reservationId) }
         ]
     }
 
@@ -191,8 +191,8 @@ export class BookingListComponent {
         this.helperService.setTabTitle(this.feature)
     }
 
-    private storeSelectedId(bookingId: string): void {
-        this.sessionStorageService.saveItem(this.feature + '-bookingId', bookingId)
+    private storeSelectedId(reservationId: string): void {
+        this.sessionStorageService.saveItem(this.feature + '-reservationId', reservationId)
     }
 
     private storeScrollTop(): void {

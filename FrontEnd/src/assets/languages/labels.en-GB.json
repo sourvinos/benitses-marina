@@ -29,11 +29,11 @@
         ]
     },
     {
-        "feature": "bookingList",
+        "feature": "reservationList",
         "labels": [
             {
                 "id": "header",
-                "description": "Bookings"
+                "description": "Reservations"
             },
             {
                 "id": "headerBoatName",
@@ -78,7 +78,7 @@
         ]
     },
     {
-        "feature": "bookingForm",
+        "feature": "reservationForm",
         "labels": [
             {
                 "id": "header",

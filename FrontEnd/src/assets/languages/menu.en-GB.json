@@ -4,8 +4,8 @@
         "description": "Piers"
     },
     {
-        "id": "bookings",
-        "description": "Bookings"
+        "id": "reservations",
+        "description": "Reservations"
     },
     {
         "id": "users",

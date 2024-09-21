@@ -2,9 +2,6 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { Component } from '@angular/core'
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms'
 // Custom
-import { BookingHttpService } from '../classes/services/booking-http.service'
-import { BookingReadDto } from '../classes/dtos/booking-read-dto'
-import { BookingWriteDto } from '../classes/dtos/booking-write-dto'
 import { DexieService } from 'src/app/shared/services/dexie.service'
 import { DialogService } from 'src/app/shared/services/modal-dialog.service'
 import { FormResolved } from 'src/app/shared/classes/form-resolved'
@@ -15,27 +12,30 @@ import { MessageDialogService } from 'src/app/shared/services/message-dialog.ser
 import { MessageInputHintService } from 'src/app/shared/services/message-input-hint.service'
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
 import { Observable, map, startWith } from 'rxjs'
+import { ReservationHttpService } from '../classes/services/reservation-http.service'
+import { ReservationReadDto } from '../classes/dtos/reservation-read-dto'
+import { ReservationWriteDto } from '../classes/dtos/reservation-write-dto'
 import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 import { ValidationService } from 'src/app/shared/services/validation.service'
 
 @Component({
-    selector: 'booking-form',
-    templateUrl: './booking-form.component.html',
-    styleUrls: ['../../../../assets/styles/custom/forms.css', './booking-form.component.css']
+    selector: 'reservation-form',
+    templateUrl: './reservation-form.component.html',
+    styleUrls: ['../../../../assets/styles/custom/forms.css', './reservation-form.component.css']
 })
 
-export class BookingFormComponent {
+export class ReservationFormComponent {
 
     //#region common
 
-    private booking: BookingReadDto
-    private bookingId: string
-    public feature = 'bookingForm'
-    public featureIcon = 'bookings'
+    private reservation: ReservationReadDto
+    private reservationId: string
+    public feature = 'reservationForm'
+    public featureIcon = 'reservations'
     public form: FormGroup
     public icon = 'arrow_back'
     public input: InputTabStopDirective
-    public parentUrl = '/bookings'
+    public parentUrl = '/reservations'
 
     //#endregion
 
@@ -46,7 +46,7 @@ export class BookingFormComponent {
 
     //#endregion
 
-    constructor(private activatedRoute: ActivatedRoute, private bookingHttpService: BookingHttpService, private dexieService: DexieService, private dialogService: DialogService, private formBuilder: FormBuilder, private helperService: HelperService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private router: Router) { }
+    constructor(private activatedRoute: ActivatedRoute, private reservationHttpService: ReservationHttpService, private dexieService: DexieService, private dialogService: DialogService, private formBuilder: FormBuilder, private helperService: HelperService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private router: Router) { }
 
     //#region lifecycle hooks
 
@@ -93,9 +93,9 @@ export class BookingFormComponent {
     public onDelete(): void {
         this.dialogService.open(this.messageDialogService.confirmDelete(), 'question', ['abort', 'ok']).subscribe(response => {
             if (response) {
-                this.bookingHttpService.delete(this.form.value.id).subscribe({
+                this.reservationHttpService.delete(this.form.value.id).subscribe({
                     complete: () => {
-                        this.dexieService.remove('bookings', this.form.value.id)
+                        this.dexieService.remove('reservations', this.form.value.id)
                         this.helperService.doPostSaveFormTasks(this.messageDialogService.success(), 'ok', this.parentUrl, true)
                     },
                     error: (errorFromInterceptor) => {
@@ -126,9 +126,9 @@ export class BookingFormComponent {
         }
     }
 
-    private flattenForm(): BookingWriteDto {
+    private flattenForm(): ReservationWriteDto {
         return {
-            bookingId: this.form.value.id,
+            reservationId: this.form.value.id,
             boatTypeId: this.form.value.nationality.id,
             boatName: this.form.value.taxOffice.id,
             boatLength: this.form.value.vatPercent,
@@ -149,12 +149,12 @@ export class BookingFormComponent {
     }
 
     private getRecord(): Promise<any> {
-        if (this.bookingId != undefined) {
+        if (this.reservationId != undefined) {
             return new Promise((resolve) => {
-                const formResolved: FormResolved = this.activatedRoute.snapshot.data['bookingForm']
+                const formResolved: FormResolved = this.activatedRoute.snapshot.data['reservationForm']
                 if (formResolved.error == null) {
-                    this.booking = formResolved.record.body
-                    resolve(this.booking)
+                    this.reservation = formResolved.record.body
+                    resolve(this.reservation)
                 } else {
                     this.dialogService.open(this.messageDialogService.filterResponse(formResolved.error), 'error', ['ok']).subscribe(() => {
                         this.resetForm()
@@ -171,7 +171,7 @@ export class BookingFormComponent {
 
     private initForm(): void {
         this.form = this.formBuilder.group({
-            id: 0,
+            reservationId: 0,
             boatName: ['', [Validators.required]],
             boatType: ['', [Validators.required, ValidationService.RequireAutocomplete]],
             boatLength: [0, [Validators.required, Validators.min(0), Validators.max(30)]],
@@ -204,20 +204,20 @@ export class BookingFormComponent {
 
     private populateDropdownFromDexieDB(dexieTable: string, filteredTable: string, formField: string, modelProperty: string, orderBy: string): void {
         this.dexieService.table(dexieTable).orderBy(orderBy).toArray().then((response) => {
-            this[dexieTable] = this.bookingId == undefined ? response.filter(x => x.isActive) : response
+            this[dexieTable] = this.reservationId == undefined ? response.filter(x => x.isActive) : response
             this[filteredTable] = this.form.get(formField).valueChanges.pipe(startWith(''), map(value => this.filterAutocomplete(dexieTable, modelProperty, value)))
         })
     }
 
     private populateFields(): void {
-        if (this.booking != undefined) {
+        if (this.reservation != undefined) {
             this.form.setValue({
-                id: this.booking.bookingId,
-                boatType: { 'id': this.booking.boatType.id, 'description': this.booking.boatType.description },
-                postAt: this.booking.postAt,
-                postUser: this.booking.postUser,
-                putAt: this.booking.putAt,
-                putUser: this.booking.putUser
+                reservationId: this.reservation.reservationId,
+                boatName: this.reservation.boatName,
+                postAt: this.reservation.postAt,
+                postUser: this.reservation.postUser,
+                putAt: this.reservation.putAt,
+                putUser: this.reservation.putUser
             })
         }
     }
@@ -226,10 +226,10 @@ export class BookingFormComponent {
         this.form.reset()
     }
 
-    private saveRecord(booking: BookingWriteDto): void {
-        this.bookingHttpService.save(booking).subscribe({
+    private saveRecord(reservation: ReservationWriteDto): void {
+        this.reservationHttpService.save(reservation).subscribe({
             next: (response) => {
-                this.dexieService.update('bookings', {
+                this.dexieService.update('reservations', {
                     'id': parseInt(response.body.id),
                     'description': response.body.description,
                     'email': response.body.email,
@@ -250,7 +250,7 @@ export class BookingFormComponent {
 
     private setRecordId(): void {
         this.activatedRoute.params.subscribe(x => {
-            this.bookingId = x.id
+            this.reservationId = x.id
         })
     }
 
