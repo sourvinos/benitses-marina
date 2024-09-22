@@ -5,7 +5,7 @@ export interface ReservationWriteDto {
     reservationId: Guid
     boatTypeId: number
     boatName: string
-    boatLength: string
+    length: string
     fromDate: string
     toDate: string
     days: number

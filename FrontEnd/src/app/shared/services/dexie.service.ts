@@ -1,5 +1,6 @@
 import Dexie from 'dexie'
 import { Injectable } from '@angular/core'
+import { PierHttpService } from 'src/app/features/piers/classes/services/pier-http.service'
 
 @Injectable({ providedIn: 'root' })
 
@@ -8,7 +9,8 @@ export class DexieService extends Dexie {
     constructor() {
         super('BenitsesMarinaDB')
         this.version(1).stores({
-            piers: 'id, description'
+            piers: 'id, description',
+            boatTypes: 'id, description',
         })
         this.open()
     }
@@ -35,16 +37,16 @@ export class DexieService extends Dexie {
         })
     }
 
-    // public populateNewTable(table: string, pierHttpService: PierHttpService): void {
-    //     pierHttpService.getBrowserStorage().subscribe((records: any) => {
-    //         this.table(table)
-    //             .clear().then(() => {
-    //                 this.table(table)
-    //                     .bulkAdd(records)
-    //                     .catch(Dexie.BulkError, () => { })
-    //             })
-    //     })
-    // }
+    public populateNewTable(table: string, pierHttpService: PierHttpService): void {
+        pierHttpService.getForBrowser().subscribe((records: any) => {
+            this.table(table)
+                .clear().then(() => {
+                    this.table(table)
+                        .bulkAdd(records)
+                        .catch(Dexie.BulkError, () => { })
+                })
+        })
+    }
 
     public async getById(table: string, id: number): Promise<any> {
         return await this.table(table).get({ id: id })

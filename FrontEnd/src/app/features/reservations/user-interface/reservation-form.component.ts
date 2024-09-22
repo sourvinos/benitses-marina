@@ -59,7 +59,7 @@ export class ReservationFormComponent {
     }
 
     ngAfterViewInit(): void {
-        this.focusOnField()
+        // this.focusOnField()
     }
 
     //#endregion
@@ -128,15 +128,15 @@ export class ReservationFormComponent {
 
     private flattenForm(): ReservationWriteDto {
         return {
-            reservationId: this.form.value.id,
-            boatTypeId: this.form.value.nationality.id,
-            boatName: this.form.value.taxOffice.id,
-            boatLength: this.form.value.vatPercent,
-            fromDate: this.form.value.vatPercentId,
-            toDate: this.form.value.vatExemptionId,
-            days: this.form.value.description,
-            email: this.form.value.vatNumber,
-            remarks: this.form.value.fullDescription,
+            reservationId: this.form.value.reservationId != '' ? this.form.value.reservationId : null,
+            boatTypeId: this.form.value.boatType.id,
+            boatName: this.form.value.boatName,
+            length: this.form.value.length,
+            fromDate: this.form.value.fromDate,
+            toDate: this.form.value.toDate,
+            days: this.form.value.days,
+            email: this.form.value.email,
+            remarks: this.form.value.remarks,
             isConfirmed: this.form.value.profession,
             isDocked: this.form.value.street,
             isPaid: this.form.value.number,
@@ -171,14 +171,13 @@ export class ReservationFormComponent {
 
     private initForm(): void {
         this.form = this.formBuilder.group({
-            reservationId: 0,
+            reservationId: '',
             boatName: ['', [Validators.required]],
             boatType: ['', [Validators.required, ValidationService.RequireAutocomplete]],
-            boatLength: [0, [Validators.required, Validators.min(0), Validators.max(30)]],
+            length: [0, [Validators.required, Validators.min(0), Validators.max(30)]],
             fromDate: ['', [Validators.required]],
             toDate: ['', [Validators.required]],
             days: [0, [Validators.required]],
-            contactDetails: ['', [Validators.required, Validators.maxLength(512)]],
             email: ['', [Validators.maxLength(128), Validators.email]],
             remarks: ['', Validators.maxLength(128)],
             isConfirmed: false,
@@ -198,8 +197,7 @@ export class ReservationFormComponent {
     }
 
     private populateDropdowns(): void {
-        this.populateDropdownFromDexieDB('nationalities', 'dropdownNationalities', 'nationality', 'description', 'description')
-        this.populateDropdownFromDexieDB('taxOffices', 'dropdownTaxOffices', 'taxOffice', 'description', 'description')
+        this.populateDropdownFromDexieDB('boatTypes', 'dropdownBoatTypes', 'boatType', 'description', 'description')
     }
 
     private populateDropdownFromDexieDB(dexieTable: string, filteredTable: string, formField: string, modelProperty: string, orderBy: string): void {
@@ -213,7 +211,17 @@ export class ReservationFormComponent {
         if (this.reservation != undefined) {
             this.form.setValue({
                 reservationId: this.reservation.reservationId,
+                boatType: { 'id': this.reservation.boatType.id, 'description': this.reservation.boatType.description },
                 boatName: this.reservation.boatName,
+                length: this.reservation.length,
+                fromDate: this.reservation.fromDate,
+                toDate: this.reservation.toDate,
+                days: this.reservation.days,
+                email: this.reservation.email,
+                remarks: this.reservation.remarks,
+                isConfirmed: this.reservation.isConfirmed,
+                isDocked: this.reservation.isDocked,
+                isPaid: this.reservation.isPaid,
                 postAt: this.reservation.postAt,
                 postUser: this.reservation.postUser,
                 putAt: this.reservation.putAt,
@@ -227,15 +235,8 @@ export class ReservationFormComponent {
     }
 
     private saveRecord(reservation: ReservationWriteDto): void {
-        this.reservationHttpService.save(reservation).subscribe({
+        this.reservationHttpService.saveReservation(reservation).subscribe({
             next: (response) => {
-                this.dexieService.update('reservations', {
-                    'id': parseInt(response.body.id),
-                    'description': response.body.description,
-                    'email': response.body.email,
-                    'vatPercent': response.body.vatPercent,
-                    'isActive': response.body.isActive
-                })
                 this.helperService.doPostSaveFormTasks(
                     response.code == 200 ? this.messageDialogService.success() : '',
                     response.code == 200 ? 'ok' : 'ok',
@@ -263,11 +264,11 @@ export class ReservationFormComponent {
     }
 
     get boatType(): AbstractControl {
-        return this.form.get('taxOffice')
+        return this.form.get('boatType')
     }
 
-    get boatLength(): AbstractControl {
-        return this.form.get('boatLength')
+    get length(): AbstractControl {
+        return this.form.get('length')
     }
 
     get fromDate(): AbstractControl {

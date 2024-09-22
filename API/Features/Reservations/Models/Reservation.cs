@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using API.Features.Reservations.BoatTypes;
 using API.Infrastructure.Interfaces;
 
 namespace API.Features.Reservations {
@@ -12,7 +13,7 @@ namespace API.Features.Reservations {
         public int BoatTypeId { get; set; }
         //  Fields
         public string BoatName { get; set; }
-        public decimal BoatLength { get; set; }
+        public decimal Length { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
         public int Days { get; set; }
@@ -22,6 +23,8 @@ namespace API.Features.Reservations {
         public bool IsDocked { get; set; }
         public bool IsPaid { get; set; }
         public List<ReservationPier> ReservationPiers { get; set; }
+        // Navigation
+        public BoatType BoatType { get; set; }
         // Metadata
         public string PostAt { get; set; }
         public string PostUser { get; set; }

@@ -3,6 +3,7 @@ import { Component, ViewChild } from '@angular/core'
 import { MenuItem } from 'primeng/api'
 import { Table } from 'primeng/table'
 // Custom
+import { DateHelperService } from 'src/app/shared/services/date-helper.service'
 import { DialogService } from 'src/app/shared/services/modal-dialog.service'
 import { EmojiService } from 'src/app/shared/services/emoji.service'
 import { HelperService } from 'src/app/shared/services/helper.service'
@@ -42,7 +43,7 @@ export class ReservationListComponent {
 
     //#endregion
 
-    constructor(private activatedRoute: ActivatedRoute, private dialogService: DialogService, private emojiService: EmojiService, private helperService: HelperService, private messageDialogService: MessageDialogService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService) { }
+    constructor(private activatedRoute: ActivatedRoute, private dateHelperService: DateHelperService, private dialogService: DialogService, private emojiService: EmojiService, private helperService: HelperService, private messageDialogService: MessageDialogService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService) { }
 
     //#region lifecycle hooks
 
@@ -68,6 +69,10 @@ export class ReservationListComponent {
     //#endregion
 
     //#region public methods
+
+    public formatDateToLocale(date: string, showWeekday = false, showYear = false): string {
+        return this.dateHelperService.formatISODateToLocale(date, showWeekday, showYear)
+    }
 
     public getEmoji(anything: any): string {
         return typeof anything == 'string'

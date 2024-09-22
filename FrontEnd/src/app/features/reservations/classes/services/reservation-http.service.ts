@@ -14,6 +14,12 @@ export class ReservationHttpService extends HttpDataService {
         super(httpClient, environment.apiUrl + '/reservations')
     }
 
+    public saveReservation(formData: any): Observable<any> {
+        return formData.reservationId == null
+            ? this.http.post<any>(this.url, formData)
+            : this.http.put<any>(this.url, formData)
+    }
+
     public getForPeriod(): Observable<ReservationReadDto[]> {
         return this.http.get<ReservationReadDto[]>(environment.apiUrl + '/reservations')
     }

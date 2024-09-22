@@ -27,6 +27,7 @@ namespace API.Features.Reservations {
         public async Task<IEnumerable<ReservationListVM>> GetAsync() {
             var Reservations = await context.Reservations
                 .AsNoTracking()
+                .Include(x => x.BoatType)
                 .Include(x => x.ReservationPiers)
                 .ToListAsync();
             return mapper.Map<IEnumerable<Reservation>, IEnumerable<ReservationListVM>>(Reservations);
@@ -36,6 +37,7 @@ namespace API.Features.Reservations {
             return includeTables
                 ? await context.Reservations
                     .AsNoTracking()
+                    .Include(x => x.BoatType)
                     .Include(x => x.ReservationPiers)
                     .Where(x => x.ReservationId.ToString() == ReservationId)
                     .SingleOrDefaultAsync()

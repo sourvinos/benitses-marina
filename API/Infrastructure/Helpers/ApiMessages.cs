@@ -25,7 +25,7 @@ namespace API.Infrastructure.Helpers {
 
         public static string DuplicateRecord() { return "Duplicate records are not allowed."; }
         public static string DuplicateRefNo() { return "RefNo in not unique."; }
-        public static string InvalidDateDestinationOrPickupPoint() { return "The reservation is invalid for one of the following reasons: a) Nothing is scheduled for the selected day b) We don't go to the selected destination c) There are no departures from the selected port."; }
+        public static string InvalidDateDestinationOrPickupPoint() { return "The reservation is invalid for one of the following reasons: a) Nothing is scheduled for the selected day b) We don't go to the selected destination c) There are no departures from the selected boatType."; }
         public static string NotOwnRecord() { return "You are not the owner of this record."; }
         public static string InvalidCustomer() { return "The customer doesn't exist or is inactive."; }
         public static string InvalidDestination() { return "The destination doesn't exist or is inactive."; }
@@ -41,14 +41,14 @@ namespace API.Infrastructure.Helpers {
         public static string InvalidIssueDate() { return "The issue date must be today's date."; }
         public static string InvalidBank() { return "The bank doesn't exist or is inactive."; }
         public static string VatNumberIsDuplicate() { return "OK, but the VAT number already exists."; }
-        public static string InvalidPort() { return "The port doesn't exist or is inactive."; }
+        public static string InvalidBoatType() { return "The boatType doesn't exist or is inactive."; }
         public static string InvalidDocumentType() { return "The document type doesn't exist or is inactive."; }
         public static string PriceFieldsMustBeZeroOrGreater() { return "All amounts must be zero or greater."; }
         public static string InvalidDatePeriod() { return "The date period is not correct."; }
         public static string InvalidPassengerCount() { return "Total persons must be equal or greater than the passenger count."; }
         public static string SimpleUserNightRestrictions() { return "New reservations for the next day with transfer after 22:00 are not allowed"; }
         public static string SimpleUserCanNotAddReservationAfterDepartureTime() { return "Reservations after departure are not allowed"; }
-        public static string InvalidPortOrder() { return "The stop order already exists."; }
+        public static string InvalidBoatTypeOrder() { return "The stop order already exists."; }
         public static string InvalidAccountFields() { return "One or more fields are invalid."; }
         public static string ConcurrencyError() { return "Another user has already updated this record."; }
         public static string PriceCloningNotCompleted() { return "Cloning not completed. Check your pricelist table."; }

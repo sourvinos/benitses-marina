@@ -4,10 +4,10 @@ export interface ReservationListVM {
 
     reservationId: string
     boatName: string
-    boatLength: string
+    length: string
     fromDate: string
     toDate: string
-    stayDuration: number
+    days: number
     piers: ReservationListPierVM[]
     joinedPiers: string
 

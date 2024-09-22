@@ -40,7 +40,7 @@
                 "description": "Name"
             },
             {
-                "id": "headerBoatLength",
+                "id": "headerlength",
                 "description": "Length"
             },
             {
@@ -93,7 +93,7 @@
                 "description": "Type"
             },
             {
-                "id": "boatLength",
+                "id": "length",
                 "description": "Length"
             },
             {
@@ -135,6 +135,14 @@
             {
                 "id": "saveButton",
                 "description": "Αποθηκευση"
+            },
+            {
+                "id": "post",
+                "description": "Initial entry"
+            },
+            {
+                "id": "put",
+                "description": "Last update"
             }
         ]
     },
