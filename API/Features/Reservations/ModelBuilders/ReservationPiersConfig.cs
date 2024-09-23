@@ -7,7 +7,7 @@ namespace API.Features.Reservations {
 
         public void Configure(EntityTypeBuilder<ReservationPier> entity) {
             entity.Property(x => x.ReservationId).IsFixedLength().HasMaxLength(36).IsRequired(true);
-            entity.Property(x => x.Description).HasMaxLength(5).IsRequired(true);
+            entity.Property(x => x.PierId).IsRequired(true);
         }
 
     }

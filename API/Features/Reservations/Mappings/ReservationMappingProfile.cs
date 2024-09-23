@@ -9,14 +9,14 @@ namespace API.Features.Reservations {
 
         public ReservationMappingProfile() {
             // List
-            CreateMap<Reservation, ReservationListVM>()
+            CreateMap < Reservation, ReservationListVM > ()
                 .ForMember(x => x.FromDate, x => x.MapFrom(x => DateHelpers.DateToISOString(x.FromDate)))
                 .ForMember(x => x.ToDate, x => x.MapFrom(x => DateHelpers.DateToISOString(x.ToDate)))
                 .ForMember(x => x.BoatType, x => x.MapFrom(x => new SimpleEntity { Id = x.BoatType.Id, Description = x.BoatType.Description }))
                 .ForMember(x => x.Piers, x => x.MapFrom(x => x.ReservationPiers.Select(pier => new ReservationPierVM {
                     Id = pier.Id,
                     ReservationId = pier.ReservationId.ToString(),
-                    Description = pier.Description
+                    PierId = pier.PierId
                 })));
             // GetById
             CreateMap<Reservation, ReservationReadDto>()
@@ -26,7 +26,7 @@ namespace API.Features.Reservations {
                 .ForMember(x => x.Piers, x => x.MapFrom(x => x.ReservationPiers.Select(pier => new ReservationPierVM {
                     Id = pier.Id,
                     ReservationId = pier.ReservationId.ToString(),
-                    Description = pier.Description,
+                    PierId = pier.PierId
                 })));
             // Write
             CreateMap<ReservationWriteDto, Reservation>()

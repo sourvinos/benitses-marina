@@ -97,7 +97,7 @@
 
 </div>
 
-<mat-autocomplete #boatTypes="matAutocomplete" [displayWith]="autocompleteFields.bind(this, 'boatType')" autoActiveFirstOption>
+<mat-autocomplete #boatTypes="matAutocomplete" [displayWith]="autocompleteFields.bind(this, 'description')" autoActiveFirstOption>
     <mat-option *ngFor="let option of dropdownBoatTypes | async" [value]="option">
         {{ option.description }}
     </mat-option>

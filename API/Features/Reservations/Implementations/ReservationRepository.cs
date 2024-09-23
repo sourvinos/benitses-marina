@@ -43,17 +43,18 @@ namespace API.Features.Reservations {
                     .SingleOrDefaultAsync()
                : await context.Reservations
                   .AsNoTracking()
+                  .Include(x => x.ReservationPiers)
                   .Where(x => x.ReservationId.ToString() == ReservationId)
                   .SingleOrDefaultAsync();
         }
 
-        public Reservation Update(Guid ReservationId, Reservation Reservation) {
+        public Reservation Update(Guid reservationId, Reservation reservation) {
             using var transaction = context.Database.BeginTransaction();
-            UpdateReservation(Reservation);
-            DeletePiers(ReservationId, Reservation.ReservationPiers);
+            UpdateReservation(reservation);
+            DeletePiers(reservationId, reservation.ReservationPiers);
             context.SaveChanges();
             DisposeOrCommit(transaction);
-            return Reservation;
+            return reservation;
         }
 
         private void DisposeOrCommit(IDbContextTransaction transaction) {

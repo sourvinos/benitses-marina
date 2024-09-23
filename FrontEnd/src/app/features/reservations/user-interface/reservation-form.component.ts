@@ -17,6 +17,7 @@ import { ReservationReadDto } from '../classes/dtos/reservation-read-dto'
 import { ReservationWriteDto } from '../classes/dtos/reservation-write-dto'
 import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 import { ValidationService } from 'src/app/shared/services/validation.service'
+import { PierWriteDto } from '../classes/dtos/pier-write-dto'
 
 @Component({
     selector: 'reservation-form',
@@ -140,6 +141,7 @@ export class ReservationFormComponent {
             isConfirmed: this.form.value.profession,
             isDocked: this.form.value.street,
             isPaid: this.form.value.number,
+            piers: this.mapPiers(this.form),
             putAt: this.form.value.putAt
         }
     }
@@ -180,6 +182,7 @@ export class ReservationFormComponent {
             days: [0, [Validators.required]],
             email: ['', [Validators.maxLength(128), Validators.email]],
             remarks: ['', Validators.maxLength(128)],
+            piers: [[]],
             isConfirmed: false,
             isDocked: false,
             isPaid: false,
@@ -188,6 +191,18 @@ export class ReservationFormComponent {
             putAt: [''],
             putUser: ['']
         })
+    }
+
+    private mapPiers(form: any): PierWriteDto[] {
+        const piers = []
+        form.value.piers.forEach((pier: any) => {
+            const x: PierWriteDto = {
+                reservationId: form.value.reservationId,
+                pierId: pier.id,
+            }
+            piers.push(x)
+        })
+        return piers
     }
 
     private patchNumericFieldsWithZeroIfNullOrEmpty(fieldName: string, digits: number): void {
@@ -222,6 +237,7 @@ export class ReservationFormComponent {
                 isConfirmed: this.reservation.isConfirmed,
                 isDocked: this.reservation.isDocked,
                 isPaid: this.reservation.isPaid,
+                piers: this.reservation.piers,
                 postAt: this.reservation.postAt,
                 postUser: this.reservation.postUser,
                 putAt: this.reservation.putAt,
