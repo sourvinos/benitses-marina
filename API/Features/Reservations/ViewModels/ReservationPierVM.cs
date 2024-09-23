@@ -7,7 +7,7 @@ namespace API.Features.Reservations {
         public int Id { get; set; }
         public string ReservationId { get; set; }
         public int PierId { get; set; }
-        public SimpleEntity Pier { get; set; }
+        public string Pier { get; set; }
 
     }
 

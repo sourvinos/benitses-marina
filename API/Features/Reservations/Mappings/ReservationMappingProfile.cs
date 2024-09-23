@@ -17,10 +17,7 @@ namespace API.Features.Reservations {
                     Id = pier.Id,
                     ReservationId = pier.ReservationId.ToString(),
                     PierId = pier.PierId,
-                    Pier = new SimpleEntity {
-                        Id = pier.Id,
-                        Description = pier.Pier.Description
-                    }
+                    Pier = pier.Pier.Description
                 })));
             // GetById
             CreateMap<Reservation, ReservationReadDto>()
@@ -31,10 +28,7 @@ namespace API.Features.Reservations {
                     Id = pier.Id,
                     ReservationId = pier.ReservationId.ToString(),
                     PierId = pier.PierId,
-                    Pier = new SimpleEntity {
-                        Id = pier.Id,
-                        Description = pier.Pier.Description
-                    }
+                    Pier = pier.Pier.Description
                 })));
             // Write reservation
             CreateMap<ReservationWriteDto, Reservation>()

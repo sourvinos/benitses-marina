@@ -1,23 +1,24 @@
 import { ActivatedRoute, Router } from '@angular/router'
 import { Component } from '@angular/core'
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms'
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete'
 // Custom
 import { DexieService } from 'src/app/shared/services/dexie.service'
 import { DialogService } from 'src/app/shared/services/modal-dialog.service'
 import { FormResolved } from 'src/app/shared/classes/form-resolved'
 import { HelperService } from 'src/app/shared/services/helper.service'
 import { InputTabStopDirective } from 'src/app/shared/directives/input-tabstop.directive'
-import { MatAutocompleteTrigger } from '@angular/material/autocomplete'
 import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
 import { MessageInputHintService } from 'src/app/shared/services/message-input-hint.service'
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
 import { Observable, map, startWith } from 'rxjs'
+import { PierWriteDto } from '../classes/dtos/pier-write-dto'
 import { ReservationHttpService } from '../classes/services/reservation-http.service'
 import { ReservationReadDto } from '../classes/dtos/reservation-read-dto'
 import { ReservationWriteDto } from '../classes/dtos/reservation-write-dto'
 import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 import { ValidationService } from 'src/app/shared/services/validation.service'
-import { PierWriteDto } from '../classes/dtos/pier-write-dto'
+import { PierReadDto } from '../classes/dtos/pier-read-dto'
 
 @Component({
     selector: 'reservation-form',
@@ -135,12 +136,12 @@ export class ReservationFormComponent {
             fromDate: this.form.value.fromDate,
             toDate: this.form.value.toDate,
             days: this.form.value.days,
+            piers: this.mapPiers(this.form),
             email: this.form.value.email,
             remarks: this.form.value.remarks,
             isConfirmed: this.form.value.isConfirmed,
             isDocked: this.form.value.isDocked,
             isPaid: this.form.value.isPaid,
-            piers: this.mapPiers(this.form),
             putAt: this.form.value.putAt
         }
     }
@@ -181,7 +182,7 @@ export class ReservationFormComponent {
             days: [0, [Validators.required]],
             email: ['', [Validators.maxLength(128), Validators.email]],
             remarks: ['', Validators.maxLength(128)],
-            piers: [[]],
+            piers: [''],
             isConfirmed: false,
             isDocked: false,
             isPaid: false,
@@ -193,15 +194,18 @@ export class ReservationFormComponent {
     }
 
     private mapPiers(form: any): PierWriteDto[] {
-        const piers = []
-        form.value.piers.forEach((pier: any) => {
-            const x: PierWriteDto = {
-                reservationId: form.value.reservationId,
-                pierId: pier.pierId,
-            }
-            piers.push(x)
+        const piers = form.value.piers.split(',')
+        const z = []
+        piers.forEach((pier: any) => {
+            this.dexieService.getByDescription('piers', pier).then((response) => {
+                const x: PierWriteDto = {
+                    reservationId: form.value.reservationId,
+                    pierId: response.id,
+                }
+                z.push(x)
+            })
         })
-        return piers
+        return z
     }
 
     private patchNumericFieldsWithZeroIfNullOrEmpty(fieldName: string, digits: number): void {
@@ -236,7 +240,7 @@ export class ReservationFormComponent {
                 isConfirmed: this.reservation.isConfirmed,
                 isDocked: this.reservation.isDocked,
                 isPaid: this.reservation.isPaid,
-                piers: this.reservation.piers,
+                piers: this.stringifyPiers(this.reservation.piers),
                 postAt: this.reservation.postAt,
                 postUser: this.reservation.postUser,
                 putAt: this.reservation.putAt,
@@ -268,6 +272,12 @@ export class ReservationFormComponent {
         this.activatedRoute.params.subscribe(x => {
             this.reservationId = x.id
         })
+    }
+
+    private stringifyPiers(piers: PierReadDto[]): string {
+        return piers.map(x => {
+            return x.pier
+        }).join(', ')
     }
 
     //#endregion

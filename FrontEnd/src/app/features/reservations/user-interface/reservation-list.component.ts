@@ -49,7 +49,7 @@ export class ReservationListComponent {
 
     ngOnInit(): void {
         this.loadRecords().then(() => {
-            this.joinPiers()
+            this.stringifyPiers()
             this.filterTableFromStoredFilters()
             this.setTabTitle()
             this.setSidebarsHeight()
@@ -156,11 +156,11 @@ export class ReservationListComponent {
         ]
     }
 
-    private joinPiers(): void {
+    private stringifyPiers(): void {
         this.records.forEach(record => {
             const joinedPiers = record.piers.map((pier) => {
-                return pier.pier.description
-            }).join(' / ')
+                return pier.pier
+            }).join(', ')
             record.joinedPiers = joinedPiers
         })
     }
