@@ -9,7 +9,7 @@ export const environment = {
     featuresIconDirectory: 'assets/images/features/',
     nationalitiesIconDirectory: 'assets/images/nationalities/',
     portStopOrdersDirectory: 'assets/images/port-stop-orders/',
-    cssUserSelect: 'none',
+    cssUserSelect: 'auto',
     minWidth: 1280,
     login: {
         username: 'john',

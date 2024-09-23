@@ -138,9 +138,9 @@ export class ReservationFormComponent {
             days: this.form.value.days,
             email: this.form.value.email,
             remarks: this.form.value.remarks,
-            isConfirmed: this.form.value.profession,
-            isDocked: this.form.value.street,
-            isPaid: this.form.value.number,
+            isConfirmed: this.form.value.isConfirmed,
+            isDocked: this.form.value.isDocked,
+            isPaid: this.form.value.isPaid,
             piers: this.mapPiers(this.form),
             putAt: this.form.value.putAt
         }
@@ -198,7 +198,7 @@ export class ReservationFormComponent {
         form.value.piers.forEach((pier: any) => {
             const x: PierWriteDto = {
                 reservationId: form.value.reservationId,
-                pierId: pier.id,
+                pierId: pier.pierId,
             }
             piers.push(x)
         })

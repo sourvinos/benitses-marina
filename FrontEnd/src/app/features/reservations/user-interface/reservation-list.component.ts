@@ -159,7 +159,7 @@ export class ReservationListComponent {
     private joinPiers(): void {
         this.records.forEach(record => {
             const joinedPiers = record.piers.map((pier) => {
-                return pier.description
+                return pier.pier.description
             }).join(' / ')
             record.joinedPiers = joinedPiers
         })
