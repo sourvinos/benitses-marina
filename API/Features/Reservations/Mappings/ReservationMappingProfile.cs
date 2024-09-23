@@ -16,7 +16,11 @@ namespace API.Features.Reservations {
                 .ForMember(x => x.Piers, x => x.MapFrom(x => x.Piers.Select(pier => new ReservationPierVM {
                     Id = pier.Id,
                     ReservationId = pier.ReservationId.ToString(),
-                    PierId = pier.PierId
+                    PierId = pier.PierId,
+                    Pier = new SimpleEntity {
+                        Id = pier.Id,
+                        Description = pier.Pier.Description
+                    }
                 })));
             // GetById
             CreateMap<Reservation, ReservationReadDto>()
@@ -26,7 +30,11 @@ namespace API.Features.Reservations {
                 .ForMember(x => x.Piers, x => x.MapFrom(x => x.Piers.Select(pier => new ReservationPierVM {
                     Id = pier.Id,
                     ReservationId = pier.ReservationId.ToString(),
-                    PierId = pier.PierId
+                    PierId = pier.PierId,
+                    Pier = new SimpleEntity {
+                        Id = pier.Id,
+                        Description = pier.Pier.Description
+                    }
                 })));
             // Write reservation
             CreateMap<ReservationWriteDto, Reservation>()

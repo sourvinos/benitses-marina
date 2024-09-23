@@ -28,7 +28,7 @@ namespace API.Features.Reservations {
             var Reservations = await context.Reservations
                 .AsNoTracking()
                 .Include(x => x.BoatType)
-                .Include(x => x.Piers)
+                .Include(x => x.Piers).ThenInclude(x => x.Pier)
                 .ToListAsync();
             return mapper.Map<IEnumerable<Reservation>, IEnumerable<ReservationListVM>>(Reservations);
         }
@@ -38,12 +38,12 @@ namespace API.Features.Reservations {
                 ? await context.Reservations
                     .AsNoTracking()
                     .Include(x => x.BoatType)
-                    .Include(x => x.Piers)
+                    .Include(x => x.Piers).ThenInclude(x => x.Pier)
                     .Where(x => x.ReservationId.ToString() == reservationId)
                     .SingleOrDefaultAsync()
                : await context.Reservations
                   .AsNoTracking()
-                  .Include(x => x.Piers)
+                  .Include(x => x.Piers).ThenInclude(x => x.Pier)
                   .Where(x => x.ReservationId.ToString() == reservationId)
                   .SingleOrDefaultAsync();
         }
