@@ -94,9 +94,8 @@ export class ReservationFormComponent {
     public onDelete(): void {
         this.dialogService.open(this.messageDialogService.confirmDelete(), 'question', ['abort', 'ok']).subscribe(response => {
             if (response) {
-                this.reservationHttpService.delete(this.form.value.id).subscribe({
+                this.reservationHttpService.delete(this.form.value.reservationId).subscribe({
                     complete: () => {
-                        this.dexieService.remove('reservations', this.form.value.id)
                         this.helperService.doPostSaveFormTasks(this.messageDialogService.success(), 'ok', this.parentUrl, true)
                     },
                     error: (errorFromInterceptor) => {
