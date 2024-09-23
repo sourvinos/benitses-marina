@@ -28,30 +28,30 @@ namespace API.Features.Reservations {
             var Reservations = await context.Reservations
                 .AsNoTracking()
                 .Include(x => x.BoatType)
-                .Include(x => x.ReservationPiers)
+                .Include(x => x.Piers)
                 .ToListAsync();
             return mapper.Map<IEnumerable<Reservation>, IEnumerable<ReservationListVM>>(Reservations);
         }
 
-        public async Task<Reservation> GetByIdAsync(string ReservationId, bool includeTables) {
+        public async Task<Reservation> GetByIdAsync(string reservationId, bool includeTables) {
             return includeTables
                 ? await context.Reservations
                     .AsNoTracking()
                     .Include(x => x.BoatType)
-                    .Include(x => x.ReservationPiers)
-                    .Where(x => x.ReservationId.ToString() == ReservationId)
+                    .Include(x => x.Piers)
+                    .Where(x => x.ReservationId.ToString() == reservationId)
                     .SingleOrDefaultAsync()
                : await context.Reservations
                   .AsNoTracking()
-                  .Include(x => x.ReservationPiers)
-                  .Where(x => x.ReservationId.ToString() == ReservationId)
+                  .Include(x => x.Piers)
+                  .Where(x => x.ReservationId.ToString() == reservationId)
                   .SingleOrDefaultAsync();
         }
 
         public Reservation Update(Guid reservationId, Reservation reservation) {
             using var transaction = context.Database.BeginTransaction();
             UpdateReservation(reservation);
-            DeletePiers(reservationId, reservation.ReservationPiers);
+            DeletePiers(reservationId, reservation.Piers);
             context.SaveChanges();
             DisposeOrCommit(transaction);
             return reservation;
@@ -69,10 +69,10 @@ namespace API.Features.Reservations {
             context.Reservations.Update(reservation);
         }
 
-        private void DeletePiers(Guid ReservationId, List<ReservationPier> piers) {
+        private void DeletePiers(Guid reservationId, List<ReservationPier> piers) {
             var existingPiers = context.ReservationPiers
                 .AsNoTracking()
-                .Where(x => x.ReservationId == ReservationId)
+                .Where(x => x.ReservationId == reservationId)
                 .ToList();
             var piersToUpdate = piers
                 .Where(x => x.Id != 0)

@@ -22,7 +22,7 @@ namespace API.Features.Reservations {
         public bool IsConfirmed { get; set; }
         public bool IsDocked { get; set; }
         public bool IsPaid { get; set; }
-        public List<ReservationPier> ReservationPiers { get; set; }
+        public List<ReservationPier> Piers { get; set; }
         // Navigation
         public BoatType BoatType { get; set; }
         // Metadata

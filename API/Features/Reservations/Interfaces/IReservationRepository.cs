@@ -8,8 +8,8 @@ namespace API.Features.Reservations {
     public interface IReservationRepository : IRepository<Reservation> {
 
         Task<IEnumerable<ReservationListVM>> GetAsync();
-        Task<Reservation> GetByIdAsync(string ReservationId, bool includeTables);
-        Reservation Update(Guid id, Reservation Reservation);
+        Task<Reservation> GetByIdAsync(string reservationId, bool includeTables);
+        Reservation Update(Guid id, Reservation reservation);
 
     }
 

@@ -14,28 +14,28 @@ namespace API.Features.Reservations {
 
         #region variables
 
-        private readonly IReservationRepository ReservationRepo;
-        private readonly IReservationValidation ReservationValidation;
+        private readonly IReservationRepository reservationRepo;
+        private readonly IReservationValidation reservationValidation;
         private readonly IMapper mapper;
 
         #endregion
 
-        public ReservationsController(IReservationRepository ReservationRepo, IReservationValidation ReservationValidation, IMapper mapper) {
+        public ReservationsController(IReservationRepository reservationRepo, IReservationValidation reservationValidation, IMapper mapper) {
             this.mapper = mapper;
-            this.ReservationRepo = ReservationRepo;
-            this.ReservationValidation = ReservationValidation;
+            this.reservationRepo = reservationRepo;
+            this.reservationValidation = reservationValidation;
         }
 
         [HttpGet()]
         [Authorize(Roles = "user, admin")]
         public async Task<IEnumerable<ReservationListVM>> GetAsync() {
-            return await ReservationRepo.GetAsync();
+            return await reservationRepo.GetAsync();
         }
 
-        [HttpGet("{ReservationId}")]
+        [HttpGet("{reservationId}")]
         [Authorize(Roles = "user, admin")]
-        public async Task<ResponseWithBody> GetByIdAsync(string ReservationId) {
-            var x = await ReservationRepo.GetByIdAsync(ReservationId, true);
+        public async Task<ResponseWithBody> GetByIdAsync(string reservationId) {
+            var x = await reservationRepo.GetByIdAsync(reservationId, true);
             if (x != null) {
                 return new ResponseWithBody {
                     Code = 200,
@@ -53,10 +53,10 @@ namespace API.Features.Reservations {
         [HttpPost]
         [Authorize(Roles = "admin")]
         [ServiceFilter(typeof(ModelValidationAttribute))]
-        public Response Post([FromBody] ReservationWriteDto Reservation) {
-            var z = ReservationValidation.IsValid(null, Reservation);
+        public Response Post([FromBody] ReservationWriteDto reservation) {
+            var z = reservationValidation.IsValid(null, reservation);
             if (z == 200) {
-                var x = ReservationRepo.Create(mapper.Map<ReservationWriteDto, Reservation>((ReservationWriteDto)ReservationRepo.AttachMetadataToPostDto(Reservation)));
+                var x = reservationRepo.Create(mapper.Map<ReservationWriteDto, Reservation>((ReservationWriteDto)reservationRepo.AttachMetadataToPostDto(reservation)));
                 return new Response {
                     Code = 200,
                     Icon = Icons.Success.ToString(),
@@ -73,12 +73,12 @@ namespace API.Features.Reservations {
         [HttpPut]
         [Authorize(Roles = "admin")]
         [ServiceFilter(typeof(ModelValidationAttribute))]
-        public async Task<Response> PutAsync([FromBody] ReservationWriteDto Reservation) {
-            var x = await ReservationRepo.GetByIdAsync(Reservation.ReservationId.ToString(), false);
+        public async Task<Response> PutAsync([FromBody] ReservationWriteDto reservation) {
+            var x = await reservationRepo.GetByIdAsync(reservation.ReservationId.ToString(), false);
             if (x != null) {
-                var z = ReservationValidation.IsValid(x, Reservation);
+                var z = reservationValidation.IsValid(x, reservation);
                 if (z == 200) {
-                    ReservationRepo.Update(Reservation.ReservationId, mapper.Map<ReservationWriteDto, Reservation>((ReservationWriteDto)ReservationRepo.AttachMetadataToPutDto(x, Reservation)));
+                    reservationRepo.Update(reservation.ReservationId, mapper.Map<ReservationWriteDto, Reservation>((ReservationWriteDto)reservationRepo.AttachMetadataToPutDto(x, reservation)));
                     return new Response {
                         Code = 200,
                         Icon = Icons.Success.ToString(),
@@ -100,9 +100,9 @@ namespace API.Features.Reservations {
         [HttpDelete("{id}")]
         [Authorize(Roles = "admin")]
         public async Task<Response> Delete([FromRoute] string id) {
-            var x = await ReservationRepo.GetByIdAsync(id, false);
+            var x = await reservationRepo.GetByIdAsync(id, false);
             if (x != null) {
-                ReservationRepo.Delete(x);
+                reservationRepo.Delete(x);
                 return new Response {
                     Code = 200,
                     Icon = Icons.Success.ToString(),
