@@ -8,7 +8,7 @@ namespace API.Features.Reservations {
         public ReservationValidator() {
             RuleFor(x => x.BoatTypeId).NotEmpty();
             RuleFor(x => x.BoatName).NotEmpty().MaximumLength(128);
-            RuleFor(x => x.Length).NotEmpty();
+            RuleFor(x => x.Loa).NotEmpty();
             RuleFor(x => x.FromDate).Must(DateHelpers.BeCorrectFormat);
             RuleFor(x => x.ToDate).Must(DateHelpers.BeCorrectFormat).GreaterThan(x => x.FromDate);
             RuleFor(x => x.Email).Must(EmailHelpers.BeEmptyOrValidEmailAddress).MaximumLength(128);

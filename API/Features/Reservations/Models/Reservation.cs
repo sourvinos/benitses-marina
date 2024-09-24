@@ -13,7 +13,7 @@ namespace API.Features.Reservations {
         public int BoatTypeId { get; set; }
         //  Fields
         public string BoatName { get; set; }
-        public decimal Length { get; set; }
+        public string Loa { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
         public int Days { get; set; }

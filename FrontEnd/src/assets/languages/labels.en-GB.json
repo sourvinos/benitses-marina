@@ -40,7 +40,7 @@
                 "description": "Name"
             },
             {
-                "id": "headerlength",
+                "id": "headerLength",
                 "description": "Length"
             },
             {
@@ -109,8 +109,8 @@
                 "description": "Days"
             },
             {
-                "id": "piers",
-                "description": "Piers"
+                "id": "pier",
+                "description": "Pier"
             },
             {
                 "id": "email",
@@ -131,6 +131,10 @@
             {
                 "id": "isPaid",
                 "description": "Paid"
+            },
+            {
+                "id": "addPierButton",
+                "description": "Add pier"
             },
             {
                 "id": "deleteButton",

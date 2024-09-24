@@ -28,8 +28,8 @@
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label>{{ getLabel('length') }}</mat-label>
-                    <input [inputTabStop]="input" dataTabIndex="3" formControlName="length" matInput>
-                    <mat-error *ngIf="length.hasError('required')">{{ getHint("required") }}</mat-error>
+                    <input [inputTabStop]="input" dataTabIndex="3" formControlName="loa" matInput>
+                    <mat-error *ngIf="loa.hasError('required')">{{ getHint("required") }}</mat-error>
                 </mat-form-field>
             </div>
             <div class="group-input-field">
@@ -49,16 +49,24 @@
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label>{{ getLabel('days') }}</mat-label>
-                    <input [inputTabStop]="input" dataTabIndex="6" formControlName="days" matInput>
+                    <input [inputTabStop]="input" dataTabIndex="6" formControlName="days" matInput type="number">
                     <mat-error *ngIf="days.hasError('required')">{{ getHint("required") }}</mat-error>
                 </mat-form-field>
             </div>
-            <div class="group-input-field">
-                <mat-form-field>
-                    <mat-label>{{ getLabel('piers') }}</mat-label>
-                    <input [inputTabStop]="input" dataTabIndex="7" formControlName="piers" matInput>
-                    <mat-error *ngIf="boatName.hasError('maxLength')">{{ getHint("required") }}</mat-error>
-                </mat-form-field>
+            <div formArrayName="piers">
+                <div class="group-input-field">
+                    <div *ngFor="let pier of piersArray; let i = index">
+                        <div [formGroupName]="i">
+                            <mat-form-field>
+                                <mat-label>{{ getLabel("pier") }}</mat-label>
+                                <input formControlName="pierDescription" matInput>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <button (click)="addPierTextBox()" class="secondary" mat-flat-button style="margin-top: 0.5625rem;">
+                        <span>{{ getLabel("addPierButton") | uppercase }}</span>
+                    </button>
+                </div>
             </div>
             <div class="group-input-field">
                 <mat-form-field>

@@ -1,6 +1,6 @@
 import { ActivatedRoute, Router } from '@angular/router'
 import { Component } from '@angular/core'
-import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms'
+import { FormBuilder, FormGroup, Validators, AbstractControl, FormArray } from '@angular/forms'
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete'
 // Custom
 import { DexieService } from 'src/app/shared/services/dexie.service'
@@ -12,13 +12,11 @@ import { MessageDialogService } from 'src/app/shared/services/message-dialog.ser
 import { MessageInputHintService } from 'src/app/shared/services/message-input-hint.service'
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
 import { Observable, map, startWith } from 'rxjs'
-import { PierWriteDto } from '../classes/dtos/pier-write-dto'
 import { ReservationHttpService } from '../classes/services/reservation-http.service'
 import { ReservationReadDto } from '../classes/dtos/reservation-read-dto'
 import { ReservationWriteDto } from '../classes/dtos/reservation-write-dto'
 import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 import { ValidationService } from 'src/app/shared/services/validation.service'
-import { PierReadDto } from '../classes/dtos/pier-read-dto'
 
 @Component({
     selector: 'reservation-form',
@@ -38,6 +36,7 @@ export class ReservationFormComponent {
     public icon = 'arrow_back'
     public input: InputTabStopDirective
     public parentUrl = '/reservations'
+    public piersArray: string[] = []
 
     //#endregion
 
@@ -58,6 +57,8 @@ export class ReservationFormComponent {
         this.getRecord()
         this.populateFields()
         this.populateDropdowns()
+        // this.piersArray = []
+        this.addPierTextBox()
     }
 
     ngAfterViewInit(): void {
@@ -132,11 +133,11 @@ export class ReservationFormComponent {
             reservationId: this.form.value.reservationId != '' ? this.form.value.reservationId : null,
             boatTypeId: this.form.value.boatType.id,
             boatName: this.form.value.boatName,
-            length: this.form.value.length,
+            loa: this.form.value.loa,
             fromDate: this.form.value.fromDate,
             toDate: this.form.value.toDate,
             days: this.form.value.days,
-            piers: this.mapPiers(this.form),
+            piers: this.form.value.piers,
             email: this.form.value.email,
             remarks: this.form.value.remarks,
             isConfirmed: this.form.value.isConfirmed,
@@ -176,13 +177,13 @@ export class ReservationFormComponent {
             reservationId: '',
             boatName: ['', [Validators.required]],
             boatType: ['', [Validators.required, ValidationService.RequireAutocomplete]],
-            length: [0, [Validators.required, Validators.min(0), Validators.max(30)]],
+            loa: ['', [Validators.required, Validators.min(0), Validators.max(30)]],
             fromDate: ['', [Validators.required]],
             toDate: ['', [Validators.required]],
             days: [0, [Validators.required]],
             email: ['', [Validators.maxLength(128), Validators.email]],
             remarks: ['', Validators.maxLength(128)],
-            piers: [''],
+            piers: this.formBuilder.array([]),
             isConfirmed: false,
             isDocked: false,
             isPaid: false,
@@ -191,21 +192,6 @@ export class ReservationFormComponent {
             putAt: [''],
             putUser: ['']
         })
-    }
-
-    private mapPiers(form: any): PierWriteDto[] {
-        const piers = form.value.piers.split(',')
-        const z = []
-        piers.forEach((pier: any) => {
-            this.dexieService.getByDescription('piers', pier).then((response) => {
-                const x: PierWriteDto = {
-                    reservationId: form.value.reservationId,
-                    pierId: response.id,
-                }
-                z.push(x)
-            })
-        })
-        return z
     }
 
     private patchNumericFieldsWithZeroIfNullOrEmpty(fieldName: string, digits: number): void {
@@ -231,7 +217,7 @@ export class ReservationFormComponent {
                 reservationId: this.reservation.reservationId,
                 boatType: { 'id': this.reservation.boatType.id, 'description': this.reservation.boatType.description },
                 boatName: this.reservation.boatName,
-                length: this.reservation.length,
+                loa: this.reservation.loa,
                 fromDate: this.reservation.fromDate,
                 toDate: this.reservation.toDate,
                 days: this.reservation.days,
@@ -240,7 +226,6 @@ export class ReservationFormComponent {
                 isConfirmed: this.reservation.isConfirmed,
                 isDocked: this.reservation.isDocked,
                 isPaid: this.reservation.isPaid,
-                piers: this.stringifyPiers(this.reservation.piers),
                 postAt: this.reservation.postAt,
                 postUser: this.reservation.postUser,
                 putAt: this.reservation.putAt,
@@ -274,12 +259,6 @@ export class ReservationFormComponent {
         })
     }
 
-    private stringifyPiers(piers: PierReadDto[]): string {
-        return piers.map(x => {
-            return x.pier
-        }).join(', ')
-    }
-
     //#endregion
 
     //#region getters
@@ -292,8 +271,8 @@ export class ReservationFormComponent {
         return this.form.get('boatType')
     }
 
-    get length(): AbstractControl {
-        return this.form.get('length')
+    get loa(): AbstractControl {
+        return this.form.get('loa')
     }
 
     get fromDate(): AbstractControl {
@@ -333,5 +312,14 @@ export class ReservationFormComponent {
     }
 
     //#endregion
+
+    public addPierTextBox(): void {
+        const control = <FormArray>this.form.get('piers')
+        const newGroup = this.formBuilder.group({
+            pierDescription: ''
+        })
+        control.push(newGroup)
+        this.piersArray.push(this.form.controls.piers.value)
+    }
 
 }
