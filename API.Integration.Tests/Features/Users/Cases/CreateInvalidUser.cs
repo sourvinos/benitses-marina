@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Infrastructure;
 
 namespace Users {
 
@@ -19,7 +18,7 @@ namespace Users {
                     StatusCode = 492,
                     Username = "newuser",
                     Displayname = "New User",
-                    Email = "gatopoulidis@gmail.com",
+                    Email = "email@server.com",
                     IsAdmin = false,
                     IsActive = true
                 }

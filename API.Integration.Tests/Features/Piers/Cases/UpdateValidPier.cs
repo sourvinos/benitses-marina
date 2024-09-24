@@ -16,7 +16,7 @@ namespace Piers {
             return new object[] {
                 new TestPier {
                     Id = 1,
-                    Description = Helpers.CreateRandomString(128),
+                    Description = Helpers.CreateRandomString(5),
                     PutAt = "2024-09-01 00:00:00"
                 }
             };

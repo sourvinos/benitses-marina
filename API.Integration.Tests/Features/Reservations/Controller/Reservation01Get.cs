@@ -2,16 +2,16 @@
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
-using API.Infrastructure.Users;
+using API.Features.Reservations;
 using Cases;
 using Infrastructure;
 using Responses;
 using Xunit;
 
-namespace Users {
+namespace Reservations {
 
     [Collection("Sequence")]
-    public class Users01Get : IClassFixture<AppSettingsFixture> {
+    public class Reservations01Get : IClassFixture<AppSettingsFixture> {
 
         #region variables
 
@@ -20,11 +20,11 @@ namespace Users {
         private readonly TestHostFixture _testHostFixture = new();
         private readonly string _actionVerb = "get";
         private readonly string _baseUrl;
-        private readonly string _url = "/users";
+        private readonly string _url = "/reservations";
 
         #endregion
 
-        public Users01Get(AppSettingsFixture appsettings) {
+        public Reservations01Get(AppSettingsFixture appsettings) {
             _appSettingsFixture = appsettings;
             _baseUrl = _appSettingsFixture.Configuration.GetSection("TestingEnvironment").GetSection("BaseUrl").Value;
             _httpClient = _testHostFixture.Client;
@@ -47,15 +47,17 @@ namespace Users {
         }
 
         [Fact]
-        public async Task Simple_Users_Can_Not_List() {
-            await Forbidden.Action(_httpClient, _baseUrl, _url, _actionVerb, "simpleuser", "A#ba439de-446e-4eef-8c4b-833f1b3e18aa", null);
+        public async Task Simple_Users_Can_List() {
+            var actionResponse = await List.Action(_httpClient, _baseUrl, _url, "simpleuser", "A#ba439de-446e-4eef-8c4b-833f1b3e18aa");
+            var records = JsonSerializer.Deserialize<List<ReservationListVM>>(await actionResponse.Content.ReadAsStringAsync(), new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            Assert.Equal(6, records.Count);
         }
 
         [Fact]
         public async Task Admins_Can_List() {
             var actionResponse = await List.Action(_httpClient, _baseUrl, _url, "john", "A#ba439de-446e-4eef-8c4b-833f1b3e18aa");
-            var records = JsonSerializer.Deserialize<List<UserListVM>>(await actionResponse.Content.ReadAsStringAsync(), new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-            Assert.Equal(3, records.Count);
+            var records = JsonSerializer.Deserialize<List<ReservationListVM>>(await actionResponse.Content.ReadAsStringAsync(), new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            Assert.Equal(6, records.Count);
         }
 
     }

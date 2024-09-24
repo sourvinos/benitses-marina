@@ -15,7 +15,7 @@ namespace Piers {
         private static object[] ValidRecord() {
             return new object[] {
                 new TestPier {
-                    Description = Helpers.CreateRandomString(128)
+                    Description = Helpers.CreateRandomString(5)
                 }
             };
         }
