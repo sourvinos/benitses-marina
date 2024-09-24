@@ -1,8 +1,8 @@
 using System;
 
-namespace API.Features.Reservations {
+namespace Reservations {
 
-    public class ReservationPier {
+    public class TestReservationPier {
 
         public int Id { get; set; }
         public Guid ReservationId { get; set; }

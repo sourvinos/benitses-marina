@@ -57,7 +57,6 @@ export class ReservationFormComponent {
         this.getRecord()
         this.populateFields()
         this.populateDropdowns()
-        // this.piersArray = []
         this.addPierTextBox()
     }
 

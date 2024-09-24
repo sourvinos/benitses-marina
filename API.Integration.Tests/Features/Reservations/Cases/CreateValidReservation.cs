@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Reservations {
 
@@ -24,7 +25,12 @@ namespace Reservations {
                     Remarks = "test-remarks",
                     IsConfirmed = true,
                     IsDocked = false,
-                    IsPaid = false
+                    IsPaid = false,
+                    Piers = new List<TestReservationPier>() {
+                        new() {
+                            Description = "A1"
+                        }
+                    }
                 }
             };
         }

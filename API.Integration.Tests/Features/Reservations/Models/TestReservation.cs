@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Infrastructure;
 
 namespace Reservations {
@@ -20,6 +21,7 @@ namespace Reservations {
         public bool IsConfirmed { get; set; }
         public bool IsDocked { get; set; }
         public bool IsPaid { get; set; }
+        public List<TestReservationPier> Piers { get; set; }
         public string PutAt { get; set; }
 
     }
