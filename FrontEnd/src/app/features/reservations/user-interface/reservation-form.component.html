@@ -59,13 +59,13 @@
                         <div [formGroupName]="i">
                             <mat-form-field>
                                 <mat-label>{{ getLabel("pier") }}</mat-label>
-                                <input formControlName="pierDescription" matInput>
+                                <input [inputTabStop]="input" dataTabIndex="7" formControlName="description" matInput>
                             </mat-form-field>
                         </div>
                     </div>
-                    <button (click)="addPierTextBox()" class="secondary" mat-flat-button style="margin-top: 0.5625rem;">
+                    <span (click)="onAddPierTextBox()" class="secondary" mat-flat-button style="margin-top: 0.5625rem;">
                         <span>{{ getLabel("addPierButton") | uppercase }}</span>
-                    </button>
+                    </span>
                 </div>
             </div>
             <div class="group-input-field">

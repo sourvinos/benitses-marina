@@ -159,7 +159,7 @@ export class ReservationListComponent {
     private stringifyPiers(): void {
         this.records.forEach(record => {
             const joinedPiers = record.piers.map((pier) => {
-                return pier.pier
+                return pier.description
             }).join(', ')
             record.joinedPiers = joinedPiers
         })

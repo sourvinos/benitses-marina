@@ -12,7 +12,7 @@ namespace Reservations {
         public Guid ReservationId { get; set; }
         public int BoatTypeId { get; set; }
         public string BoatName { get; set; }
-        public decimal Length { get; set; }
+        public string Loa { get; set; }
         public string FromDate { get; set; }
         public string ToDate { get; set; }
         public int Days { get; set; }

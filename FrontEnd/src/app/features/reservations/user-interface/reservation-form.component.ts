@@ -2,6 +2,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { Component } from '@angular/core'
 import { FormBuilder, FormGroup, Validators, AbstractControl, FormArray } from '@angular/forms'
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete'
+import { Observable, map, startWith } from 'rxjs'
 // Custom
 import { DexieService } from 'src/app/shared/services/dexie.service'
 import { DialogService } from 'src/app/shared/services/modal-dialog.service'
@@ -11,7 +12,6 @@ import { InputTabStopDirective } from 'src/app/shared/directives/input-tabstop.d
 import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
 import { MessageInputHintService } from 'src/app/shared/services/message-input-hint.service'
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
-import { Observable, map, startWith } from 'rxjs'
 import { ReservationHttpService } from '../classes/services/reservation-http.service'
 import { ReservationReadDto } from '../classes/dtos/reservation-read-dto'
 import { ReservationWriteDto } from '../classes/dtos/reservation-write-dto'
@@ -36,7 +36,7 @@ export class ReservationFormComponent {
     public icon = 'arrow_back'
     public input: InputTabStopDirective
     public parentUrl = '/reservations'
-    public piersArray: string[] = []
+
 
     //#endregion
 
@@ -44,6 +44,12 @@ export class ReservationFormComponent {
 
     public isAutoCompleteDisabled = true
     public dropdownBoatTypes: Observable<SimpleEntity[]>
+
+    //#endregion
+
+    //#region piers
+
+    public piersArray: string[] = []
 
     //#endregion
 
@@ -57,7 +63,7 @@ export class ReservationFormComponent {
         this.getRecord()
         this.populateFields()
         this.populateDropdowns()
-        this.addPierTextBox()
+        this.populatePiers()
     }
 
     ngAfterViewInit(): void {
@@ -90,6 +96,15 @@ export class ReservationFormComponent {
 
     public getRemarksLength(): any {
         return this.form.value.remarks != null ? this.form.value.remarks.length : 0
+    }
+
+    public onAddPierTextBox(): void {
+        const control = <FormArray>this.form.get('piers')
+        const newGroup = this.formBuilder.group({
+            description: ''
+        })
+        control.push(newGroup)
+        this.piersArray.push(this.form.controls.piers.value)
     }
 
     public onDelete(): void {
@@ -180,9 +195,9 @@ export class ReservationFormComponent {
             fromDate: ['', [Validators.required]],
             toDate: ['', [Validators.required]],
             days: [0, [Validators.required]],
+            piers: this.formBuilder.array([]),
             email: ['', [Validators.maxLength(128), Validators.email]],
             remarks: ['', Validators.maxLength(128)],
-            piers: this.formBuilder.array([]),
             isConfirmed: false,
             isDocked: false,
             isPaid: false,
@@ -220,6 +235,7 @@ export class ReservationFormComponent {
                 fromDate: this.reservation.fromDate,
                 toDate: this.reservation.toDate,
                 days: this.reservation.days,
+                piers: [],
                 email: this.reservation.email,
                 remarks: this.reservation.remarks,
                 isConfirmed: this.reservation.isConfirmed,
@@ -230,6 +246,22 @@ export class ReservationFormComponent {
                 putAt: this.reservation.putAt,
                 putUser: this.reservation.putUser
             })
+        }
+    }
+
+    private populatePiers(): void {
+        if (this.reservation) {
+            this.reservation.piers.forEach(pier => {
+                const control = <FormArray>this.form.get('piers')
+                const newGroup = this.formBuilder.group({
+                    reservationId: pier.reservationId,
+                    description: pier.description
+                })
+                control.push(newGroup)
+                this.piersArray.push(this.form.controls.piers.value)
+            })
+        } else {
+            this.onAddPierTextBox()
         }
     }
 
@@ -311,14 +343,5 @@ export class ReservationFormComponent {
     }
 
     //#endregion
-
-    public addPierTextBox(): void {
-        const control = <FormArray>this.form.get('piers')
-        const newGroup = this.formBuilder.group({
-            pierDescription: ''
-        })
-        control.push(newGroup)
-        this.piersArray.push(this.form.controls.piers.value)
-    }
 
 }

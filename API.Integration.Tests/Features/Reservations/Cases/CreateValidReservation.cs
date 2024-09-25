@@ -17,7 +17,7 @@ namespace Reservations {
                 new TestReservation {
                     BoatTypeId = 1,
                     BoatName = "Test Boat" ,
-                    Length = 14.2M,
+                    Loa = "14.2M",
                     FromDate = "2024-05-01",
                     ToDate = "2024-05-10",
                     Days = 9,

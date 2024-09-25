@@ -4,6 +4,6 @@ export interface PierReadDto {
 
     pierId: number
     reservationId: Guid
-    pier: string
+    description: string
 
 }
