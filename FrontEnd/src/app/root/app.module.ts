@@ -12,6 +12,7 @@ import { PrimeNgModule } from '../shared/modules/primeng.module'
 import { SharedModule } from 'src/app/shared/modules/shared.module'
 // Components
 import { HomeComponent } from '../shared/components/home/home.component'
+import { CardsMenuComponent } from '../shared/components/home/cards-menu.component'
 import { LogoutComponent } from '../shared/components/logout/logout.component'
 import { UserMenuComponent } from '../shared/components/user-menu/user-menu.component'
 // Services
@@ -21,6 +22,7 @@ import { InterceptorService } from '../shared/services/interceptor.service'
     declarations: [
         AppComponent,
         HomeComponent,
+        CardsMenuComponent,
         LogoutComponent,
         UserMenuComponent
     ],

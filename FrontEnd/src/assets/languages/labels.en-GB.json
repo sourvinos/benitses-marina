@@ -57,7 +57,7 @@
             },
             {
                 "id": "headerPiers",
-                "description": "Piers"
+                "description": "Pier(s)"
             },
             {
                 "id": "headerIsConfirmed",
@@ -415,47 +415,23 @@
             },
             {
                 "id": "reservationsSubTitle",
-                "description": "Display the calendar and edit your reservations."
+                "description": "Display and edit your reservations."
             },
             {
-                "id": "availabilityTitle",
-                "description": "Availability"
+                "id": "arrivalsTitle",
+                "description": "Arrivals"
             },
             {
-                "id": "availabilitySubTitle",
-                "description": "Check the available seats for an excursion and make a new reservation."
+                "id": "arrivalsSubTitle",
+                "description": "Show the arrivals for today."
             },
             {
-                "id": "invoicesTitle",
-                "description": "Sales"
+                "id": "departuresTitle",
+                "description": "Departures"
             },
             {
-                "id": "invoicesSubTitle",
-                "description": "Manage the sales of your services and issue invoices."
-            },
-            {
-                "id": "boardingTitle",
-                "description": "Boarding"
-            },
-            {
-                "id": "boardingSubTitle",
-                "description": "Manage the entry of passengers on board."
-            },
-            {
-                "id": "ledgersTitle",
-                "description": "My ledger"
-            },
-            {
-                "id": "ledgersSubTitle",
-                "description": "Display your reservations for a time period."
-            },
-            {
-                "id": "transactionsTitle",
-                "description": "Transactions"
-            },
-            {
-                "id": "transactionsSubTitle",
-                "description": "Receive money from customers and issue receipts."
+                "id": "departuresSubTitle",
+                "description": "Show the departures for today."
             }
         ]
     }

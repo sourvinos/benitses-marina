@@ -71,7 +71,7 @@ export class ReservationFormComponent {
     }
 
     ngAfterViewInit(): void {
-        // this.focusOnField()
+        this.focusOnField()
     }
 
     //#endregion
