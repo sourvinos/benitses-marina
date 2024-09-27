@@ -52,6 +52,10 @@
                 "description": "To"
             },
             {
+                "id": "headerDays",
+                "description": "Days"
+            },
+            {
                 "id": "headerPiers",
                 "description": "Piers"
             },
@@ -81,8 +85,12 @@
         "feature": "reservationForm",
         "labels": [
             {
-                "id": "header",
-                "description": "Reservation"
+                "id": "headerNew",
+                "description": "New reservation"
+            },
+            {
+                "id": "headerEdit",
+                "description": "Edit reservation"
             },
             {
                 "id": "boatName",
@@ -138,11 +146,11 @@
             },
             {
                 "id": "deleteButton",
-                "description": "Διαγραφη"
+                "description": "Delete"
             },
             {
                 "id": "saveButton",
-                "description": "Αποθηκευση"
+                "description": "Save"
             },
             {
                 "id": "post",

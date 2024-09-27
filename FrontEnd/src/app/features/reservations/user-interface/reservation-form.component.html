@@ -1,11 +1,9 @@
 <div id="form-wrapper">
 
-    <span style="color: var(--color-text)">{{ form.value | json }}</span>
-
     <div id="content">
 
         <div id="header">
-            <home-button-and-title [feature]="feature" [featureIcon]="featureIcon" [icon]="icon" [parentUrl]="parentUrl"></home-button-and-title>
+            <home-button-and-title [feature]="feature" [featureIcon]="featureIcon" [header]="getNewOrEditHeader()" [icon]="icon" [parentUrl]="parentUrl"></home-button-and-title>
         </div>
 
         <form [formGroup]="form" id="form">

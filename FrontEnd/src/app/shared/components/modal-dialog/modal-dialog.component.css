@@ -15,7 +15,7 @@
 #dialog-content {
     color: var(--color-text);
     display: flex;
-    font-family: var(--font-family-asty) !important;
+    font-family: var(--font-family-fahkwang) !important;
     font-weight: var(--font-weight-dialog-content) !important;
     justify-content: center;
     line-height: 2rem;

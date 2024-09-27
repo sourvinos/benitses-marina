@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators, AbstractControl, FormArray } from '
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete'
 import { Observable, map, startWith } from 'rxjs'
 // Custom
+import { DateHelperService } from 'src/app/shared/services/date-helper.service'
 import { DexieService } from 'src/app/shared/services/dexie.service'
 import { DialogService } from 'src/app/shared/services/modal-dialog.service'
 import { FormResolved } from 'src/app/shared/classes/form-resolved'
@@ -19,7 +20,6 @@ import { ReservationReadDto } from '../classes/dtos/reservation-read-dto'
 import { ReservationWriteDto } from '../classes/dtos/reservation-write-dto'
 import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 import { ValidationService } from 'src/app/shared/services/validation.service'
-import { PierReadDto } from '../classes/dtos/pier-read-dto'
 
 @Component({
     selector: 'reservation-form',
@@ -56,7 +56,7 @@ export class ReservationFormComponent {
 
     //#endregion
 
-    constructor(private activatedRoute: ActivatedRoute, private dateAdapter: DateAdapter<any>, private dexieService: DexieService, private dialogService: DialogService, private formBuilder: FormBuilder, private helperService: HelperService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private reservationHttpService: ReservationHttpService, private router: Router) { }
+    constructor(private activatedRoute: ActivatedRoute, private dateAdapter: DateAdapter<any>, private dateHelperService: DateHelperService, private dexieService: DexieService, private dialogService: DialogService, private formBuilder: FormBuilder, private helperService: HelperService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private reservationHttpService: ReservationHttpService, private router: Router) { }
 
     //#region lifecycle hooks
 
@@ -83,20 +83,20 @@ export class ReservationFormComponent {
     }
 
     public calculateDays(): void {
-        if (this.form.value.fromDate != '' && this.form.value.toDate != '' && this.form.value.fromDate.isValid() && this.form.value.toDate.isValid()) {
+        if (this.form.value.fromDate != '' && this.form.value.toDate != '') {
             this.form.patchValue({
-                days: this.form.value.toDate.diff(this.form.value.fromDate, 'days')
+                days: this.dateHelperService.calculateDays(this.form.value.fromDate, this.form.value.toDate)
             })
         }
     }
 
     public calculateToDate(): void {
-        if (this.form.value.fromDate != '' && this.form.value.days != '' && this.form.value.fromDate.isValid()) {
-            console.log(this.form.value.fromDate + this.form.value.days)
-
-            // this.form.patchValue({
-            //     toDate: this.form.value.fromDate + this.form.value.days
-            // })
+        if (this.form.value.fromDate != '' && this.form.value.days != '') {
+            const fromDate = new Date(this.form.value.fromDate)
+            const toDate = new Date(fromDate.setDate(fromDate.getDate() + this.form.value.days))
+            this.form.patchValue({
+                toDate: this.dateHelperService.formatDateToIso(toDate)
+            })
         }
     }
 
@@ -114,6 +114,10 @@ export class ReservationFormComponent {
 
     public getLabel(id: string): string {
         return this.messageLabelService.getDescription(this.feature, id)
+    }
+
+    public getNewOrEditHeader(): string {
+        return this.form.value.reservationId == '' ? 'headerNew' : 'headerEdit'
     }
 
     public getRemarksLength(): any {

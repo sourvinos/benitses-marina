@@ -83,6 +83,10 @@ export class DateHelperService {
         return this.formatDateToIso(newDate)
     }
 
+    public calculateDays(from: any, to: any): number {
+        return (new Date(to).valueOf() - new Date(from).valueOf()) / (24 * 3600 * 1000)
+    }
+
     /**
      * Gets a 'YYYY-MM-DD' string and returns a date object formatted as 'Thu Mar 23 2023 00:00:00'
      * @param date a string representing a date
