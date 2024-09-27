@@ -1,5 +1,6 @@
 import { ActivatedRoute, Router } from '@angular/router'
 import { Component } from '@angular/core'
+import { DateAdapter } from '@angular/material/core'
 import { FormBuilder, FormGroup, Validators, AbstractControl, FormArray } from '@angular/forms'
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete'
 import { Observable, map, startWith } from 'rxjs'
@@ -9,6 +10,7 @@ import { DialogService } from 'src/app/shared/services/modal-dialog.service'
 import { FormResolved } from 'src/app/shared/classes/form-resolved'
 import { HelperService } from 'src/app/shared/services/helper.service'
 import { InputTabStopDirective } from 'src/app/shared/directives/input-tabstop.directive'
+import { LocalStorageService } from 'src/app/shared/services/local-storage.service'
 import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
 import { MessageInputHintService } from 'src/app/shared/services/message-input-hint.service'
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
@@ -17,6 +19,7 @@ import { ReservationReadDto } from '../classes/dtos/reservation-read-dto'
 import { ReservationWriteDto } from '../classes/dtos/reservation-write-dto'
 import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 import { ValidationService } from 'src/app/shared/services/validation.service'
+import { PierReadDto } from '../classes/dtos/pier-read-dto'
 
 @Component({
     selector: 'reservation-form',
@@ -53,7 +56,7 @@ export class ReservationFormComponent {
 
     //#endregion
 
-    constructor(private activatedRoute: ActivatedRoute, private reservationHttpService: ReservationHttpService, private dexieService: DexieService, private dialogService: DialogService, private formBuilder: FormBuilder, private helperService: HelperService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private router: Router) { }
+    constructor(private activatedRoute: ActivatedRoute, private dateAdapter: DateAdapter<any>, private dexieService: DexieService, private dialogService: DialogService, private formBuilder: FormBuilder, private helperService: HelperService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private reservationHttpService: ReservationHttpService, private router: Router) { }
 
     //#region lifecycle hooks
 
@@ -64,6 +67,7 @@ export class ReservationFormComponent {
         this.populateFields()
         this.populateDropdowns()
         this.populatePiers()
+        this.setLocale()
     }
 
     ngAfterViewInit(): void {
@@ -76,6 +80,24 @@ export class ReservationFormComponent {
 
     public autocompleteFields(fieldName: any, object: any): any {
         return object ? object[fieldName] : undefined
+    }
+
+    public calculateDays(): void {
+        if (this.form.value.fromDate != '' && this.form.value.toDate != '' && this.form.value.fromDate.isValid() && this.form.value.toDate.isValid()) {
+            this.form.patchValue({
+                days: this.form.value.toDate.diff(this.form.value.fromDate, 'days')
+            })
+        }
+    }
+
+    public calculateToDate(): void {
+        if (this.form.value.fromDate != '' && this.form.value.days != '' && this.form.value.fromDate.isValid()) {
+            console.log(this.form.value.fromDate + this.form.value.days)
+
+            // this.form.patchValue({
+            //     toDate: this.form.value.fromDate + this.form.value.days
+            // })
+        }
     }
 
     public checkForEmptyAutoComplete(event: { target: { value: any } }): void {
@@ -120,6 +142,12 @@ export class ReservationFormComponent {
                 })
             }
         })
+    }
+
+    public onRemovePier(pierIndex: number): void {
+        const piers = <FormArray>this.form.get('piers')
+        piers.removeAt(pierIndex)
+        this.piersArray.splice(pierIndex, 1)
     }
 
     public onSave(): void {
@@ -251,15 +279,19 @@ export class ReservationFormComponent {
 
     private populatePiers(): void {
         if (this.reservation) {
-            this.reservation.piers.forEach(pier => {
-                const control = <FormArray>this.form.get('piers')
-                const newGroup = this.formBuilder.group({
-                    reservationId: pier.reservationId,
-                    description: pier.description
+            if (this.reservation.piers.length >= 1) {
+                this.reservation.piers.forEach(pier => {
+                    const control = <FormArray>this.form.get('piers')
+                    const newGroup = this.formBuilder.group({
+                        reservationId: pier.reservationId,
+                        description: pier.description
+                    })
+                    control.push(newGroup)
+                    this.piersArray.push(this.form.controls.piers.value)
                 })
-                control.push(newGroup)
-                this.piersArray.push(this.form.controls.piers.value)
-            })
+            } else {
+                this.onAddPierTextBox()
+            }
         } else {
             this.onAddPierTextBox()
         }
@@ -282,6 +314,10 @@ export class ReservationFormComponent {
                 this.dialogService.open(this.messageDialogService.filterResponse(errorFromInterceptor), 'error', ['ok'])
             }
         })
+    }
+
+    private setLocale(): void {
+        this.dateAdapter.setLocale(this.localStorageService.getLanguage())
     }
 
     private setRecordId(): void {

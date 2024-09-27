@@ -5,3 +5,12 @@
 .group-input-field:last-child {
     margin-top: auto;
 }
+
+#addPierButton {
+    background-color: var(--color-button-secondary);
+    border-radius: 1rem;
+    color: var(--color-button-text);
+    height: 1.5625rem;
+    margin: 0.9375rem 0 0 0;
+    width: 1.5625rem;
+}

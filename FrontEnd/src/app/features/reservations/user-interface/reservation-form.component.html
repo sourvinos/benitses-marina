@@ -35,21 +35,21 @@
             <div class="group-input-field">
                 <mat-form-field>
                     <mat-label>{{ getLabel('fromDate') }}</mat-label>
-                    <input [inputTabStop]="input" [matDatepicker]="fromDatePicker" dataTabIndex="4" formControlName="fromDate" matInput>
+                    <input (keyup)="calculateDays()" [inputTabStop]="input" [matDatepicker]="fromDatePicker" dataTabIndex="4" formControlName="fromDate" matInput>
                     <mat-datepicker-toggle matIconSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
                     <mat-datepicker #fromDatePicker></mat-datepicker>
                     <mat-error *ngIf="fromDate.hasError('required')">{{ getHint("required") }}</mat-error>
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label>{{ getLabel('toDate') }}</mat-label>
-                    <input [inputTabStop]="input" [matDatepicker]="datePicker" dataTabIndex="5" formControlName="toDate" matInput>
+                    <input (keyup)="calculateDays()" [inputTabStop]="input" [matDatepicker]="datePicker" dataTabIndex="5" formControlName="toDate" matInput>
                     <mat-datepicker-toggle matIconSuffix [for]="datePicker"></mat-datepicker-toggle>
                     <mat-datepicker #datePicker></mat-datepicker>
                     <mat-error *ngIf="toDate.hasError('required')">{{ getHint("required") }}</mat-error>
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label>{{ getLabel('days') }}</mat-label>
-                    <input [inputTabStop]="input" dataTabIndex="6" formControlName="days" matInput type="number">
+                    <input (keyup)="calculateToDate()" [inputTabStop]="input" dataTabIndex="6" formControlName="days" matInput type="number">
                     <mat-error *ngIf="days.hasError('required')">{{ getHint("required") }}</mat-error>
                 </mat-form-field>
             </div>
@@ -60,11 +60,16 @@
                             <mat-form-field>
                                 <mat-label>{{ getLabel("pier") }}</mat-label>
                                 <input [inputTabStop]="input" dataTabIndex="7" formControlName="description" matInput>
+                                <div *ngIf="piersArray.length > 1" matSuffix style="display:flex">
+                                    <button (click)="onRemovePier(i)" mat-icon-button type="button">
+                                        <mat-icon class="input-suffix material-icons-outlined">close</mat-icon>
+                                    </button>
+                                </div>
                             </mat-form-field>
                         </div>
                     </div>
-                    <span (click)="onAddPierTextBox()" class="secondary" mat-flat-button style="margin-top: 0.5625rem;">
-                        <span>{{ getLabel("addPierButton") | uppercase }}</span>
+                    <span (click)="onAddPierTextBox()" id="addPierButton">
+                        <mat-icon class="material-icons-outlined">add</mat-icon>
                     </span>
                 </div>
             </div>
