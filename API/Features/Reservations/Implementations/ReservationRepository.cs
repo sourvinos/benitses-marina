@@ -33,6 +33,26 @@ namespace API.Features.Reservations {
             return mapper.Map<IEnumerable<Reservation>, IEnumerable<ReservationListVM>>(Reservations);
         }
 
+        public async Task<IEnumerable<ReservationListVM>> GetArrivalsAsync(string date) {
+            var Reservations = await context.Reservations
+                .AsNoTracking()
+                .Include(x => x.BoatType)
+                .Include(x => x.Piers)
+                .Where(x => x.FromDate == Convert.ToDateTime(date))
+                .ToListAsync();
+            return mapper.Map<IEnumerable<Reservation>, IEnumerable<ReservationListVM>>(Reservations);
+        }
+
+        public async Task<IEnumerable<ReservationListVM>> GetDeparturesAsync(string date) {
+            var Reservations = await context.Reservations
+                .AsNoTracking()
+                .Include(x => x.BoatType)
+                .Include(x => x.Piers)
+                .Where(x => x.ToDate == Convert.ToDateTime(date))
+                .ToListAsync();
+            return mapper.Map<IEnumerable<Reservation>, IEnumerable<ReservationListVM>>(Reservations);
+        }
+
         public async Task<Reservation> GetByIdAsync(string reservationId, bool includeTables) {
             return includeTables
                 ? await context.Reservations
