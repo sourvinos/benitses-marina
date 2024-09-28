@@ -72,6 +72,14 @@
                 "description": "Paid"
             },
             {
+                "id": "headerIsLongTerm",
+                "description": "Long term"
+            },
+            {
+                "id": "headervalidThruDate",
+                "description": "Valid through"
+            },
+            {
                 "id": "newRecord",
                 "description": "New record"
             },
@@ -129,6 +137,10 @@
                 "description": "Remarks"
             },
             {
+                "id": "validThruDate",
+                "description": "Lease until"
+            },
+            {
                 "id": "isConfirmed",
                 "description": "Confirmed"
             },
@@ -139,6 +151,14 @@
             {
                 "id": "isPaid",
                 "description": "Paid"
+            },
+            {
+                "id": "isLongTerm",
+                "description": "Long term"
+            },
+            {
+                "id": "contractDateEnd",
+                "description": "Valid through"
             },
             {
                 "id": "addPierButton",

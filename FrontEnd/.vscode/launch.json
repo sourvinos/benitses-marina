@@ -6,7 +6,6 @@
         {
             "name": "FrontEnd Debug",
             "type": "chrome",
-            "runtimeExecutable": "C:/Program Files/BraveSoftware/Brave-Browser/Application/brave.exe",
             "request": "launch",
             "preLaunchTask": "npm: start",
             "url": "https://localhost:4200",

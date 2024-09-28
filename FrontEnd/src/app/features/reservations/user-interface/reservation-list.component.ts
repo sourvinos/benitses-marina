@@ -50,6 +50,7 @@ export class ReservationListComponent {
     ngOnInit(): void {
         this.loadRecords().then(() => {
             this.stringifyPiers()
+            this.showOrNotvalidThruDate()
             this.filterTableFromStoredFilters()
             this.setTabTitle()
             this.setSidebarsHeight()
@@ -70,8 +71,8 @@ export class ReservationListComponent {
 
     //#region public methods
 
-    public formatDateToLocale(date: string, showWeekday = false, showYear = false): string {
-        return this.dateHelperService.formatISODateToLocale(date, showWeekday, showYear)
+    public formatDateToLocale(date: string, showWeekday = false, showYear = false, returnEmptyString = false): string {
+        return returnEmptyString && date == '2199-12-31' ? '' : this.dateHelperService.formatISODateToLocale(date, showWeekday, showYear)
     }
 
     public getEmoji(anything: any): string {
@@ -162,6 +163,12 @@ export class ReservationListComponent {
                 return pier.description
             }).join(', ')
             record.joinedPiers = joinedPiers
+        })
+    }
+
+    private showOrNotvalidThruDate(): void {
+        this.records.forEach(record => {
+            record.isLongTerm ? record.validThruDate : record.validThruDate = ''
         })
     }
 

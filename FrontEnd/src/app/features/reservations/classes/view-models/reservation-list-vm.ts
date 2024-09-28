@@ -8,6 +8,8 @@ export interface ReservationListVM {
     fromDate: string
     toDate: string
     days: number
+    isLongTerm: boolean
+    validThruDate: string
     piers: ReservationListPierVM[]
     joinedPiers: string
 

@@ -85,7 +85,8 @@ export class ReservationFormComponent {
     public calculateDays(): void {
         if (this.form.value.fromDate != '' && this.form.value.toDate != '') {
             this.form.patchValue({
-                days: this.dateHelperService.calculateDays(this.form.value.fromDate, this.form.value.toDate)
+                days: this.dateHelperService.calculateDays(this.form.value.fromDate, this.form.value.toDate),
+                validThruDate: this.form.value.toDate
             })
         }
     }
@@ -95,7 +96,8 @@ export class ReservationFormComponent {
             const fromDate = new Date(this.form.value.fromDate)
             const toDate = new Date(fromDate.setDate(fromDate.getDate() + this.form.value.days))
             this.form.patchValue({
-                toDate: this.dateHelperService.formatDateToIso(toDate)
+                toDate: this.dateHelperService.formatDateToIso(toDate),
+                validThruDate: this.dateHelperService.formatDateToIso(toDate)
             })
         }
     }
@@ -189,6 +191,8 @@ export class ReservationFormComponent {
             isConfirmed: this.form.value.isConfirmed,
             isDocked: this.form.value.isDocked,
             isPaid: this.form.value.isPaid,
+            isLongTerm: this.form.value.isLongTerm,
+            validThruDate: this.form.value.validThruDate,
             putAt: this.form.value.putAt
         }
     }
@@ -233,17 +237,13 @@ export class ReservationFormComponent {
             isConfirmed: false,
             isDocked: false,
             isPaid: false,
+            isLongTerm: false,
+            validThruDate: ['', [Validators.required]],
             postAt: [''],
             postUser: [''],
             putAt: [''],
             putUser: ['']
         })
-    }
-
-    private patchNumericFieldsWithZeroIfNullOrEmpty(fieldName: string, digits: number): void {
-        if (this.form.controls[fieldName].value == null || this.form.controls[fieldName].value == '') {
-            this.form.patchValue({ [fieldName]: parseInt('0').toFixed(digits) })
-        }
     }
 
     private populateDropdowns(): void {
@@ -273,6 +273,8 @@ export class ReservationFormComponent {
                 isConfirmed: this.reservation.isConfirmed,
                 isDocked: this.reservation.isDocked,
                 isPaid: this.reservation.isPaid,
+                isLongTerm: this.reservation.isLongTerm,
+                validThruDate: this.reservation.validThruDate,
                 postAt: this.reservation.postAt,
                 postUser: this.reservation.postUser,
                 putAt: this.reservation.putAt,
@@ -364,6 +366,10 @@ export class ReservationFormComponent {
 
     get remarks(): AbstractControl {
         return this.form.get('remarks')
+    }
+
+    get validThruDate(): AbstractControl {
+        return this.form.get('validThruDate')
     }
 
     get postAt(): AbstractControl {

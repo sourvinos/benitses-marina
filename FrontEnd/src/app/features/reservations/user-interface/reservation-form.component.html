@@ -1,5 +1,7 @@
 <div id="form-wrapper">
 
+    {{ form.value | json }}
+
     <div id="content">
 
         <div id="header">
@@ -40,9 +42,9 @@
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label>{{ getLabel('toDate') }}</mat-label>
-                    <input (keyup)="calculateDays()" [inputTabStop]="input" [matDatepicker]="datePicker" dataTabIndex="5" formControlName="toDate" matInput>
-                    <mat-datepicker-toggle matIconSuffix [for]="datePicker"></mat-datepicker-toggle>
-                    <mat-datepicker #datePicker></mat-datepicker>
+                    <input (keyup)="calculateDays()" [inputTabStop]="input" [matDatepicker]="toDatePicker" dataTabIndex="5" formControlName="toDate" matInput>
+                    <mat-datepicker-toggle matIconSuffix [for]="toDatePicker"></mat-datepicker-toggle>
+                    <mat-datepicker #toDatePicker></mat-datepicker>
                     <mat-error *ngIf="toDate.hasError('required')">{{ getHint("required") }}</mat-error>
                 </mat-form-field>
                 <mat-form-field>
@@ -83,6 +85,13 @@
                     <input [inputTabStop]="input" dataTabIndex="9" formControlName="remarks" matInput>
                     <mat-error *ngIf="remarks.hasError('maxlength')">{{ getHint("maxLength", remarks.errors.maxlength.requiredLength) }}</mat-error>
                 </mat-form-field>
+                <mat-form-field>
+                    <mat-label>{{ getLabel('validThruDate') }}</mat-label>
+                    <input [inputTabStop]="input" [matDatepicker]="validThruDatePicker" dataTabIndex="10" formControlName="validThruDate" matInput>
+                    <mat-datepicker-toggle matIconSuffix [for]="validThruDatePicker"></mat-datepicker-toggle>
+                    <mat-datepicker #validThruDatePicker></mat-datepicker>
+                    <mat-error *ngIf="validThruDate.hasError('required')">{{ getHint("required") }}</mat-error>
+                </mat-form-field>
             </div>
             <div class="stacked-checkboxes">
                 <mat-checkbox formControlName="isConfirmed">
@@ -93,6 +102,9 @@
                 </mat-checkbox>
                 <mat-checkbox formControlName="isPaid">
                     <span>{{ getLabel("isPaid") }}</span>
+                </mat-checkbox>
+                <mat-checkbox formControlName="isLongTerm">
+                    <span>{{ getLabel("isLongTerm") }}</span>
                 </mat-checkbox>
             </div>
             <div class="align-bottom">

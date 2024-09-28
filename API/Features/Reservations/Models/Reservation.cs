@@ -22,6 +22,8 @@ namespace API.Features.Reservations {
         public bool IsConfirmed { get; set; }
         public bool IsDocked { get; set; }
         public bool IsPaid { get; set; }
+        public bool IsLongTerm { get; set; }
+        public DateTime ValidThruDate { get; set; }
         // Child tables
         public List<ReservationPier> Piers { get; set; }
         // Navigation

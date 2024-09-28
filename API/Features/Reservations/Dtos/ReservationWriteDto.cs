@@ -21,6 +21,8 @@ namespace API.Features.Reservations {
         public bool IsConfirmed { get; set; }
         public bool IsDocked { get; set; }
         public bool IsPaid { get; set; }
+        public bool IsLongTerm { get; set; }
+        public string ValidThruDate { get; set; }
         public List<ReservationPierWriteDto> Piers { get; set; }
         // Metadata
         public string PostAt { get; set; }
