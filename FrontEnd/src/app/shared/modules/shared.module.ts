@@ -5,8 +5,6 @@ import { PrimeNgModule } from './primeng.module'
 import { RouterModule } from '@angular/router'
 // Custom
 import { AbsPipe } from '../pipes/abs.pipe'
-import { CriteriaFieldsetCheckboxesComponent } from '../components/criteria-fieldset-checkboxes/criteria-fieldset-checkboxes.component'
-import { CriteriaFieldsetRadiosComponent } from '../components/criteria-fieldset-radios/criteria-fieldset-radios.component'
 import { EmojiDirective } from '../directives/emoji.directive'
 import { EmptyPageComponent } from '../components/empty-page/empty-page.component'
 import { HomeButtonAndTitleComponent } from '../components/home-button-and-title/home-button-and-title.component'
@@ -31,8 +29,6 @@ import { SidebarComponent } from '../components/sidebar/sidebar.component'
 @NgModule({
     declarations: [
         AbsPipe,
-        CriteriaFieldsetCheckboxesComponent,
-        CriteriaFieldsetRadiosComponent,
         EmojiDirective,
         EmptyPageComponent,
         HomeButtonAndTitleComponent,
@@ -64,8 +60,6 @@ import { SidebarComponent } from '../components/sidebar/sidebar.component'
     exports: [
         AbsPipe,
         CommonModule,
-        CriteriaFieldsetCheckboxesComponent,
-        CriteriaFieldsetRadiosComponent,
         EmojiDirective,
         EmptyPageComponent,
         FormsModule,

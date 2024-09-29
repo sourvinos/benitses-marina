@@ -4,6 +4,5 @@ export interface TokenRequest {
     password: string
     grantType: string
     refreshToken: string
-    language: string
 
 }

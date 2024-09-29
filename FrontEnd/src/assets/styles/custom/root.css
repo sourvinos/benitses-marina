@@ -1,13 +1,13 @@
 @import url("https://fonts.cdnfonts.com/css/asty-cf-std");
 @import url('https://fonts.cdnfonts.com/css/fira-sans-extra-condensed');
 @import url('https://fonts.cdnfonts.com/css/segoe-ui-4');
-@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Material+Icons+Outlined");
 @import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined");
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Fahkwang&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inconsolata&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Display&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Fahkwang&display=swap');
 
 @import url("../custom/common-colors.css");
 
@@ -18,25 +18,20 @@
 @import url("../custom/skeleton.css");
 @import url("../custom/variables.css");
 @import url("../material/mat-autocomplete.css");
-@import url("../material/mat-button-toggle.css");
 @import url("../material/mat-button.css");
 @import url("../material/mat-card.css");
 @import url("../material/mat-checkbox.css");
 @import url("../material/mat-date-picker.css");
 @import url("../material/mat-date-range-picker.css");
 @import url("../material/mat-divider.css");
-@import url("../material/mat-expansion-panel");
 @import url("../material/mat-input.css");
 @import url("../material/mat-menu.css");
-@import url("../material/mat-radio.css");
 @import url("../material/mat-tab.css");
 @import url("../prime/prime-checkbox.css");
 @import url("../prime/prime-filter-input.css");
-@import url("../prime/prime-radio.css");
 @import url("../prime/prime-table-filters.css");
 @import url("../prime/prime-table-widths.css");
 @import url("../prime/prime-table.css");
-@import url("../prime/prime-tabview.css");
 
 @font-face {
     font-family: Consolas;
@@ -115,18 +110,6 @@ ul {
 .disabled:hover {
     cursor: no-drop;
     pointer-events: all;
-}
-
-.blue {
-    color: var(--color-blue);
-}
-
-.green {
-    color: var(--color-green);
-}
-
-.orange {
-    color: var(--color-orange);
 }
 
 ::-webkit-scrollbar {

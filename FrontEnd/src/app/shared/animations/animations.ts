@@ -13,7 +13,6 @@ export const routeAnimation = trigger('routeAnimation', [
     ])
 ])
 
-// [@fadeIn]="{value:'', params:{time:'1000ms'}}"
 export const fadeIn = trigger('fadeIn', [
     transition('void => *', [
         style({ opacity: 0 }),
@@ -21,7 +20,6 @@ export const fadeIn = trigger('fadeIn', [
     ])
 ])
 
-// [@slideFromLeft]="{value:'', params:{time:'1000ms'}}"
 export const slideFromLeft = trigger('slideFromLeft', [
     transition(':enter', [
         style({ transform: 'translateX(-50px)' }),
@@ -29,7 +27,6 @@ export const slideFromLeft = trigger('slideFromLeft', [
     ])
 ])
 
-// [@slideFromRight]="{value:'', params:{time:'1000ms'}}"
 export const slideFromRight = trigger('slideFromRight', [
     transition(':enter', [
         style({ transform: 'translateX(50px)' }),

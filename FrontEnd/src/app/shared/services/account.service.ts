@@ -63,8 +63,7 @@ export class AccountService extends HttpDataService {
             userId: this.cryptoService.decrypt(this.sessionStorageService.getItem('userId')),
             password: null,
             grantType: 'refresh_token',
-            refreshToken: sessionStorage.getItem('refreshToken'),
-            language: localStorage.getItem('language')
+            refreshToken: sessionStorage.getItem('refreshToken')
         }
         return this.http.post<any>(this.urlToken, token).pipe(
             map(response => {
