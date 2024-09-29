@@ -1,9 +1,9 @@
 .mdc-button .mat-icon.big {
-    font-size: 22px !important;
+    font-size: 1.375rem !important;
     top: -0.125rem;
     left: -0.3125rem;
     width: 1.3125rem !important;
-    height: 22px !important;
+    height: 1.375rem !important;
 }
 
 .mdc-button .mat-icon {
@@ -114,7 +114,7 @@ button.no-right-border-radius {
 button.no-left-border-radius {
     border-radius: 0 0.25rem 0.25rem 0 !important;
     margin-left: -0.5rem !important;
-    padding: 0 0 0 18px !important;
+    padding: 0 0 0 1.125rem !important;
 }
 
 button:disabled {

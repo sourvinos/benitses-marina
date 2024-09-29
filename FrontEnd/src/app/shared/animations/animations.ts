@@ -19,17 +19,3 @@ export const fadeIn = trigger('fadeIn', [
         animate('{{ time }}', style({ opacity: 1 }))
     ])
 ])
-
-export const slideFromLeft = trigger('slideFromLeft', [
-    transition(':enter', [
-        style({ transform: 'translateX(-50px)' }),
-        animate('{{ time }}')
-    ])
-])
-
-export const slideFromRight = trigger('slideFromRight', [
-    transition(':enter', [
-        style({ transform: 'translateX(50px)' }),
-        animate('{{ time }}')
-    ])
-])

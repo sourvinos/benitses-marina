@@ -20,6 +20,7 @@ export class AppComponent {
     //#region variables
 
     public isLoading = true
+    public showFiller = false
 
     //#endregion
 

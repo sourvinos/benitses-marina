@@ -11,10 +11,24 @@
 }
 
 #main {
-    padding: 24px 24px 24px 24px;
+    padding: 1.5rem 1.5rem 1.5rem 1.5rem;
     width: 100%;
+}
+
+#sidebar-toggler {
+    position: absolute;
+    top: 2.25rem;
 }
 
 #outer-content {
     height: 100%;
+}
+
+.mat-drawer-container {
+    overflow: hidden !important;
+    position: static !important;
+}
+
+#sidenav {
+    padding: 1.5rem;
 }
