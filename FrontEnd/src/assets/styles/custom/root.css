@@ -43,6 +43,11 @@
     src: url("/assets/fonts/Consolas.ttf");
 }
 
+@font-face {
+    font-family: Fahkwang;
+    src: url("/assets/fonts/Fahkwang.ttf");
+}
+
 * {
     box-sizing: border-box !important;
 }

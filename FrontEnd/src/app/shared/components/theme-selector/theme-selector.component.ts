@@ -13,7 +13,7 @@ export class ThemeSelectorComponent {
 
     //#region variables
 
-    public defaultTheme = 'light'
+    public defaultTheme = 'dark'
 
     //#endregion
 

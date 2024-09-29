@@ -26,6 +26,7 @@ import { SafeStylePipe } from '../pipes/safe-style.pipe'
 import { TableTotalFilteredRecordsComponent } from '../components/table-total-filtered-records/table-total-filtered-records.component'
 import { ThemeSelectorComponent } from '../components/theme-selector/theme-selector.component'
 import { TrimStringPipe } from './../pipes/string-trim.pipe'
+import { SidebarComponent } from '../components/sidebar/sidebar.component'
 
 @NgModule({
     declarations: [
@@ -47,9 +48,10 @@ import { TrimStringPipe } from './../pipes/string-trim.pipe'
         PrettyPrintPipe,
         ReplaceZeroPipe,
         SafeStylePipe,
+        SidebarComponent,
         TableTotalFilteredRecordsComponent,
         ThemeSelectorComponent,
-        TrimStringPipe,
+        TrimStringPipe
     ],
     imports: [
         CommonModule,
@@ -83,6 +85,7 @@ import { TrimStringPipe } from './../pipes/string-trim.pipe'
         ReplaceZeroPipe,
         RouterModule,
         RouterModule,
+        SidebarComponent,
         TableTotalFilteredRecordsComponent,
         ThemeSelectorComponent,
         TrimStringPipe

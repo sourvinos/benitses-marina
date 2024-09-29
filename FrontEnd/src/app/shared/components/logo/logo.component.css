@@ -8,20 +8,3 @@
 #logo:hover {
     cursor: pointer;
 }
-
-.logo-text {
-    font-family: var(--font-family-logo);
-    font-size: 1.6875rem !important;
-    font-weight: var(--font-weight-logo);
-    transition: color var(--theme-delay) ease-in;
-}
-
-#benitses {
-    color: var(--color-logo-benitses);
-    font-weight: 600;
-    margin: 0 0.5rem 0 0.5rem;
-}
-
-#marina {
-    color: var(--color-logo-marina)
-}

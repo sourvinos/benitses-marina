@@ -6,6 +6,18 @@
     background-color: transparent !important;
 }
 
+#text-logo {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto 1rem auto;
+}
+
+#text-logo h1 {
+    font-size: 24px !important;
+    margin: -2px 0 0 0 !important;
+}
+
 #header {
     justify-content: center !important;
 }
@@ -18,10 +30,6 @@
 
 #columns .mat-mdc-checkbox {
     width: 100%;
-}
-
-#columns button {
-    margin-left: auto;
 }
 
 #forgot-password {
