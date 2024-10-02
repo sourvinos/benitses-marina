@@ -48,7 +48,6 @@ export class AppComponent {
     ngOnInit(): void {
         this.initLoadingSpinner()
         this.setUserSelect()
-        this.setBackgroundImage()
         this.openBroadcastChannel()
         this.isUserConnected()
     }
@@ -72,10 +71,6 @@ export class AppComponent {
 
     private openBroadcastChannel(): void {
         new BroadcastChannel('test').postMessage('open')
-    }
-
-    private setBackgroundImage(): void {
-        document.getElementById('wrapper').style.backgroundImage = 'url(../../assets/images/themes/background.svg'
     }
 
     private setUserSelect(): void {

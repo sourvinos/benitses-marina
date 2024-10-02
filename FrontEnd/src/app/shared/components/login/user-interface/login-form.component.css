@@ -1,26 +1,50 @@
-#form-wrapper {
-    gap: 0 !important;
-}
-
-#content {
-    background-color: transparent !important;
-}
-
-#text-logo {
+:host {
     align-items: center;
     display: flex;
-    flex-direction: column;
-    margin: 0 auto 0 auto;
+    height: 100%;
+    justify-content: center;
 }
 
-#text-logo h1 {
-    font-size: 1.5rem !important;
-    margin: -0.0625rem 0 0 0 !important;
+#left {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin: 0 1rem 0 0;
+}
+
+#right {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin: 0 0 0 1rem;
+    width: 29rem;
+}
+
+#right #form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
 
 #header {
-    justify-content: center !important;
-    margin: 1rem auto 1rem auto !important;
+    margin: 0 auto 2rem auto !important;
+}
+
+#right #form #text-logo {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto 1.25rem auto;
+}
+
+#right #form #text-logo #benitses-marina {
+    color: var(--color-logo-benitses);
+    font-size: 1.5rem !important;
+}
+
+
+#right #form #text-logo #maritime-project {
+    margin: 0.125rem 0 0 0 !important;
 }
 
 #columns {
@@ -52,4 +76,11 @@
 #footer {
     display: flex;
     justify-content: center;
+    margin: 10rem 0 0 0;
+}
+
+@media only screen and (max-width: 1024px) {
+    #left {
+        display: none;
+    }
 }

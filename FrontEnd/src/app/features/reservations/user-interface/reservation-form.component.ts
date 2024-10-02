@@ -181,6 +181,7 @@ export class ReservationFormComponent {
             reservationId: this.form.value.reservationId != '' ? this.form.value.reservationId : null,
             boatTypeId: this.form.value.boatType.id,
             boatName: this.form.value.boatName,
+            customer: this.form.value.customer,
             loa: this.form.value.loa,
             fromDate: this.form.value.fromDate,
             toDate: this.form.value.toDate,
@@ -226,6 +227,7 @@ export class ReservationFormComponent {
         this.form = this.formBuilder.group({
             reservationId: '',
             boatName: ['', [Validators.required]],
+            customer: [''],
             boatType: ['', [Validators.required, ValidationService.RequireAutocomplete]],
             loa: ['', [Validators.required, Validators.min(0), Validators.max(30)]],
             fromDate: ['', [Validators.required]],
@@ -263,6 +265,7 @@ export class ReservationFormComponent {
                 reservationId: this.reservation.reservationId,
                 boatType: { 'id': this.reservation.boatType.id, 'description': this.reservation.boatType.description },
                 boatName: this.reservation.boatName,
+                customer: this.reservation.customer,
                 loa: this.reservation.loa,
                 fromDate: this.reservation.fromDate,
                 toDate: this.reservation.toDate,
@@ -338,6 +341,10 @@ export class ReservationFormComponent {
 
     get boatName(): AbstractControl {
         return this.form.get('boatName')
+    }
+
+    get customer(): AbstractControl {
+        return this.form.get('customer')
     }
 
     get boatType(): AbstractControl {

@@ -58,7 +58,7 @@
                         "styles": [
                             "node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
                             "node_modules/primeng/resources/primeng.min.css",
-                            "node_modules/primeng/resources/themes/md-light-indigo/theme.css",
+                            "node_modules/primeng/resources/themes/lara-light-blue/theme.css",
                             "node_modules/primeng/resources/themes/saga-blue/theme.css",
                             "src/assets/styles/custom/root.css",
                             {
@@ -143,17 +143,17 @@
                 "serve": {
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "options": {
-                        "browserTarget": "FrontEnd:build"
+                        "buildTarget": "FrontEnd:build"
                     },
                     "configurations": {
                         "development": {
-                            "browserTarget": "FrontEnd:build:development"
+                            "buildTarget": "FrontEnd:build:development"
                         },
                         "production-demo": {
-                            "browserTarget": "FrontEnd:build:production-demo"
+                            "buildTarget": "FrontEnd:build:production-demo"
                         },
                         "production-live": {
-                            "browserTarget": "FrontEnd:build:production"
+                            "buildTarget": "FrontEnd:build:production"
                         }
                     },
                     "defaultConfiguration": "development"

@@ -17,7 +17,7 @@
 
 #sidebar-toggler {
     position: absolute;
-    top: 2.25rem;
+    top: 2.5625rem;
 }
 
 #outer-content {
@@ -30,5 +30,7 @@
 }
 
 #sidenav {
+    background-color: var(--color-background);
     padding: 1.5rem;
+    transition: background-color var(--theme-delay);
 }
