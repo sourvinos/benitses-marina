@@ -27,6 +27,7 @@ export class HomeComponent {
     //#region lifecyle hooks
 
     ngOnInit(): void {
+        this.showTopBarLogo()
         this.getAppName()
         this.setWindowTitle()
         this.getNgVersion()
@@ -54,6 +55,11 @@ export class HomeComponent {
     private setWindowTitle(): void {
         this.titleService.setTitle(this.helperService.getApplicationTitle())
     }
+
+    private showTopBarLogo(): void {
+        document.getElementById('logo').style.visibility = 'visible'
+    }
+
 
     //#endregion
 

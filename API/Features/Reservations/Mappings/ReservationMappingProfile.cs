@@ -18,7 +18,8 @@ namespace API.Features.Reservations {
                     Id = pier.Id,
                     ReservationId = pier.ReservationId.ToString(),
                     Description = pier.Description
-                })));
+                })))
+                .ForMember(x => x.IsOverdue, x => x.MapFrom(x => ReservationHelpers.IsOverdue(x.ToDate)));
             // GetById
             CreateMap<Reservation, ReservationReadDto>()
                 .ForMember(x => x.FromDate, x => x.MapFrom(x => DateHelpers.DateToISOString(x.FromDate)))

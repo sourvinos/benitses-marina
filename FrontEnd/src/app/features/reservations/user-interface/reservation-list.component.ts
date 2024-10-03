@@ -81,6 +81,10 @@ export class ReservationListComponent {
             : anything ? this.emojiService.getEmoji('green-box') : this.emojiService.getEmoji('red-box')
     }
 
+    public getWarningEmoji(isOverdue: boolean): string {
+        return isOverdue ? this.emojiService.getEmoji('warning') : ''
+    }
+
     public getLabel(id: string): string {
         return this.messageLabelService.getDescription(this.feature, id)
     }

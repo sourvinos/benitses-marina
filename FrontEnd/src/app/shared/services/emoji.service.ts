@@ -15,7 +15,7 @@ export class EmojiService {
             case 'remarks': return '🔔'
             case 'wildcard': return '⭐'
             case 'yellow-box': return '🟨'
-            case 'notActive': return '☢️ '
+            case 'warning': return '☢️'
             case 'active': return '🟢 '
             case 'ok': return '✔️'
         }

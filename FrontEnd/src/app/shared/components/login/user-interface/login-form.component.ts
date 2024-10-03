@@ -46,6 +46,7 @@ export class LoginFormComponent {
     //#region lifecycle hooks
 
     ngOnInit(): void {
+        this.hideTopBarLogo()
         this.initForm()
         this.clearStoredVariables()
         this.focusOnField()
@@ -59,6 +60,10 @@ export class LoginFormComponent {
 
     public getEmoji(emoji: string): string {
         return this.emojiService.getEmoji(emoji)
+    }
+
+    public getLogo(): string {
+        return '../../../../assets/images/logos/' + 'logo-dark.svg'
     }
 
     public getHint(id: string, minmax = 0): string {
@@ -98,6 +103,10 @@ export class LoginFormComponent {
 
     private goHome(): void {
         this.router.navigate(['/home'])
+    }
+
+    private hideTopBarLogo(): void {
+        document.getElementById('logo').style.visibility = 'hidden'
     }
 
     private initForm(): void {

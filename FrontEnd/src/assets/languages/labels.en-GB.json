@@ -80,8 +80,8 @@
                 "description": "Long term"
             },
             {
-                "id": "headervalidThruDate",
-                "description": "Valid through"
+                "id": "headerIsOverdue",
+                "description": "Overdue"
             },
             {
                 "id": "newRecord",
