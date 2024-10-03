@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using API.Features.Reservations.BoatTypes;
 using API.Infrastructure.Interfaces;
 
 namespace API.Features.Reservations {
@@ -9,8 +8,6 @@ namespace API.Features.Reservations {
 
         // PK
         public Guid ReservationId { get; set; }
-        // FKs
-        public int BoatTypeId { get; set; }
         //  Fields
         public string BoatName { get; set; }
         public string Customer { get; set; }
@@ -24,11 +21,7 @@ namespace API.Features.Reservations {
         public bool IsDocked { get; set; }
         public bool IsPaid { get; set; }
         public bool IsLongTerm { get; set; }
-        public DateTime ValidThruDate { get; set; }
-        // Child tables
         public List<ReservationPier> Piers { get; set; }
-        // Navigation
-        public BoatType BoatType { get; set; }
         // Metadata
         public string PostAt { get; set; }
         public string PostUser { get; set; }

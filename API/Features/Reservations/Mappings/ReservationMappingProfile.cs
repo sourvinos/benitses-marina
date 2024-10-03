@@ -12,8 +12,6 @@ namespace API.Features.Reservations {
             CreateMap<Reservation, ReservationListVM>()
                 .ForMember(x => x.FromDate, x => x.MapFrom(x => DateHelpers.DateToISOString(x.FromDate)))
                 .ForMember(x => x.ToDate, x => x.MapFrom(x => DateHelpers.DateToISOString(x.ToDate)))
-                .ForMember(x => x.ValidThruDate, x => x.MapFrom(x => DateHelpers.DateToISOString(x.ValidThruDate)))
-                .ForMember(x => x.BoatType, x => x.MapFrom(x => new SimpleEntity { Id = x.BoatType.Id, Description = x.BoatType.Description }))
                 .ForMember(x => x.Piers, x => x.MapFrom(x => x.Piers.Select(pier => new ReservationPierVM {
                     Id = pier.Id,
                     ReservationId = pier.ReservationId.ToString(),
@@ -24,8 +22,6 @@ namespace API.Features.Reservations {
             CreateMap<Reservation, ReservationReadDto>()
                 .ForMember(x => x.FromDate, x => x.MapFrom(x => DateHelpers.DateToISOString(x.FromDate)))
                 .ForMember(x => x.ToDate, x => x.MapFrom(x => DateHelpers.DateToISOString(x.ToDate)))
-                .ForMember(x => x.ValidThruDate, x => x.MapFrom(x => DateHelpers.DateToISOString(x.ValidThruDate)))
-                .ForMember(x => x.BoatType, x => x.MapFrom(x => new SimpleEntity { Id = x.BoatType.Id, Description = x.BoatType.Description }))
                 .ForMember(x => x.Piers, x => x.MapFrom(x => x.Piers.Select(pier => new ReservationPierVM {
                     Id = pier.Id,
                     ReservationId = pier.ReservationId.ToString(),

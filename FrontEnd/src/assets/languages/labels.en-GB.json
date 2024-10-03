@@ -113,10 +113,6 @@
                 "description": "Customer"
             },
             {
-                "id": "boatType",
-                "description": "Type"
-            },
-            {
                 "id": "length",
                 "description": "Length"
             },
@@ -143,10 +139,6 @@
             {
                 "id": "remarks",
                 "description": "Remarks"
-            },
-            {
-                "id": "validThruDate",
-                "description": "Lease until"
             },
             {
                 "id": "isConfirmed",

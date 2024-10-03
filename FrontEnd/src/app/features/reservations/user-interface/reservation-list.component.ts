@@ -50,7 +50,6 @@ export class ReservationListComponent {
     ngOnInit(): void {
         this.loadRecords().then(() => {
             this.stringifyPiers()
-            this.showOrNotvalidThruDate()
             this.filterTableFromStoredFilters()
             this.setTabTitle()
             this.setSidebarsHeight()
@@ -167,12 +166,6 @@ export class ReservationListComponent {
                 return pier.description
             }).join(', ')
             record.joinedPiers = joinedPiers
-        })
-    }
-
-    private showOrNotvalidThruDate(): void {
-        this.records.forEach(record => {
-            record.isLongTerm ? record.validThruDate : record.validThruDate = ''
         })
     }
 

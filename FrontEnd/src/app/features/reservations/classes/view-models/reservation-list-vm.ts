@@ -11,7 +11,6 @@ export interface ReservationListVM {
     days: number
     isLongTerm: boolean
     isOverdue: boolean
-    validThruDate: string
     piers: ReservationListPierVM[]
     joinedPiers: string
 

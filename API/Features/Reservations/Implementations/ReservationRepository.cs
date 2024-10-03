@@ -27,7 +27,6 @@ namespace API.Features.Reservations {
         public async Task<IEnumerable<ReservationListVM>> GetAsync() {
             var Reservations = await context.Reservations
                 .AsNoTracking()
-                .Include(x => x.BoatType)
                 .Include(x => x.Piers)
                 .ToListAsync();
             return mapper.Map<IEnumerable<Reservation>, IEnumerable<ReservationListVM>>(Reservations);
@@ -36,7 +35,6 @@ namespace API.Features.Reservations {
         public async Task<IEnumerable<ReservationListVM>> GetArrivalsAsync(string date) {
             var Reservations = await context.Reservations
                 .AsNoTracking()
-                .Include(x => x.BoatType)
                 .Include(x => x.Piers)
                 .Where(x => x.FromDate == Convert.ToDateTime(date))
                 .ToListAsync();
@@ -46,7 +44,6 @@ namespace API.Features.Reservations {
         public async Task<IEnumerable<ReservationListVM>> GetDeparturesAsync(string date) {
             var Reservations = await context.Reservations
                 .AsNoTracking()
-                .Include(x => x.BoatType)
                 .Include(x => x.Piers)
                 .Where(x => x.ToDate == Convert.ToDateTime(date))
                 .ToListAsync();
@@ -57,7 +54,6 @@ namespace API.Features.Reservations {
             return includeTables
                 ? await context.Reservations
                     .AsNoTracking()
-                    .Include(x => x.BoatType)
                     .Include(x => x.Piers)
                     .Where(x => x.ReservationId.ToString() == reservationId)
                     .SingleOrDefaultAsync()

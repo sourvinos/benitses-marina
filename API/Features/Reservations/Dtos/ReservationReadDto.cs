@@ -9,8 +9,6 @@ namespace API.Features.Reservations {
 
         // PK
         public Guid ReservationId { get; set; }
-        // FKs
-        public int BoatTypeId { get; set; }
         // Fields
         public string BoatName { get; set; }
         public string Customer { get; set; }
@@ -24,10 +22,7 @@ namespace API.Features.Reservations {
         public bool IsDocked { get; set; }
         public bool IsPaid { get; set; }
         public bool IsLongTerm { get; set; }
-        public string ValidThruDate { get; set; }
         public List<ReservationPierVM> Piers { get; set; }
-        // Navigation
-        public SimpleEntity BoatType { get; set; }
         // Metadata
         public string PostAt { get; set; }
         public string PostUser { get; set; }

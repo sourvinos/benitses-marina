@@ -9,7 +9,6 @@ export interface ReservationReadDto extends Metadata {
     reservationId: Guid
     boatName: string
     customer: string
-    boatType: SimpleEntity
     loa: string
     fromDate: string
     toDate: string
@@ -20,7 +19,6 @@ export interface ReservationReadDto extends Metadata {
     isDocked: boolean
     isPaid: boolean
     isLongTerm: boolean
-    validThruDate: string
     piers: PierReadDto[]
     postAt: string
     postUser: string

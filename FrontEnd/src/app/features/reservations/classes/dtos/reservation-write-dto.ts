@@ -4,7 +4,6 @@ import { PierWriteDto } from './pier-write-dto'
 export interface ReservationWriteDto {
 
     reservationId: Guid
-    boatTypeId: number
     boatName: string
     customer: string
     loa: string
@@ -17,7 +16,6 @@ export interface ReservationWriteDto {
     isDocked: boolean
     isPaid: boolean
     isLongTerm: boolean
-    validThruDate: string
     piers: PierWriteDto[]
     putAt: string
 

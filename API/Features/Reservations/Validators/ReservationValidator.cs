@@ -6,7 +6,6 @@ namespace API.Features.Reservations {
     public class ReservationValidator : AbstractValidator<ReservationWriteDto> {
 
         public ReservationValidator() {
-            RuleFor(x => x.BoatTypeId).NotEmpty();
             RuleFor(x => x.BoatName).NotEmpty().MaximumLength(128);
             RuleFor(x => x.Loa).NotEmpty();
             RuleFor(x => x.FromDate).Must(DateHelpers.BeCorrectFormat);

@@ -3,7 +3,7 @@ import { Component } from '@angular/core'
 import { DateAdapter } from '@angular/material/core'
 import { FormBuilder, FormGroup, Validators, AbstractControl, FormArray } from '@angular/forms'
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete'
-import { Observable, map, startWith } from 'rxjs'
+import { map, startWith } from 'rxjs'
 // Custom
 import { DateHelperService } from 'src/app/shared/services/date-helper.service'
 import { DexieService } from 'src/app/shared/services/dexie.service'
@@ -18,8 +18,6 @@ import { MessageLabelService } from 'src/app/shared/services/message-label.servi
 import { ReservationHttpService } from '../classes/services/reservation-http.service'
 import { ReservationReadDto } from '../classes/dtos/reservation-read-dto'
 import { ReservationWriteDto } from '../classes/dtos/reservation-write-dto'
-import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
-import { ValidationService } from 'src/app/shared/services/validation.service'
 
 @Component({
     selector: 'reservation-form',
@@ -46,7 +44,6 @@ export class ReservationFormComponent {
     //#region autocompletes
 
     public isAutoCompleteDisabled = true
-    public dropdownBoatTypes: Observable<SimpleEntity[]>
 
     //#endregion
 
@@ -65,7 +62,6 @@ export class ReservationFormComponent {
         this.setRecordId()
         this.getRecord()
         this.populateFields()
-        this.populateDropdowns()
         this.populatePiers()
         this.setLocale()
     }
@@ -85,8 +81,7 @@ export class ReservationFormComponent {
     public calculateDays(): void {
         if (this.form.value.fromDate != '' && this.form.value.toDate != '') {
             this.form.patchValue({
-                days: this.dateHelperService.calculateDays(this.form.value.fromDate, this.form.value.toDate),
-                validThruDate: this.form.value.toDate
+                days: this.dateHelperService.calculateDays(this.form.value.fromDate, this.form.value.toDate)
             })
         }
     }
@@ -96,8 +91,7 @@ export class ReservationFormComponent {
             const fromDate = new Date(this.form.value.fromDate)
             const toDate = new Date(fromDate.setDate(fromDate.getDate() + this.form.value.days))
             this.form.patchValue({
-                toDate: this.dateHelperService.formatDateToIso(toDate),
-                validThruDate: this.dateHelperService.formatDateToIso(toDate)
+                toDate: this.dateHelperService.formatDateToIso(toDate)
             })
         }
     }
@@ -179,7 +173,6 @@ export class ReservationFormComponent {
     private flattenForm(): ReservationWriteDto {
         return {
             reservationId: this.form.value.reservationId != '' ? this.form.value.reservationId : null,
-            boatTypeId: this.form.value.boatType.id,
             boatName: this.form.value.boatName,
             customer: this.form.value.customer,
             loa: this.form.value.loa,
@@ -193,7 +186,6 @@ export class ReservationFormComponent {
             isDocked: this.form.value.isDocked,
             isPaid: this.form.value.isPaid,
             isLongTerm: this.form.value.isLongTerm,
-            validThruDate: this.form.value.validThruDate,
             putAt: this.form.value.putAt
         }
     }
@@ -228,7 +220,6 @@ export class ReservationFormComponent {
             reservationId: '',
             boatName: ['', [Validators.required]],
             customer: [''],
-            boatType: ['', [Validators.required, ValidationService.RequireAutocomplete]],
             loa: ['', [Validators.required, Validators.min(0), Validators.max(30)]],
             fromDate: ['', [Validators.required]],
             toDate: ['', [Validators.required]],
@@ -240,16 +231,11 @@ export class ReservationFormComponent {
             isDocked: false,
             isPaid: false,
             isLongTerm: false,
-            validThruDate: ['', [Validators.required]],
             postAt: [''],
             postUser: [''],
             putAt: [''],
             putUser: ['']
         })
-    }
-
-    private populateDropdowns(): void {
-        this.populateDropdownFromDexieDB('boatTypes', 'dropdownBoatTypes', 'boatType', 'description', 'description')
     }
 
     private populateDropdownFromDexieDB(dexieTable: string, filteredTable: string, formField: string, modelProperty: string, orderBy: string): void {
@@ -263,7 +249,6 @@ export class ReservationFormComponent {
         if (this.reservation != undefined) {
             this.form.setValue({
                 reservationId: this.reservation.reservationId,
-                boatType: { 'id': this.reservation.boatType.id, 'description': this.reservation.boatType.description },
                 boatName: this.reservation.boatName,
                 customer: this.reservation.customer,
                 loa: this.reservation.loa,
@@ -277,7 +262,6 @@ export class ReservationFormComponent {
                 isDocked: this.reservation.isDocked,
                 isPaid: this.reservation.isPaid,
                 isLongTerm: this.reservation.isLongTerm,
-                validThruDate: this.reservation.validThruDate,
                 postAt: this.reservation.postAt,
                 postUser: this.reservation.postUser,
                 putAt: this.reservation.putAt,
@@ -347,10 +331,6 @@ export class ReservationFormComponent {
         return this.form.get('customer')
     }
 
-    get boatType(): AbstractControl {
-        return this.form.get('boatType')
-    }
-
     get loa(): AbstractControl {
         return this.form.get('loa')
     }
@@ -373,10 +353,6 @@ export class ReservationFormComponent {
 
     get remarks(): AbstractControl {
         return this.form.get('remarks')
-    }
-
-    get validThruDate(): AbstractControl {
-        return this.form.get('validThruDate')
     }
 
     get postAt(): AbstractControl {

@@ -9,8 +9,7 @@ export class DexieService extends Dexie {
     constructor() {
         super('BenitsesMarinaDB')
         this.version(1).stores({
-            piers: 'id, description',
-            boatTypes: 'id, description',
+            piers: 'id, description'
         })
         this.open()
     }

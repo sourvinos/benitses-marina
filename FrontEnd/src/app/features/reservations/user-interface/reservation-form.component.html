@@ -14,44 +14,33 @@
                     <mat-error *ngIf="boatName.hasError('required')">{{ getHint("required") }}</mat-error>
                 </mat-form-field>
                 <mat-form-field>
-                    <mat-label>{{ getLabel('boatType') }}</mat-label>
-                    <input #inputAutoComplete #triggerBoatType="matAutocompleteTrigger" (keydown)="enableOrDisableAutoComplete($event)" (keyup)="checkForEmptyAutoComplete($event)" [inputTabStop]="input" [matAutocompleteDisabled]="isAutoCompleteDisabled" [matAutocomplete]="boatTypes" dataTabIndex="2" formControlName="boatType" matInput>
-                    <div matSuffix style="display:flex">
-                        <button (click)="openOrCloseAutoComplete(triggerBoatType, 'boatType')" mat-icon-button type="button">
-                            <mat-icon class="input-suffix material-icons-outlined">expand_more</mat-icon>
-                        </button>
-                    </div>
-                    <mat-error *ngIf="boatType.hasError('required')">{{ getHint("required") }}</mat-error>
-                    <mat-error *ngIf="!boatType.hasError('required') && boatType.hasError('incorrect')">{{ getHint("invalid") }}</mat-error>
-                </mat-form-field>
-                <mat-form-field>
                     <mat-label>{{ getLabel('customer') }}</mat-label>
-                    <input [inputTabStop]="input" dataTabIndex="3" formControlName="customer" matInput>
+                    <input [inputTabStop]="input" dataTabIndex="2" formControlName="customer" matInput>
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label>{{ getLabel('length') }}</mat-label>
-                    <input [inputTabStop]="input" dataTabIndex="4" formControlName="loa" matInput>
+                    <input [inputTabStop]="input" dataTabIndex="3" formControlName="loa" matInput>
                     <mat-error *ngIf="loa.hasError('required')">{{ getHint("required") }}</mat-error>
                 </mat-form-field>
             </div>
             <div class="group-input-field">
                 <mat-form-field>
                     <mat-label>{{ getLabel('fromDate') }}</mat-label>
-                    <input (keyup)="calculateDays()" [inputTabStop]="input" [matDatepicker]="fromDatePicker" dataTabIndex="5" formControlName="fromDate" matInput>
+                    <input (keyup)="calculateDays()" [inputTabStop]="input" [matDatepicker]="fromDatePicker" dataTabIndex="4" formControlName="fromDate" matInput>
                     <mat-datepicker-toggle matIconSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
                     <mat-datepicker #fromDatePicker></mat-datepicker>
                     <mat-error *ngIf="fromDate.hasError('required')">{{ getHint("required") }}</mat-error>
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label>{{ getLabel('toDate') }}</mat-label>
-                    <input (keyup)="calculateDays()" [inputTabStop]="input" [matDatepicker]="toDatePicker" dataTabIndex="6" formControlName="toDate" matInput>
+                    <input (keyup)="calculateDays()" [inputTabStop]="input" [matDatepicker]="toDatePicker" dataTabIndex="5" formControlName="toDate" matInput>
                     <mat-datepicker-toggle matIconSuffix [for]="toDatePicker"></mat-datepicker-toggle>
                     <mat-datepicker #toDatePicker></mat-datepicker>
                     <mat-error *ngIf="toDate.hasError('required')">{{ getHint("required") }}</mat-error>
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label>{{ getLabel('days') }}</mat-label>
-                    <input (keyup)="calculateToDate()" [inputTabStop]="input" dataTabIndex="7" formControlName="days" matInput type="number">
+                    <input (keyup)="calculateToDate()" [inputTabStop]="input" dataTabIndex="6" formControlName="days" matInput type="number">
                     <mat-error *ngIf="days.hasError('required')">{{ getHint("required") }}</mat-error>
                 </mat-form-field>
             </div>
@@ -61,7 +50,7 @@
                         <div [formGroupName]="i">
                             <mat-form-field>
                                 <mat-label>{{ getLabel("pier") }}</mat-label>
-                                <input [inputTabStop]="input" dataTabIndex="8" formControlName="description" matInput>
+                                <input [inputTabStop]="input" dataTabIndex="7" formControlName="description" matInput>
                                 <div *ngIf="piersArray.length > 1" matSuffix style="display:flex">
                                     <button (click)="onRemovePier(i)" mat-icon-button type="button">
                                         <mat-icon class="input-suffix material-icons-outlined">close</mat-icon>
@@ -78,21 +67,14 @@
             <div class="group-input-field">
                 <mat-form-field>
                     <mat-label>{{ getLabel('email') }}</mat-label>
-                    <input [inputTabStop]="input" dataTabIndex="9" formControlName="email" matInput type="email">
+                    <input [inputTabStop]="input" dataTabIndex="8" formControlName="email" matInput type="email">
                     <mat-error *ngIf="email.hasError('maxlength')">{{ getHint("maxLength", email.errors.maxlength.requiredLength) }}</mat-error>
                     <mat-error *ngIf="!email.hasError('maxlength') && email.hasError('email')">{{ getHint("invalid") }}</mat-error>
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label>{{ getLabel("remarks") }}</mat-label>
-                    <input [inputTabStop]="input" dataTabIndex="10" formControlName="remarks" matInput>
+                    <input [inputTabStop]="input" dataTabIndex="9" formControlName="remarks" matInput>
                     <mat-error *ngIf="remarks.hasError('maxlength')">{{ getHint("maxLength", remarks.errors.maxlength.requiredLength) }}</mat-error>
-                </mat-form-field>
-                <mat-form-field>
-                    <mat-label>{{ getLabel('validThruDate') }}</mat-label>
-                    <input [inputTabStop]="input" [matDatepicker]="validThruDatePicker" dataTabIndex="11" formControlName="validThruDate" matInput>
-                    <mat-datepicker-toggle matIconSuffix [for]="validThruDatePicker"></mat-datepicker-toggle>
-                    <mat-datepicker #validThruDatePicker></mat-datepicker>
-                    <mat-error *ngIf="validThruDate.hasError('required')">{{ getHint("required") }}</mat-error>
                 </mat-form-field>
             </div>
             <div class="stacked-checkboxes">
@@ -130,9 +112,3 @@
     </div>
 
 </div>
-
-<mat-autocomplete #boatTypes="matAutocomplete" [displayWith]="autocompleteFields.bind(this, 'description')" autoActiveFirstOption>
-    <mat-option *ngFor="let option of dropdownBoatTypes | async" [value]="option">
-        {{ option.description }}
-    </mat-option>
-</mat-autocomplete>

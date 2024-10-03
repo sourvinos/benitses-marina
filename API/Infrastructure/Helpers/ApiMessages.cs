@@ -41,7 +41,6 @@ namespace API.Infrastructure.Helpers {
         public static string InvalidIssueDate() { return "The issue date must be today's date."; }
         public static string InvalidBank() { return "The bank doesn't exist or is inactive."; }
         public static string VatNumberIsDuplicate() { return "OK, but the VAT number already exists."; }
-        public static string InvalidBoatType() { return "The boatType doesn't exist or is inactive."; }
         public static string InvalidDocumentType() { return "The document type doesn't exist or is inactive."; }
         public static string PriceFieldsMustBeZeroOrGreater() { return "All amounts must be zero or greater."; }
         public static string InvalidDatePeriod() { return "The date period is not correct."; }
