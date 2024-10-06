@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using API.Infrastructure.Classes;
 using API.Infrastructure.Interfaces;
 
 namespace API.Features.Reservations {
@@ -20,8 +21,9 @@ namespace API.Features.Reservations {
         public bool IsConfirmed { get; set; }
         public bool IsDocked { get; set; }
         public bool IsLongTerm { get; set; }
-        public int PaymentStatus { get; set; }
         public List<ReservationPierVM> Piers { get; set; }
+        // Navigation
+        public SimpleEntity PaymentStatus { get; set; }
         // Metadata
         public string PostAt { get; set; }
         public string PostUser { get; set; }

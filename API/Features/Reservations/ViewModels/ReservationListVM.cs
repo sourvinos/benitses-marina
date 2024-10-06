@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using API.Infrastructure.Classes;
 
 namespace API.Features.Reservations {
 
@@ -14,11 +15,11 @@ namespace API.Features.Reservations {
         public int Days { get; set; }
         public bool IsConfirmed { get; set; }
         public bool IsDocked { get; set; }
-        public int PaymentStatus { get; set; }
         public string PaymentStatusDescription { get; set; }
         public bool IsLongTerm { get; set; }
         public bool IsOverdue { get; set; }
         public List<ReservationPierVM> Piers { get; set; }
+        public SimpleEntity PaymentStatus { get; set; }
 
     }
 

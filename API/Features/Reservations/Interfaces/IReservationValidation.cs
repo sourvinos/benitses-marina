@@ -1,8 +1,10 @@
+using System.Threading.Tasks;
+
 namespace API.Features.Reservations {
 
     public interface IReservationValidation {
 
-        int IsValid(Reservation x, ReservationWriteDto reservation);
+        Task<int> IsValidAsync(Reservation x, ReservationWriteDto reservation);
 
     }
 

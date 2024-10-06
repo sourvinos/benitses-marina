@@ -65,9 +65,9 @@ namespace API.Features.Reservations {
         [HttpPost]
         [Authorize(Roles = "admin")]
         [ServiceFilter(typeof(ModelValidationAttribute))]
-        public Response Post([FromBody] ReservationWriteDto reservation) {
-            var z = reservationValidation.IsValid(null, reservation);
-            if (z == 200) {
+        public async Task<Response> PostAsync([FromBody] ReservationWriteDto reservation) {
+            var z = reservationValidation.IsValidAsync(null, reservation);
+            if (await z == 200) {
                 var x = reservationRepo.Create(mapper.Map<ReservationWriteDto, Reservation>((ReservationWriteDto)reservationRepo.AttachMetadataToPostDto(reservation)));
                 return new Response {
                     Code = 200,
@@ -77,7 +77,7 @@ namespace API.Features.Reservations {
                 };
             } else {
                 throw new CustomException() {
-                    ResponseCode = z
+                    ResponseCode = await z
                 };
             }
         }
@@ -88,8 +88,8 @@ namespace API.Features.Reservations {
         public async Task<Response> PutAsync([FromBody] ReservationWriteDto reservation) {
             var x = await reservationRepo.GetByIdAsync(reservation.ReservationId.ToString(), false);
             if (x != null) {
-                var z = reservationValidation.IsValid(x, reservation);
-                if (z == 200) {
+                var z = reservationValidation.IsValidAsync(x, reservation);
+                if (await z == 200) {
                     reservationRepo.Update(reservation.ReservationId, mapper.Map<ReservationWriteDto, Reservation>((ReservationWriteDto)reservationRepo.AttachMetadataToPutDto(x, reservation)));
                     return new Response {
                         Code = 200,
@@ -99,7 +99,7 @@ namespace API.Features.Reservations {
                     };
                 } else {
                     throw new CustomException() {
-                        ResponseCode = z
+                        ResponseCode = await z
                     };
                 }
             } else {

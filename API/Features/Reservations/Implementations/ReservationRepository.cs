@@ -28,6 +28,7 @@ namespace API.Features.Reservations {
             var Reservations = await context.Reservations
                 .AsNoTracking()
                 .Include(x => x.Piers)
+                .Include(x => x.PaymentStatus)
                 .ToListAsync();
             return mapper.Map<IEnumerable<Reservation>, IEnumerable<ReservationListVM>>(Reservations);
         }
@@ -55,6 +56,7 @@ namespace API.Features.Reservations {
                 ? await context.Reservations
                     .AsNoTracking()
                     .Include(x => x.Piers)
+                    .Include(x => x.PaymentStatus)
                     .Where(x => x.ReservationId.ToString() == reservationId)
                     .SingleOrDefaultAsync()
                : await context.Reservations

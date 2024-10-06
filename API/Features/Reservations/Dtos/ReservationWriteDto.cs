@@ -8,6 +8,8 @@ namespace API.Features.Reservations {
 
         // PK
         public Guid ReservationId { get; set; }
+        // FKs
+        public int PaymentStatusId { get; set; }
         //  Fields
         public string BoatName { get; set; }
         public string Customer { get; set; }
@@ -20,7 +22,6 @@ namespace API.Features.Reservations {
         public bool IsConfirmed { get; set; }
         public bool IsDocked { get; set; }
         public bool IsLongTerm { get; set; }
-        public int PaymentStatus { get; set; }
         public List<ReservationPierWriteDto> Piers { get; set; }
         // Metadata
         public string PostAt { get; set; }
