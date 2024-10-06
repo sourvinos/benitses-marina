@@ -16,7 +16,7 @@ import { SessionStorageService } from 'src/app/shared/services/session-storage.s
 @Component({
     selector: 'reservation-list',
     templateUrl: './reservation-list.component.html',
-    styleUrls: ['../../../../assets/styles/custom/lists.css']
+    styleUrls: ['../../../../assets/styles/custom/lists.css', 'reservation-list.component.css']
 })
 
 export class ReservationListComponent {
@@ -86,6 +86,21 @@ export class ReservationListComponent {
 
     public getLabel(id: string): string {
         return this.messageLabelService.getDescription(this.feature, id)
+    }
+
+    public getOverdueDescription(isOverdue: boolean): string {
+        return isOverdue ? 'YES' : ''
+    }
+
+    public getPaymentDescriptionColor(paymentStatusDescription: string): string {
+        switch (paymentStatusDescription) {
+            case 'Pending':
+                return 'red'
+            case 'Partial':
+                return 'yellow'
+            case 'Full':
+                return 'green'
+        }
     }
 
     public onEditRecord(reservationId: string): void {

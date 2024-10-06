@@ -1,5 +1,4 @@
 using System.Linq;
-using API.Infrastructure.Classes;
 using API.Infrastructure.Helpers;
 using AutoMapper;
 
@@ -17,6 +16,7 @@ namespace API.Features.Reservations {
                     ReservationId = pier.ReservationId.ToString(),
                     Description = pier.Description
                 })))
+                .ForMember(x => x.PaymentStatusDescription, x => x.MapFrom(x => ReservationHelpers.DeterminePaymentStatus(x.PaymentStatus)))
                 .ForMember(x => x.IsOverdue, x => x.MapFrom(x => ReservationHelpers.IsOverdue(x.ToDate)));
             // GetById
             CreateMap<Reservation, ReservationReadDto>()

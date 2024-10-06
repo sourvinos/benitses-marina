@@ -72,12 +72,8 @@
                 "description": "Docked"
             },
             {
-                "id": "headerIsPartiallyPaid",
-                "description": "💰 Partially"
-            },
-            {
-                "id": "headerIsFullyPaid",
-                "description": "💰 Fully"
+                "id": "headerPaymentStatus",
+                "description": "Payment"
             },
             {
                 "id": "headerIsLongTerm",
