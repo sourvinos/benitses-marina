@@ -63,7 +63,11 @@ export class LoginFormComponent {
     }
 
     public getLogo(): string {
-        return '../../../../assets/images/logos/' + 'logo-dark.svg'
+        return '../../../../assets/images/logos/' + 'login-logo.svg'
+    }
+
+    public getLoginTextLogo(): string {
+        return '../../../../assets/images/logos/' + 'login-text-logo.svg'
     }
 
     public getHint(id: string, minmax = 0): string {

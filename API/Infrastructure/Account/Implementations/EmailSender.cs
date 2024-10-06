@@ -19,7 +19,7 @@ namespace API.Infrastructure.Account {
 
         public async Task SendForgotPasswordEmail(string username, string displayname, string email, string returnUrl, string subject) {
             using var smtp = new SmtpClient();
-            smtp.Connect(emailSettings.SmtpClient, emailSettings.BoatType);
+            smtp.Connect(emailSettings.SmtpClient, emailSettings.Port);
             smtp.Authenticate(emailSettings.Username, emailSettings.Password);
             await smtp.SendAsync(await BuildForgotPasswordMessage(username, displayname, email, subject, returnUrl));
             smtp.Disconnect(true);

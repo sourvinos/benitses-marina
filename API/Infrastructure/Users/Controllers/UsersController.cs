@@ -109,7 +109,7 @@ namespace API.Infrastructure.Users {
                 Email = model.Email,
                 Username = model.Username,
                 Displayname = model.Displayname,
-                Url = baseUrl,
+                Url = Url.Content($"{baseUrl}/#/forgotPassword"),
                 Subject = "Your new account is ready!",
                 CompanyPhones = "",
                 LogoTextBase64 = SetLogoTextAsBackground()

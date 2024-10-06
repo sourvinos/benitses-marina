@@ -19,7 +19,7 @@ namespace API.Infrastructure.Users {
 
         public async Task EmailUserDetails(UserDetailsForEmailVM model) {
             using var smtp = new SmtpClient();
-            smtp.Connect(emailSettings.SmtpClient, emailSettings.BoatType);
+            smtp.Connect(emailSettings.SmtpClient, emailSettings.Port);
             smtp.Authenticate(emailSettings.Username, emailSettings.Password);
             await smtp.SendAsync(await BuildMessage(model));
             smtp.Disconnect(true);

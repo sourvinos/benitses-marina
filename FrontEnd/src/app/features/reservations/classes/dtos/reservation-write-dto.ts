@@ -14,7 +14,8 @@ export interface ReservationWriteDto {
     remarks: string
     isConfirmed: boolean
     isDocked: boolean
-    isPaid: boolean
+    isPartiallyPaid: boolean
+    isFullyPaid: boolean
     isLongTerm: boolean
     piers: PierWriteDto[]
     putAt: string
