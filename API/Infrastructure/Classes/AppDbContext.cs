@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using API.Features.Reservations;
+using API.Features.Reservations.PaymentStatuses;
 
 namespace API.Infrastructure.Classes {
 
@@ -15,6 +16,7 @@ namespace API.Infrastructure.Classes {
         public DbSet<Pier> Piers { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<ReservationPier> ReservationPiers { get; set; }
+        public DbSet<PaymentStatus> PaymentStatuses { get; set; }
         public DbSet<Token> Tokens { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
@@ -26,6 +28,7 @@ namespace API.Infrastructure.Classes {
 
         private static void ApplyConfigurations(ModelBuilder modelBuilder) {
             modelBuilder.ApplyConfiguration(new PiersConfig());
+            modelBuilder.ApplyConfiguration(new PaymentStatusesConfig());
             modelBuilder.ApplyConfiguration(new ReservationPiersConfig());
             modelBuilder.ApplyConfiguration(new ReservationsConfig());
             modelBuilder.ApplyConfiguration(new UsersConfig());
