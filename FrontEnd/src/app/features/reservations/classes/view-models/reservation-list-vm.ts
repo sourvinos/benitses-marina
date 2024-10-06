@@ -1,4 +1,5 @@
 import { ReservationListPierVM } from './reservation-list-pier-vm'
+import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 
 export interface ReservationListVM {
 
@@ -11,7 +12,7 @@ export interface ReservationListVM {
     days: number
     isConfirmed: boolean
     isDocked: boolean
-    paymentStatusDescription: string
+    paymentStatus: SimpleEntity
     isLongTerm: boolean
     isOverdue: boolean
     piers: ReservationListPierVM[]

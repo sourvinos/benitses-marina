@@ -12,6 +12,7 @@ import { MessageDialogService } from 'src/app/shared/services/message-dialog.ser
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
 import { ReservationListVM } from '../classes/view-models/reservation-list-vm'
 import { SessionStorageService } from 'src/app/shared/services/session-storage.service'
+import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 
 @Component({
     selector: 'reservation-list',
@@ -21,7 +22,7 @@ import { SessionStorageService } from 'src/app/shared/services/session-storage.s
 
 export class ReservationListComponent {
 
-    //#region common
+    //#region variables
 
     @ViewChild('table') table: Table
 
@@ -33,6 +34,8 @@ export class ReservationListComponent {
     public parentUrl = '/home'
     public records: ReservationListVM[] = []
     public recordsFilteredCount = 0
+
+    public distinctPaymentStatuses: SimpleEntity[] = []
 
     //#endregion
 
@@ -49,6 +52,7 @@ export class ReservationListComponent {
 
     ngOnInit(): void {
         this.loadRecords().then(() => {
+            this.populateDropdownFilters()
             this.stringifyPiers()
             this.filterTableFromStoredFilters()
             this.setTabTitle()
@@ -94,11 +98,11 @@ export class ReservationListComponent {
 
     public getPaymentDescriptionColor(paymentStatusDescription: string): string {
         switch (paymentStatusDescription) {
-            case 'Pending':
+            case 'NONE':
                 return 'red'
-            case 'Partial':
+            case 'PARTIAL':
                 return 'yellow'
-            case 'Full':
+            case 'FULL':
                 return 'green'
         }
     }
@@ -201,6 +205,10 @@ export class ReservationListComponent {
 
     private navigateToRecord(id: any): void {
         this.router.navigate([this.url, id])
+    }
+
+    private populateDropdownFilters(): void {
+        this.distinctPaymentStatuses = this.helperService.getDistinctRecords(this.records, 'paymentStatus', 'description')
     }
 
     private scrollToSavedPosition(): void {
