@@ -17,8 +17,7 @@ export interface ReservationReadDto extends Metadata {
     remarks: string
     isConfirmed: boolean
     isDocked: boolean
-    isPartiallyPaid: boolean
-    isFullyPaid: boolean
+    paymentStatus: SimpleEntity
     isLongTerm: boolean
     piers: PierReadDto[]
     postAt: string

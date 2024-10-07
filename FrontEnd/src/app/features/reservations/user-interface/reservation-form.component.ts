@@ -3,7 +3,7 @@ import { Component } from '@angular/core'
 import { DateAdapter } from '@angular/material/core'
 import { FormBuilder, FormGroup, Validators, AbstractControl, FormArray } from '@angular/forms'
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete'
-import { map, startWith } from 'rxjs'
+import { map, Observable, startWith } from 'rxjs'
 // Custom
 import { DateHelperService } from 'src/app/shared/services/date-helper.service'
 import { DexieService } from 'src/app/shared/services/dexie.service'
@@ -18,6 +18,8 @@ import { MessageLabelService } from 'src/app/shared/services/message-label.servi
 import { ReservationHttpService } from '../classes/services/reservation-http.service'
 import { ReservationReadDto } from '../classes/dtos/reservation-read-dto'
 import { ReservationWriteDto } from '../classes/dtos/reservation-write-dto'
+import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
+import { ValidationService } from 'src/app/shared/services/validation.service'
 
 @Component({
     selector: 'reservation-form',
@@ -43,6 +45,7 @@ export class ReservationFormComponent {
 
     //#region autocompletes
 
+    public dropdownPaymentStatuses: Observable<SimpleEntity[]>
     public isAutoCompleteDisabled = true
 
     //#endregion
@@ -62,6 +65,7 @@ export class ReservationFormComponent {
         this.setRecordId()
         this.getRecord()
         this.populateFields()
+        this.populateDropdowns()
         this.populatePiers()
         this.setLocale()
     }
@@ -182,10 +186,9 @@ export class ReservationFormComponent {
             piers: this.form.value.piers,
             email: this.form.value.email,
             remarks: this.form.value.remarks,
+            paymentStatusId: this.form.value.paymentStatus.id,
             isConfirmed: this.form.value.isConfirmed,
             isDocked: this.form.value.isDocked,
-            isPartiallyPaid: this.form.value.isPartiallyPaid,
-            isFullyPaid: this.form.value.isFullyPaid,
             isLongTerm: this.form.value.isLongTerm,
             putAt: this.form.value.putAt
         }
@@ -228,10 +231,9 @@ export class ReservationFormComponent {
             piers: this.formBuilder.array([]),
             email: ['', [Validators.maxLength(128), Validators.email]],
             remarks: ['', Validators.maxLength(128)],
+            paymentStatus: ['', [Validators.required, ValidationService.RequireAutocomplete]],
             isConfirmed: false,
             isDocked: false,
-            isPartiallyPaid: false,
-            isFullyPaid: false,
             isLongTerm: false,
             postAt: [''],
             postUser: [''],
@@ -245,6 +247,10 @@ export class ReservationFormComponent {
             this[dexieTable] = this.reservationId == undefined ? response.filter(x => x.isActive) : response
             this[filteredTable] = this.form.get(formField).valueChanges.pipe(startWith(''), map(value => this.filterAutocomplete(dexieTable, modelProperty, value)))
         })
+    }
+
+    private populateDropdowns(): void {
+        this.populateDropdownFromDexieDB('paymentStatuses', 'dropdownPaymentStatuses', 'paymentStatus', 'description', 'description')
     }
 
     private populateFields(): void {
@@ -262,9 +268,8 @@ export class ReservationFormComponent {
                 remarks: this.reservation.remarks,
                 isConfirmed: this.reservation.isConfirmed,
                 isDocked: this.reservation.isDocked,
-                isPartiallyPaid: this.reservation.isPartiallyPaid,
-                isFullyPaid: this.reservation.isFullyPaid,
                 isLongTerm: this.reservation.isLongTerm,
+                paymentStatus: { 'id': this.reservation.paymentStatus.id, 'description': this.reservation.paymentStatus.description },
                 postAt: this.reservation.postAt,
                 postUser: this.reservation.postUser,
                 putAt: this.reservation.putAt,
@@ -348,6 +353,10 @@ export class ReservationFormComponent {
 
     get days(): AbstractControl {
         return this.form.get('days')
+    }
+
+    get paymentStatus(): AbstractControl {
+        return this.form.get('paymentStatus')
     }
 
     get email(): AbstractControl {

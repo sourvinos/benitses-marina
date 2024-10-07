@@ -149,8 +149,8 @@
                 "description": "Docked"
             },
             {
-                "id": "isPartiallyPaid",
-                "description": "Partially paid"
+                "id": "paymentStatus",
+                "description": "Payment status"
             },
             {
                 "id": "isFullyPaid",

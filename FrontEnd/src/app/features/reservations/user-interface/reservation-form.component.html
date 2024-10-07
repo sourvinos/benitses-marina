@@ -1,5 +1,7 @@
 <div id="form-wrapper">
 
+    {{ form.value | json }}
+
     <div id="content">
 
         <div id="header">
@@ -77,18 +79,23 @@
                     <mat-error *ngIf="remarks.hasError('maxlength')">{{ getHint("maxLength", remarks.errors.maxlength.requiredLength) }}</mat-error>
                 </mat-form-field>
             </div>
+            <mat-form-field>
+                <mat-label>{{ getLabel('paymentStatus') }}</mat-label>
+                <input #inputAutoComplete #triggerPaymentStatus="matAutocompleteTrigger" (keydown)="enableOrDisableAutoComplete($event)" (keyup)="checkForEmptyAutoComplete($event)" [inputTabStop]="input" [matAutocompleteDisabled]="isAutoCompleteDisabled" [matAutocomplete]="paymentStatuses" dataTabIndex="10" formControlName="paymentStatus" matInput>
+                <div matSuffix style="display:flex">
+                    <button (click)="openOrCloseAutoComplete(triggerPaymentStatus, 'paymentStatus')" mat-icon-button type="button">
+                        <mat-icon class="input-suffix material-icons-outlined">expand_more</mat-icon>
+                    </button>
+                </div>
+                <mat-error *ngIf="paymentStatus.hasError('required')">{{ getHint("required") }}</mat-error>
+                <mat-error *ngIf="!paymentStatus.hasError('required') && paymentStatus.hasError('incorrect')">{{ getHint("invalid") }}</mat-error>
+            </mat-form-field>
             <div class="stacked-checkboxes">
                 <mat-checkbox formControlName="isConfirmed">
                     <span>{{ getLabel("isConfirmed") }}</span>
                 </mat-checkbox>
                 <mat-checkbox formControlName="isDocked">
                     <span>{{ getLabel("isDocked") }}</span>
-                </mat-checkbox>
-                <mat-checkbox formControlName="isPartiallyPaid">
-                    <span>{{ getLabel("isPartiallyPaid") }}</span>
-                </mat-checkbox>
-                <mat-checkbox formControlName="isFullyPaid">
-                    <span>{{ getLabel("isFullyPaid") }}</span>
                 </mat-checkbox>
                 <mat-checkbox formControlName="isLongTerm">
                     <span>{{ getLabel("isLongTerm") }}</span>
@@ -115,3 +122,9 @@
     </div>
 
 </div>
+
+<mat-autocomplete #paymentStatuses="matAutocomplete" [displayWith]="autocompleteFields.bind(this, 'description')" autoActiveFirstOption>
+    <mat-option *ngFor="let option of dropdownPaymentStatuses | async" [value]="option">
+        {{ option.description }}
+    </mat-option>
+</mat-autocomplete>
