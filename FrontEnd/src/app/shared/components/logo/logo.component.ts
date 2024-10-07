@@ -1,4 +1,6 @@
 import { Component } from '@angular/core'
+// Custom
+import { LocalStorageService } from '../../services/local-storage.service'
 
 @Component({
     selector: 'logo',
@@ -8,6 +10,10 @@ import { Component } from '@angular/core'
 
 export class LogoComponent {
 
-    // Empty
+    constructor(private localStorageService: LocalStorageService) { }
+
+    public getLogo(): string {
+        return '../../../../assets/images/logos/' + 'logo-' + this.localStorageService.getItem('theme') + '.svg'
+    }
 
 }

@@ -41,7 +41,19 @@ export class LoginFormComponent {
 
     //#endregion
 
-    constructor(private accountService: AccountService, private dialogService: DialogService, private emojiService: EmojiService, private formBuilder: FormBuilder, private helperService: HelperService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private router: Router, private titleService: Title) { }
+    constructor(
+        private accountService: AccountService,
+        private dialogService: DialogService,
+        private emojiService: EmojiService,
+        private formBuilder: FormBuilder,
+        private helperService: HelperService,
+        private localStorageService: LocalStorageService,
+        private messageDialogService: MessageDialogService,
+        private messageHintService: MessageInputHintService,
+        private messageLabelService: MessageLabelService,
+        private router: Router,
+        private titleService: Title
+    ) { }
 
     //#region lifecycle hooks
 
@@ -63,11 +75,11 @@ export class LoginFormComponent {
     }
 
     public getLogo(): string {
-        return '../../../../assets/images/logos/' + 'login-logo.svg'
+        return '../../../../assets/images/logos/login-logo.svg'
     }
 
     public getLoginTextLogo(): string {
-        return '../../../../assets/images/logos/' + 'login-text-logo.svg'
+        return '../../../../assets/images/logos/' + 'login-logo-with-text-' + this.localStorageService.getItem('theme') + '.svg'
     }
 
     public getHint(id: string, minmax = 0): string {
