@@ -11,7 +11,7 @@
         <mat-divider inset></mat-divider>
         <mat-card-subtitle>{{ getLabel("arrivalsSubTitle") }}</mat-card-subtitle>
     </mat-card>
-    <mat-card *ngIf="isAdmin()" (click)="doNavigation('invoices',true)">
+    <mat-card (click)="doNavigation('invoices',true)">
         <img (load)="loadImage()" [ngClass]="imageIsLoading()" [src]="getIcon('departures')" style="height: 6.25rem; margin-left: 1rem; width: 6.25rem">
         <mat-card-title>{{ getLabel("departuresTitle") }}</mat-card-title>
         <mat-divider inset></mat-divider>

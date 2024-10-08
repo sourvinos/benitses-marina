@@ -1,7 +1,5 @@
 <div id="form-wrapper">
 
-    {{ form.value | json }}
-
     <div id="content">
 
         <div id="header">
@@ -111,10 +109,10 @@
 
     <div id="footer">
         <div id="align-right">
-            <button *ngIf="form.value.reservationId != ''" (click)="onDelete()" class="delete" mat-flat-button>
+            <button *ngIf="form.value.reservationId != ''" (click)="onDelete()" [disabled]="!isAdmin()" class="delete" mat-flat-button>
                 <span>{{ getLabel('deleteButton') | uppercase }}</span>
             </button>
-            <button (click)="onSave()" [disabled]="!form.valid" class="primary" mat-flat-button>
+            <button (click)="onSave()" [disabled]="!form.valid || !isAdmin()" class="primary" mat-flat-button>
                 <mat-icon *ngIf="!form.valid" class="material-icons-outlined">lock</mat-icon>
                 <span>{{ getLabel("saveButton") | uppercase }}</span>
             </button>
