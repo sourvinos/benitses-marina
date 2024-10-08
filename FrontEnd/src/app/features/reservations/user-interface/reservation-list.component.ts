@@ -35,6 +35,7 @@ export class ReservationListComponent {
     public parentUrl = '/home'
     public records: ReservationListVM[] = []
     public recordsFilteredCount = 0
+    public filterDate = ''
 
     public distinctPaymentStatuses: SimpleEntity[] = []
 
@@ -57,6 +58,7 @@ export class ReservationListComponent {
             this.stringifyPiers()
             this.filterTableFromStoredFilters()
             this.setTabTitle()
+            this.doVirtualTableTasks()
             this.setSidebarsHeight()
             this.initContextMenu()
         })
@@ -108,6 +110,10 @@ export class ReservationListComponent {
         }
     }
 
+    public hasDateFilter(): string {
+        return this.filterDate == '' ? 'hidden' : ''
+    }
+
     public isAdmin(): boolean {
         return this.cryptoService.decrypt(this.sessionStorageService.getItem('isAdmin')) == 'true' ? true : false
     }
@@ -143,6 +149,14 @@ export class ReservationListComponent {
 
     //#region private methods
 
+    private doVirtualTableTasks(): void {
+        setTimeout(() => {
+            this.getVirtualElement()
+            this.scrollToSavedPosition()
+            this.hightlightSavedRow()
+        }, 1000)
+    }
+
     private enableDisableFilters(): void {
         this.records.length == 0 ? this.helperService.disableTableFilters() : this.helperService.enableTableFilters()
     }
@@ -157,11 +171,10 @@ export class ReservationListComponent {
         const filters = this.sessionStorageService.getFilters(this.feature + '-' + 'filters')
         if (filters != undefined) {
             setTimeout(() => {
-                this.filterColumn(filters.isActive, 'isActive', 'contains')
-                this.filterColumn(filters.description, 'description', 'contains')
-                this.filterColumn(filters.vatNumber, 'vatNumber', 'contains')
-                this.filterColumn(filters.email, 'email', 'contains')
-                this.filterColumn(filters.phones, 'phones', 'contains')
+                this.filterColumn(filters.boatName, 'boatName', 'contains')
+                this.filterColumn(filters.customer, 'customer', 'contains')
+                this.filterColumn(filters.loa, 'loa', 'contains')
+                this.filterColumn(filters.joinedPiers, 'joinedPiers', 'contains')
             }, 500)
         }
     }
@@ -229,7 +242,7 @@ export class ReservationListComponent {
     }
 
     private storeSelectedId(reservationId: string): void {
-        this.sessionStorageService.saveItem(this.feature + '-reservationId', reservationId)
+        this.sessionStorageService.saveItem(this.feature + '-id', reservationId)
     }
 
     private storeScrollTop(): void {

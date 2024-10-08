@@ -29,6 +29,7 @@ namespace API.Features.Reservations {
                 .AsNoTracking()
                 .Include(x => x.Piers)
                 .Include(x => x.PaymentStatus)
+                .OrderBy(x => x.BoatName)
                 .ToListAsync();
             return mapper.Map<IEnumerable<Reservation>, IEnumerable<ReservationListVM>>(Reservations);
         }
