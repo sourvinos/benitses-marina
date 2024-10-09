@@ -174,7 +174,11 @@ export class ReservationListComponent {
                 this.filterColumn(filters.boatName, 'boatName', 'contains')
                 this.filterColumn(filters.customer, 'customer', 'contains')
                 this.filterColumn(filters.loa, 'loa', 'contains')
+                this.filterColumn(filters.fromDate, 'fromDate', 'contains')
+                this.filterColumn(filters.toDate, 'toDate', 'contains')
                 this.filterColumn(filters.joinedPiers, 'joinedPiers', 'contains')
+                this.filterColumn(filters.paymentStatus, 'paymentStatus', 'in')
+                this.filterColumn(filters.isOverdue, 'isOverdue', 'contains')
             }, 500)
         }
     }

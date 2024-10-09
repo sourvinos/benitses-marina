@@ -11,6 +11,7 @@
             <p-table #table (onFilter)="onFilterRecords($event)" [(contextMenuSelection)]="selectedRecord" [contextMenu]="contextMenu" [scrollable]="true" [value]="records" [virtualScrollItemSize]="32" [virtualScroll]="true" dataKey="reservationId" scrollHeight="flex" selectionMode="single" sortMode="multiple">
                 <ng-template pTemplate="header">
                     <tr>
+                        <th class="no-border-bottom width-3"></th>
                         <th class="no-border-bottom width-10" pSortableColumn="boatName">{{ getLabel("headerBoatName") }}</th>
                         <th class="no-border-bottom width-10" pSortableColumn="customer">{{ getLabel("headerCustomer") }}</th>
                         <th class="no-border-bottom width-5" pSortableColumn="loa">{{ getLabel("headerLength") }}</th>
@@ -22,10 +23,11 @@
                         <th class="no-border-bottom width-5" pSortableColumn="isOverdue">{{ getLabel("headerIsOverdue") }}</th>
                     </tr>
                     <tr>
+                        <th class="no-border-top width-3" style="padding-right: 12px;"><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
                         <th class="no-border-top width-10"><p-columnFilter (input)="onFilter($event.target.value,'boatName','contains')" field="boatName"></p-columnFilter></th>
                         <th class="no-border-top width-10"><p-columnFilter (input)="onFilter($event.target.value,'customer','contains')" field="customer"></p-columnFilter></th>
                         <th class="no-border-top width-5"><p-columnFilter (input)="onFilter($event.target.value,'loa','contains')" field="loa"></p-columnFilter></th>
-                        <th class="no-border-top width-4"><p-columnFilter (input)="onFilter($event.target.value,'fromDate','contains')" field="fromDate"></p-columnFilter></th>                        
+                        <th class="no-border-top width-4"><p-columnFilter (input)="onFilter($event.target.value,'fromDate','contains')" field="fromDate"></p-columnFilter></th>
                         <th class="no-border-top width-4"><p-columnFilter (input)="onFilter($event.target.value,'toDate','contains')" field="toDate"></p-columnFilter></th>
                         <th class="no-border-top width-4"><p-columnFilter (input)="onFilter($event.target.value,'days','contains')" field="days"></p-columnFilter></th>
                         <th class="no-border-top width-4"><p-columnFilter (input)="onFilter($event.target.value,'joinedPiers','contains')" field="joinedPiers"></p-columnFilter></th>
@@ -47,6 +49,7 @@
                 </ng-template>
                 <ng-template let-record pTemplate="body">
                     <tr (click)="onHighlightRow(record.reservationId)" (contextmenu)="onHighlightRow(record.reservationId)" (dblclick)="onEditRecord(record.reservationId)" [attr.id]=record.reservationId [pContextMenuRow]="record" style="height: 32px;">
+                        <td class="width-3"><span class="center no-overflow" style="padding-top: 0.25rem !important;"><p-tableCheckbox [value]="record"></p-tableCheckbox></span></td>
                         <td class="width-10"><span>{{ record.boatName }}</span></td>
                         <td class="width-10"><span>{{ record.customer }}</span></td>
                         <td class="width-5"><span class="center">{{ record.loa }}</span></td>
