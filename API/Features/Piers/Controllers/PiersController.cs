@@ -15,33 +15,33 @@ namespace API.Features.Reservations.Piers {
         #region variables
 
         private readonly IMapper mapper;
-        private readonly IPierRepository PierRepo;
-        private readonly IPierValidation PierValidation;
+        private readonly IPierRepository pierRepo;
+        private readonly IPierValidation pierValidation;
 
         #endregion
 
-        public PiersController(IMapper mapper, IPierRepository PierRepo, IPierValidation PierValidation) {
+        public PiersController(IMapper mapper, IPierRepository pierRepo, IPierValidation PierValidation) {
             this.mapper = mapper;
-            this.PierRepo = PierRepo;
-            this.PierValidation = PierValidation;
+            this.pierRepo = pierRepo;
+            this.pierValidation = PierValidation;
         }
 
         [HttpGet]
         [Authorize(Roles = "admin")]
         public async Task<IEnumerable<PierListVM>> GetAsync() {
-            return await PierRepo.GetAsync();
+            return await pierRepo.GetAsync();
         }
 
         [HttpGet("[action]")]
         [Authorize(Roles = "user, admin")]
         public async Task<IEnumerable<PierBrowserVM>> GetForBrowserAsync() {
-            return await PierRepo.GetForBrowserAsync();
+            return await pierRepo.GetForBrowserAsync();
         }
 
         [HttpGet("{id}")]
         [Authorize(Roles = "admin")]
         public async Task<ResponseWithBody> GetByIdAsync(int id) {
-            var x = await PierRepo.GetByIdAsync(id, true);
+            var x = await pierRepo.GetByIdAsync(id, true);
             if (x != null) {
                 return new ResponseWithBody {
                     Code = 200,
@@ -60,13 +60,13 @@ namespace API.Features.Reservations.Piers {
         [Authorize(Roles = "admin")]
         [ServiceFilter(typeof(ModelValidationAttribute))]
         public ResponseWithBody Post([FromBody] PierWriteDto Pier) {
-            var x = PierValidation.IsValid(null, Pier);
+            var x = pierValidation.IsValid(null, Pier);
             if (x == 200) {
-                var z = PierRepo.Create(mapper.Map<PierWriteDto, Pier>((PierWriteDto)PierRepo.AttachMetadataToPostDto(Pier)));
+                var z = pierRepo.Create(mapper.Map<PierWriteDto, Pier>((PierWriteDto)pierRepo.AttachMetadataToPostDto(Pier)));
                 return new ResponseWithBody {
                     Code = 200,
                     Icon = Icons.Success.ToString(),
-                    Body = PierRepo.GetByIdForBrowserAsync(z.Id).Result,
+                    Body = pierRepo.GetByIdForBrowserAsync(z.Id).Result,
                     Message = ApiMessages.OK()
                 };
             } else {
@@ -80,15 +80,15 @@ namespace API.Features.Reservations.Piers {
         [Authorize(Roles = "admin")]
         [ServiceFilter(typeof(ModelValidationAttribute))]
         public async Task<ResponseWithBody> Put([FromBody] PierWriteDto Pier) {
-            var x = await PierRepo.GetByIdAsync(Pier.Id, false);
+            var x = await pierRepo.GetByIdAsync(Pier.Id, false);
             if (x != null) {
-                var z = PierValidation.IsValid(x, Pier);
+                var z = pierValidation.IsValid(x, Pier);
                 if (z == 200) {
-                    PierRepo.Update(mapper.Map<PierWriteDto, Pier>((PierWriteDto)PierRepo.AttachMetadataToPutDto(x, Pier)));
+                    pierRepo.Update(mapper.Map<PierWriteDto, Pier>((PierWriteDto)pierRepo.AttachMetadataToPutDto(x, Pier)));
                     return new ResponseWithBody {
                         Code = 200,
                         Icon = Icons.Success.ToString(),
-                        Body = PierRepo.GetByIdForBrowserAsync(Pier.Id).Result,
+                        Body = pierRepo.GetByIdForBrowserAsync(Pier.Id).Result,
                         Message = ApiMessages.OK(),
                     };
                 } else {
@@ -106,9 +106,9 @@ namespace API.Features.Reservations.Piers {
         [HttpDelete("{id}")]
         [Authorize(Roles = "admin")]
         public async Task<Response> Delete([FromRoute] int id) {
-            var x = await PierRepo.GetByIdAsync(id, false);
+            var x = await pierRepo.GetByIdAsync(id, false);
             if (x != null) {
-                PierRepo.Delete(x);
+                pierRepo.Delete(x);
                 return new Response {
                     Code = 200,
                     Icon = Icons.Success.ToString(),

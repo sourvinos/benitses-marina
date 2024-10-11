@@ -11,7 +11,8 @@ namespace API.Features.Reservations {
             RuleFor(x => x.FromDate).Must(DateHelpers.BeCorrectFormat);
             RuleFor(x => x.ToDate).Must(DateHelpers.BeCorrectFormat).GreaterThan(x => x.FromDate);
             RuleFor(x => x.Email).Must(EmailHelpers.BeEmptyOrValidEmailAddress).MaximumLength(128);
-            RuleFor(x => x.Remarks).MaximumLength(128);
+            RuleFor(x => x.Contact).MaximumLength(255);
+            RuleFor(x => x.Remarks).MaximumLength(2048);
         }
 
     }

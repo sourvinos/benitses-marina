@@ -137,6 +137,10 @@
                 "description": "Email"
             },
             {
+                "id": "contact",
+                "description": "Contact"
+            },
+            {
                 "id": "remarks",
                 "description": "Remarks"
             },

@@ -191,6 +191,7 @@ export class ReservationFormComponent {
             days: this.form.value.days,
             piers: this.form.value.piers,
             email: this.form.value.email,
+            contact: this.form.value.contact,
             remarks: this.form.value.remarks,
             paymentStatusId: this.form.value.paymentStatus.id,
             isConfirmed: this.form.value.isConfirmed,
@@ -236,7 +237,8 @@ export class ReservationFormComponent {
             days: [0, [Validators.required]],
             piers: this.formBuilder.array([]),
             email: ['', [Validators.maxLength(128), Validators.email]],
-            remarks: ['', Validators.maxLength(128)],
+            contact: ['', Validators.maxLength(128)],
+            remarks: ['', Validators.maxLength(2048)],
             paymentStatus: ['', [Validators.required, ValidationService.RequireAutocomplete]],
             isConfirmed: false,
             isDocked: false,
@@ -271,6 +273,7 @@ export class ReservationFormComponent {
                 days: this.reservation.days,
                 piers: [],
                 email: this.reservation.email,
+                contact: this.reservation.contact,
                 remarks: this.reservation.remarks,
                 isConfirmed: this.reservation.isConfirmed,
                 isDocked: this.reservation.isDocked,
@@ -367,6 +370,10 @@ export class ReservationFormComponent {
 
     get email(): AbstractControl {
         return this.form.get('email')
+    }
+
+    get contact(): AbstractControl {
+        return this.form.get('contact')
     }
 
     get remarks(): AbstractControl {

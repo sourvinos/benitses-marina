@@ -14,6 +14,7 @@ export interface ReservationReadDto extends Metadata {
     toDate: string
     days: number
     email: string
+    contact: string
     remarks: string
     isConfirmed: boolean
     isDocked: boolean

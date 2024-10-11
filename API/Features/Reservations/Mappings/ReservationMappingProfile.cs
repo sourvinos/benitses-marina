@@ -37,7 +37,11 @@ namespace API.Features.Reservations {
                 }));
             // Write reservation
             CreateMap<ReservationWriteDto, Reservation>()
-                .ForMember(x => x.BoatName, x => x.MapFrom(x => x.BoatName.Trim()));
+                .ForMember(x => x.BoatName, x => x.MapFrom(x => x.BoatName.Trim()))
+                .ForMember(x => x.Customer, x => x.MapFrom(x => x.Customer.Trim()))
+                .ForMember(x => x.Email, x => x.MapFrom(x => x.Email.Trim()))
+                .ForMember(x => x.Contact, x => x.MapFrom(x => x.Contact.Trim()))
+                .ForMember(x => x.Remarks, x => x.MapFrom(x => x.Remarks.Trim()));
             // Write pier
             CreateMap<ReservationPierWriteDto, ReservationPier>();
         }

@@ -11,6 +11,7 @@ export interface ReservationWriteDto {
     toDate: string
     days: number
     email: string
+    contact: string
     remarks: string
     isConfirmed: boolean
     isDocked: boolean

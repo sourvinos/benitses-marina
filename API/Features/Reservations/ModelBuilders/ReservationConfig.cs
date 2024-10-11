@@ -12,7 +12,8 @@ namespace API.Features.Reservations {
             entity.Property(x => x.FromDate).HasColumnType("date").IsRequired(true);
             entity.Property(x => x.ToDate).HasColumnType("date").IsRequired(true);
             entity.Property(x => x.Email).HasDefaultValue("").HasMaxLength(128);
-            entity.Property(x => x.Remarks).HasDefaultValue("").HasMaxLength(128);
+            entity.Property(x => x.Contact).HasDefaultValue("").HasMaxLength(255);
+            entity.Property(x => x.Remarks).HasDefaultValue("").HasMaxLength(2048);
             // Metadata
             entity.Property(x => x.PostAt).HasMaxLength(19).IsRequired(true);
             entity.Property(x => x.PostUser).HasMaxLength(255).IsRequired(true);

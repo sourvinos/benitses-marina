@@ -21,11 +21,11 @@ namespace API.Features.Reservations.Piers {
         }
 
         public async Task<IEnumerable<PierListVM>> GetAsync() {
-            var Piers = await context.Piers
+            var piers = await context.Piers
                 .AsNoTracking()
                 .OrderBy(x => x.Description)
                 .ToListAsync();
-            return mapper.Map<IEnumerable<Pier>, IEnumerable<PierListVM>>(Piers);
+            return mapper.Map<IEnumerable<Pier>, IEnumerable<PierListVM>>(piers);
         }
 
         public async Task<IEnumerable<PierBrowserVM>> GetForBrowserAsync() {
