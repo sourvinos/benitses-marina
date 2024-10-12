@@ -55,9 +55,8 @@ namespace API.Infrastructure.Auth {
             if (user?.IsActive == true && await userManager.IsEmailConfirmedAsync(user) && await userManager.CheckPasswordAsync(user, model.Password)) {
                 var newRefreshToken = CreateRefreshToken(settings.ClientId, user.Id, model.Language);
                 context.Tokens.Add(newRefreshToken);
-                
-                
                 var response = await CreateToken(user, newRefreshToken.Value);
+                await context.SaveChangesAsync();
                 return new Login {
                     UserId = user.Id,
                     IsAdmin = user.IsAdmin,
