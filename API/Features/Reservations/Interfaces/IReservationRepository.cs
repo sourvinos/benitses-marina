@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using API.Features.Reservations.Piers;
 using API.Infrastructure.Interfaces;
 
 namespace API.Features.Reservations {

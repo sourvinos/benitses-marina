@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using System;
 
 namespace API.Features.Reservations.Piers {
 
@@ -34,6 +35,34 @@ namespace API.Features.Reservations.Piers {
                 .OrderBy(x => x.Description)
                 .ToListAsync();
             return mapper.Map<IEnumerable<Pier>, IEnumerable<PierBrowserVM>>(Piers);
+        }
+
+        public async Task<IEnumerable<PierStateVM>> GetStatus() {
+            var piers = context.Piers
+                .AsNoTracking()
+                .OrderBy(x => x.Description)
+                .ToListAsync();
+            List<PierStateVM> pierStates = new();
+            foreach (var pier in await piers) {
+                var x = context.ReservationPiers
+                    .Include(x => x.Reservation)
+                    .Where(x => x.Description == pier.Description);
+                if (x != null) {
+                    // pierStates.Add(new PierStateVM {
+                    //     Id = x.Id,
+                    //     Description = x.Description,
+                    //     BoatName = x.Reservation.BoatName,
+                    //     To = x.Reservation.ToDate
+                    // });
+                } else {
+                    pierStates.Add(new PierStateVM {
+                        Id = pier.Id,
+                        Description = pier.Description,
+                        BoatName = "Empty"
+                    });
+                }
+            }
+            return pierStates;
         }
 
         public async Task<PierBrowserVM> GetByIdForBrowserAsync(int id) {

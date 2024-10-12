@@ -8,6 +8,7 @@ namespace API.Features.Reservations.Piers {
 
         Task<IEnumerable<PierListVM>> GetAsync();
         Task<IEnumerable<PierBrowserVM>> GetForBrowserAsync();
+        Task<IEnumerable<PierStateVM>> GetStatus();
         Task<PierBrowserVM> GetByIdForBrowserAsync(int id);
         Task<Pier> GetByIdAsync(int id, bool includeTables);
 
