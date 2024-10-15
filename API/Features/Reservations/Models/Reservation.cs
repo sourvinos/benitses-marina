@@ -21,7 +21,6 @@ namespace API.Features.Reservations {
         public string Email { get; set; }
         public string Contact { get; set; }
         public string Remarks { get; set; }
-        public bool IsConfirmed { get; set; }
         public bool IsDocked { get; set; }
         public bool IsLongTerm { get; set; }
         public List<ReservationPier> Piers { get; set; }

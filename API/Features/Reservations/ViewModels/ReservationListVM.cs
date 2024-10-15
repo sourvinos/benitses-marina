@@ -13,7 +13,6 @@ namespace API.Features.Reservations {
         public string FromDate { get; set; }
         public string ToDate { get; set; }
         public int Days { get; set; }
-        public bool IsConfirmed { get; set; }
         public bool IsDocked { get; set; }
         public bool IsLongTerm { get; set; }
         public bool IsOverdue { get; set; }

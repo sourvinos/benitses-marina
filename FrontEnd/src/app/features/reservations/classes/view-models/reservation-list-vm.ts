@@ -10,7 +10,6 @@ export interface ReservationListVM {
     fromDate: string
     toDate: string
     days: number
-    isConfirmed: boolean
     isDocked: boolean
     paymentStatus: SimpleEntity
     isLongTerm: boolean

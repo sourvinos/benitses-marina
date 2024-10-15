@@ -40,8 +40,8 @@ namespace API.Features.Reservations.Piers {
 
         [HttpGet("[action]")]
         [Authorize(Roles = "user, admin")]
-        public async Task<IEnumerable<PierStateVM>> GeState() {
-            return await pierRepo.GetStatus();
+        public async Task<IEnumerable<PierStateVM>> GetState() {
+            return await pierRepo.GetAvailableBerths();
         }
 
         [HttpGet("{id}")]

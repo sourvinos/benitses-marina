@@ -59,7 +59,7 @@
                             </mat-form-field>
                         </div>
                     </div>
-                    <span (click)="onAddPierTextBox()" id="addPierButton">
+                    <span (click)="onAddPierTextBox()" id="add-pier-button">
                         <mat-icon class="material-icons-outlined">add</mat-icon>
                     </span>
                 </div>
@@ -91,14 +91,11 @@
             <div>
                 <mat-form-field>
                     <mat-label>{{ getLabel("remarks") }}</mat-label>
-                    <input [inputTabStop]="input" dataTabIndex="11" formControlName="remarks" matInput>
-                    <mat-error *ngIf="remarks.hasError('maxlength')">{{ getHint("maxLength", remarks.errors.maxlength.requiredLength) }}</mat-error>
+                    <textarea #input formControlName="remarks" id="textarea" matInput></textarea>
+                    <mat-hint class="right">{{ getHint("remainingCharacters", +input.getAttribute('maxlength') - getRemarksLength()) }}</mat-hint>
                 </mat-form-field>
             </div>
             <div class="stacked-checkboxes">
-                <mat-checkbox formControlName="isConfirmed">
-                    <span>{{ getLabel("isConfirmed") }}</span>
-                </mat-checkbox>
                 <mat-checkbox formControlName="isDocked">
                     <span>{{ getLabel("isDocked") }}</span>
                 </mat-checkbox>

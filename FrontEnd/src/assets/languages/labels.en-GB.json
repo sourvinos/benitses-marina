@@ -64,10 +64,6 @@
                 "description": "Pier(s)"
             },
             {
-                "id": "headerIsConfirmed",
-                "description": "Confirmed"
-            },
-            {
                 "id": "headerIsDocked",
                 "description": "Docked"
             },
@@ -143,10 +139,6 @@
             {
                 "id": "remarks",
                 "description": "Remarks"
-            },
-            {
-                "id": "isConfirmed",
-                "description": "Confirmed"
             },
             {
                 "id": "isDocked",
@@ -443,7 +435,7 @@
             },
             {
                 "id": "reservationsSubTitle",
-                "description": "Display and edit your reservations."
+                "description": "Manage your reservations."
             },
             {
                 "id": "arrivalsTitle",
@@ -460,6 +452,14 @@
             {
                 "id": "departuresSubTitle",
                 "description": "Show the departures for today."
+            },
+            {
+                "id": "berthStatusTitle",
+                "description": "Berths"
+            },
+            {
+                "id": "berthStatusSubTitle",
+                "description": "Show the available berths."
             }
         ]
     }

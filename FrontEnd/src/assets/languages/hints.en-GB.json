@@ -59,6 +59,10 @@
         {
             "id": "spacesNotAllowed",
             "description": "This field can't contain spaces"
+        },
+        {
+            "id": "remainingCharacters",
+            "description": "You can give up to xx more characters"
         }
     ]
 }

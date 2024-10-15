@@ -194,7 +194,6 @@ export class ReservationFormComponent {
             contact: this.form.value.contact,
             remarks: this.form.value.remarks,
             paymentStatusId: this.form.value.paymentStatus.id,
-            isConfirmed: this.form.value.isConfirmed,
             isDocked: this.form.value.isDocked,
             isLongTerm: this.form.value.isLongTerm,
             putAt: this.form.value.putAt
@@ -240,7 +239,6 @@ export class ReservationFormComponent {
             contact: ['', Validators.maxLength(128)],
             remarks: ['', Validators.maxLength(2048)],
             paymentStatus: ['', [Validators.required, ValidationService.RequireAutocomplete]],
-            isConfirmed: false,
             isDocked: false,
             isLongTerm: false,
             postAt: [''],
@@ -275,7 +273,6 @@ export class ReservationFormComponent {
                 email: this.reservation.email,
                 contact: this.reservation.contact,
                 remarks: this.reservation.remarks,
-                isConfirmed: this.reservation.isConfirmed,
                 isDocked: this.reservation.isDocked,
                 isLongTerm: this.reservation.isLongTerm,
                 paymentStatus: { 'id': this.reservation.paymentStatus.id, 'description': this.reservation.paymentStatus.description },
