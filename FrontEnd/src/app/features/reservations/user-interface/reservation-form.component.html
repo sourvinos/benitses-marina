@@ -44,22 +44,22 @@
                     <mat-error *ngIf="days.hasError('required')">{{ getHint("required") }}</mat-error>
                 </mat-form-field>
             </div>
-            <div formArrayName="piers">
+            <div formArrayName="berths">
                 <div class="group-input-field">
-                    <div *ngFor="let pier of piersArray; let i = index">
+                    <div *ngFor="let berth of berthsArray; let i = index">
                         <div [formGroupName]="i">
                             <mat-form-field>
-                                <mat-label>{{ getLabel("pier") }}</mat-label>
+                                <mat-label>{{ getLabel("berth") }}</mat-label>
                                 <input [inputTabStop]="input" dataTabIndex="7" formControlName="description" matInput>
-                                <div *ngIf="piersArray.length > 1" matSuffix style="display:flex">
-                                    <button (click)="onRemovePier(i)" mat-icon-button type="button">
+                                <div *ngIf="berthsArray.length > 1" matSuffix style="display:flex">
+                                    <button (click)="onRemoveBerth(i)" mat-icon-button type="button">
                                         <mat-icon class="input-suffix material-icons-outlined">close</mat-icon>
                                     </button>
                                 </div>
                             </mat-form-field>
                         </div>
                     </div>
-                    <span (click)="onAddPierTextBox()" id="add-pier-button">
+                    <span (click)="onAddBerthTextBox()" id="add-berth-button">
                         <mat-icon class="material-icons-outlined">add</mat-icon>
                     </span>
                 </div>

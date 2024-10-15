@@ -55,7 +55,7 @@ export class ReservationListComponent {
     ngOnInit(): void {
         this.loadRecords().then(() => {
             this.populateDropdownFilters()
-            this.stringifyPiers()
+            this.stringifyBerths()
             this.filterTableFromStoredFilters()
             this.setTabTitle()
             this.doVirtualTableTasks()
@@ -176,7 +176,7 @@ export class ReservationListComponent {
                 this.filterColumn(filters.loa, 'loa', 'contains')
                 this.filterColumn(filters.fromDate, 'fromDate', 'contains')
                 this.filterColumn(filters.toDate, 'toDate', 'contains')
-                this.filterColumn(filters.joinedPiers, 'joinedPiers', 'contains')
+                this.filterColumn(filters.joinedBerths, 'joinedBerths', 'contains')
                 this.filterColumn(filters.paymentStatus, 'paymentStatus', 'in')
                 this.filterColumn(filters.isOverdue, 'isOverdue', 'contains')
             }, 500)
@@ -201,12 +201,12 @@ export class ReservationListComponent {
         ]
     }
 
-    private stringifyPiers(): void {
+    private stringifyBerths(): void {
         this.records.forEach(record => {
-            const joinedPiers = record.piers.map((pier) => {
-                return pier.description
+            const joinedBerths = record.berths.map((berth) => {
+                return berth.description
             }).join(', ')
-            record.joinedPiers = joinedPiers
+            record.joinedBerths = joinedBerths
         })
     }
 

@@ -2,7 +2,7 @@ using System;
 
 namespace API.Features.Reservations {
 
-    public class ReservationPierWriteDto {
+    public class ReservationBerthWriteDto {
 
         public int Id { get; set; }
         public Guid? ReservationId { get; set; }

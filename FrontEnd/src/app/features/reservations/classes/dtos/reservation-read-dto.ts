@@ -2,7 +2,7 @@ import { Guid } from 'guid-typescript'
 // Custom
 import { Metadata } from 'src/app/shared/classes/metadata'
 import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
-import { PierReadDto } from './pier-read-dto'
+import { BerthReadDto } from './berth-read-dto'
 
 export interface ReservationReadDto extends Metadata {
 
@@ -19,7 +19,7 @@ export interface ReservationReadDto extends Metadata {
     isDocked: boolean
     paymentStatus: SimpleEntity
     isLongTerm: boolean
-    piers: PierReadDto[]
+    berths: BerthReadDto[]
     postAt: string
     postUser: string
     putAt: string

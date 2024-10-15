@@ -1,4 +1,4 @@
-using API.Features.Reservations.Piers;
+using API.Features.Reservations.Berths;
 using API.Infrastructure.Users;
 using API.Infrastructure.Account;
 using FluentValidation;
@@ -14,7 +14,7 @@ namespace API.Infrastructure.Extensions {
             services.AddTransient<IValidator<ForgotPasswordRequestVM>, ForgotPasswordValidator>();
             services.AddTransient<IValidator<ResetPasswordVM>, ResetPasswordValidator>();
             // Reservations
-            services.AddTransient<IValidator<PierWriteDto>, PierValidator>();
+            services.AddTransient<IValidator<BerthWriteDto>, BerthValidator>();
             // Users
             services.AddTransient<IValidator<UserNewDto>, UserNewValidator>();
             services.AddTransient<IValidator<UserUpdateDto>, UserUpdateValidator>();

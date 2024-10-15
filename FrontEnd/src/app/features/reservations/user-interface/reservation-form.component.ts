@@ -52,9 +52,9 @@ export class ReservationFormComponent {
 
     //#endregion
 
-    //#region piers
+    //#region berths
 
-    public piersArray: string[] = []
+    public berthsArray: string[] = []
 
     //#endregion
 
@@ -68,7 +68,7 @@ export class ReservationFormComponent {
         this.getRecord()
         this.populateFields()
         this.populateDropdowns()
-        this.populatePiers()
+        this.populateBerths()
         this.setLocale()
     }
 
@@ -130,13 +130,13 @@ export class ReservationFormComponent {
         return this.cryptoService.decrypt(this.sessionStorageService.getItem('isAdmin')) == 'true' ? true : false
     }
 
-    public onAddPierTextBox(): void {
-        const control = <FormArray>this.form.get('piers')
+    public onAddBerthTextBox(): void {
+        const control = <FormArray>this.form.get('berths')
         const newGroup = this.formBuilder.group({
             description: ''
         })
         control.push(newGroup)
-        this.piersArray.push(this.form.controls.piers.value)
+        this.berthsArray.push(this.form.controls.berths.value)
     }
 
     public onDelete(): void {
@@ -154,10 +154,10 @@ export class ReservationFormComponent {
         })
     }
 
-    public onRemovePier(pierIndex: number): void {
-        const piers = <FormArray>this.form.get('piers')
-        piers.removeAt(pierIndex)
-        this.piersArray.splice(pierIndex, 1)
+    public onRemoveBerth(berthIndex: number): void {
+        const berths = <FormArray>this.form.get('berths')
+        berths.removeAt(berthIndex)
+        this.berthsArray.splice(berthIndex, 1)
     }
 
     public onSave(): void {
@@ -189,7 +189,7 @@ export class ReservationFormComponent {
             fromDate: this.form.value.fromDate,
             toDate: this.form.value.toDate,
             days: this.form.value.days,
-            piers: this.form.value.piers,
+            berths: this.form.value.berths,
             email: this.form.value.email,
             contact: this.form.value.contact,
             remarks: this.form.value.remarks,
@@ -234,7 +234,7 @@ export class ReservationFormComponent {
             fromDate: ['', [Validators.required]],
             toDate: ['', [Validators.required]],
             days: [0, [Validators.required]],
-            piers: this.formBuilder.array([]),
+            berths: this.formBuilder.array([]),
             email: ['', [Validators.maxLength(128), Validators.email]],
             contact: ['', Validators.maxLength(128)],
             remarks: ['', Validators.maxLength(2048)],
@@ -269,7 +269,7 @@ export class ReservationFormComponent {
                 fromDate: this.reservation.fromDate,
                 toDate: this.reservation.toDate,
                 days: this.reservation.days,
-                piers: [],
+                berths: [],
                 email: this.reservation.email,
                 contact: this.reservation.contact,
                 remarks: this.reservation.remarks,
@@ -284,23 +284,23 @@ export class ReservationFormComponent {
         }
     }
 
-    private populatePiers(): void {
+    private populateBerths(): void {
         if (this.reservation) {
-            if (this.reservation.piers.length >= 1) {
-                this.reservation.piers.forEach(pier => {
-                    const control = <FormArray>this.form.get('piers')
+            if (this.reservation.berths.length >= 1) {
+                this.reservation.berths.forEach(berth => {
+                    const control = <FormArray>this.form.get('berths')
                     const newGroup = this.formBuilder.group({
-                        reservationId: pier.reservationId,
-                        description: pier.description
+                        reservationId: berth.reservationId,
+                        description: berth.description
                     })
                     control.push(newGroup)
-                    this.piersArray.push(this.form.controls.piers.value)
+                    this.berthsArray.push(this.form.controls.berths.value)
                 })
             } else {
-                this.onAddPierTextBox()
+                this.onAddBerthTextBox()
             }
         } else {
-            this.onAddPierTextBox()
+            this.onAddBerthTextBox()
         }
     }
 

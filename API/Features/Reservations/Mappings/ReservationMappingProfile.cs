@@ -12,10 +12,10 @@ namespace API.Features.Reservations {
             CreateMap<Reservation, ReservationListVM>()
                 .ForMember(x => x.FromDate, x => x.MapFrom(x => DateHelpers.DateToISOString(x.FromDate)))
                 .ForMember(x => x.ToDate, x => x.MapFrom(x => DateHelpers.DateToISOString(x.ToDate)))
-                .ForMember(x => x.Piers, x => x.MapFrom(x => x.Piers.Select(pier => new ReservationPierVM {
-                    Id = pier.Id,
-                    ReservationId = pier.ReservationId.ToString(),
-                    Description = pier.Description
+                .ForMember(x => x.Berths, x => x.MapFrom(x => x.Berths.Select(berth => new ReservationBerthVM {
+                    Id = berth.Id,
+                    ReservationId = berth.ReservationId.ToString(),
+                    Description = berth.Description
                 })))
                 .ForMember(x => x.PaymentStatus, x => x.MapFrom(x => new SimpleEntity {
                     Id = x.PaymentStatus.Id,
@@ -26,10 +26,10 @@ namespace API.Features.Reservations {
             CreateMap<Reservation, ReservationReadDto>()
                 .ForMember(x => x.FromDate, x => x.MapFrom(x => DateHelpers.DateToISOString(x.FromDate)))
                 .ForMember(x => x.ToDate, x => x.MapFrom(x => DateHelpers.DateToISOString(x.ToDate)))
-                .ForMember(x => x.Piers, x => x.MapFrom(x => x.Piers.Select(pier => new ReservationPierVM {
-                    Id = pier.Id,
-                    ReservationId = pier.ReservationId.ToString(),
-                    Description = pier.Description
+                .ForMember(x => x.Berths, x => x.MapFrom(x => x.Berths.Select(berth => new ReservationBerthVM {
+                    Id = berth.Id,
+                    ReservationId = berth.ReservationId.ToString(),
+                    Description = berth.Description
                 })))
                 .ForMember(x => x.PaymentStatus, x => x.MapFrom(x => new SimpleEntity {
                     Id = x.PaymentStatus.Id,
@@ -42,8 +42,8 @@ namespace API.Features.Reservations {
                 .ForMember(x => x.Email, x => x.MapFrom(x => x.Email.Trim()))
                 .ForMember(x => x.Contact, x => x.MapFrom(x => x.Contact.Trim()))
                 .ForMember(x => x.Remarks, x => x.MapFrom(x => x.Remarks.Trim()));
-            // Write pier
-            CreateMap<ReservationPierWriteDto, ReservationPier>();
+            // Write berth
+            CreateMap<ReservationBerthWriteDto, ReservationBerth>();
         }
 
     }

@@ -16,7 +16,7 @@ namespace API.Features.Reservations {
         public bool IsDocked { get; set; }
         public bool IsLongTerm { get; set; }
         public bool IsOverdue { get; set; }
-        public List<ReservationPierVM> Piers { get; set; }
+        public List<ReservationBerthVM> Berths { get; set; }
         public SimpleEntity PaymentStatus { get; set; }
 
     }

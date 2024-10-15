@@ -1,5 +1,5 @@
 import { Guid } from 'guid-typescript'
-import { PierWriteDto } from './pier-write-dto'
+import { BerthWriteDto } from './berth-write-dto'
 
 export interface ReservationWriteDto {
 
@@ -16,7 +16,7 @@ export interface ReservationWriteDto {
     isDocked: boolean
     paymentStatusId: number
     isLongTerm: boolean
-    piers: PierWriteDto[]
+    berths: BerthWriteDto[]
     putAt: string
 
 }

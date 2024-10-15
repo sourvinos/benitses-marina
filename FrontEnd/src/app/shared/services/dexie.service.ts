@@ -1,6 +1,6 @@
 import Dexie from 'dexie'
 import { Injectable } from '@angular/core'
-import { PierHttpService } from 'src/app/features/piers/classes/services/pier-http.service'
+import { BerthHttpService } from 'src/app/features/berths/classes/services/berth-http.service'
 
 @Injectable({ providedIn: 'root' })
 
@@ -9,7 +9,7 @@ export class DexieService extends Dexie {
     constructor() {
         super('BenitsesMarinaDB')
         this.version(1).stores({
-            piers: 'id, description',
+            berths: 'id, description',
             paymentStatuses: 'id, description'
         })
         this.open()
@@ -37,8 +37,8 @@ export class DexieService extends Dexie {
         })
     }
 
-    public populateNewTable(table: string, pierHttpService: PierHttpService): void {
-        pierHttpService.getForBrowser().subscribe((records: any) => {
+    public populateNewTable(table: string, berthHttpService: BerthHttpService): void {
+        berthHttpService.getForBrowser().subscribe((records: any) => {
             this.table(table)
                 .clear().then(() => {
                     this.table(table)

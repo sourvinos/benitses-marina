@@ -10,7 +10,7 @@ import { DexieService } from './dexie.service'
 import { DotNetVersion } from '../classes/dotnet-version'
 import { HttpDataService } from './http-data.service'
 import { PaymentStatusHttpService } from 'src/app/features/paymentStatuses/classes/services/paymentStatus-http.service'
-import { PierHttpService } from 'src/app/features/piers/classes/services/pier-http.service'
+import { BerthHttpService } from 'src/app/features/berths/classes/services/berth-http.service'
 import { ResetPasswordViewModel } from 'src/app/features/users/classes/view-models/reset-password-view-model'
 import { SessionStorageService } from './session-storage.service'
 import { TokenRequest } from '../classes/token-request'
@@ -29,7 +29,7 @@ export class AccountService extends HttpDataService {
 
     //#endregion
 
-    constructor(httpClient: HttpClient, private cryptoService: CryptoService, private dexieService: DexieService, private ngZone: NgZone, private paymentStatusHttpService: PaymentStatusHttpService, private pierHttpService: PierHttpService, private router: Router, private sessionStorageService: SessionStorageService) {
+    constructor(httpClient: HttpClient, private cryptoService: CryptoService, private dexieService: DexieService, private ngZone: NgZone, private paymentStatusHttpService: PaymentStatusHttpService, private berthHttpService: BerthHttpService, private router: Router, private sessionStorageService: SessionStorageService) {
         super(httpClient, environment.apiUrl)
     }
 
@@ -125,7 +125,7 @@ export class AccountService extends HttpDataService {
     }
 
     private populateDexieFromAPI(): void {
-        this.dexieService.populateTable('piers', this.pierHttpService)
+        this.dexieService.populateTable('berths', this.berthHttpService)
         this.dexieService.populateTable('paymentStatuses', this.paymentStatusHttpService)
     }
 

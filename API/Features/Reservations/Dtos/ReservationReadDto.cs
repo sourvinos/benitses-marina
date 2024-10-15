@@ -21,7 +21,7 @@ namespace API.Features.Reservations {
         public string Contact { get; set; }
         public bool IsDocked { get; set; }
         public bool IsLongTerm { get; set; }
-        public List<ReservationPierVM> Piers { get; set; }
+        public List<ReservationBerthVM> Berths { get; set; }
         // Navigation
         public SimpleEntity PaymentStatus { get; set; }
         // Metadata

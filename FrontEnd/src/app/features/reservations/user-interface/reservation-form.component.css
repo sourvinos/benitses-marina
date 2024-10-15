@@ -6,7 +6,7 @@
     margin-top: auto;
 }
 
-#add-pier-button {
+#add-berth-button {
     background-color: var(--color-button-secondary);
     border-radius: 1rem;
     color: var(--color-button-text);

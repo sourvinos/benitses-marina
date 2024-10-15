@@ -1,4 +1,4 @@
-﻿using API.Features.Reservations.Piers;
+﻿using API.Features.Reservations.Berths;
 using API.Infrastructure.Auth;
 using API.Infrastructure.Users;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -13,9 +13,9 @@ namespace API.Infrastructure.Classes {
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        public DbSet<Pier> Piers { get; set; }
+        public DbSet<Berth> Berths { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
-        public DbSet<ReservationPier> ReservationPiers { get; set; }
+        public DbSet<ReservationBerth> ReservationBerths { get; set; }
         public DbSet<PaymentStatus> PaymentStatuses { get; set; }
         public DbSet<Token> Tokens { get; set; }
 
@@ -27,9 +27,9 @@ namespace API.Infrastructure.Classes {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
 
         private static void ApplyConfigurations(ModelBuilder modelBuilder) {
-            modelBuilder.ApplyConfiguration(new PiersConfig());
+            modelBuilder.ApplyConfiguration(new BerthsConfig());
             modelBuilder.ApplyConfiguration(new PaymentStatusesConfig());
-            modelBuilder.ApplyConfiguration(new ReservationPiersConfig());
+            modelBuilder.ApplyConfiguration(new ReservationBerthsConfig());
             modelBuilder.ApplyConfiguration(new ReservationsConfig());
             modelBuilder.ApplyConfiguration(new UsersConfig());
         }

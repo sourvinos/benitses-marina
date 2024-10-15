@@ -27,7 +27,7 @@ namespace API.Features.Reservations {
         public async Task<IEnumerable<ReservationListVM>> GetAsync() {
             var Reservations = await context.Reservations
                 .AsNoTracking()
-                .Include(x => x.Piers)
+                .Include(x => x.Berths)
                 .Include(x => x.PaymentStatus)
                 .OrderBy(x => x.BoatName)
                 .ToListAsync();
@@ -37,7 +37,7 @@ namespace API.Features.Reservations {
         public async Task<IEnumerable<ReservationListVM>> GetArrivalsAsync(string date) {
             var Reservations = await context.Reservations
                 .AsNoTracking()
-                .Include(x => x.Piers)
+                .Include(x => x.Berths)
                 .Where(x => x.FromDate == Convert.ToDateTime(date))
                 .ToListAsync();
             return mapper.Map<IEnumerable<Reservation>, IEnumerable<ReservationListVM>>(Reservations);
@@ -46,7 +46,7 @@ namespace API.Features.Reservations {
         public async Task<IEnumerable<ReservationListVM>> GetDeparturesAsync(string date) {
             var Reservations = await context.Reservations
                 .AsNoTracking()
-                .Include(x => x.Piers)
+                .Include(x => x.Berths)
                 .Where(x => x.ToDate == Convert.ToDateTime(date))
                 .ToListAsync();
             return mapper.Map<IEnumerable<Reservation>, IEnumerable<ReservationListVM>>(Reservations);
@@ -56,13 +56,13 @@ namespace API.Features.Reservations {
             return includeTables
                 ? await context.Reservations
                     .AsNoTracking()
-                    .Include(x => x.Piers)
+                    .Include(x => x.Berths)
                     .Include(x => x.PaymentStatus)
                     .Where(x => x.ReservationId.ToString() == reservationId)
                     .SingleOrDefaultAsync()
                : await context.Reservations
                   .AsNoTracking()
-                  .Include(x => x.Piers)
+                  .Include(x => x.Berths)
                   .Where(x => x.ReservationId.ToString() == reservationId)
                   .SingleOrDefaultAsync();
         }
@@ -70,7 +70,7 @@ namespace API.Features.Reservations {
         public Reservation Update(Guid reservationId, Reservation reservation) {
             using var transaction = context.Database.BeginTransaction();
             UpdateReservation(reservation);
-            DeletePiers(reservationId, reservation.Piers);
+            DeleteBerths(reservationId, reservation.Berths);
             context.SaveChanges();
             DisposeOrCommit(transaction);
             return reservation;
@@ -88,25 +88,25 @@ namespace API.Features.Reservations {
             context.Reservations.Update(reservation);
         }
 
-        private void DeletePiers(Guid reservationId, List<ReservationPier> piers) {
-            var existingPiers = context.ReservationPiers
+        private void DeleteBerths(Guid reservationId, List<ReservationBerth> berths) {
+            var existingBerths = context.ReservationBerths
                 .AsNoTracking()
                 .Where(x => x.ReservationId == reservationId)
                 .ToList();
-            var piersToUpdate = piers
+            var berthsToUpdate = berths
                 .Where(x => x.Id != 0)
                 .ToList();
-            var piersToDelete = existingPiers
-                .Except(piersToUpdate, new PierComparerById())
+            var berthsToDelete = existingBerths
+                .Except(berthsToUpdate, new BerthComparerById())
                 .ToList();
-            context.ReservationPiers.RemoveRange(piersToDelete);
+            context.ReservationBerths.RemoveRange(berthsToDelete);
         }
 
-        private class PierComparerById : IEqualityComparer<ReservationPier> {
-            public bool Equals(ReservationPier x, ReservationPier y) {
+        private class BerthComparerById : IEqualityComparer<ReservationBerth> {
+            public bool Equals(ReservationBerth x, ReservationBerth y) {
                 return x.Id == y.Id;
             }
-            public int GetHashCode(ReservationPier x) {
+            public int GetHashCode(ReservationBerth x) {
                 return x.Id.GetHashCode();
             }
         }

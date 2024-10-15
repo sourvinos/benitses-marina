@@ -1,4 +1,4 @@
-import { ReservationListPierVM } from './reservation-list-pier-vm'
+import { ReservationListBerthVM } from './reservation-list-berth-vm'
 import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 
 export interface ReservationListVM {
@@ -14,7 +14,7 @@ export interface ReservationListVM {
     paymentStatus: SimpleEntity
     isLongTerm: boolean
     isOverdue: boolean
-    piers: ReservationListPierVM[]
-    joinedPiers: string
+    berths: ReservationListBerthVM[]
+    joinedBerths: string
 
 }

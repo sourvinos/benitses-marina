@@ -17,10 +17,10 @@
         <mat-divider inset></mat-divider>
         <mat-card-subtitle>{{ getLabel("departuresSubTitle") }}</mat-card-subtitle>
     </mat-card>
-    <mat-card (click)="doNavigation('berthStatus',true)">
-        <img (load)="loadImage()" [ngClass]="imageIsLoading()" [src]="getIcon('berthStatus')" style="height: 6.25rem; margin-left: 1rem; width: 6.25rem">
-        <mat-card-title>{{ getLabel("berthStatusTitle") }}</mat-card-title>
+    <mat-card (click)="doNavigation('berths',true)">
+        <img (load)="loadImage()" [ngClass]="imageIsLoading()" [src]="getIcon('berths')" style="height: 6.25rem; margin-left: 1rem; width: 6.25rem">
+        <mat-card-title>{{ getLabel("berthsTitle") }}</mat-card-title>
         <mat-divider inset></mat-divider>
-        <mat-card-subtitle>{{ getLabel("berthStatusSubTitle") }}</mat-card-subtitle>
+        <mat-card-subtitle>{{ getLabel("berthsSubTitle") }}</mat-card-subtitle>
     </mat-card>
 </div>

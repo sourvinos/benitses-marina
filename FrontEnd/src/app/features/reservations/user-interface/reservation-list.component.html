@@ -18,7 +18,7 @@
                         <th class="no-border-bottom width-4" pSortableColumn="fromDate">{{ getLabel("headerFromDate") }}</th>
                         <th class="no-border-bottom width-4" pSortableColumn="toDate">{{ getLabel("headerToDate") }}</th>
                         <th class="no-border-bottom width-4" pSortableColumn="days">{{ getLabel("headerDays") }}</th>
-                        <th class="no-border-bottom width-4" pSortableColumn="joinedPiers">{{ getLabel("headerPiers") }}</th>
+                        <th class="no-border-bottom width-4" pSortableColumn="joinedBerths">{{ getLabel("headerBerths") }}</th>
                         <th class="no-border-bottom width-5" pSortableColumn="paymentStatus.description">{{ getLabel('headerPaymentStatus') }}</th>
                         <th class="no-border-bottom width-5" pSortableColumn="isOverdue">{{ getLabel("headerIsOverdue") }}</th>
                     </tr>
@@ -30,7 +30,7 @@
                         <th class="no-border-top width-4"><p-columnFilter (input)="onFilter($event.target.value,'fromDate','contains')" field="fromDate"></p-columnFilter></th>
                         <th class="no-border-top width-4"><p-columnFilter (input)="onFilter($event.target.value,'toDate','contains')" field="toDate"></p-columnFilter></th>
                         <th class="no-border-top width-4"><p-columnFilter (input)="onFilter($event.target.value,'days','contains')" field="days"></p-columnFilter></th>
-                        <th class="no-border-top width-4"><p-columnFilter (input)="onFilter($event.target.value,'joinedPiers','contains')" field="joinedPiers"></p-columnFilter></th>
+                        <th class="no-border-top width-4"><p-columnFilter (input)="onFilter($event.target.value,'joinedBerths','contains')" field="joinedBerths"></p-columnFilter></th>
                         <th class="no-border-top width-6">
                             <p-columnFilter [showMenu]="false" field="paymentStatus" matchMode="in">
                                 <ng-template let-filter="filterCallback" let-value pTemplate="filter">
@@ -56,7 +56,7 @@
                         <td class="width-4"><span class="center no-overflow">{{ formatDateToLocale(record.fromDate,false,true) }}</span></td>
                         <td class="width-4"><span class="center no-overflow">{{ formatDateToLocale(record.toDate,false,true) }}</span></td>
                         <td class="width-4"><span class="center no-overflow">{{ record.days }}</span></td>
-                        <td class="width-4"><span>{{ record.joinedPiers }}</span></td>
+                        <td class="width-4"><span>{{ record.joinedBerths }}</span></td>
                         <td class="width-5"><span [ngClass]="getPaymentDescriptionColor(record.paymentStatus.description)" class="center no-left-padding no-overflow" style="font-size: 0.5rem; padding-top: 0 !important;">{{ record.paymentStatus.description }}</span></td>
                         <td class="width-5"><span class="center no-left-padding no-overflow red" style="font-size: 0.75rem; padding-top: 0 !important;">{{ getOverdueDescription(record.isOverdue) }}</span></td>
                     </tr>

@@ -1,6 +1,6 @@
 namespace API.Features.Reservations {
 
-    public class ReservationPierVM {
+    public class ReservationBerthVM {
 
         public int Id { get; set; }
         public string ReservationId { get; set; }

@@ -23,7 +23,7 @@ namespace API.Features.Reservations {
         public string Remarks { get; set; }
         public bool IsDocked { get; set; }
         public bool IsLongTerm { get; set; }
-        public List<ReservationPier> Piers { get; set; }
+        public List<ReservationBerth> Berths { get; set; }
         // Navigation
         public PaymentStatus PaymentStatus { get; set; }
         // Metadata
