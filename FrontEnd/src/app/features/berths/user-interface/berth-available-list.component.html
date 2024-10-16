@@ -4,6 +4,9 @@
 
         <div id="header">
             <home-button-and-title [featureIcon]="featureIcon" [feature]="feature" [icon]="icon" [parentUrl]="parentUrl"></home-button-and-title>
+            <form [formGroup]="form">
+                <p-selectButton (click)="fixMe()" [options]="berthAvailabilityOptions" formControlName="value" optionLabel="label" optionValue="value" />
+            </form>
         </div>
 
         <div id="table-wrapper">
@@ -27,8 +30,8 @@
                     <tr (click)="onHighlightRow(record.id)" (contextmenu)="onHighlightRow(record.id)" (dblclick)="onEditRecord(record.id)" [attr.id]=record.id [pContextMenuRow]="record" style="height: 32px;">
                         <td class="width-3"><span class="center no-overflow" style="padding-top: 0.25rem !important;"><p-tableCheckbox [value]="record"></p-tableCheckbox></span></td>
                         <td class="width-10"><span>{{ record.description }}</span></td>
-                        <td class="width-10"><span>{{ record.boatName }}</span></td>
-                        <td class="width-4"><span class="center no-overflow">{{ formatDateToLocale(record.toDate,false,true) }}</span></td>
+                        <td class="width-10"><span [ngClass]="getBoatNameColor(record.boatName)">{{ record.boatName }}</span></td>
+                        <td class="width-4"><span class="center no-overflow">{{ formatDateToLocale(record.toDate,false,true,true) }}</span></td>
                     </tr>
                 </ng-template>
             </p-table>

@@ -13,7 +13,7 @@ export class ReservationListResolver {
 
     resolve(): Observable<ListResolved> {
         return this.reservationHttpService.getAll().pipe(
-            map((reservationList) => new ListResolved(reservationList)),
+            map((x) => new ListResolved(x)),
             catchError((err: any) => of(new ListResolved(null, err)))
         )
     }

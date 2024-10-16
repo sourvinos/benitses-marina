@@ -40,8 +40,8 @@ namespace API.Features.Reservations.Berths {
 
         [HttpGet("[action]")]
         [Authorize(Roles = "user, admin")]
-        public async Task<IEnumerable<BerthStateVM>> GetState() {
-            return await berthRepo.GetAvailableBerths();
+        public async Task<IEnumerable<BerthAvailableListVM>> GetAvailable() {
+            return await berthRepo.GetAvailable();
         }
 
         [HttpGet("{id}")]

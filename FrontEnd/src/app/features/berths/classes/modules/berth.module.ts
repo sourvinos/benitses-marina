@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core'
 // Custom
-import { BerthListComponent } from '../../user-interface/berth-list.component'
+import { BerthAvailableListComponent } from '../../user-interface/berth-available-list.component'
 import { BerthRoutingModule } from './berth.routing.module'
 import { SharedModule } from '../../../../shared/modules/shared.module'
 
 @NgModule({
     declarations: [
-        BerthListComponent
+        BerthAvailableListComponent
     ],
     imports: [
         SharedModule,

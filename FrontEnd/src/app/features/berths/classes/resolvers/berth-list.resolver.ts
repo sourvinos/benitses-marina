@@ -12,8 +12,8 @@ export class BerthListResolver {
     constructor(private berthHttpService: BerthHttpService) { }
 
     resolve(): Observable<ListResolved> {
-        return this.berthHttpService.getStatus().pipe(
-            map((berthList) => new ListResolved(berthList)),
+        return this.berthHttpService.getAvailable().pipe(
+            map((x) => new ListResolved(x)),
             catchError((err: any) => of(new ListResolved(null, err)))
         )
     }

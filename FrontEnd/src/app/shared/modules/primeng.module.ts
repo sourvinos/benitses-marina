@@ -6,6 +6,7 @@ import { ContextMenuModule } from 'primeng/contextmenu'
 import { DropdownModule } from 'primeng/dropdown'
 import { MultiSelectModule } from 'primeng/multiselect'
 import { RadioButtonModule } from 'primeng/radiobutton'
+import { SelectButtonModule } from 'primeng/selectbutton'
 import { TableModule } from 'primeng/table'
 
 @NgModule({
@@ -16,6 +17,7 @@ import { TableModule } from 'primeng/table'
         DropdownModule,
         MultiSelectModule,
         RadioButtonModule,
+        SelectButtonModule,
         TableModule
     ]
 })

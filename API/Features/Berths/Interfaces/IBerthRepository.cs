@@ -9,7 +9,7 @@ namespace API.Features.Reservations.Berths {
 
         Task<IEnumerable<BerthListVM>> GetAsync();
         Task<IEnumerable<BerthBrowserVM>> GetForBrowserAsync();
-        Task<IEnumerable<BerthStateVM>> GetAvailableBerths();
+        Task<IEnumerable<BerthAvailableListVM>> GetAvailable();
         Task<BerthBrowserVM> GetByIdForBrowserAsync(int id);
         Task<Berth> GetByIdAsync(int id, bool includeTables);
 

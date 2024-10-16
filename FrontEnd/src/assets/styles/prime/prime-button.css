@@ -1,0 +1,33 @@
+.p-button:focus {
+    box-shadow: none !important;
+}
+
+.p-selectbutton .p-button {
+    background-color: var(--color-background);
+    border: none;
+    padding: 0;
+    transition: all var(--theme-delay);
+}
+
+.p-selectbutton .p-button.p-highlight {
+    background-color: var(--color-button-secondary);
+}
+
+.p-selectbutton .p-button .p-button-label {
+    background-color: transparent;
+    color: var(--color-text) !important;
+    font-family: var(--font-family-fahkwang);
+    font-size: 1rem;
+    font-weight: 400;
+    padding: 0.25rem 0.5rem 0.25rem 0.5rem;
+    transition: all var(--theme-delay);
+}
+
+.p-selectbutton .p-button.p-highlight .p-button-label {
+    background-color: var(--color-button-secondary);
+    color: var(--color-button-text) !important;
+}
+
+.p-selectbutton .p-button.p-highlight:hover {
+    background-color: var(--color-button-secondary);
+}

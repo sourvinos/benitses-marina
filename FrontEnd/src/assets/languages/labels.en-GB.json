@@ -183,11 +183,23 @@
         ]
     },
     {
-        "feature": "berthList",
+        "feature": "berthAvailableList",
         "labels": [
             {
                 "id": "header",
                 "description": "Berths"
+            },
+            {
+                "id": "headerDescription",
+                "description": "Berth"
+            },
+            {
+                "id": "headerBoatName",
+                "description": "Boat name"
+            },
+            {
+                "id": "headerToDate",
+                "description": "Lease until"
             }
         ]
     },

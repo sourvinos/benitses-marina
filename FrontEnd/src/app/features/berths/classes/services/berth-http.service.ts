@@ -19,8 +19,8 @@ export class BerthHttpService extends HttpDataService {
         return this.http.get<BerthAutoCompleteVM[]>(environment.apiUrl + '/berths/getForBrowser')
     }
 
-    public getStatus(): Observable<BerthListVM[]> {
-        return this.http.get<BerthListVM[]>(environment.apiUrl + '/berths/getState')
+    public getAvailable(): Observable<BerthListVM[]> {
+        return this.http.get<BerthListVM[]>(environment.apiUrl + '/berths/getAvailable')
     }
 
 }

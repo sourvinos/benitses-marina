@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using API.Infrastructure.Helpers;
+using System;
 
 namespace API.Features.Reservations.Berths {
 
@@ -38,29 +39,32 @@ namespace API.Features.Reservations.Berths {
             return mapper.Map<IEnumerable<Berth>, IEnumerable<BerthBrowserVM>>(Berths);
         }
 
-        public async Task<IEnumerable<BerthStateVM>> GetAvailableBerths() {
+        public async Task<IEnumerable<BerthAvailableListVM>> GetAvailable() {
             var berths = context.Berths
                 .AsNoTracking()
                 .OrderBy(x => x.Description)
                 .ToListAsync();
-            List<BerthStateVM> berthStates = new();
+            List<BerthAvailableListVM> berthStates = new();
             foreach (var berth in await berths) {
                 var occupiedBerths = context.ReservationBerths
                     .Include(x => x.Reservation)
                     .Where(x => x.Description == berth.Description && x.Reservation.IsDocked);
                 if (occupiedBerths.IsNullOrEmpty()) {
-                    berthStates.Add(new BerthStateVM {
+                    berthStates.Add(new BerthAvailableListVM {
                         Id = berth.Id,
                         Description = berth.Description,
-                        BoatName = "Empty"
+                        BoatName = "AVAILABLE",
+                        ToDate = "2199-12-31",
+                        IsOverdue = false
                     });
                 } else {
                     foreach (var occupiedBerth in occupiedBerths) {
-                        berthStates.Add(new BerthStateVM {
+                        berthStates.Add(new BerthAvailableListVM {
                             Id = occupiedBerth.Id,
                             Description = occupiedBerth.Description,
                             BoatName = occupiedBerth.Reservation.BoatName,
-                            To = DateHelpers.DateToISOString(occupiedBerth.Reservation.ToDate)
+                            ToDate = DateHelpers.DateToISOString(occupiedBerth.Reservation.ToDate),
+                            IsOverdue = occupiedBerth.Reservation.ToDate.AddDays(1) < TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "E. Europe Standard Time")
                         });
                     }
                 }

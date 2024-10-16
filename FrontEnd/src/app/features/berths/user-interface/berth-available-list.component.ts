@@ -1,5 +1,6 @@
 import { ActivatedRoute, Router } from '@angular/router'
 import { Component, ViewChild } from '@angular/core'
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms'
 import { MenuItem } from 'primeng/api'
 import { Table } from 'primeng/table'
 // Custom
@@ -13,14 +14,15 @@ import { ListResolved } from 'src/app/shared/classes/list-resolved'
 import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
 import { SessionStorageService } from 'src/app/shared/services/session-storage.service'
+import { filter } from 'rxjs'
 
 @Component({
-    selector: 'berth-list',
-    templateUrl: './berth-list.component.html',
-    styleUrls: ['../../../../assets/styles/custom/lists.css', 'berth-list.component.css']
+    selector: 'berth-available-list',
+    templateUrl: './berth-available-list.component.html',
+    styleUrls: ['../../../../assets/styles/custom/lists.css', 'berth-available-list.component.css']
 })
 
-export class BerthListComponent {
+export class BerthAvailableListComponent {
 
     //#region variables
 
@@ -28,8 +30,9 @@ export class BerthListComponent {
 
     private url = 'berths'
     private virtualElement: any
-    public feature = 'berthList'
+    public feature = 'berthAvailableList'
     public featureIcon = 'berths'
+    public form: FormGroup
     public icon = 'home'
     public parentUrl = '/home'
     public records: BerthListVM[] = []
@@ -44,17 +47,28 @@ export class BerthListComponent {
 
     //#endregion
 
-    constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateHelperService: DateHelperService, private dialogService: DialogService, private emojiService: EmojiService, private helperService: HelperService, private messageDialogService: MessageDialogService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService) { }
+    //#region availability filters
+
+    public berthAvailabilityOptions: any[] = [
+        { label: 'All', value: 'all' },
+        { label: 'Occupied', value: 'occupied' },
+        { label: 'Available', value: 'available' }
+    ]
+
+    //#endregion
+
+    constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateHelperService: DateHelperService, private dialogService: DialogService, private emojiService: EmojiService, private formBuilder: FormBuilder, private helperService: HelperService, private messageDialogService: MessageDialogService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService) { }
 
     //#region lifecycle hooks
 
     ngOnInit(): void {
+        this.initForm()
         this.loadRecords().then(() => {
-            this.filterTableFromStoredFilters()
-            this.setTabTitle()
-            this.doVirtualTableTasks()
+            // this.filterTableFromStoredFilters()
+            // this.setTabTitle()
+            // this.doVirtualTableTasks()
             this.setSidebarsHeight()
-            this.initContextMenu()
+            // this.initContextMenu()
         })
     }
 
@@ -71,7 +85,13 @@ export class BerthListComponent {
 
     //#region public methods
 
-    public formatDateToLocale(date: string, showWeekday = false, showYear = false, returnEmptyString = false): string {
+    public fixMe(): void {
+        if (this.form.value.value == 'all') { this.helperService.clearTableTextFilters(this.table, ['description', 'boatName', 'toDate']) }
+        if (this.form.value.value == 'occupied') { this.table.filter('AVAILABLE', 'boatName', 'notEquals') }
+        if (this.form.value.value == 'available') { this.table.filter('AVAILABLE', 'boatName', 'equals') }
+    }
+
+    public formatDateToLocale(date: string, showWeekday: boolean, showYear: boolean, returnEmptyString: boolean): string {
         return returnEmptyString && date == '2199-12-31' ? '' : this.dateHelperService.formatISODateToLocale(date, showWeekday, showYear)
     }
 
@@ -93,14 +113,12 @@ export class BerthListComponent {
         return isOverdue ? 'YES' : ''
     }
 
-    public getPaymentDescriptionColor(paymentStatusDescription: string): string {
-        switch (paymentStatusDescription) {
-            case 'NONE':
-                return 'red'
-            case 'PARTIAL':
-                return 'yellow'
-            case 'FULL':
+    public getBoatNameColor(boatName: string): string {
+        switch (boatName) {
+            case 'AVAILABLE':
                 return 'green'
+            default:
+                return ''
         }
     }
 
@@ -132,7 +150,7 @@ export class BerthListComponent {
     }
 
     public onResetTableFilters(): void {
-        this.helperService.clearTableTextFilters(this.table, ['description', 'email', 'phones'])
+        this.helperService.clearTableTextFilters(this.table, ['description', 'boatName', 'toDate'])
     }
 
     //#endregion
@@ -189,6 +207,12 @@ export class BerthListComponent {
         this.menuItems = [
             { label: this.getLabel('contextMenuEdit'), command: () => this.onEditRecord(this.selectedRecord.id) }
         ]
+    }
+
+    private initForm(): void {
+        this.form = this.formBuilder.group({
+            value: new FormControl('all'),
+        })
     }
 
     private loadRecords(): Promise<any> {
