@@ -37,6 +37,7 @@ export class ReservationListComponent {
     public recordsFilteredCount = 0
     public filterDate = ''
 
+    public selectedRecords: ReservationListVM[] = []
     public distinctPaymentStatuses: SimpleEntity[] = []
 
     //#endregion
