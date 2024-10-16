@@ -200,6 +200,10 @@
             {
                 "id": "headerToDate",
                 "description": "Lease until"
+            },
+            {
+                "id": "newRecord",
+                "description": "New record"
             }
         ]
     },

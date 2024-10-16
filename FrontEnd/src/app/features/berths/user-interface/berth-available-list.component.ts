@@ -49,6 +49,9 @@ export class BerthAvailableListComponent {
 
     //#region availability filters
 
+    public occupied = 0
+    public available = 0
+
     public berthAvailabilityOptions: any[] = [
         { label: 'All', value: 'all' },
         { label: 'Occupied', value: 'occupied' },
@@ -64,11 +67,9 @@ export class BerthAvailableListComponent {
     ngOnInit(): void {
         this.initForm()
         this.loadRecords().then(() => {
-            // this.filterTableFromStoredFilters()
-            // this.setTabTitle()
-            // this.doVirtualTableTasks()
+            this.occupied = this.records.filter((x) => x.boatName != 'AVAILABLE').length
+            this.available = this.records.filter((x) => x.boatName == 'AVAILABLE').length
             this.setSidebarsHeight()
-            // this.initContextMenu()
         })
     }
 

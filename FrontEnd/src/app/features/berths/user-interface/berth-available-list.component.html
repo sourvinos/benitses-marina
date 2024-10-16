@@ -9,32 +9,47 @@
             </form>
         </div>
 
-        <div id="table-wrapper">
-            <p-contextMenu #contextMenu [model]="menuItems"></p-contextMenu>
-            <p-table #table (onFilter)="onFilterRecords($event)" [(contextMenuSelection)]="selectedRecord" [contextMenu]="contextMenu" [scrollable]="true" [value]="records" [virtualScrollItemSize]="32" [virtualScroll]="true" dataKey="id" scrollHeight="flex" selectionMode="single" sortMode="multiple">
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th class="no-border-bottom width-3"></th>
-                        <th class="no-border-bottom width-10" pSortableColumn="description">{{ getLabel("headerDescription") }}</th>
-                        <th class="no-border-bottom width-10" pSortableColumn="boatName">{{ getLabel("headerBoatName") }}</th>
-                        <th class="no-border-bottom width-4" pSortableColumn="toDate">{{ getLabel("headerToDate") }}</th>
-                    </tr>
-                    <tr>
-                        <th class="no-border-top width-3" style="padding-right: 12px;"><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
-                        <th class="no-border-top width-10"><p-columnFilter (input)="onFilter($event.target.value,'description','contains')" field="description"></p-columnFilter></th>
-                        <th class="no-border-top width-10"><p-columnFilter (input)="onFilter($event.target.value,'boatName','contains')" field="boatName"></p-columnFilter></th>
-                        <th class="no-border-top width-4"><p-columnFilter (input)="onFilter($event.target.value,'toDate','contains')" field="toDate"></p-columnFilter></th>
-                    </tr>
-                </ng-template>
-                <ng-template let-record pTemplate="body">
-                    <tr (click)="onHighlightRow(record.id)" (contextmenu)="onHighlightRow(record.id)" (dblclick)="onEditRecord(record.id)" [attr.id]=record.id [pContextMenuRow]="record" style="height: 32px;">
-                        <td class="width-3"><span class="center no-overflow" style="padding-top: 0.25rem !important;"><p-tableCheckbox [value]="record"></p-tableCheckbox></span></td>
-                        <td class="width-10"><span>{{ record.description }}</span></td>
-                        <td class="width-10"><span [ngClass]="getBoatNameColor(record.boatName)">{{ record.boatName }}</span></td>
-                        <td class="width-4"><span class="center no-overflow">{{ formatDateToLocale(record.toDate,false,true,true) }}</span></td>
-                    </tr>
-                </ng-template>
-            </p-table>
+        <div id="knobs-and-table">
+
+            <div id="knobs">
+                <div class="knob">
+                    <span class="label">Occupied</span>
+                    <p-knob [(ngModel)]="occupied" valueColor="#5298C5" rangeColor="lightgray" [strokeWidth]="10" textColor=var(--color-text) />
+                </div>
+                <div class="knob">
+                    <span class="label">Available</span>
+                    <p-knob [(ngModel)]="available" valueColor="#ffa500" rangeColor="lightgray" [strokeWidth]="10" textColor=var(--color-text) />
+                </div>
+            </div>
+
+            <div id="table-wrapper">
+                <p-contextMenu #contextMenu [model]="menuItems"></p-contextMenu>
+                <p-table #table (onFilter)="onFilterRecords($event)" [(contextMenuSelection)]="selectedRecord" [contextMenu]="contextMenu" [scrollable]="true" [value]="records" [virtualScrollItemSize]="32" [virtualScroll]="true" dataKey="id" scrollHeight="flex" selectionMode="single" sortMode="multiple">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th class="no-border-bottom width-3"></th>
+                            <th class="no-border-bottom width-4" pSortableColumn="description">{{ getLabel("headerDescription") }}</th>
+                            <th class="no-border-bottom width-10" pSortableColumn="boatName">{{ getLabel("headerBoatName") }}</th>
+                            <th class="no-border-bottom width-4" pSortableColumn="toDate">{{ getLabel("headerToDate") }}</th>
+                        </tr>
+                        <tr>
+                            <th class="no-border-top width-3" style="padding-right: 12px;"><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
+                            <th class="no-border-top width-4"><p-columnFilter (input)="onFilter($event.target.value,'description','contains')" field="description"></p-columnFilter></th>
+                            <th class="no-border-top width-10"><p-columnFilter (input)="onFilter($event.target.value,'boatName','contains')" field="boatName"></p-columnFilter></th>
+                            <th class="no-border-top width-4"><p-columnFilter (input)="onFilter($event.target.value,'toDate','contains')" field="toDate"></p-columnFilter></th>
+                        </tr>
+                    </ng-template>
+                    <ng-template let-record pTemplate="body">
+                        <tr (click)="onHighlightRow(record.id)" (contextmenu)="onHighlightRow(record.id)" (dblclick)="onEditRecord(record.id)" [attr.id]=record.id [pContextMenuRow]="record" style="height: 32px;">
+                            <td class="width-3"><span class="center no-overflow" style="padding-top: 0.25rem !important;"><p-tableCheckbox [value]="record"></p-tableCheckbox></span></td>
+                            <td class="width-4"><span>{{ record.description }}</span></td>
+                            <td class="width-10"><span [ngClass]="getBoatNameColor(record.boatName)">{{ record.boatName }}</span></td>
+                            <td class="width-4"><span class="center no-overflow">{{ formatDateToLocale(record.toDate,false,true,true) }}</span></td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+
         </div>
 
     </div>
@@ -42,8 +57,7 @@
     <div id="footer">
         <table-total-filtered-records (resetTableFilters)="onResetTableFilters()" [filteredRecordCount]="recordsFilteredCount" [recordCount]="records.length"></table-total-filtered-records>
         <div id="align-right">
-            <button (click)="onNewRecord()" [disabled]="!isAdmin()" class="primary" mat-flat-button>{{ getLabel("newRecord") | uppercase }}
-            </button>
+            <button (click)="onNewRecord()" [disabled]="!isAdmin()" class="primary" mat-flat-button>{{ getLabel("newRecord") | uppercase }}</button>
         </div>
     </div>
 

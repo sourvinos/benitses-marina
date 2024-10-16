@@ -69,8 +69,7 @@
     <div id="footer">
         <table-total-filtered-records (resetTableFilters)="onResetTableFilters()" [filteredRecordCount]="recordsFilteredCount" [mustShowSelectedFilteredCount]="true" [recordCount]="records.length" [selectedRecordCount]="selectedRecords.length"></table-total-filtered-records>
         <div id="align-right">
-            <button (click)="onNewRecord()" [disabled]="!isAdmin()" class="primary" mat-flat-button>{{ getLabel("newRecord") | uppercase }}
-            </button>
+            <button (click)="onNewRecord()" [disabled]="!isAdmin()" class="primary" mat-flat-button>{{ getLabel("newRecord") | uppercase }}</button>
         </div>
     </div>
 
