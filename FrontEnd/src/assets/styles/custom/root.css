@@ -118,7 +118,7 @@ ul {
     background-clip: padding-box;
     background-color: var(--color-accent);
     border-radius: 0;
-    border-left: 0 solid rgb(0 0 0 /0%);
+    border-left: 0 solid rgb(0, 0, 0, 0%);
     min-height: 5rem;
 }
 

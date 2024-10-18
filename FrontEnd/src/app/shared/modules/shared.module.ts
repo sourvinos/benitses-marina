@@ -22,9 +22,8 @@ import { PrettyPrintPipe } from '../pipes/json-pretty.pipe'
 import { ReplaceZeroPipe } from '../pipes/replace-zero.pipe'
 import { SafeStylePipe } from '../pipes/safe-style.pipe'
 import { TableTotalFilteredRecordsComponent } from '../components/table-total-filtered-records/table-total-filtered-records.component'
-import { ThemeSelectorComponent } from '../components/theme-selector/theme-selector.component'
 import { TrimStringPipe } from './../pipes/string-trim.pipe'
-// import { SidebarComponent } from '../components/sidebar/sidebar.component'
+import { ThemeSelectorComponent } from '../components/theme-selector/theme-selector.component'
 
 @NgModule({
     declarations: [
@@ -44,9 +43,8 @@ import { TrimStringPipe } from './../pipes/string-trim.pipe'
         PrettyPrintPipe,
         ReplaceZeroPipe,
         SafeStylePipe,
-        // SidebarComponent,
-        TableTotalFilteredRecordsComponent,
         ThemeSelectorComponent,
+        TableTotalFilteredRecordsComponent,
         TrimStringPipe
     ],
     imports: [
@@ -79,9 +77,8 @@ import { TrimStringPipe } from './../pipes/string-trim.pipe'
         ReplaceZeroPipe,
         RouterModule,
         RouterModule,
-        // SidebarComponent,
-        TableTotalFilteredRecordsComponent,
         ThemeSelectorComponent,
+        TableTotalFilteredRecordsComponent,
         TrimStringPipe
     ]
 })

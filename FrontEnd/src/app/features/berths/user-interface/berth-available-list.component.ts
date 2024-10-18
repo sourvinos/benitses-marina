@@ -49,6 +49,7 @@ export class BerthAvailableListComponent {
 
     //#region availability filters
 
+    public selectedRecords: BerthListVM[] = []
     public occupied = 0
     public available = 0
 

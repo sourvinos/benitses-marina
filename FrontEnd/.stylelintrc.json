@@ -17,6 +17,7 @@
         "comment-empty-line-before": null,
         "comment-no-empty": null,
         "custom-property-empty-line-before": "never",
+        "color-function-notation": "legacy",
         "declaration-empty-line-before": "never",
         "media-feature-range-notation": "context",
         "no-descending-specificity": null,
