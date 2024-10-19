@@ -5,6 +5,7 @@ import { CheckboxModule } from 'primeng/checkbox'
 import { ContextMenuModule } from 'primeng/contextmenu'
 import { DropdownModule } from 'primeng/dropdown'
 import { KnobModule } from 'primeng/knob'
+import { MessagesModule } from 'primeng/messages'
 import { MultiSelectModule } from 'primeng/multiselect'
 import { RadioButtonModule } from 'primeng/radiobutton'
 import { SelectButtonModule } from 'primeng/selectbutton'
@@ -17,6 +18,7 @@ import { TableModule } from 'primeng/table'
         ContextMenuModule,
         DropdownModule,
         KnobModule,
+        MessagesModule,
         MultiSelectModule,
         RadioButtonModule,
         SelectButtonModule,

@@ -15,12 +15,12 @@ import { environment } from 'src/environments/environment'
 @Component({
     selector: 'forgot-password-form',
     templateUrl: './forgot-password-form.component.html',
-    styleUrls: ['../../../../../assets/styles/custom/forms.css']
+    styleUrls: ['../../../../../assets/styles/custom/forms.css', './forgot-password-form.component.css']
 })
 
 export class ForgotPasswordFormComponent {
 
-    //#region common #6
+    //#region variables
 
     public feature = 'forgotPasswordForm'
     public featureIcon = 'forgot-password'
@@ -28,10 +28,6 @@ export class ForgotPasswordFormComponent {
     public icon = 'arrow_back'
     public input: InputTabStopDirective
     public parentUrl = '/login'
-
-    //#endregion
-
-    //#region specific #1
 
     public isLoading = new Subject<boolean>()
 
@@ -42,6 +38,7 @@ export class ForgotPasswordFormComponent {
     //#region lifecycle hooks
 
     ngOnInit(): void {
+        this.showTopBarLogo()
         this.initForm()
         this.focusOnField()
         this.populateFields()
@@ -95,6 +92,10 @@ export class ForgotPasswordFormComponent {
             returnUrl: environment.clientUrl,
             language: this.localStorageService.getLanguage(),
         })
+    }
+
+    private showTopBarLogo(): void {
+        document.getElementById('logo').style.visibility = 'visible'
     }
 
     //#endregion

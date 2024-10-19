@@ -393,6 +393,10 @@
             {
                 "id": "submitButton",
                 "description": "Continue"
+            },
+            {
+                "id": "message",
+                "description": "Give us your email and if it exists in our database, we'll send you instructions on how to set a new password."
             }
         ]
     },
