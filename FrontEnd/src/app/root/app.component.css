@@ -25,14 +25,14 @@
 
 #topbar {
     align-items: center;
-    background-color: rgba(0, 0, 0, 60%);
+    background-color: var(--color-background);
     display: flex;
     flex-direction: row;
     padding: 0.8125rem 6rem 0.8125rem 6rem;
 }
 
 #center {
-    background-color: rgba(0, 0, 0, 60%);
+    background-color: var(--color-background);
     display: flex;
     flex-direction: row;
     height: 100%;
