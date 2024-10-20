@@ -196,6 +196,7 @@ export class ReservationFormComponent {
             paymentStatusId: this.form.value.paymentStatus.id,
             isDocked: this.form.value.isDocked,
             isLongTerm: this.form.value.isLongTerm,
+            isAthenian: this.form.value.isAthenian,
             putAt: this.form.value.putAt
         }
     }
@@ -241,6 +242,7 @@ export class ReservationFormComponent {
             paymentStatus: ['', [Validators.required, ValidationService.RequireAutocomplete]],
             isDocked: false,
             isLongTerm: false,
+            isAthenian: false,
             postAt: [''],
             postUser: [''],
             putAt: [''],
@@ -275,6 +277,7 @@ export class ReservationFormComponent {
                 remarks: this.reservation.remarks,
                 isDocked: this.reservation.isDocked,
                 isLongTerm: this.reservation.isLongTerm,
+                isAthenian: this.reservation.isAthenian,
                 paymentStatus: { 'id': this.reservation.paymentStatus.id, 'description': this.reservation.paymentStatus.description },
                 postAt: this.reservation.postAt,
                 postUser: this.reservation.postUser,

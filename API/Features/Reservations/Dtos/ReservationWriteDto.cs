@@ -22,6 +22,7 @@ namespace API.Features.Reservations {
         public string Contact { get; set; }
         public bool IsDocked { get; set; }
         public bool IsLongTerm { get; set; }
+        public bool IsAthenian { get; set; }
         public List<ReservationBerthWriteDto> Berths { get; set; }
         // Metadata
         public string PostAt { get; set; }

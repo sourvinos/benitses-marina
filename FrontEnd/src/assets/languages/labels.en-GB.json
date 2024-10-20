@@ -72,6 +72,10 @@
                 "description": "Payment"
             },
             {
+                "id": "headerIsAthenian",
+                "description": "Athenian"
+            },
+            {
                 "id": "headerIsLongTerm",
                 "description": "Long term"
             },
@@ -145,6 +149,10 @@
                 "description": "Docked"
             },
             {
+                "id": "isAthenian",
+                "description": "Athenian"
+            },
+            {
                 "id": "paymentStatus",
                 "description": "Payment status"
             },
@@ -196,6 +204,10 @@
             {
                 "id": "headerBoatName",
                 "description": "Boat name"
+            },
+            {
+                "id": "headerIsAthenian",
+                "description": "Athenian"
             },
             {
                 "id": "headerToDate",

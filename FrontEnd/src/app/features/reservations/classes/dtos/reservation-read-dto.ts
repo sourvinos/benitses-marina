@@ -19,6 +19,7 @@ export interface ReservationReadDto extends Metadata {
     isDocked: boolean
     paymentStatus: SimpleEntity
     isLongTerm: boolean
+    isAthenian: boolean
     berths: BerthReadDto[]
     postAt: string
     postUser: string

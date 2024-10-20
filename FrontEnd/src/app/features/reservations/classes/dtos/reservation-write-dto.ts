@@ -16,6 +16,7 @@ export interface ReservationWriteDto {
     isDocked: boolean
     paymentStatusId: number
     isLongTerm: boolean
+    isAthenian: boolean
     berths: BerthWriteDto[]
     putAt: string
 

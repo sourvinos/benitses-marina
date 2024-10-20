@@ -55,6 +55,7 @@ namespace API.Features.Reservations.Berths {
                         Description = berth.Description,
                         BoatName = "AVAILABLE",
                         ToDate = "2199-12-31",
+                        IsAthenian = false,
                         IsOverdue = false
                     });
                 } else {
@@ -64,6 +65,7 @@ namespace API.Features.Reservations.Berths {
                             Description = occupiedBerth.Description,
                             BoatName = occupiedBerth.Reservation.BoatName,
                             ToDate = DateHelpers.DateToISOString(occupiedBerth.Reservation.ToDate),
+                            IsAthenian = occupiedBerth.Reservation.IsAthenian,
                             IsOverdue = occupiedBerth.Reservation.ToDate.AddDays(1) < TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "E. Europe Standard Time")
                         });
                     }

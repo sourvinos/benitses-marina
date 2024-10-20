@@ -88,6 +88,10 @@ ul {
     display: none !important;
 }
 
+.no-overflow {
+    overflow: hidden !important;
+}
+
 .pi {
     margin-top: 0;
 }

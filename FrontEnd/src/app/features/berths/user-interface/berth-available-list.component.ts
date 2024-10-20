@@ -14,7 +14,6 @@ import { ListResolved } from 'src/app/shared/classes/list-resolved'
 import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
 import { SessionStorageService } from 'src/app/shared/services/session-storage.service'
-import { filter } from 'rxjs'
 
 @Component({
     selector: 'berth-available-list',
@@ -52,6 +51,7 @@ export class BerthAvailableListComponent {
     public selectedRecords: BerthListVM[] = []
     public occupied = 0
     public available = 0
+    public athenian = 0
 
     public berthAvailabilityOptions: any[] = [
         { label: 'All', value: 'all' },
@@ -70,6 +70,7 @@ export class BerthAvailableListComponent {
         this.loadRecords().then(() => {
             this.occupied = this.records.filter((x) => x.boatName != 'AVAILABLE').length
             this.available = this.records.filter((x) => x.boatName == 'AVAILABLE').length
+            this.athenian = this.records.filter((x) => x.isAthenian).length
             this.setSidebarsHeight()
         })
     }
@@ -87,7 +88,7 @@ export class BerthAvailableListComponent {
 
     //#region public methods
 
-    public fixMe(): void {
+    public filterBySelection(): void {
         if (this.form.value.value == 'all') { this.helperService.clearTableTextFilters(this.table, ['description', 'boatName', 'toDate']) }
         if (this.form.value.value == 'occupied') { this.table.filter('AVAILABLE', 'boatName', 'notEquals') }
         if (this.form.value.value == 'available') { this.table.filter('AVAILABLE', 'boatName', 'equals') }
