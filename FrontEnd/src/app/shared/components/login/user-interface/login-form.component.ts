@@ -95,7 +95,7 @@ export class LoginFormComponent {
     }
 
     public onLogin(): void {
-        this.accountService.login(this.form.value.username, this.form.value.password, this.localStorageService.getItem('language')).pipe(indicate(this.isLoading)).subscribe({
+        this.accountService.login(this.form.value.username, this.form.value.password).pipe(indicate(this.isLoading)).subscribe({
             complete: () => {
                 this.goHome()
             },

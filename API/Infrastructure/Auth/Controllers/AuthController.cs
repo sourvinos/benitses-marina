@@ -53,7 +53,7 @@ namespace API.Infrastructure.Auth {
         private async Task<Login> Login(TokenRequest model) {
             var user = await userManager.FindByNameAsync(model.Username);
             if (user?.IsActive == true && await userManager.IsEmailConfirmedAsync(user) && await userManager.CheckPasswordAsync(user, model.Password)) {
-                var newRefreshToken = CreateRefreshToken(settings.ClientId, user.Id, model.Language);
+                var newRefreshToken = CreateRefreshToken(settings.ClientId, user.Id);
                 context.Tokens.Add(newRefreshToken);
                 var response = await CreateToken(user, newRefreshToken.Value);
                 await context.SaveChangesAsync();
@@ -79,7 +79,7 @@ namespace API.Infrastructure.Auth {
             if (existingToken == null) AuthenticationFailed();
             var user = await userManager.FindByIdAsync(existingToken.UserId);
             if (user == null) AuthenticationFailed();
-            var newToken = CreateRefreshToken(existingToken.ClientId, existingToken.UserId, model.Language);
+            var newToken = CreateRefreshToken(existingToken.ClientId, existingToken.UserId);
             context.Tokens.Add(newToken);
             context.Tokens.Remove(existingToken);
             context.SaveChanges();
@@ -96,14 +96,13 @@ namespace API.Infrastructure.Auth {
             };
         }
 
-        private Token CreateRefreshToken(string clientId, string userId, string language) {
+        private Token CreateRefreshToken(string clientId, string userId) {
             return new Token() {
                 ClientId = clientId,
                 UserId = userId,
                 Value = Guid.NewGuid().ToString("N"),
                 CreatedDate = DateTime.UtcNow,
-                ExpiryTime = DateTime.UtcNow.AddMinutes(Convert.ToDouble(settings.ExpireTime)),
-                Language = language
+                ExpiryTime = DateTime.UtcNow.AddMinutes(Convert.ToDouble(settings.ExpireTime))
             };
         }
 

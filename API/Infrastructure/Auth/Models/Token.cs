@@ -10,7 +10,6 @@ namespace API.Infrastructure.Auth {
         public string Value { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime ExpiryTime { get; set; }
-        public string Language { get; set; }
 
     }
 

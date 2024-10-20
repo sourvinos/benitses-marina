@@ -75,9 +75,9 @@ export class AccountService extends HttpDataService {
         )
     }
 
-    public login(userName: string, password: string, language: string): Observable<void> {
+    public login(userName: string, password: string): Observable<void> {
         const grantType = 'password'
-        return this.http.post<any>(this.urlToken, { language, userName, password, grantType }).pipe(map(response => {
+        return this.http.post<any>(this.urlToken, { userName, password, grantType }).pipe(map(response => {
             this.setUserData(response)
             this.setDotNetVersion(response)
             this.setAuthSettings(response)

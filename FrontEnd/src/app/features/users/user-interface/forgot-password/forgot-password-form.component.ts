@@ -82,15 +82,13 @@ export class ForgotPasswordFormComponent {
     private initForm(): void {
         this.form = this.formBuilder.group({
             email: [environment.login.email, [Validators.required, Validators.email]],
-            returnUrl: '',
-            language: ''
+            returnUrl: ''
         })
     }
 
     private populateFields(): void {
         this.form.patchValue({
-            returnUrl: environment.clientUrl,
-            language: this.localStorageService.getLanguage(),
+            returnUrl: environment.clientUrl
         })
     }
 

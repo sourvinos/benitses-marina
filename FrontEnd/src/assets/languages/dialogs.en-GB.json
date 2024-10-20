@@ -44,11 +44,11 @@
             },
             {
                 "id": "emailSent",
-                "message": "We've just sent you an email."
+                "message": "We've just sent an email."
             },
             {
                 "id": "emailNotSent",
-                "message": "We can't send you an email right now, please try again in a little while."
+                "message": "We can't send an email right now, please try again in a little while."
             },
             {
                 "id": "unableToResetPassword",
