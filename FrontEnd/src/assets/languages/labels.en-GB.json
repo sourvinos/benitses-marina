@@ -211,7 +211,7 @@
             },
             {
                 "id": "headerToDate",
-                "description": "Lease until"
+                "description": "Lease ends"
             },
             {
                 "id": "newRecord",

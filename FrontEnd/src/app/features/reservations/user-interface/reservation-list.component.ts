@@ -1,6 +1,5 @@
 import { ActivatedRoute, Router } from '@angular/router'
 import { Component, ViewChild } from '@angular/core'
-import { MenuItem } from 'primeng/api'
 import { Table } from 'primeng/table'
 // Custom
 import { CryptoService } from 'src/app/shared/services/crypto.service'
@@ -42,13 +41,6 @@ export class ReservationListComponent {
 
     //#endregion
 
-    //#region context menu
-
-    public menuItems!: MenuItem[]
-    public selectedRecord!: ReservationListVM
-
-    //#endregion
-
     constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateHelperService: DateHelperService, private dialogService: DialogService, private emojiService: EmojiService, private helperService: HelperService, private messageDialogService: MessageDialogService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService) { }
 
     //#region lifecycle hooks
@@ -61,7 +53,6 @@ export class ReservationListComponent {
             this.setTabTitle()
             this.doVirtualTableTasks()
             this.setSidebarsHeight()
-            this.initContextMenu()
         })
     }
 
@@ -194,12 +185,6 @@ export class ReservationListComponent {
 
     private hightlightSavedRow(): void {
         this.helperService.highlightSavedRow(this.feature)
-    }
-
-    private initContextMenu(): void {
-        this.menuItems = [
-            { label: this.getLabel('contextMenuEdit'), command: () => this.onEditRecord(this.selectedRecord.reservationId) }
-        ]
     }
 
     private stringifyBerths(): void {
