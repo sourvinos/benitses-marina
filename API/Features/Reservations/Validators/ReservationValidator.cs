@@ -13,6 +13,7 @@ namespace API.Features.Reservations {
             RuleFor(x => x.Email).Must(EmailHelpers.BeEmptyOrValidEmailAddress).MaximumLength(128);
             RuleFor(x => x.Contact).MaximumLength(255);
             RuleFor(x => x.Remarks).MaximumLength(2048);
+            RuleFor(x => x.FinancialRemarks).MaximumLength(2048);
         }
 
     }

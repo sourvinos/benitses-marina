@@ -126,6 +126,10 @@ export class ReservationFormComponent {
         return this.form.value.remarks != null ? this.form.value.remarks.length : 0
     }
 
+    public getFinancialRemarksLength(): any {
+        return this.form.value.financialRemarks != null ? this.form.value.financialRemarks.length : 0
+    }
+
     public isAdmin(): boolean {
         return this.cryptoService.decrypt(this.sessionStorageService.getItem('isAdmin')) == 'true' ? true : false
     }
@@ -193,6 +197,7 @@ export class ReservationFormComponent {
             email: this.form.value.email,
             contact: this.form.value.contact,
             remarks: this.form.value.remarks,
+            financialRemarks: this.form.value.financialRemarks,
             paymentStatusId: this.form.value.paymentStatus.id,
             isDocked: this.form.value.isDocked,
             isLongTerm: this.form.value.isLongTerm,
@@ -239,6 +244,7 @@ export class ReservationFormComponent {
             email: ['', [Validators.maxLength(128), Validators.email]],
             contact: ['', Validators.maxLength(128)],
             remarks: ['', Validators.maxLength(2048)],
+            financialRemarks: ['', Validators.maxLength(2048)],
             paymentStatus: ['', [Validators.required, ValidationService.RequireAutocomplete]],
             isDocked: false,
             isLongTerm: false,
@@ -275,6 +281,7 @@ export class ReservationFormComponent {
                 email: this.reservation.email,
                 contact: this.reservation.contact,
                 remarks: this.reservation.remarks,
+                financialRemarks: this.reservation.financialRemarks,
                 isDocked: this.reservation.isDocked,
                 isLongTerm: this.reservation.isLongTerm,
                 isAthenian: this.reservation.isAthenian,
@@ -378,6 +385,10 @@ export class ReservationFormComponent {
 
     get remarks(): AbstractControl {
         return this.form.get('remarks')
+    }
+
+    get financialRemarks(): AbstractControl {
+        return this.form.get('financialRemarks')
     }
 
     get postAt(): AbstractControl {

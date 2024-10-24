@@ -41,7 +41,8 @@ namespace API.Features.Reservations {
                 .ForMember(x => x.Customer, x => x.MapFrom(x => x.Customer.Trim()))
                 .ForMember(x => x.Email, x => x.MapFrom(x => x.Email.Trim()))
                 .ForMember(x => x.Contact, x => x.MapFrom(x => x.Contact.Trim()))
-                .ForMember(x => x.Remarks, x => x.MapFrom(x => x.Remarks.Trim()));
+                .ForMember(x => x.Remarks, x => x.MapFrom(x => x.Remarks.Trim()))
+                .ForMember(x => x.FinancialRemarks, x => x.MapFrom(x => x.FinancialRemarks.Trim()));
             // Write berth
             CreateMap<ReservationBerthWriteDto, ReservationBerth>();
         }

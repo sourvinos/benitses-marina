@@ -16,6 +16,7 @@ export interface ReservationReadDto extends Metadata {
     email: string
     contact: string
     remarks: string
+    financialRemarks: string
     isDocked: boolean
     paymentStatus: SimpleEntity
     isLongTerm: boolean

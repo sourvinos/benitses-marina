@@ -105,6 +105,22 @@
                 "description": "Edit reservation"
             },
             {
+                "id": "tab1",
+                "description": "Overview"
+            },
+            {
+                "id": "tab2",
+                "description": "Contact"
+            },
+            {
+                "id": "tab3",
+                "description": "Financial"
+            },
+            {
+                "id": "tab4",
+                "description": "Lease"
+            },
+            {
                 "id": "boatName",
                 "description": "Boat name"
             },

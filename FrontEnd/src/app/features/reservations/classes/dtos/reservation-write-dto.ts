@@ -13,6 +13,7 @@ export interface ReservationWriteDto {
     email: string
     contact: string
     remarks: string
+    financialRemarks: string
     isDocked: boolean
     paymentStatusId: number
     isLongTerm: boolean
