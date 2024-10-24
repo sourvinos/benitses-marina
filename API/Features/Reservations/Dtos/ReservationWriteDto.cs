@@ -12,7 +12,6 @@ namespace API.Features.Reservations {
         public int PaymentStatusId { get; set; }
         //  Fields
         public string BoatName { get; set; }
-        public string Customer { get; set; }
         public string Loa { get; set; }
         public string FromDate { get; set; }
         public string ToDate { get; set; }

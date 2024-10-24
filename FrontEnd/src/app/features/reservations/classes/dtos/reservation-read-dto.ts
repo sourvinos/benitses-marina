@@ -1,8 +1,9 @@
 import { Guid } from 'guid-typescript'
 // Custom
-import { Metadata } from 'src/app/shared/classes/metadata'
-import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 import { BerthReadDto } from './berth-read-dto'
+import { Metadata } from 'src/app/shared/classes/metadata'
+import { ReservationLeaseReadDto } from './reservationLease-read-dto'
+import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 
 export interface ReservationReadDto extends Metadata {
 
@@ -22,6 +23,7 @@ export interface ReservationReadDto extends Metadata {
     isLongTerm: boolean
     isAthenian: boolean
     berths: BerthReadDto[]
+    reservationLease: ReservationLeaseReadDto
     postAt: string
     postUser: string
     putAt: string

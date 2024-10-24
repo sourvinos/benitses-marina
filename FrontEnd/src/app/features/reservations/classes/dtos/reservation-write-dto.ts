@@ -1,5 +1,6 @@
 import { Guid } from 'guid-typescript'
 import { BerthWriteDto } from './berth-write-dto'
+import { ReservationLeaseWriteDto } from './reservationLease-write-dto'
 
 export interface ReservationWriteDto {
 
@@ -19,6 +20,7 @@ export interface ReservationWriteDto {
     isLongTerm: boolean
     isAthenian: boolean
     berths: BerthWriteDto[]
+    reservationLease: ReservationLeaseWriteDto
     putAt: string
 
 }

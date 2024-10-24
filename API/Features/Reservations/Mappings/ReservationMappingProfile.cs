@@ -35,6 +35,13 @@ namespace API.Features.Reservations {
                 .ForMember(x => x.PaymentStatus, x => x.MapFrom(x => new SimpleEntity {
                     Id = x.PaymentStatus.Id,
                     Description = x.PaymentStatus.Description
+                }))
+                .ForMember(x => x.ReservationLease, x => x.MapFrom(x => new ReservationLeaseReadDto {
+                    Id = x.ReservationLease.Id,
+                    ReservationId = x.ReservationLease.ReservationId,
+                    InsuranceCompany = x.ReservationLease.InsuranceCompany,
+                    PolicyNo = x.ReservationLease.PolicyNo,
+                    PolicyEnds = DateHelpers.DateToISOString(x.ReservationLease.PolicyEnds)
                 }));
             // Write reservation
             CreateMap<ReservationWriteDto, Reservation>()

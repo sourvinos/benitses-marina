@@ -72,7 +72,7 @@ namespace API.Features.Reservations {
             using var transaction = context.Database.BeginTransaction();
             UpdateReservation(reservation);
             DeleteBerths(reservationId, reservation.Berths);
-            DeleteLease(reservation.ReservationLease);
+            UpdateLease(reservation.ReservationLease);
             context.SaveChanges();
             DisposeOrCommit(transaction);
             return reservation;
@@ -104,9 +104,9 @@ namespace API.Features.Reservations {
             context.ReservationBerths.RemoveRange(berthsToDelete);
         }
 
-        private void DeleteLease(ReservationLease lease) {
-            var existingLease=context.ReservationBerths.AsNoTracking()
-            context.ReservationLease.Remove(lease);
+        private void UpdateLease(ReservationLease lease) {
+            var existingLease = context.ReservationLeases.Where(x => x.ReservationId == lease.ReservationId).SingleOrDefault();
+            context.ReservationLeases.Update(lease);
         }
 
         private class BerthComparerById : IEqualityComparer<ReservationBerth> {

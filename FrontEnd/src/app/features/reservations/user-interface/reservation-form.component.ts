@@ -199,6 +199,7 @@ export class ReservationFormComponent {
             remarks: this.form.value.remarks,
             financialRemarks: this.form.value.financialRemarks,
             paymentStatusId: this.form.value.paymentStatus.id,
+            reservationLease: this.form.value.reservationLease,
             isDocked: this.form.value.isDocked,
             isLongTerm: this.form.value.isLongTerm,
             isAthenian: this.form.value.isAthenian,
@@ -246,6 +247,12 @@ export class ReservationFormComponent {
             remarks: ['', Validators.maxLength(2048)],
             financialRemarks: ['', Validators.maxLength(2048)],
             paymentStatus: ['', [Validators.required, ValidationService.RequireAutocomplete]],
+            reservationLease: this.formBuilder.group({
+                reservationId: '',
+                insuranceCompany: '',
+                policyNo: '',
+                policyEnds: ''
+            }),
             isDocked: false,
             isLongTerm: false,
             isAthenian: false,
@@ -405,6 +412,17 @@ export class ReservationFormComponent {
 
     get putUser(): AbstractControl {
         return this.form.get('putUser')
+    }
+    get insuranceCompany(): AbstractControl {
+        return this.form.get('reservationLease.insuranceCompany')
+    }
+
+    get policyNo(): AbstractControl {
+        return this.form.get('reservationLease.policyNo')
+    }
+
+    get policyEnds(): AbstractControl {
+        return this.form.get('reservationLease.policyEnds')
     }
 
     //#endregion
