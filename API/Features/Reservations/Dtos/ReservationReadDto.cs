@@ -23,6 +23,7 @@ namespace API.Features.Reservations {
         public bool IsDocked { get; set; }
         public bool IsLongTerm { get; set; }
         public bool IsAthenian { get; set; }
+        public ReservationLease ReservationLease { get; set; }
         public List<ReservationBerthVM> Berths { get; set; }
         // Navigation
         public SimpleEntity PaymentStatus { get; set; }

@@ -25,6 +25,7 @@ namespace API.Features.Reservations {
         public bool IsDocked { get; set; }
         public bool IsLongTerm { get; set; }
         public bool IsAthenian { get; set; }
+        public ReservationLease ReservationLease { get; set; }
         public List<ReservationBerth> Berths { get; set; }
         // Navigation
         public PaymentStatus PaymentStatus { get; set; }

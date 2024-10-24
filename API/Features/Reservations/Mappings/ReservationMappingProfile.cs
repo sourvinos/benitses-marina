@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using API.Infrastructure.Classes;
 using API.Infrastructure.Helpers;
@@ -42,8 +43,14 @@ namespace API.Features.Reservations {
                 .ForMember(x => x.Email, x => x.MapFrom(x => x.Email.Trim()))
                 .ForMember(x => x.Contact, x => x.MapFrom(x => x.Contact.Trim()))
                 .ForMember(x => x.Remarks, x => x.MapFrom(x => x.Remarks.Trim()))
-                .ForMember(x => x.FinancialRemarks, x => x.MapFrom(x => x.FinancialRemarks.Trim()));
-            // Write berth
+                .ForMember(x => x.FinancialRemarks, x => x.MapFrom(x => x.FinancialRemarks.Trim()))
+                .ForMember(x => x.ReservationLease, x => x.MapFrom(x => new ReservationLease {
+                    ReservationId = x.ReservationId,
+                    InsuranceCompany = x.ReservationLease.InsuranceCompany,
+                    PolicyNo = x.ReservationLease.PolicyNo,
+                    PolicyEnds = new DateTime(2199, 12, 31),
+                }))
+;            // Write berth
             CreateMap<ReservationBerthWriteDto, ReservationBerth>();
         }
 

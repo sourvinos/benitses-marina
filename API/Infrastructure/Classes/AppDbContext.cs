@@ -16,6 +16,7 @@ namespace API.Infrastructure.Classes {
         public DbSet<Berth> Berths { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<ReservationBerth> ReservationBerths { get; set; }
+        public DbSet<ReservationLease> ReservationLease { get; set; }
         public DbSet<PaymentStatus> PaymentStatuses { get; set; }
         public DbSet<Token> Tokens { get; set; }
 

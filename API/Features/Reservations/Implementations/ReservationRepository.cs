@@ -57,6 +57,7 @@ namespace API.Features.Reservations {
                 ? await context.Reservations
                     .AsNoTracking()
                     .Include(x => x.Berths)
+                    .Include(x => x.ReservationLease)
                     .Include(x => x.PaymentStatus)
                     .Where(x => x.ReservationId.ToString() == reservationId)
                     .SingleOrDefaultAsync()
@@ -71,6 +72,7 @@ namespace API.Features.Reservations {
             using var transaction = context.Database.BeginTransaction();
             UpdateReservation(reservation);
             DeleteBerths(reservationId, reservation.Berths);
+            DeleteLease(reservation.ReservationLease);
             context.SaveChanges();
             DisposeOrCommit(transaction);
             return reservation;
@@ -100,6 +102,11 @@ namespace API.Features.Reservations {
                 .Except(berthsToUpdate, new BerthComparerById())
                 .ToList();
             context.ReservationBerths.RemoveRange(berthsToDelete);
+        }
+
+        private void DeleteLease(ReservationLease lease) {
+            var existingLease=context.ReservationBerths.AsNoTracking()
+            context.ReservationLease.Remove(lease);
         }
 
         private class BerthComparerById : IEqualityComparer<ReservationBerth> {
