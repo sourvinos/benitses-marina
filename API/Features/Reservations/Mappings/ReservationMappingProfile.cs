@@ -13,6 +13,9 @@ namespace API.Features.Reservations {
             CreateMap<Reservation, ReservationListVM>()
                 .ForMember(x => x.FromDate, x => x.MapFrom(x => DateHelpers.DateToISOString(x.FromDate)))
                 .ForMember(x => x.ToDate, x => x.MapFrom(x => DateHelpers.DateToISOString(x.ToDate)))
+                .ForMember(x => x.ReservationLease, x => x.MapFrom(x => new ReservationListLeaseVM {
+                    Customer = x.ReservationLease.Customer
+                }))
                 .ForMember(x => x.Berths, x => x.MapFrom(x => x.Berths.Select(berth => new ReservationBerthVM {
                     Id = berth.Id,
                     ReservationId = berth.ReservationId.ToString(),
@@ -39,6 +42,7 @@ namespace API.Features.Reservations {
                 .ForMember(x => x.ReservationLease, x => x.MapFrom(x => new ReservationLeaseReadDto {
                     Id = x.ReservationLease.Id,
                     ReservationId = x.ReservationLease.ReservationId,
+                    Customer = x.ReservationLease.Customer,
                     InsuranceCompany = x.ReservationLease.InsuranceCompany,
                     PolicyNo = x.ReservationLease.PolicyNo,
                     PolicyEnds = DateHelpers.DateToISOString(x.ReservationLease.PolicyEnds)

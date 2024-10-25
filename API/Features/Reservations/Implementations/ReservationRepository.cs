@@ -28,6 +28,7 @@ namespace API.Features.Reservations {
             var Reservations = await context.Reservations
                 .AsNoTracking()
                 .Include(x => x.Berths)
+                .Include(x => x.ReservationLease)
                 .Include(x => x.PaymentStatus)
                 .OrderBy(x => x.BoatName)
                 .ToListAsync();

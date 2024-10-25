@@ -9,7 +9,6 @@ export interface ReservationReadDto extends Metadata {
 
     reservationId: Guid
     boatName: string
-    customer: string
     loa: string
     fromDate: string
     toDate: string

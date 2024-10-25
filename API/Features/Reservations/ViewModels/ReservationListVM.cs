@@ -8,7 +8,6 @@ namespace API.Features.Reservations {
 
         public Guid ReservationId { get; set; }
         public string BoatName { get; set; }
-        public string Customer { get; set; }
         public string Loa { get; set; }
         public string FromDate { get; set; }
         public string ToDate { get; set; }
@@ -18,6 +17,7 @@ namespace API.Features.Reservations {
         public bool IsAthenian { get; set; }
         public bool IsOverdue { get; set; }
         public List<ReservationBerthVM> Berths { get; set; }
+        public ReservationListLeaseVM ReservationLease { get; set; }
         public SimpleEntity PaymentStatus { get; set; }
 
     }

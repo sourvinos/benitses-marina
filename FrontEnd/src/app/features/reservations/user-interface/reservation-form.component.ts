@@ -42,7 +42,6 @@ export class ReservationFormComponent {
     public input: InputTabStopDirective
     public parentUrl = '/reservations'
 
-
     //#endregion
 
     //#region autocompletes
@@ -236,7 +235,6 @@ export class ReservationFormComponent {
         this.form = this.formBuilder.group({
             reservationId: '',
             boatName: ['', [Validators.required]],
-            customer: [''],
             loa: ['', [Validators.required, Validators.min(0), Validators.max(30)]],
             fromDate: ['', [Validators.required]],
             toDate: ['', [Validators.required]],
@@ -247,12 +245,7 @@ export class ReservationFormComponent {
             remarks: ['', Validators.maxLength(2048)],
             financialRemarks: ['', Validators.maxLength(2048)],
             paymentStatus: ['', [Validators.required, ValidationService.RequireAutocomplete]],
-            reservationLease: this.formBuilder.group({
-                reservationId: '',
-                insuranceCompany: '',
-                policyNo: '',
-                policyEnds: ''
-            }),
+            customer: '',
             isDocked: false,
             isLongTerm: false,
             isAthenian: false,
@@ -279,7 +272,6 @@ export class ReservationFormComponent {
             this.form.setValue({
                 reservationId: this.reservation.reservationId,
                 boatName: this.reservation.boatName,
-                customer: this.reservation.customer,
                 loa: this.reservation.loa,
                 fromDate: this.reservation.fromDate,
                 toDate: this.reservation.toDate,
@@ -293,6 +285,7 @@ export class ReservationFormComponent {
                 isLongTerm: this.reservation.isLongTerm,
                 isAthenian: this.reservation.isAthenian,
                 paymentStatus: { 'id': this.reservation.paymentStatus.id, 'description': this.reservation.paymentStatus.description },
+                customer: this.reservation.reservationLease.customer,
                 postAt: this.reservation.postAt,
                 postUser: this.reservation.postUser,
                 putAt: this.reservation.putAt,
@@ -358,10 +351,6 @@ export class ReservationFormComponent {
         return this.form.get('boatName')
     }
 
-    get customer(): AbstractControl {
-        return this.form.get('customer')
-    }
-
     get loa(): AbstractControl {
         return this.form.get('loa')
     }
@@ -413,16 +402,9 @@ export class ReservationFormComponent {
     get putUser(): AbstractControl {
         return this.form.get('putUser')
     }
-    get insuranceCompany(): AbstractControl {
-        return this.form.get('reservationLease.insuranceCompany')
-    }
 
-    get policyNo(): AbstractControl {
-        return this.form.get('reservationLease.policyNo')
-    }
-
-    get policyEnds(): AbstractControl {
-        return this.form.get('reservationLease.policyEnds')
+    get customer(): AbstractControl {
+        return this.form.get('customer')
     }
 
     //#endregion
