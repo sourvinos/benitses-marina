@@ -45,7 +45,15 @@ namespace API.Features.Reservations {
                     Customer = x.ReservationLease.Customer,
                     InsuranceCompany = x.ReservationLease.InsuranceCompany,
                     PolicyNo = x.ReservationLease.PolicyNo,
-                    PolicyEnds = DateHelpers.DateToISOString(x.ReservationLease.PolicyEnds)
+                    PolicyEnds = DateHelpers.DateToISOString(x.ReservationLease.PolicyEnds),
+                    Flag = x.ReservationLease.Flag,
+                    RegistryPort = x.ReservationLease.RegistryPort,
+                    RegistryNo = x.ReservationLease.RegistryNo,
+                    BoatType = x.ReservationLease.BoatType,
+                    BoatUsage = x.ReservationLease.BoatUsage,
+                    NetAmount = x.ReservationLease.NetAmount,
+                    VatAmount = x.ReservationLease.VatAmount,
+                    GrossAmount = x.ReservationLease.GrossAmount
                 }));
             // Write reservation
             CreateMap<ReservationWriteDto, Reservation>()

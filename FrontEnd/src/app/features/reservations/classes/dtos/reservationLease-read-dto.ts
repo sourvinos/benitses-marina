@@ -1,13 +1,19 @@
 import { Guid } from 'guid-typescript'
-// Custom
-import { Metadata } from 'src/app/shared/classes/metadata'
 
-export interface ReservationLeaseReadDto extends Metadata {
+export interface ReservationLeaseReadDto {
 
     reservationId: Guid
     customer: string
-    incuranceCompany: string
-    policyEnds: string
+    insuranceCompany: string
     policyNo: string,
+    policyEnds: string
+    flag: string
+    registryPort: string
+    registryNo: string
+    boatType: string
+    boatUsage: string
+    netAmount: number
+    vatAmount: number
+    grossAmount: number
 
 }

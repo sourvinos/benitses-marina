@@ -10,6 +10,14 @@ namespace API.Features.Reservations {
         public string InsuranceCompany { get; set; }
         public string PolicyNo { get; set; }
         public DateTime PolicyEnds { get; set; }
+        public string Flag { get; set; }
+        public string RegistryPort { get; set; }
+        public string RegistryNo { get; set; }
+        public string BoatType { get; set; }
+        public string BoatUsage { get; set; }
+        public decimal NetAmount { get; set; }
+        public decimal VatAmount { get; set; }
+        public decimal GrossAmount { get; set; }
 
     }
 

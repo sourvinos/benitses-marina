@@ -31,7 +31,15 @@ namespace Reservations {
                         Customer = "Test customer",
                         InsuranceCompany = "AXA",
                         PolicyNo = "1234-56",
-                        PolicyEnds = "2050-12-31"
+                        PolicyEnds = "2050-12-31",
+                        Flag = "GREEK",
+                        RegistryPort = "CORFU",
+                        RegistryNo = "1701",
+                        BoatType = "MOTOR",
+                        BoatUsage = "PROFESSIONAL",
+                        NetAmount = 1234.56M,
+                        VatAmount = 296.29M,
+                        GrossAmount = 1530.85M
                     },
                     Berths = new List<TestReservationBerth>() {
                         new() { Description = "A1" }

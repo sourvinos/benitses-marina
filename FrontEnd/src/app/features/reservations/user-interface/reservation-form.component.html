@@ -1,8 +1,5 @@
 <div id="form-wrapper">
 
-    {{ form.value | json }}
-
-
     <div id="content">
 
         <div id="header">
@@ -96,6 +93,20 @@
                 </mat-tab>
                 <mat-tab label="{{ getLabel('tab3') }}">
                     <div id="financial-tab">
+                        <div class="group-input-field">
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('netAmount') }}</mat-label>
+                                <input [inputTabStop]="input" currencyMask dataTabIndex="11" formControlName="netAmount" matInput>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('vatAmount') }}</mat-label>
+                                <input [inputTabStop]="input" currencyMask dataTabIndex="12" formControlName="vatAmount" matInput>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('grossAmount') }}</mat-label>
+                                <input [inputTabStop]="input" currencyMask dataTabIndex="13" formControlName="grossAmount" matInput>
+                            </mat-form-field>
+                        </div>
                         <mat-form-field>
                             <mat-label>{{ getLabel('paymentStatus') }}</mat-label>
                             <input #inputAutoComplete #triggerPaymentStatus="matAutocompleteTrigger" (keydown)="enableOrDisableAutoComplete($event)" (keyup)="checkForEmptyAutoComplete($event)" [inputTabStop]="input" [matAutocompleteDisabled]="isAutoCompleteDisabled" [matAutocomplete]="paymentStatuses" dataTabIndex="8" formControlName="paymentStatus" matInput>
@@ -125,6 +136,44 @@
                             <input [inputTabStop]="input" dataTabIndex="2" formControlName="loa" matInput>
                             <mat-error *ngIf="loa.hasError('required')">{{ getHint("required") }}</mat-error>
                         </mat-form-field>
+                        <div class="group-input-field">
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('insuranceCompany') }}</mat-label>
+                                <input [inputTabStop]="input" dataTabIndex="3" formControlName="insuranceCompany" matInput>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('policyNo') }}</mat-label>
+                                <input [inputTabStop]="input" dataTabIndex="4" formControlName="policyNo" matInput>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('policyEnds') }}</mat-label>
+                                <input [inputTabStop]="input" dataTabIndex="5" formControlName="policyEnds" matInput>
+                            </mat-form-field>
+                        </div>
+                        <div class="group-input-field">
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('flag') }}</mat-label>
+                                <input [inputTabStop]="input" dataTabIndex="6" formControlName="flag" matInput>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('registryPort') }}</mat-label>
+                                <input [inputTabStop]="input" dataTabIndex="7" formControlName="registryPort" matInput>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('registryNo') }}</mat-label>
+                                <input [inputTabStop]="input" dataTabIndex="8" formControlName="registryNo" matInput>
+                            </mat-form-field>
+                        </div>
+                        <div class="group-input-field">
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('boatType') }}</mat-label>
+                                <input [inputTabStop]="input" dataTabIndex="9" formControlName="boatType" matInput>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('boatUsage') }}</mat-label>
+                                <input [inputTabStop]="input" dataTabIndex="10" formControlName="boatUsage" matInput>
+                            </mat-form-field>
+                        </div>
                     </div>
                 </mat-tab>
             </mat-tab-group>

@@ -22,6 +22,7 @@ import { ReservationWriteDto } from '../classes/dtos/reservation-write-dto'
 import { SessionStorageService } from 'src/app/shared/services/session-storage.service'
 import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 import { ValidationService } from 'src/app/shared/services/validation.service'
+import { ReservationLeaseWriteDto } from '../classes/dtos/reservationLease-write-dto'
 
 @Component({
     selector: 'reservation-form',
@@ -198,7 +199,7 @@ export class ReservationFormComponent {
             remarks: this.form.value.remarks,
             financialRemarks: this.form.value.financialRemarks,
             paymentStatusId: this.form.value.paymentStatus.id,
-            reservationLease: this.form.value.reservationLease,
+            reservationLease: this.mapReservationLease(this.form),
             isDocked: this.form.value.isDocked,
             isLongTerm: this.form.value.isLongTerm,
             isAthenian: this.form.value.isAthenian,
@@ -246,6 +247,17 @@ export class ReservationFormComponent {
             financialRemarks: ['', Validators.maxLength(2048)],
             paymentStatus: ['', [Validators.required, ValidationService.RequireAutocomplete]],
             customer: '',
+            insuranceCompany: '',
+            policyNo: '',
+            policyEnds: '',
+            flag: '',
+            registryPort: '',
+            registryNo: '',
+            boatType: '',
+            boatUsage: '',
+            netAmount: 0,
+            vatAmount: 0,
+            grossAmount: 0,
             isDocked: false,
             isLongTerm: false,
             isAthenian: false,
@@ -254,6 +266,25 @@ export class ReservationFormComponent {
             putAt: [''],
             putUser: ['']
         })
+    }
+
+    private mapReservationLease(form: any): ReservationLeaseWriteDto {
+        const x: ReservationLeaseWriteDto = {
+            reservationId: form.value.reservationId,
+            customer: form.value.customer,
+            insuranceCompany: form.value.insuranceCompany,
+            policyNo: form.value.policyNo,
+            policyEnds: form.value.policyEnds,
+            flag: form.value.flag,
+            registryPort: form.value.registryPort,
+            registryNo: form.value.registryNo,
+            boatType: form.value.boatType,
+            boatUsage: form.value.boatUsage,
+            netAmount: form.value.netAmount,
+            vatAmount: form.value.vatAmount,
+            grossAmount: form.value.grossAmount
+        }
+        return x
     }
 
     private populateDropdownFromDexieDB(dexieTable: string, filteredTable: string, formField: string, modelProperty: string, orderBy: string): void {
@@ -286,6 +317,17 @@ export class ReservationFormComponent {
                 isAthenian: this.reservation.isAthenian,
                 paymentStatus: { 'id': this.reservation.paymentStatus.id, 'description': this.reservation.paymentStatus.description },
                 customer: this.reservation.reservationLease.customer,
+                insuranceCompany: this.reservation.reservationLease.insuranceCompany,
+                policyNo: this.reservation.reservationLease.policyNo,
+                policyEnds: this.reservation.reservationLease.policyEnds,
+                flag: this.reservation.reservationLease.flag,
+                registryPort: this.reservation.reservationLease.registryPort,
+                registryNo: this.reservation.reservationLease.registryNo,
+                boatType: this.reservation.reservationLease.boatType,
+                boatUsage: this.reservation.reservationLease.boatUsage,
+                netAmount: this.reservation.reservationLease.netAmount,
+                vatAmount: this.reservation.reservationLease.vatAmount,
+                grossAmount: this.reservation.reservationLease.grossAmount,
                 postAt: this.reservation.postAt,
                 postUser: this.reservation.postUser,
                 putAt: this.reservation.putAt,
@@ -403,8 +445,48 @@ export class ReservationFormComponent {
         return this.form.get('putUser')
     }
 
-    get customer(): AbstractControl {
-        return this.form.get('customer')
+    get insuranceCompany(): AbstractControl {
+        return this.form.get('insuranceCompany')
+    }
+
+    get policyNo(): AbstractControl {
+        return this.form.get('policyNo')
+    }
+
+    get policyEnds(): AbstractControl {
+        return this.form.get('policyEnds')
+    }
+
+    get flag(): AbstractControl {
+        return this.form.get('flag')
+    }
+
+    get registryPort(): AbstractControl {
+        return this.form.get('registryPort')
+    }
+
+    get registryNo(): AbstractControl {
+        return this.form.get('registryNo')
+    }
+
+    get boatType(): AbstractControl {
+        return this.form.get('boatType')
+    }
+
+    get boatUsage(): AbstractControl {
+        return this.form.get('boatUsage')
+    }
+
+    get netAmount(): AbstractControl {
+        return this.form.get('netAmount')
+    }
+
+    get vatAmount(): AbstractControl {
+        return this.form.get('vatAmount')
+    }
+
+    get grossAmount(): AbstractControl {
+        return this.form.get('grossAmount')
     }
 
     //#endregion

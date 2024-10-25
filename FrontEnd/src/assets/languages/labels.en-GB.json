@@ -203,6 +203,50 @@
             {
                 "id": "put",
                 "description": "Last update"
+            },
+            {
+                "id": "flag",
+                "description": "Flag"
+            },
+            {
+                "id": "insuranceCompany",
+                "description": "Ιnsurance company"
+            },
+            {
+                "id": "policyNo",
+                "description": "Policy No"
+            },
+            {
+                "id": "policyEnds",
+                "description": "Termination date"
+            },
+            {
+                "id": "registryPort",
+                "description": "Registry port"
+            },
+            {
+                "id": "registryNo",
+                "description": "Registry no"
+            },
+            {
+                "id": "boatUsage",
+                "description": "Boat usage"
+            },
+            {
+                "id": "boatType",
+                "description": "Boat type"
+            },
+            {
+                "id": "netAmount",
+                "description": "Net amount"
+            },
+            {
+                "id": "vatAmount",
+                "description": "Vat amount"
+            },
+            {
+                "id": "grossAmount",
+                "description": "Gross amount"
             }
         ]
     },
