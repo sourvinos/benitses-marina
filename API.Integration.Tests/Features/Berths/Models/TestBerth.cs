@@ -1,8 +1,8 @@
 using Infrastructure;
 
-namespace Piers {
+namespace Berths {
 
-    public class TestPier : ITestEntity {
+    public class TestBerth : ITestEntity {
 
         public int StatusCode { get; set; }
 

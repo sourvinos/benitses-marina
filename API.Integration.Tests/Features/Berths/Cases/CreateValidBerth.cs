@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using Infrastructure;
 
-namespace Piers {
+namespace Berths {
 
-    public class CreateValidPier : IEnumerable<object[]> {
+    public class CreateValidBerth : IEnumerable<object[]> {
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
@@ -14,7 +14,7 @@ namespace Piers {
 
         private static object[] ValidRecord() {
             return new object[] {
-                new TestPier {
+                new TestBerth {
                     Description = Helpers.CreateRandomString(5)
                 }
             };

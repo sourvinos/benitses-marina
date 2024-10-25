@@ -55,7 +55,7 @@ namespace Users {
         public async Task Admins_Can_List() {
             var actionResponse = await List.Action(_httpClient, _baseUrl, _url, "john", "A#ba439de-446e-4eef-8c4b-833f1b3e18aa");
             var records = JsonSerializer.Deserialize<List<UserListVM>>(await actionResponse.Content.ReadAsStringAsync(), new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-            Assert.Equal(3, records.Count);
+            Assert.Equal(6, records.Count);
         }
 
     }

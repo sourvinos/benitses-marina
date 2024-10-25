@@ -6,10 +6,10 @@ using Infrastructure;
 using Responses;
 using Xunit;
 
-namespace Piers {
+namespace Berths {
 
     [Collection("Sequence")]
-    public class Piers05Put : IClassFixture<AppSettingsFixture> {
+    public class Berths05Put : IClassFixture<AppSettingsFixture> {
 
         #region variables
 
@@ -18,26 +18,26 @@ namespace Piers {
         private readonly TestHostFixture _testHostFixture = new();
         private readonly string _actionVerb = "put";
         private readonly string _baseUrl;
-        private readonly string _url = "/piers";
-        private readonly string _notFoundUrl = "/piers/9999";
+        private readonly string _url = "/berths";
+        private readonly string _notFoundUrl = "/berths/9999";
 
         #endregion
 
-        public Piers05Put(AppSettingsFixture appsettings) {
+        public Berths05Put(AppSettingsFixture appsettings) {
             _appSettingsFixture = appsettings;
             _baseUrl = _appSettingsFixture.Configuration.GetSection("TestingEnvironment").GetSection("BaseUrl").Value;
             _httpClient = _testHostFixture.Client;
         }
 
         [Theory]
-        [ClassData(typeof(UpdateValidPier))]
-        public async Task Unauthorized_Not_Logged_In(TestPier record) {
+        [ClassData(typeof(UpdateValidBerth))]
+        public async Task Unauthorized_Not_Logged_In(TestBerth record) {
             await InvalidCredentials.Action(_httpClient, _baseUrl, _url, _actionVerb, "", "", record);
         }
 
         [Theory]
-        [ClassData(typeof(UpdateValidPier))]
-        public async Task Unauthorized_Invalid_Credentials(TestPier record) {
+        [ClassData(typeof(UpdateValidBerth))]
+        public async Task Unauthorized_Invalid_Credentials(TestBerth record) {
             await InvalidCredentials.Action(_httpClient, _baseUrl, _url, _actionVerb, "user-does-not-exist", "not-a-valid-password", record);
         }
 
@@ -48,8 +48,8 @@ namespace Piers {
         }
 
         [Theory]
-        [ClassData(typeof(UpdateValidPier))]
-        public async Task Simple_Users_Can_Not_Update(TestPier record) {
+        [ClassData(typeof(UpdateValidBerth))]
+        public async Task Simple_Users_Can_Not_Update(TestBerth record) {
             await Forbidden.Action(_httpClient, _baseUrl, _url, _actionVerb, "simpleuser", "A#ba439de-446e-4eef-8c4b-833f1b3e18aa", record);
         }
 
@@ -59,15 +59,15 @@ namespace Piers {
         }
 
         [Theory]
-        [ClassData(typeof(UpdateInvalidPier))]
-        public async Task Admins_Can_Not_Update_When_Invalid(TestPier record) {
+        [ClassData(typeof(UpdateInvalidBerth))]
+        public async Task Admins_Can_Not_Update_When_Invalid(TestBerth record) {
             var actionResponse = await RecordInvalidNotSaved.Action(_httpClient, _baseUrl, _url, _actionVerb, "john", "A#ba439de-446e-4eef-8c4b-833f1b3e18aa", record);
             Assert.Equal((HttpStatusCode)record.StatusCode, actionResponse.StatusCode);
         }
 
         [Theory]
-        [ClassData(typeof(UpdateValidPier))]
-        public async Task Admins_Can_Update_When_Valid(TestPier record) {
+        [ClassData(typeof(UpdateValidBerth))]
+        public async Task Admins_Can_Update_When_Valid(TestBerth record) {
             await RecordSaved.Action(_httpClient, _baseUrl, _url, _actionVerb, "john", "A#ba439de-446e-4eef-8c4b-833f1b3e18aa", record);
         }
 

@@ -1,17 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Net.Http;
-using System.Text.Json;
+﻿using System.Net.Http;
 using System.Threading.Tasks;
-using API.Features.Reservations.Piers;
 using Cases;
 using Infrastructure;
 using Responses;
 using Xunit;
 
-namespace Piers {
+namespace Berths {
 
     [Collection("Sequence")]
-    public class Piers02GetForBrowser : IClassFixture<AppSettingsFixture> {
+    public class Berths03GetById : IClassFixture<AppSettingsFixture> {
 
         #region variables
 
@@ -20,11 +17,12 @@ namespace Piers {
         private readonly TestHostFixture _testHostFixture = new();
         private readonly string _actionVerb = "get";
         private readonly string _baseUrl;
-        private readonly string _url = "/piers/getForBrowser";
+        private readonly string _url = "/berths/1";
+        private readonly string _notFoundUrl = "/berths/9999";
 
         #endregion
 
-        public Piers02GetForBrowser(AppSettingsFixture appsettings) {
+        public Berths03GetById(AppSettingsFixture appsettings) {
             _appSettingsFixture = appsettings;
             _baseUrl = _appSettingsFixture.Configuration.GetSection("TestingEnvironment").GetSection("BaseUrl").Value;
             _httpClient = _testHostFixture.Client;
@@ -46,12 +44,19 @@ namespace Piers {
             await InvalidCredentials.Action(_httpClient, _baseUrl, _url, _actionVerb, login.Username, login.Password, null);
         }
 
-        [Theory]
-        [ClassData(typeof(ActiveUsersCanLogin))]
-        public async Task Active_Users_Can_Get_Active(Login login) {
-            var actionResponse = await List.Action(_httpClient, _baseUrl, _url, login.Username, login.Password);
-            var records = JsonSerializer.Deserialize<List<PierBrowserVM>>(await actionResponse.Content.ReadAsStringAsync(), new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-            Assert.Equal(50, records.Count);
+        [Fact]
+        public async Task Simple_Users_Can_Not_Get_By_Id() {
+            await Forbidden.Action(_httpClient, _baseUrl, _url, _actionVerb, "simpleuser", "A#ba439de-446e-4eef-8c4b-833f1b3e18aa", null);
+        }
+
+        [Fact]
+        public async Task Admins_Not_Found_When_Not_Exists() {
+            await RecordNotFound.Action(_httpClient, _baseUrl, _notFoundUrl, "john", "A#ba439de-446e-4eef-8c4b-833f1b3e18aa");
+        }
+
+        [Fact]
+        public async Task Admins_Can_Get_By_Id() {
+            await RecordFound.Action(_httpClient, _baseUrl, _url, "john", "A#ba439de-446e-4eef-8c4b-833f1b3e18aa");
         }
 
     }

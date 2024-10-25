@@ -2,19 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using Infrastructure;
 
-namespace Piers {
+namespace Berths {
 
-    public class UpdateInvalidPier : IEnumerable<object[]> {
+    public class UpdateInvalidBerth : IEnumerable<object[]> {
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         public IEnumerator<object[]> GetEnumerator() {
-            yield return Pier_Must_Not_Be_Already_Updated();
+            yield return Berth_Must_Not_Be_Already_Updated();
         }
 
-        private static object[] Pier_Must_Not_Be_Already_Updated() {
+        private static object[] Berth_Must_Not_Be_Already_Updated() {
             return new object[] {
-                new TestPier {
+                new TestBerth {
                     StatusCode = 415,
                     Id = 1,
                     Description = Helpers.CreateRandomString(128),

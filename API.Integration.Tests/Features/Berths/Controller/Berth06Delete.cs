@@ -5,10 +5,10 @@ using Infrastructure;
 using Responses;
 using Xunit;
 
-namespace Piers {
+namespace Berths {
 
     [Collection("Sequence")]
-    public class Piers06Delete : IClassFixture<AppSettingsFixture> {
+    public class Berths06Delete : IClassFixture<AppSettingsFixture> {
 
         #region variables
 
@@ -17,12 +17,12 @@ namespace Piers {
         private readonly TestHostFixture _testHostFixture = new();
         private readonly string _actionVerb = "delete";
         private readonly string _baseUrl;
-        private readonly string _url = "/piers/9";
-        private readonly string _notFoundUrl = "/piers/9999";
+        private readonly string _url = "/berths/9";
+        private readonly string _notFoundUrl = "/berths/9999";
 
         #endregion
 
-        public Piers06Delete(AppSettingsFixture appsettings) {
+        public Berths06Delete(AppSettingsFixture appsettings) {
             _appSettingsFixture = appsettings;
             _baseUrl = _appSettingsFixture.Configuration.GetSection("TestingEnvironment").GetSection("BaseUrl").Value;
             _httpClient = _testHostFixture.Client;

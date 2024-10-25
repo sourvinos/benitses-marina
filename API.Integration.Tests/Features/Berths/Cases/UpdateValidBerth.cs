@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using Infrastructure;
 
-namespace Piers {
+namespace Berths {
 
-    public class UpdateValidPier : IEnumerable<object[]> {
+    public class UpdateValidBerth : IEnumerable<object[]> {
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
@@ -14,7 +14,7 @@ namespace Piers {
 
         private static object[] ValidRecord() {
             return new object[] {
-                new TestPier {
+                new TestBerth {
                     Id = 1,
                     Description = Helpers.CreateRandomString(5),
                     PutAt = "2024-09-01 00:00:00"

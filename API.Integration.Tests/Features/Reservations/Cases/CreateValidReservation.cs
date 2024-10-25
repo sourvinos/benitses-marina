@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 
 namespace Reservations {
 
@@ -15,22 +14,28 @@ namespace Reservations {
         private static object[] ValidRecord() {
             return new object[] {
                 new TestReservation {
-                    BoatTypeId = 1,
-                    BoatName = "Test Boat" ,
-                    Loa = "14.2M",
+                    PaymentStatusId = 1,
+                    BoatName = "Boat name",
+                    Loa = "14.2",
                     FromDate = "2024-05-01",
                     ToDate = "2024-05-10",
                     Days = 9,
-                    Email = "test-email@test-server.com",
-                    Remarks = "test-remarks",
-                    IsConfirmed = true,
+                    Email = "email@server.com",
+                    Contact = "Test contact",
+                    Remarks = "Test remarks",
+                    FinancialRemarks = "Financial remarks",
                     IsDocked = false,
-                    IsPaid = false,
-                    Piers = new List<TestReservationPier>() {
-                        new() {
-                            Description = "A1"
-                        }
-                    }
+                    IsLongTerm = true,
+                    IsAthenian = false,
+                    ReservationLease = new TestReservationLease {
+                        Customer = "Test customer",
+                        InsuranceCompany = "AXA",
+                        PolicyNo = "1234-56",
+                        PolicyEnds = "2050-12-31"
+                    },
+                    Berths = new List<TestReservationBerth>() {
+                        new() { Description = "A1" }
+                    },
                 }
             };
         }

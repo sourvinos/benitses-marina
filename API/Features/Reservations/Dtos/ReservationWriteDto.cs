@@ -6,11 +6,8 @@ namespace API.Features.Reservations {
 
     public class ReservationWriteDto : IMetadata {
 
-        // PK
         public Guid ReservationId { get; set; }
-        // FKs
         public int PaymentStatusId { get; set; }
-        //  Fields
         public string BoatName { get; set; }
         public string Loa { get; set; }
         public string FromDate { get; set; }
@@ -25,7 +22,6 @@ namespace API.Features.Reservations {
         public bool IsAthenian { get; set; }
         public ReservationLeaseWriteDto ReservationLease { get; set; }
         public List<ReservationBerthWriteDto> Berths { get; set; }
-        // Metadata
         public string PostAt { get; set; }
         public string PostUser { get; set; }
         public string PutAt { get; set; }

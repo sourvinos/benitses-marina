@@ -16,8 +16,8 @@ namespace Cases {
         private static object[] Inactive_Simple_Users_Can_Not_Login() {
             return new object[] {
                 new Login {
-                    Username = "marios",
-                    Password = "2b24a7368e19",
+                    Username = "michael",
+                    Password = "A#ba439de-446e-4eef-8c4b-833f1b3e18aa",
                 }
             };
         }
@@ -25,8 +25,8 @@ namespace Cases {
         private static object[] Inactive_Admins_Can_Not_Login() {
             return new object[] {
                 new Login {
-                    Username = "nikoleta",
-                    Password = "8dd193508e05"
+                    Username = "galini",
+                    Password = "A#ba439de-446e-4eef-8c4b-833f1b3e18aa"
                 }
             };
         }

@@ -46,13 +46,13 @@ namespace API.Features.Reservations {
             // Write reservation
             CreateMap<ReservationWriteDto, Reservation>()
                 .ForMember(x => x.BoatName, x => x.MapFrom(x => x.BoatName.Trim()))
-                .ForMember(x => x.Customer, x => x.MapFrom(x => x.Customer.Trim()))
                 .ForMember(x => x.Email, x => x.MapFrom(x => x.Email.Trim()))
                 .ForMember(x => x.Contact, x => x.MapFrom(x => x.Contact.Trim()))
                 .ForMember(x => x.Remarks, x => x.MapFrom(x => x.Remarks.Trim()))
                 .ForMember(x => x.FinancialRemarks, x => x.MapFrom(x => x.FinancialRemarks.Trim()))
                 .ForMember(x => x.ReservationLease, x => x.MapFrom(x => new ReservationLease {
                     ReservationId = x.ReservationId,
+                    Customer = x.ReservationLease.Customer,
                     InsuranceCompany = x.ReservationLease.InsuranceCompany,
                     PolicyNo = x.ReservationLease.PolicyNo,
                     PolicyEnds = new DateTime(2199, 12, 31),
