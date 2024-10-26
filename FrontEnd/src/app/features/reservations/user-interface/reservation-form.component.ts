@@ -17,12 +17,13 @@ import { MessageDialogService } from 'src/app/shared/services/message-dialog.ser
 import { MessageInputHintService } from 'src/app/shared/services/message-input-hint.service'
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
 import { ReservationHttpService } from '../classes/services/reservation-http.service'
+import { ReservationLeaseWriteDto } from '../classes/dtos/reservationLease-write-dto'
+import { ReservationOwnerWriteDto } from '../classes/dtos/reservationOwner-write-dto'
 import { ReservationReadDto } from '../classes/dtos/reservation-read-dto'
 import { ReservationWriteDto } from '../classes/dtos/reservation-write-dto'
 import { SessionStorageService } from 'src/app/shared/services/session-storage.service'
 import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 import { ValidationService } from 'src/app/shared/services/validation.service'
-import { ReservationLeaseWriteDto } from '../classes/dtos/reservationLease-write-dto'
 
 @Component({
     selector: 'reservation-form',
@@ -82,24 +83,6 @@ export class ReservationFormComponent {
 
     public autocompleteFields(fieldName: any, object: any): any {
         return object ? object[fieldName] : undefined
-    }
-
-    public calculateDays(): void {
-        if (this.form.value.fromDate != '' && this.form.value.toDate != '') {
-            this.form.patchValue({
-                days: this.dateHelperService.calculateDays(this.form.value.fromDate, this.form.value.toDate)
-            })
-        }
-    }
-
-    public calculateToDate(): void {
-        if (this.form.value.fromDate != '' && this.form.value.days != '') {
-            const fromDate = new Date(this.form.value.fromDate)
-            const toDate = new Date(fromDate.setDate(fromDate.getDate() + this.form.value.days))
-            this.form.patchValue({
-                toDate: this.dateHelperService.formatDateToIso(toDate)
-            })
-        }
     }
 
     public checkForEmptyAutoComplete(event: { target: { value: any } }): void {
@@ -188,17 +171,17 @@ export class ReservationFormComponent {
         return {
             reservationId: this.form.value.reservationId != '' ? this.form.value.reservationId : null,
             boatName: this.form.value.boatName,
-            customer: this.form.value.customer,
             loa: this.form.value.loa,
+            beam: this.form.value.beam,
+            draft: this.form.value.draft,
             fromDate: this.form.value.fromDate,
             toDate: this.form.value.toDate,
-            days: this.form.value.days,
             berths: this.form.value.berths,
             email: this.form.value.email,
-            contact: this.form.value.contact,
             remarks: this.form.value.remarks,
             financialRemarks: this.form.value.financialRemarks,
             paymentStatusId: this.form.value.paymentStatus.id,
+            reservationOwner: this.mapReservationOwner(this.form),
             reservationLease: this.mapReservationLease(this.form),
             isDocked: this.form.value.isDocked,
             isLongTerm: this.form.value.isLongTerm,
@@ -237,16 +220,14 @@ export class ReservationFormComponent {
             reservationId: '',
             boatName: ['', [Validators.required]],
             loa: ['', [Validators.required, Validators.min(0), Validators.max(30)]],
+            beam: ['', [Validators.required, Validators.min(0), Validators.max(30)]],
+            draft: ['', [Validators.required, Validators.min(0), Validators.max(30)]],
             fromDate: ['', [Validators.required]],
             toDate: ['', [Validators.required]],
-            days: [0, [Validators.required]],
             berths: this.formBuilder.array([]),
-            email: ['', [Validators.maxLength(128), Validators.email]],
-            contact: ['', Validators.maxLength(128)],
             remarks: ['', Validators.maxLength(2048)],
             financialRemarks: ['', Validators.maxLength(2048)],
             paymentStatus: ['', [Validators.required, ValidationService.RequireAutocomplete]],
-            customer: '',
             insuranceCompany: '',
             policyNo: '',
             policyEnds: '',
@@ -261,6 +242,13 @@ export class ReservationFormComponent {
             isDocked: false,
             isLongTerm: false,
             isAthenian: false,
+            owner: '',
+            address: '',
+            taxNo: '',
+            taxOffice: '',
+            passportNo: '',
+            phones: '',
+            email: '',
             postAt: [''],
             postUser: [''],
             putAt: [''],
@@ -268,10 +256,23 @@ export class ReservationFormComponent {
         })
     }
 
+    private mapReservationOwner(form: any): ReservationOwnerWriteDto {
+        const x: ReservationOwnerWriteDto = {
+            reservationId: form.value.reservationId,
+            owner: form.value.owner,
+            address: form.value.address,
+            taxNo: form.value.taxNo,
+            taxOffice: form.value.taxOffice,
+            passportNo: form.value.passportNo,
+            phones: form.value.phones,
+            email: form.value.email
+        }
+        return x
+    }
+
     private mapReservationLease(form: any): ReservationLeaseWriteDto {
         const x: ReservationLeaseWriteDto = {
             reservationId: form.value.reservationId,
-            customer: form.value.customer,
             insuranceCompany: form.value.insuranceCompany,
             policyNo: form.value.policyNo,
             policyEnds: form.value.policyEnds,
@@ -304,19 +305,17 @@ export class ReservationFormComponent {
                 reservationId: this.reservation.reservationId,
                 boatName: this.reservation.boatName,
                 loa: this.reservation.loa,
+                beam: this.reservation.beam,
+                draft: this.reservation.draft,
                 fromDate: this.reservation.fromDate,
                 toDate: this.reservation.toDate,
-                days: this.reservation.days,
                 berths: [],
-                email: this.reservation.email,
-                contact: this.reservation.contact,
                 remarks: this.reservation.remarks,
                 financialRemarks: this.reservation.financialRemarks,
                 isDocked: this.reservation.isDocked,
                 isLongTerm: this.reservation.isLongTerm,
                 isAthenian: this.reservation.isAthenian,
                 paymentStatus: { 'id': this.reservation.paymentStatus.id, 'description': this.reservation.paymentStatus.description },
-                customer: this.reservation.reservationLease.customer,
                 insuranceCompany: this.reservation.reservationLease.insuranceCompany,
                 policyNo: this.reservation.reservationLease.policyNo,
                 policyEnds: this.reservation.reservationLease.policyEnds,
@@ -328,6 +327,13 @@ export class ReservationFormComponent {
                 netAmount: this.reservation.reservationLease.netAmount,
                 vatAmount: this.reservation.reservationLease.vatAmount,
                 grossAmount: this.reservation.reservationLease.grossAmount,
+                owner: this.reservation.reservationOwner.owner,
+                address: this.reservation.reservationOwner.address,
+                taxNo: this.reservation.reservationOwner.taxNo,
+                taxOffice: this.reservation.reservationOwner.taxOffice,
+                passportNo: this.reservation.reservationOwner.passportNo,
+                phones: this.reservation.reservationOwner.phones,
+                email: this.reservation.reservationOwner.email,
                 postAt: this.reservation.postAt,
                 postUser: this.reservation.postUser,
                 putAt: this.reservation.putAt,
@@ -397,6 +403,14 @@ export class ReservationFormComponent {
         return this.form.get('loa')
     }
 
+    get beam(): AbstractControl {
+        return this.form.get('beam')
+    }
+
+    get draft(): AbstractControl {
+        return this.form.get('draft')
+    }
+
     get fromDate(): AbstractControl {
         return this.form.get('fromDate')
     }
@@ -405,20 +419,8 @@ export class ReservationFormComponent {
         return this.form.get('toDate')
     }
 
-    get days(): AbstractControl {
-        return this.form.get('days')
-    }
-
     get paymentStatus(): AbstractControl {
         return this.form.get('paymentStatus')
-    }
-
-    get email(): AbstractControl {
-        return this.form.get('email')
-    }
-
-    get contact(): AbstractControl {
-        return this.form.get('contact')
     }
 
     get remarks(): AbstractControl {
@@ -487,6 +489,34 @@ export class ReservationFormComponent {
 
     get grossAmount(): AbstractControl {
         return this.form.get('grossAmount')
+    }
+
+    get owner(): AbstractControl {
+        return this.form.get('owner')
+    }
+
+    get address(): AbstractControl {
+        return this.form.get('address')
+    }
+
+    get taxNo(): AbstractControl {
+        return this.form.get('taxNo')
+    }
+
+    get taxOffice(): AbstractControl {
+        return this.form.get('taxOffice')
+    }
+
+    get passportNo(): AbstractControl {
+        return this.form.get('passportNo')
+    }
+
+    get phones(): AbstractControl {
+        return this.form.get('phones')
+    }
+
+    get email(): AbstractControl {
+        return this.form.get('email')
     }
 
     //#endregion

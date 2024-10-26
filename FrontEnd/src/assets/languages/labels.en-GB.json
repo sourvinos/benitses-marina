@@ -56,10 +56,6 @@
                 "description": "To"
             },
             {
-                "id": "headerDays",
-                "description": "Days"
-            },
-            {
                 "id": "headerBerths",
                 "description": "Berth(s)"
             },
@@ -110,7 +106,7 @@
             },
             {
                 "id": "tab2",
-                "description": "Contact"
+                "description": "Details"
             },
             {
                 "id": "tab3",
@@ -118,7 +114,7 @@
             },
             {
                 "id": "tab4",
-                "description": "Lease"
+                "description": "Insurance"
             },
             {
                 "id": "boatName",
@@ -133,6 +129,14 @@
                 "description": "Length"
             },
             {
+                "id": "beam",
+                "description": "Beam"
+            },
+            {
+                "id": "draft",
+                "description": "Draft"
+            },
+            {
                 "id": "fromDate",
                 "description": "From"
             },
@@ -141,20 +145,12 @@
                 "description": "To"
             },
             {
-                "id": "days",
-                "description": "Days"
-            },
-            {
                 "id": "berth",
                 "description": "Berth"
             },
             {
                 "id": "email",
                 "description": "Email"
-            },
-            {
-                "id": "contact",
-                "description": "Contact"
             },
             {
                 "id": "remarks",
@@ -247,6 +243,38 @@
             {
                 "id": "grossAmount",
                 "description": "Gross amount"
+            },
+            {
+                "id": "tab5",
+                "description": "Ownership"
+            },
+            {
+                "id": "owner",
+                "description": "Owner"
+            },
+            {
+                "id": "address",
+                "description": "Address"
+            },
+            {
+                "id": "taxNo",
+                "description": "Tax no"
+            },
+            {
+                "id": "taxOffice",
+                "description": "Tax office"
+            },
+            {
+                "id": "passportNo",
+                "description": "PassportNo"
+            },
+            {
+                "id": "phones",
+                "description": "Phones"
+            },
+            {
+                "id": "email",
+                "description": "Email"
             }
         ]
     },

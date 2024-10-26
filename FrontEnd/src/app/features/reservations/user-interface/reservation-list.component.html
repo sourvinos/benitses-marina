@@ -16,7 +16,6 @@
                         <th class="no-border-bottom width-4" pSortableColumn="loa">{{ getLabel("headerLength") }}</th>
                         <th class="no-border-bottom width-5" pSortableColumn="fromDate">{{ getLabel("headerFromDate") }}</th>
                         <th class="no-border-bottom width-5" pSortableColumn="toDate">{{ getLabel("headerToDate") }}</th>
-                        <th class="no-border-bottom width-4" pSortableColumn="days">{{ getLabel("headerDays") }}</th>
                         <th class="no-border-bottom width-6" pSortableColumn="joinedBerths">{{ getLabel("headerBerths") }}</th>
                         <th class="no-border-bottom width-6" pSortableColumn="paymentStatus.description">{{ getLabel('headerPaymentStatus') }}</th>
                         <th class="no-border-bottom width-6" pSortableColumn="isAthenian">{{ getLabel("headerIsAthenian") }}</th>
@@ -30,7 +29,6 @@
                         <th class="no-border-top width-4"><p-columnFilter (input)="onFilter($event.target.value,'loa','contains')" field="loa"></p-columnFilter></th>
                         <th class="no-border-top width-5"><p-columnFilter (input)="onFilter($event.target.value,'fromDate','contains')" field="fromDate"></p-columnFilter></th>
                         <th class="no-border-top width-5"><p-columnFilter (input)="onFilter($event.target.value,'toDate','contains')" field="toDate"></p-columnFilter></th>
-                        <th class="no-border-top width-4"><p-columnFilter (input)="onFilter($event.target.value,'days','contains')" field="days"></p-columnFilter></th>
                         <th class="no-border-top width-6"><p-columnFilter (input)="onFilter($event.target.value,'joinedBerths','contains')" field="joinedBerths"></p-columnFilter></th>
                         <th class="no-border-top width-6">
                             <p-columnFilter [showMenu]="false" field="paymentStatus" matchMode="in">
@@ -58,7 +56,6 @@
                         <td class="width-4"><span class="center">{{ record.loa }}</span></td>
                         <td class="width-5"><span class="center no-overflow">{{ formatDateToLocale(record.fromDate,false,true) }}</span></td>
                         <td class="width-5"><span class="center no-overflow">{{ formatDateToLocale(record.toDate,false,true) }}</span></td>
-                        <td class="width-4"><span class="center no-overflow">{{ record.days }}</span></td>
                         <td class="width-6"><span>{{ record.joinedBerths }}</span></td>
                         <td class="width-6"><span [ngClass]="getPaymentDescriptionColor(record.paymentStatus.description)" class="center no-left-padding no-overflow" style="font-size: 0.5rem; padding-top: 0 !important;">{{ record.paymentStatus.description }}</span></td>
                         <td class="width-6"><span class="center no-left-padding no-overflow red" style="font-size: 0.75rem; padding-top: 0 !important;">{{ getOverdueDescription(record.isAthenian) }}</span></td>

@@ -20,13 +20,21 @@ namespace Reservations {
                     FromDate = "2024-05-01",
                     ToDate = "2024-05-10",
                     Days = 9,
-                    Email = "email@server.com",
                     Contact = "Test contact",
                     Remarks = "Test remarks",
                     FinancialRemarks = "Financial remarks",
                     IsDocked = false,
                     IsLongTerm = true,
                     IsAthenian = false,
+                    ReservationOwner = new TestReservationOwner{
+                        Owner = "Owner",
+                        Address = "Address",
+                        TaxNo = "TaxNo",
+                        TaxOffice = "TaxOffice",
+                        PassportNo = "PassportNo",
+                        Phones = "Phones",
+                        Email = "Email"
+                    },
                     ReservationLease = new TestReservationLease {
                         Customer = "Test customer",
                         InsuranceCompany = "AXA",

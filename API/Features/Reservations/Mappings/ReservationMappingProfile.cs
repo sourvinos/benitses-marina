@@ -14,7 +14,7 @@ namespace API.Features.Reservations {
                 .ForMember(x => x.FromDate, x => x.MapFrom(x => DateHelpers.DateToISOString(x.FromDate)))
                 .ForMember(x => x.ToDate, x => x.MapFrom(x => DateHelpers.DateToISOString(x.ToDate)))
                 .ForMember(x => x.ReservationLease, x => x.MapFrom(x => new ReservationListLeaseVM {
-                    Customer = x.ReservationLease.Customer
+                    Customer = x.ReservationOwner.Owner
                 }))
                 .ForMember(x => x.Berths, x => x.MapFrom(x => x.Berths.Select(berth => new ReservationBerthVM {
                     Id = berth.Id,
@@ -42,7 +42,6 @@ namespace API.Features.Reservations {
                 .ForMember(x => x.ReservationLease, x => x.MapFrom(x => new ReservationLeaseReadDto {
                     Id = x.ReservationLease.Id,
                     ReservationId = x.ReservationLease.ReservationId,
-                    Customer = x.ReservationLease.Customer,
                     InsuranceCompany = x.ReservationLease.InsuranceCompany,
                     PolicyNo = x.ReservationLease.PolicyNo,
                     PolicyEnds = DateHelpers.DateToISOString(x.ReservationLease.PolicyEnds),
@@ -54,20 +53,48 @@ namespace API.Features.Reservations {
                     NetAmount = x.ReservationLease.NetAmount,
                     VatAmount = x.ReservationLease.VatAmount,
                     GrossAmount = x.ReservationLease.GrossAmount
+                }))
+                .ForMember(x => x.ReservationOwner, x => x.MapFrom(x => new ReservationOwnerReadDto {
+                    Id = x.ReservationOwner.Id,
+                    ReservationId = x.ReservationOwner.ReservationId,
+                    Owner = x.ReservationOwner.Owner,
+                    Address = x.ReservationOwner.Address,
+                    TaxNo = x.ReservationOwner.TaxNo,
+                    TaxOffice = x.ReservationOwner.TaxOffice,
+                    PassportNo = x.ReservationOwner.PassportNo,
+                    Phones = x.ReservationOwner.Phones,
+                    Email = x.ReservationOwner.Email
                 }));
             // Write reservation
             CreateMap<ReservationWriteDto, Reservation>()
                 .ForMember(x => x.BoatName, x => x.MapFrom(x => x.BoatName.Trim()))
-                .ForMember(x => x.Email, x => x.MapFrom(x => x.Email.Trim()))
-                .ForMember(x => x.Contact, x => x.MapFrom(x => x.Contact.Trim()))
+                .ForMember(x => x.Beam, x => x.MapFrom(x => x.Beam ?? ""))
+                .ForMember(x => x.Draft, x => x.MapFrom(x => x.Draft ?? ""))
                 .ForMember(x => x.Remarks, x => x.MapFrom(x => x.Remarks.Trim()))
                 .ForMember(x => x.FinancialRemarks, x => x.MapFrom(x => x.FinancialRemarks.Trim()))
+                .ForMember(x => x.ReservationOwner, x => x.MapFrom(x => new ReservationOwner {
+                    ReservationId = x.ReservationId,
+                    Owner = x.ReservationOwner.Owner,
+                    Address = x.ReservationOwner.Address,
+                    TaxNo = x.ReservationOwner.TaxNo,
+                    TaxOffice = x.ReservationOwner.TaxOffice,
+                    PassportNo = x.ReservationOwner.PassportNo,
+                    Phones = x.ReservationOwner.Phones,
+                    Email = x.ReservationOwner.Email,
+                }))
                 .ForMember(x => x.ReservationLease, x => x.MapFrom(x => new ReservationLease {
                     ReservationId = x.ReservationId,
-                    Customer = x.ReservationLease.Customer,
                     InsuranceCompany = x.ReservationLease.InsuranceCompany,
                     PolicyNo = x.ReservationLease.PolicyNo,
                     PolicyEnds = new DateTime(2199, 12, 31),
+                    Flag = x.ReservationLease.Flag,
+                    RegistryPort = x.ReservationLease.RegistryPort,
+                    RegistryNo = x.ReservationLease.RegistryNo,
+                    BoatType = x.ReservationLease.BoatType,
+                    BoatUsage = x.ReservationLease.BoatUsage,
+                    NetAmount = x.ReservationLease.NetAmount,
+                    VatAmount = x.ReservationLease.VatAmount,
+                    GrossAmount = x.ReservationLease.GrossAmount
                 }))
 ;            // Write berth
             CreateMap<ReservationBerthWriteDto, ReservationBerth>();

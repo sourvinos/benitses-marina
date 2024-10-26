@@ -10,16 +10,16 @@ namespace API.Features.Reservations {
         public int PaymentStatusId { get; set; }
         public string BoatName { get; set; }
         public string Loa { get; set; }
+        public string Beam { get; set; }
+        public string Draft { get; set; }
         public string FromDate { get; set; }
         public string ToDate { get; set; }
-        public int Days { get; set; }
-        public string Email { get; set; }
         public string Remarks { get; set; }
         public string FinancialRemarks { get; set; }
-        public string Contact { get; set; }
         public bool IsDocked { get; set; }
         public bool IsLongTerm { get; set; }
         public bool IsAthenian { get; set; }
+        public ReservationOwnerWriteDto ReservationOwner { get; set; }
         public ReservationLeaseWriteDto ReservationLease { get; set; }
         public List<ReservationBerthWriteDto> Berths { get; set; }
         public string PostAt { get; set; }

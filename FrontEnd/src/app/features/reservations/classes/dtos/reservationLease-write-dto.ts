@@ -3,7 +3,6 @@ import { Guid } from 'guid-typescript'
 export interface ReservationLeaseWriteDto {
 
     reservationId: Guid
-    customer: string
     insuranceCompany: string
     policyEnds: string
     policyNo: string,

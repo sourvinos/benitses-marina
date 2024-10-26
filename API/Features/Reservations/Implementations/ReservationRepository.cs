@@ -28,6 +28,7 @@ namespace API.Features.Reservations {
             var Reservations = await context.Reservations
                 .AsNoTracking()
                 .Include(x => x.Berths)
+                .Include(x => x.ReservationOwner)
                 .Include(x => x.ReservationLease)
                 .Include(x => x.PaymentStatus)
                 .OrderBy(x => x.BoatName)
@@ -45,12 +46,12 @@ namespace API.Features.Reservations {
         }
 
         public async Task<IEnumerable<ReservationListVM>> GetDeparturesAsync(string date) {
-            var Reservations = await context.Reservations
+            var reservations = await context.Reservations
                 .AsNoTracking()
                 .Include(x => x.Berths)
                 .Where(x => x.ToDate == Convert.ToDateTime(date))
                 .ToListAsync();
-            return mapper.Map<IEnumerable<Reservation>, IEnumerable<ReservationListVM>>(Reservations);
+            return mapper.Map<IEnumerable<Reservation>, IEnumerable<ReservationListVM>>(reservations);
         }
 
         public async Task<Reservation> GetByIdAsync(string reservationId, bool includeTables) {
@@ -58,6 +59,7 @@ namespace API.Features.Reservations {
                 ? await context.Reservations
                     .AsNoTracking()
                     .Include(x => x.Berths)
+                    .Include(x => x.ReservationOwner)
                     .Include(x => x.ReservationLease)
                     .Include(x => x.PaymentStatus)
                     .Where(x => x.ReservationId.ToString() == reservationId)
@@ -65,6 +67,8 @@ namespace API.Features.Reservations {
                : await context.Reservations
                   .AsNoTracking()
                   .Include(x => x.Berths)
+                  .Include(x => x.ReservationOwner)
+                  .Include(x => x.ReservationLease)
                   .Where(x => x.ReservationId.ToString() == reservationId)
                   .SingleOrDefaultAsync();
         }
@@ -73,6 +77,7 @@ namespace API.Features.Reservations {
             using var transaction = context.Database.BeginTransaction();
             UpdateReservation(reservation);
             DeleteBerths(reservationId, reservation.Berths);
+            UpdateOwner(reservation.ReservationOwner);
             UpdateLease(reservation.ReservationLease);
             context.SaveChanges();
             DisposeOrCommit(transaction);
@@ -103,6 +108,11 @@ namespace API.Features.Reservations {
                 .Except(berthsToUpdate, new BerthComparerById())
                 .ToList();
             context.ReservationBerths.RemoveRange(berthsToDelete);
+        }
+
+        private void UpdateOwner(ReservationOwner owner) {
+            var existingOwner = context.ReservationOwners.Where(x => x.ReservationId == owner.ReservationId).SingleOrDefault();
+            context.ReservationOwners.Update(owner);
         }
 
         private void UpdateLease(ReservationLease lease) {

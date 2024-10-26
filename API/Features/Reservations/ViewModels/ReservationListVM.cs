@@ -11,7 +11,6 @@ namespace API.Features.Reservations {
         public string Loa { get; set; }
         public string FromDate { get; set; }
         public string ToDate { get; set; }
-        public int Days { get; set; }
         public bool IsDocked { get; set; }
         public bool IsLongTerm { get; set; }
         public bool IsAthenian { get; set; }

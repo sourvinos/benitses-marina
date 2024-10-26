@@ -17,23 +17,35 @@
                                 <mat-error *ngIf="boatName.hasError('required')">{{ getHint("required") }}</mat-error>
                             </mat-form-field>
                             <mat-form-field>
+                                <mat-label>{{ getLabel('length') }}</mat-label>
+                                <input [inputTabStop]="input" dataTabIndex="2" formControlName="loa" matInput>
+                                <mat-error *ngIf="loa.hasError('required')">{{ getHint("required") }}</mat-error>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('beam') }}</mat-label>
+                                <input [inputTabStop]="input" dataTabIndex="3" formControlName="beam" matInput>
+                                <mat-error *ngIf="beam.hasError('required')">{{ getHint("required") }}</mat-error>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('draft') }}</mat-label>
+                                <input [inputTabStop]="input" dataTabIndex="4" formControlName="draft" matInput>
+                                <mat-error *ngIf="draft.hasError('required')">{{ getHint("required") }}</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="group-input-field">
+                            <mat-form-field>
                                 <mat-label>{{ getLabel('fromDate') }}</mat-label>
-                                <input (keyup)="calculateDays()" [inputTabStop]="input" [matDatepicker]="fromDatePicker" dataTabIndex="2" formControlName="fromDate" matInput>
+                                <input [inputTabStop]="input" [matDatepicker]="fromDatePicker" dataTabIndex="5" formControlName="fromDate" matInput>
                                 <mat-datepicker-toggle matIconSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
                                 <mat-datepicker #fromDatePicker></mat-datepicker>
                                 <mat-error *ngIf="fromDate.hasError('required')">{{ getHint("required") }}</mat-error>
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-label>{{ getLabel('toDate') }}</mat-label>
-                                <input (keyup)="calculateDays()" [inputTabStop]="input" [matDatepicker]="toDatePicker" dataTabIndex="3" formControlName="toDate" matInput>
+                                <input [inputTabStop]="input" [matDatepicker]="toDatePicker" dataTabIndex="6" formControlName="toDate" matInput>
                                 <mat-datepicker-toggle matIconSuffix [for]="toDatePicker"></mat-datepicker-toggle>
                                 <mat-datepicker #toDatePicker></mat-datepicker>
                                 <mat-error *ngIf="toDate.hasError('required')">{{ getHint("required") }}</mat-error>
-                            </mat-form-field>
-                            <mat-form-field>
-                                <mat-label>{{ getLabel('days') }}</mat-label>
-                                <input (keyup)="calculateToDate()" [inputTabStop]="input" dataTabIndex="4" formControlName="days" matInput type="number">
-                                <mat-error *ngIf="days.hasError('required')">{{ getHint("required") }}</mat-error>
                             </mat-form-field>
                         </div>
                         <div formArrayName="berths">
@@ -42,7 +54,7 @@
                                     <div [formGroupName]="i">
                                         <mat-form-field>
                                             <mat-label>{{ getLabel("berth") }}</mat-label>
-                                            <input [inputTabStop]="input" dataTabIndex="5" formControlName="description" matInput>
+                                            <input [inputTabStop]="input" dataTabIndex="8" formControlName="description" matInput>
                                             <div *ngIf="berthsArray.length > 1" matSuffix style="display:flex">
                                                 <button (click)="onRemoveBerth(i)" mat-icon-button type="button">
                                                     <mat-icon class="input-suffix material-icons-outlined">close</mat-icon>
@@ -77,17 +89,28 @@
                     </div>
                 </mat-tab>
                 <mat-tab label="{{ getLabel('tab2') }}">
-                    <div id="contact-details-tab">
+                    <div class="group-input-field">
                         <mat-form-field>
-                            <mat-label>{{ getLabel('email') }}</mat-label>
-                            <input [inputTabStop]="input" dataTabIndex="1" formControlName="email" matInput type="email">
-                            <mat-error *ngIf="email.hasError('maxlength')">{{ getHint("maxLength", email.errors.maxlength.requiredLength) }}</mat-error>
-                            <mat-error *ngIf="!email.hasError('maxlength') && email.hasError('email')">{{ getHint("invalid") }}</mat-error>
+                            <mat-label>{{ getLabel('flag') }}</mat-label>
+                            <input [inputTabStop]="input" dataTabIndex="6" formControlName="flag" matInput>
                         </mat-form-field>
                         <mat-form-field>
-                            <mat-label>{{ getLabel("contact") }}</mat-label>
-                            <input [inputTabStop]="input" dataTabIndex="2" formControlName="contact" matInput>
-                            <mat-error *ngIf="contact.hasError('maxlength')">{{ getHint("maxLength", contact.errors.maxlength.requiredLength) }}</mat-error>
+                            <mat-label>{{ getLabel('registryPort') }}</mat-label>
+                            <input [inputTabStop]="input" dataTabIndex="7" formControlName="registryPort" matInput>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>{{ getLabel('registryNo') }}</mat-label>
+                            <input [inputTabStop]="input" dataTabIndex="8" formControlName="registryNo" matInput>
+                        </mat-form-field>
+                    </div>
+                    <div class="group-input-field">
+                        <mat-form-field>
+                            <mat-label>{{ getLabel('boatType') }}</mat-label>
+                            <input [inputTabStop]="input" dataTabIndex="9" formControlName="boatType" matInput>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>{{ getLabel('boatUsage') }}</mat-label>
+                            <input [inputTabStop]="input" dataTabIndex="10" formControlName="boatUsage" matInput>
                         </mat-form-field>
                     </div>
                 </mat-tab>
@@ -127,15 +150,6 @@
                 </mat-tab>
                 <mat-tab label="{{ getLabel('tab4') }}">
                     <div id="lease-tab">
-                        <mat-form-field>
-                            <mat-label>{{ getLabel('customer') }}</mat-label>
-                            <input [inputTabStop]="input" dataTabIndex="1" formControlName="customer" matInput>
-                        </mat-form-field>
-                        <mat-form-field>
-                            <mat-label>{{ getLabel('length') }}</mat-label>
-                            <input [inputTabStop]="input" dataTabIndex="2" formControlName="loa" matInput>
-                            <mat-error *ngIf="loa.hasError('required')">{{ getHint("required") }}</mat-error>
-                        </mat-form-field>
                         <div class="group-input-field">
                             <mat-form-field>
                                 <mat-label>{{ getLabel('insuranceCompany') }}</mat-label>
@@ -150,30 +164,38 @@
                                 <input [inputTabStop]="input" dataTabIndex="5" formControlName="policyEnds" matInput>
                             </mat-form-field>
                         </div>
-                        <div class="group-input-field">
-                            <mat-form-field>
-                                <mat-label>{{ getLabel('flag') }}</mat-label>
-                                <input [inputTabStop]="input" dataTabIndex="6" formControlName="flag" matInput>
-                            </mat-form-field>
-                            <mat-form-field>
-                                <mat-label>{{ getLabel('registryPort') }}</mat-label>
-                                <input [inputTabStop]="input" dataTabIndex="7" formControlName="registryPort" matInput>
-                            </mat-form-field>
-                            <mat-form-field>
-                                <mat-label>{{ getLabel('registryNo') }}</mat-label>
-                                <input [inputTabStop]="input" dataTabIndex="8" formControlName="registryNo" matInput>
-                            </mat-form-field>
-                        </div>
-                        <div class="group-input-field">
-                            <mat-form-field>
-                                <mat-label>{{ getLabel('boatType') }}</mat-label>
-                                <input [inputTabStop]="input" dataTabIndex="9" formControlName="boatType" matInput>
-                            </mat-form-field>
-                            <mat-form-field>
-                                <mat-label>{{ getLabel('boatUsage') }}</mat-label>
-                                <input [inputTabStop]="input" dataTabIndex="10" formControlName="boatUsage" matInput>
-                            </mat-form-field>
-                        </div>
+                    </div>
+                </mat-tab>
+                <mat-tab label="{{ getLabel('tab5') }}">
+                    <div id="ownwer-tab">
+                        <mat-form-field>
+                            <mat-label>{{ getLabel('owner') }}</mat-label>
+                            <input [inputTabStop]="input" dataTabIndex="1" formControlName="owner" matInput>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>{{ getLabel('address') }}</mat-label>
+                            <input [inputTabStop]="input" dataTabIndex="2" formControlName="address" matInput>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>{{ getLabel('taxNo') }}</mat-label>
+                            <input [inputTabStop]="input" dataTabIndex="3" formControlName="taxNo" matInput>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>{{ getLabel('taxOffice') }}</mat-label>
+                            <input [inputTabStop]="input" dataTabIndex="4" formControlName="taxOffice" matInput>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>{{ getLabel('passportNo') }}</mat-label>
+                            <input [inputTabStop]="input" dataTabIndex="5" formControlName="passportNo" matInput>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>{{ getLabel('phones') }}</mat-label>
+                            <input [inputTabStop]="input" dataTabIndex="6" formControlName="phones" matInput>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>{{ getLabel('email') }}</mat-label>
+                            <input [inputTabStop]="input" dataTabIndex="7" formControlName="email" matInput>
+                        </mat-form-field>
                     </div>
                 </mat-tab>
             </mat-tab-group>
