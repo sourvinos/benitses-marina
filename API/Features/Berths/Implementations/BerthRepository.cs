@@ -63,7 +63,7 @@ namespace API.Features.Reservations.Berths {
                         berthStates.Add(new BerthAvailableListVM {
                             Id = occupiedBerth.Id,
                             Description = occupiedBerth.Description,
-                            BoatName = occupiedBerth.Reservation.BoatName,
+                            BoatName = occupiedBerth.Reservation.Boat.Name,
                             ToDate = DateHelpers.DateToISOString(occupiedBerth.Reservation.ToDate),
                             IsAthenian = occupiedBerth.Reservation.IsAthenian,
                             IsOverdue = occupiedBerth.Reservation.ToDate.AddDays(1) < TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "E. Europe Standard Time")

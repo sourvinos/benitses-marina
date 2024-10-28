@@ -15,19 +15,28 @@ namespace Reservations {
             return new object[] {
                 new TestReservation {
                     PaymentStatusId = 1,
-                    BoatName = "Boat name",
-                    Loa = "14.2",
                     FromDate = "2024-05-01",
                     ToDate = "2024-05-10",
-                    Days = 9,
-                    Contact = "Test contact",
                     Remarks = "Test remarks",
                     FinancialRemarks = "Financial remarks",
                     IsDocked = false,
                     IsLongTerm = true,
                     IsAthenian = false,
-                    ReservationOwner = new TestReservationOwner{
-                        Owner = "Owner",
+                    Boat = new TestReservationBoat {
+                        Name = "Boat name",
+                        Loa = "12.5",
+                        Beam = "7.8",
+                        Draft = "2.2",
+                        Type = "S/Y",
+                        Usage = "PRIVATE"
+                    },
+                    Insurance = new TestReservationInsurance {
+                        InsuranceCompany = "",
+                        PolicyNo = "",
+                        PolicyEnds = ""
+                    },
+                    Owner = new TestReservationOwner {
+                        Name = "Owner",
                         Address = "Address",
                         TaxNo = "TaxNo",
                         TaxOffice = "TaxOffice",
@@ -35,16 +44,16 @@ namespace Reservations {
                         Phones = "Phones",
                         Email = "Email"
                     },
-                    ReservationLease = new TestReservationLease {
-                        Customer = "Test customer",
-                        InsuranceCompany = "AXA",
-                        PolicyNo = "1234-56",
-                        PolicyEnds = "2050-12-31",
-                        Flag = "GREEK",
-                        RegistryPort = "CORFU",
-                        RegistryNo = "1701",
-                        BoatType = "MOTOR",
-                        BoatUsage = "PROFESSIONAL",
+                    Billing = new TestReservationBilling {
+                        Name = "Owner",
+                        Address = "Address",
+                        TaxNo = "TaxNo",
+                        TaxOffice = "TaxOffice",
+                        PassportNo = "PassportNo",
+                        Phones = "Phones",
+                        Email = "Email"
+                    },
+                    Fee = new TestReservationFee {
                         NetAmount = 1234.56M,
                         VatAmount = 296.29M,
                         GrossAmount = 1530.85M

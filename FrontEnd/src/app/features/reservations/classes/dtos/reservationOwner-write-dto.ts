@@ -3,7 +3,7 @@ import { Guid } from 'guid-typescript'
 export interface ReservationOwnerWriteDto {
 
     reservationId: Guid
-    owner: string
+    name: string
     address: string
     taxNo: string
     taxOffice: string

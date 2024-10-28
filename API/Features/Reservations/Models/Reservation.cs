@@ -9,10 +9,6 @@ namespace API.Features.Reservations {
 
         public Guid ReservationId { get; set; }
         public int PaymentStatusId { get; set; }
-        public string BoatName { get; set; }
-        public string Loa { get; set; }
-        public string Beam { get; set; }
-        public string Draft { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
         public string Remarks { get; set; }
@@ -20,8 +16,11 @@ namespace API.Features.Reservations {
         public bool IsDocked { get; set; }
         public bool IsLongTerm { get; set; }
         public bool IsAthenian { get; set; }
-        public ReservationLease ReservationLease { get; set; }
-        public ReservationOwner ReservationOwner { get; set; }
+        public ReservationBoatDetails Boat { get; set; }
+        public ReservationInsuranceDetails Insurance { get; set; }
+        public ReservationOwnerDetails Owner { get; set; }
+        public ReservationBillingDetails Billing { get; set; }
+        public ReservationFeeDetails Fee { get; set; }
         public List<ReservationBerth> Berths { get; set; }
         public PaymentStatus PaymentStatus { get; set; }
         public string PostAt { get; set; }

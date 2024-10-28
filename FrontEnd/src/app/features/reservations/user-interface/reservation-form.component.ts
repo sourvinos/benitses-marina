@@ -16,8 +16,10 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage.servi
 import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
 import { MessageInputHintService } from 'src/app/shared/services/message-input-hint.service'
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
+import { ReservationBoatDto } from '../classes/dtos/reservation-boat-dto'
+import { ReservationFeeDto } from '../classes/dtos/reservation-fee-dto'
 import { ReservationHttpService } from '../classes/services/reservation-http.service'
-import { ReservationLeaseWriteDto } from '../classes/dtos/reservationLease-write-dto'
+import { ReservationInsuranceDto } from '../classes/dtos/reservation-insurance-dto'
 import { ReservationOwnerWriteDto } from '../classes/dtos/reservationOwner-write-dto'
 import { ReservationReadDto } from '../classes/dtos/reservation-read-dto'
 import { ReservationWriteDto } from '../classes/dtos/reservation-write-dto'
@@ -170,19 +172,17 @@ export class ReservationFormComponent {
     private flattenForm(): ReservationWriteDto {
         return {
             reservationId: this.form.value.reservationId != '' ? this.form.value.reservationId : null,
-            boatName: this.form.value.boatName,
-            loa: this.form.value.loa,
-            beam: this.form.value.beam,
-            draft: this.form.value.draft,
             fromDate: this.form.value.fromDate,
             toDate: this.form.value.toDate,
             berths: this.form.value.berths,
-            email: this.form.value.email,
             remarks: this.form.value.remarks,
             financialRemarks: this.form.value.financialRemarks,
             paymentStatusId: this.form.value.paymentStatus.id,
-            reservationOwner: this.mapReservationOwner(this.form),
-            reservationLease: this.mapReservationLease(this.form),
+            boat: this.mapBoat(this.form),
+            insurance: this.mapInsurance(this.form),
+            owner: this.mapOwner(this.form),
+            billing: this.mapBilling(this.form),
+            fee: this.mapFee(this.form),
             isDocked: this.form.value.isDocked,
             isLongTerm: this.form.value.isLongTerm,
             isAthenian: this.form.value.isAthenian,
@@ -219,9 +219,14 @@ export class ReservationFormComponent {
         this.form = this.formBuilder.group({
             reservationId: '',
             boatName: ['', [Validators.required]],
+            flag: '',
             loa: ['', [Validators.required, Validators.min(0), Validators.max(30)]],
             beam: ['', [Validators.required, Validators.min(0), Validators.max(30)]],
             draft: ['', [Validators.required, Validators.min(0), Validators.max(30)]],
+            registryPort: '',
+            registryNo: '',
+            boatType: '',
+            boatUsage: '',
             fromDate: ['', [Validators.required]],
             toDate: ['', [Validators.required]],
             berths: this.formBuilder.array([]),
@@ -231,11 +236,6 @@ export class ReservationFormComponent {
             insuranceCompany: '',
             policyNo: '',
             policyEnds: '',
-            flag: '',
-            registryPort: '',
-            registryNo: '',
-            boatType: '',
-            boatUsage: '',
             netAmount: 0,
             vatAmount: 0,
             grossAmount: 0,
@@ -256,10 +256,36 @@ export class ReservationFormComponent {
         })
     }
 
-    private mapReservationOwner(form: any): ReservationOwnerWriteDto {
+    private mapBoat(form: any): ReservationBoatDto {
+        const x: ReservationBoatDto = {
+            reservationId: form.value.reservationId,
+            name: form.value.boatName,
+            flag: form.value.flag,
+            loa: form.value.loa,
+            beam: form.value.beam,
+            draft: form.value.draft,
+            registryPort: form.value.registryPort,
+            registryNo: form.value.registryNo,
+            type: form.value.boatType,
+            usage: form.value.boatUsage
+        }
+        return x
+    }
+
+    private mapInsurance(form: any): ReservationInsuranceDto {
+        const x: ReservationInsuranceDto = {
+            reservationId: form.value.reservationId,
+            insuranceCompany: form.value.insuranceCompany,
+            policyNo: form.value.policyNo,
+            policyEnds: form.value.policyEnds
+        }
+        return x
+    }
+
+    private mapOwner(form: any): ReservationOwnerWriteDto {
         const x: ReservationOwnerWriteDto = {
             reservationId: form.value.reservationId,
-            owner: form.value.owner,
+            name: form.value.owner,
             address: form.value.address,
             taxNo: form.value.taxNo,
             taxOffice: form.value.taxOffice,
@@ -270,17 +296,23 @@ export class ReservationFormComponent {
         return x
     }
 
-    private mapReservationLease(form: any): ReservationLeaseWriteDto {
-        const x: ReservationLeaseWriteDto = {
+    private mapBilling(form: any): ReservationOwnerWriteDto {
+        const x: ReservationOwnerWriteDto = {
             reservationId: form.value.reservationId,
-            insuranceCompany: form.value.insuranceCompany,
-            policyNo: form.value.policyNo,
-            policyEnds: form.value.policyEnds,
-            flag: form.value.flag,
-            registryPort: form.value.registryPort,
-            registryNo: form.value.registryNo,
-            boatType: form.value.boatType,
-            boatUsage: form.value.boatUsage,
+            name: form.value.owner,
+            address: form.value.address,
+            taxNo: form.value.taxNo,
+            taxOffice: form.value.taxOffice,
+            passportNo: form.value.passportNo,
+            phones: form.value.phones,
+            email: form.value.email
+        }
+        return x
+    }
+
+    private mapFee(form: any): ReservationFeeDto {
+        const x: ReservationFeeDto = {
+            reservationId: form.value.reservationId,
             netAmount: form.value.netAmount,
             vatAmount: form.value.vatAmount,
             grossAmount: form.value.grossAmount
@@ -303,10 +335,15 @@ export class ReservationFormComponent {
         if (this.reservation != undefined) {
             this.form.setValue({
                 reservationId: this.reservation.reservationId,
-                boatName: this.reservation.boatName,
-                loa: this.reservation.loa,
-                beam: this.reservation.beam,
-                draft: this.reservation.draft,
+                boatName: this.reservation.boat.name,
+                flag: this.reservation.boat.flag,
+                loa: this.reservation.boat.loa,
+                beam: this.reservation.boat.beam,
+                draft: this.reservation.boat.draft,
+                registryPort: this.reservation.boat.registryPort,
+                registryNo: this.reservation.boat.registryNo,
+                boatType: this.reservation.boat.type,
+                boatUsage: this.reservation.boat.usage,
                 fromDate: this.reservation.fromDate,
                 toDate: this.reservation.toDate,
                 berths: [],
@@ -316,24 +353,19 @@ export class ReservationFormComponent {
                 isLongTerm: this.reservation.isLongTerm,
                 isAthenian: this.reservation.isAthenian,
                 paymentStatus: { 'id': this.reservation.paymentStatus.id, 'description': this.reservation.paymentStatus.description },
-                insuranceCompany: this.reservation.reservationLease.insuranceCompany,
-                policyNo: this.reservation.reservationLease.policyNo,
-                policyEnds: this.reservation.reservationLease.policyEnds,
-                flag: this.reservation.reservationLease.flag,
-                registryPort: this.reservation.reservationLease.registryPort,
-                registryNo: this.reservation.reservationLease.registryNo,
-                boatType: this.reservation.reservationLease.boatType,
-                boatUsage: this.reservation.reservationLease.boatUsage,
-                netAmount: this.reservation.reservationLease.netAmount,
-                vatAmount: this.reservation.reservationLease.vatAmount,
-                grossAmount: this.reservation.reservationLease.grossAmount,
-                owner: this.reservation.reservationOwner.owner,
-                address: this.reservation.reservationOwner.address,
-                taxNo: this.reservation.reservationOwner.taxNo,
-                taxOffice: this.reservation.reservationOwner.taxOffice,
-                passportNo: this.reservation.reservationOwner.passportNo,
-                phones: this.reservation.reservationOwner.phones,
-                email: this.reservation.reservationOwner.email,
+                insuranceCompany: this.reservation.insurance.insuranceCompany,
+                policyNo: this.reservation.insurance.policyNo,
+                policyEnds: this.reservation.insurance.policyEnds,
+                netAmount: this.reservation.fee.netAmount,
+                vatAmount: this.reservation.fee.vatAmount,
+                grossAmount: this.reservation.fee.grossAmount,
+                owner: this.reservation.owner.name,
+                address: this.reservation.owner.address,
+                taxNo: this.reservation.owner.taxNo,
+                taxOffice: this.reservation.owner.taxOffice,
+                passportNo: this.reservation.owner.passportNo,
+                phones: this.reservation.owner.phones,
+                email: this.reservation.owner.email,
                 postAt: this.reservation.postAt,
                 postUser: this.reservation.postUser,
                 putAt: this.reservation.putAt,

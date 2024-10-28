@@ -27,11 +27,14 @@ namespace API.Features.Reservations {
         public async Task<IEnumerable<ReservationListVM>> GetAsync() {
             var Reservations = await context.Reservations
                 .AsNoTracking()
-                .Include(x => x.Berths)
-                .Include(x => x.ReservationOwner)
-                .Include(x => x.ReservationLease)
+                .Include(x => x.Boat)
+                .Include(x => x.Insurance)
+                .Include(x => x.Owner)
+                .Include(x => x.Billing)
+                .Include(x => x.Fee)
                 .Include(x => x.PaymentStatus)
-                .OrderBy(x => x.BoatName)
+                .Include(x => x.Berths)
+                .OrderBy(x => x.Boat.Name)
                 .ToListAsync();
             return mapper.Map<IEnumerable<Reservation>, IEnumerable<ReservationListVM>>(Reservations);
         }
@@ -58,17 +61,24 @@ namespace API.Features.Reservations {
             return includeTables
                 ? await context.Reservations
                     .AsNoTracking()
-                    .Include(x => x.Berths)
-                    .Include(x => x.ReservationOwner)
-                    .Include(x => x.ReservationLease)
+                    .Include(x => x.Boat)
+                    .Include(x => x.Insurance)
+                    .Include(x => x.Owner)
+                    .Include(x => x.Billing)
+                    .Include(x => x.Fee)
                     .Include(x => x.PaymentStatus)
+                    .Include(x => x.Berths)
                     .Where(x => x.ReservationId.ToString() == reservationId)
                     .SingleOrDefaultAsync()
                : await context.Reservations
                   .AsNoTracking()
-                  .Include(x => x.Berths)
-                  .Include(x => x.ReservationOwner)
-                  .Include(x => x.ReservationLease)
+                    .Include(x => x.Boat)
+                    .Include(x => x.Insurance)
+                    .Include(x => x.Owner)
+                    .Include(x => x.Billing)
+                    .Include(x => x.Fee)
+                    .Include(x => x.PaymentStatus)
+                    .Include(x => x.Berths)
                   .Where(x => x.ReservationId.ToString() == reservationId)
                   .SingleOrDefaultAsync();
         }
@@ -76,9 +86,12 @@ namespace API.Features.Reservations {
         public Reservation Update(Guid reservationId, Reservation reservation) {
             using var transaction = context.Database.BeginTransaction();
             UpdateReservation(reservation);
+            UpdateBoat(reservation.Boat);
+            UpdateInsurance(reservation.Insurance);
+            UpdateOwner(reservation.Owner);
+            UpdateBilling(reservation.Billing);
+            UpdateFee(reservation.Fee);
             DeleteBerths(reservationId, reservation.Berths);
-            UpdateOwner(reservation.ReservationOwner);
-            UpdateLease(reservation.ReservationLease);
             context.SaveChanges();
             DisposeOrCommit(transaction);
             return reservation;
@@ -96,6 +109,31 @@ namespace API.Features.Reservations {
             context.Reservations.Update(reservation);
         }
 
+        private void UpdateBoat(ReservationBoatDetails boat) {
+            var x = context.ReservationBoats.Where(x => x.ReservationId == boat.ReservationId).SingleOrDefault();
+            context.ReservationBoats.Update(boat);
+        }
+
+        private void UpdateInsurance(ReservationInsuranceDetails insurance) {
+            var x = context.ReservationInsuranceDetails.Where(x => x.ReservationId == insurance.ReservationId).SingleOrDefault();
+            context.ReservationInsuranceDetails.Update(insurance);
+        }
+
+        private void UpdateOwner(ReservationOwnerDetails owner) {
+            var x = context.ReservationOwnerDetails.Where(x => x.ReservationId == owner.ReservationId).SingleOrDefault();
+            context.ReservationOwnerDetails.Update(owner);
+        }
+
+        private void UpdateBilling(ReservationBillingDetails billing) {
+            var x = context.ReservationBillingDetails.Where(x => x.ReservationId == billing.ReservationId).SingleOrDefault();
+            context.ReservationBillingDetails.Update(billing);
+        }
+
+        private void UpdateFee(ReservationFeeDetails fee) {
+            var x = context.ReservationFeeDetails.Where(x => x.ReservationId == fee.ReservationId).SingleOrDefault();
+            context.ReservationFeeDetails.Update(fee);
+        }
+
         private void DeleteBerths(Guid reservationId, List<ReservationBerth> berths) {
             var existingBerths = context.ReservationBerths
                 .AsNoTracking()
@@ -108,16 +146,6 @@ namespace API.Features.Reservations {
                 .Except(berthsToUpdate, new BerthComparerById())
                 .ToList();
             context.ReservationBerths.RemoveRange(berthsToDelete);
-        }
-
-        private void UpdateOwner(ReservationOwner owner) {
-            var existingOwner = context.ReservationOwners.Where(x => x.ReservationId == owner.ReservationId).SingleOrDefault();
-            context.ReservationOwners.Update(owner);
-        }
-
-        private void UpdateLease(ReservationLease lease) {
-            var existingLease = context.ReservationLeases.Where(x => x.ReservationId == lease.ReservationId).SingleOrDefault();
-            context.ReservationLeases.Update(lease);
         }
 
         private class BerthComparerById : IEqualityComparer<ReservationBerth> {

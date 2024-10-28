@@ -1,12 +1,12 @@
 using System;
 
-namespace API.Features.Reservations {
+namespace Reservations {
 
-    public class ReservationOwnerWriteDto {
+    public class TestReservationBilling {
 
         public int Id { get; set; }
         public Guid ReservationId { get; set; }
-        public string Owner { get; set; }
+        public string Name { get; set; }
         public string Address { get; set; }
         public string TaxNo { get; set; }
         public string TaxOffice { get; set; }
