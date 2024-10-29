@@ -5,7 +5,7 @@ import { Metadata } from 'src/app/shared/classes/metadata'
 import { ReservationBoatDto } from './reservation-boat-dto'
 import { ReservationFeeDto } from './reservation-fee-dto'
 import { ReservationInsuranceDto } from './reservation-insurance-dto'
-import { ReservationOwnerDto } from './reservation-owner-dto'
+import { ReservationPersonDto } from './reservation-person-dto'
 import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 
 export interface ReservationReadDto extends Metadata {
@@ -22,7 +22,8 @@ export interface ReservationReadDto extends Metadata {
     berths: BerthReadDto[]
     boat: ReservationBoatDto
     insurance: ReservationInsuranceDto
-    owner: ReservationOwnerDto
+    owner: ReservationPersonDto
+    billing: ReservationPersonDto
     fee: ReservationFeeDto
     postAt: string
     postUser: string

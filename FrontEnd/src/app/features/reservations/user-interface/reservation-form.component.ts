@@ -20,7 +20,7 @@ import { ReservationBoatDto } from '../classes/dtos/reservation-boat-dto'
 import { ReservationFeeDto } from '../classes/dtos/reservation-fee-dto'
 import { ReservationHttpService } from '../classes/services/reservation-http.service'
 import { ReservationInsuranceDto } from '../classes/dtos/reservation-insurance-dto'
-import { ReservationOwnerWriteDto } from '../classes/dtos/reservationOwner-write-dto'
+import { ReservationPersonDto } from '../classes/dtos/reservation-person-dto'
 import { ReservationReadDto } from '../classes/dtos/reservation-read-dto'
 import { ReservationWriteDto } from '../classes/dtos/reservation-write-dto'
 import { SessionStorageService } from 'src/app/shared/services/session-storage.service'
@@ -85,6 +85,18 @@ export class ReservationFormComponent {
 
     public autocompleteFields(fieldName: any, object: any): any {
         return object ? object[fieldName] : undefined
+    }
+
+    public copyOwnerToBilling(): void {
+        this.form.patchValue({
+            billingName: this.form.value.ownerName,
+            billingAddress: this.form.value.ownerAddress,
+            billingTaxNo: this.form.value.ownerTaxNo,
+            billingTaxOffice: this.form.value.ownerTaxOffice,
+            billingPassportNo: this.form.value.ownerPassportNo,
+            billingPhones: this.form.value.ownerPhones,
+            billingEmail: this.form.value.ownerEmail
+        })
     }
 
     public checkForEmptyAutoComplete(event: { target: { value: any } }): void {
@@ -242,13 +254,20 @@ export class ReservationFormComponent {
             isDocked: false,
             isLongTerm: false,
             isAthenian: false,
-            owner: '',
-            address: '',
-            taxNo: '',
-            taxOffice: '',
-            passportNo: '',
-            phones: '',
-            email: '',
+            ownerName: '',
+            ownerAddress: '',
+            ownerTaxNo: '',
+            ownerTaxOffice: '',
+            ownerPassportNo: '',
+            ownerPhones: '',
+            ownerEmail: '',
+            billingName: '',
+            billingAddress: '',
+            billingTaxNo: '',
+            billingTaxOffice: '',
+            billingPassportNo: '',
+            billingPhones: '',
+            billingEmail: '',
             postAt: [''],
             postUser: [''],
             putAt: [''],
@@ -282,30 +301,30 @@ export class ReservationFormComponent {
         return x
     }
 
-    private mapOwner(form: any): ReservationOwnerWriteDto {
-        const x: ReservationOwnerWriteDto = {
+    private mapOwner(form: any): ReservationPersonDto {
+        const x: ReservationPersonDto = {
             reservationId: form.value.reservationId,
-            name: form.value.owner,
-            address: form.value.address,
-            taxNo: form.value.taxNo,
-            taxOffice: form.value.taxOffice,
-            passportNo: form.value.passportNo,
-            phones: form.value.phones,
-            email: form.value.email
+            name: form.value.ownerName,
+            address: form.value.ownerAddress,
+            taxNo: form.value.ownerTaxNo,
+            taxOffice: form.value.ownerTaxOffice,
+            passportNo: form.value.ownerPassportNo,
+            phones: form.value.ownerPhones,
+            email: form.value.ownerEmail
         }
         return x
     }
 
-    private mapBilling(form: any): ReservationOwnerWriteDto {
-        const x: ReservationOwnerWriteDto = {
+    private mapBilling(form: any): ReservationPersonDto {
+        const x: ReservationPersonDto = {
             reservationId: form.value.reservationId,
-            name: form.value.owner,
-            address: form.value.address,
-            taxNo: form.value.taxNo,
-            taxOffice: form.value.taxOffice,
-            passportNo: form.value.passportNo,
-            phones: form.value.phones,
-            email: form.value.email
+            name: form.value.billingName,
+            address: form.value.billingAddress,
+            taxNo: form.value.billingTaxNo,
+            taxOffice: form.value.billingTaxOffice,
+            passportNo: form.value.billingPassportNo,
+            phones: form.value.billingPhones,
+            email: form.value.billingEmail
         }
         return x
     }
@@ -359,13 +378,20 @@ export class ReservationFormComponent {
                 netAmount: this.reservation.fee.netAmount,
                 vatAmount: this.reservation.fee.vatAmount,
                 grossAmount: this.reservation.fee.grossAmount,
-                owner: this.reservation.owner.name,
-                address: this.reservation.owner.address,
-                taxNo: this.reservation.owner.taxNo,
-                taxOffice: this.reservation.owner.taxOffice,
-                passportNo: this.reservation.owner.passportNo,
-                phones: this.reservation.owner.phones,
-                email: this.reservation.owner.email,
+                ownerName: this.reservation.owner.name,
+                ownerAddress: this.reservation.owner.address,
+                ownerTaxNo: this.reservation.owner.taxNo,
+                ownerTaxOffice: this.reservation.owner.taxOffice,
+                ownerPassportNo: this.reservation.owner.passportNo,
+                ownerPhones: this.reservation.owner.phones,
+                ownerEmail: this.reservation.owner.email,
+                billingName: this.reservation.billing.name,
+                billingAddress: this.reservation.billing.address,
+                billingTaxNo: this.reservation.billing.taxNo,
+                billingTaxOffice: this.reservation.billing.taxOffice,
+                billingPassportNo: this.reservation.billing.passportNo,
+                billingPhones: this.reservation.billing.phones,
+                billingEmail: this.reservation.billing.email,
                 postAt: this.reservation.postAt,
                 postUser: this.reservation.postUser,
                 putAt: this.reservation.putAt,
@@ -523,32 +549,60 @@ export class ReservationFormComponent {
         return this.form.get('grossAmount')
     }
 
-    get owner(): AbstractControl {
-        return this.form.get('owner')
+    get ownerName(): AbstractControl {
+        return this.form.get('ownerName')
     }
 
-    get address(): AbstractControl {
-        return this.form.get('address')
+    get ownwerAddress(): AbstractControl {
+        return this.form.get('ownerAddress')
     }
 
-    get taxNo(): AbstractControl {
-        return this.form.get('taxNo')
+    get ownerTaxNo(): AbstractControl {
+        return this.form.get('ownerTaxNo')
     }
 
-    get taxOffice(): AbstractControl {
-        return this.form.get('taxOffice')
+    get ownerTaxOffice(): AbstractControl {
+        return this.form.get('ownerTaxOffice')
     }
 
-    get passportNo(): AbstractControl {
-        return this.form.get('passportNo')
+    get ownerPassportNo(): AbstractControl {
+        return this.form.get('ownerPassportNo')
     }
 
-    get phones(): AbstractControl {
-        return this.form.get('phones')
+    get ownerPhones(): AbstractControl {
+        return this.form.get('ownerPhones')
     }
 
-    get email(): AbstractControl {
-        return this.form.get('email')
+    get ownerEmail(): AbstractControl {
+        return this.form.get('ownerEmail')
+    }
+
+    get billingName(): AbstractControl {
+        return this.form.get('billingName')
+    }
+
+    get billingAddress(): AbstractControl {
+        return this.form.get('billingAddress')
+    }
+
+    get billingTaxNo(): AbstractControl {
+        return this.form.get('billingTaxNo')
+    }
+
+    get billingTaxOffice(): AbstractControl {
+        return this.form.get('billingTaxOffice')
+    }
+
+    get billingPassportNo(): AbstractControl {
+        return this.form.get('billingPassportNo')
+    }
+
+    get billingPhones(): AbstractControl {
+        return this.form.get('billingPhones')
+    }
+
+    get billingEmail(): AbstractControl {
+        return this.form.get('billingEmail')
     }
 
     //#endregion

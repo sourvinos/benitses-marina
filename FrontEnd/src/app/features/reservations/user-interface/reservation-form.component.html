@@ -167,35 +167,84 @@
                     </div>
                 </mat-tab>
                 <mat-tab label="{{ getLabel('tab5') }}">
-                    <div id="ownwer-tab">
-                        <mat-form-field>
-                            <mat-label>{{ getLabel('owner') }}</mat-label>
-                            <input [inputTabStop]="input" dataTabIndex="1" formControlName="owner" matInput>
-                        </mat-form-field>
-                        <mat-form-field>
-                            <mat-label>{{ getLabel('address') }}</mat-label>
-                            <input [inputTabStop]="input" dataTabIndex="2" formControlName="address" matInput>
-                        </mat-form-field>
-                        <mat-form-field>
-                            <mat-label>{{ getLabel('taxNo') }}</mat-label>
-                            <input [inputTabStop]="input" dataTabIndex="3" formControlName="taxNo" matInput>
-                        </mat-form-field>
-                        <mat-form-field>
-                            <mat-label>{{ getLabel('taxOffice') }}</mat-label>
-                            <input [inputTabStop]="input" dataTabIndex="4" formControlName="taxOffice" matInput>
-                        </mat-form-field>
-                        <mat-form-field>
-                            <mat-label>{{ getLabel('passportNo') }}</mat-label>
-                            <input [inputTabStop]="input" dataTabIndex="5" formControlName="passportNo" matInput>
-                        </mat-form-field>
-                        <mat-form-field>
-                            <mat-label>{{ getLabel('phones') }}</mat-label>
-                            <input [inputTabStop]="input" dataTabIndex="6" formControlName="phones" matInput>
-                        </mat-form-field>
-                        <mat-form-field>
-                            <mat-label>{{ getLabel('email') }}</mat-label>
-                            <input [inputTabStop]="input" dataTabIndex="7" formControlName="email" matInput>
-                        </mat-form-field>
+                    <div id="tab-content">
+                        <div id="ownwer-tab">
+                            <div id="owner-tab-header">
+                                <span class="label">Owner details</span>
+                            </div>
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('owner') }}</mat-label>
+                                <input [inputTabStop]="input" dataTabIndex="1" formControlName="ownerName" matInput>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('address') }}</mat-label>
+                                <input [inputTabStop]="input" dataTabIndex="2" formControlName="ownerAddress" matInput>
+                            </mat-form-field>
+                            <div class="group-input-field">
+                                <mat-form-field>
+                                    <mat-label>{{ getLabel('taxNo') }}</mat-label>
+                                    <input [inputTabStop]="input" dataTabIndex="3" formControlName="ownerTaxNo" matInput>
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <mat-label>{{ getLabel('taxOffice') }}</mat-label>
+                                    <input [inputTabStop]="input" dataTabIndex="4" formControlName="ownerTaxOffice" matInput>
+                                </mat-form-field>
+                            </div>
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('passportNo') }}</mat-label>
+                                <input [inputTabStop]="input" dataTabIndex="5" formControlName="ownerPassportNo" matInput>
+                            </mat-form-field>
+                            <div class="group-input-field">
+                                <mat-form-field>
+                                    <mat-label>{{ getLabel('phones') }}</mat-label>
+                                    <input [inputTabStop]="input" dataTabIndex="6" formControlName="ownerPhones" matInput>
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <mat-label>{{ getLabel('email') }}</mat-label>
+                                    <input [inputTabStop]="input" dataTabIndex="7" formControlName="ownerEmail" matInput>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div id="billing-tab">
+                            <div id="billing-tab-header">
+                                <span class="label">Invoice details</span>
+                                <button (click)="copyOwnerToBilling()" id="copy-owner-to-billing" mat-icon-button type="button">
+                                    <mat-icon class="input-suffix material-icons-outlined">content_paste</mat-icon>
+                                </button>
+                            </div>
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('owner') }}</mat-label>
+                                <input [inputTabStop]="input" dataTabIndex="8" formControlName="billingName" matInput>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('address') }}</mat-label>
+                                <input [inputTabStop]="input" dataTabIndex="9" formControlName="billingAddress" matInput>
+                            </mat-form-field>
+                            <div class="group-input-field">
+                                <mat-form-field>
+                                    <mat-label>{{ getLabel('taxNo') }}</mat-label>
+                                    <input [inputTabStop]="input" dataTabIndex="10" formControlName="billingTaxNo" matInput>
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <mat-label>{{ getLabel('taxOffice') }}</mat-label>
+                                    <input [inputTabStop]="input" dataTabIndex="11" formControlName="billingTaxOffice" matInput>
+                                </mat-form-field>
+                            </div>
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('passportNo') }}</mat-label>
+                                <input [inputTabStop]="input" dataTabIndex="12" formControlName="billingPassportNo" matInput>
+                            </mat-form-field>
+                            <div class="group-input-field">
+                                <mat-form-field>
+                                    <mat-label>{{ getLabel('phones') }}</mat-label>
+                                    <input [inputTabStop]="input" dataTabIndex="13" formControlName="billingPhones" matInput>
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <mat-label>{{ getLabel('email') }}</mat-label>
+                                    <input [inputTabStop]="input" dataTabIndex="14" formControlName="billingEmail" matInput>
+                                </mat-form-field>
+                            </div>
+                        </div>
                     </div>
                 </mat-tab>
             </mat-tab-group>

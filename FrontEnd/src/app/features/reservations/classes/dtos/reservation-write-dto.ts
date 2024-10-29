@@ -4,7 +4,7 @@ import { BerthWriteDto } from './berth-write-dto'
 import { ReservationBoatDto } from './reservation-boat-dto'
 import { ReservationFeeDto } from './reservation-fee-dto'
 import { ReservationInsuranceDto } from './reservation-insurance-dto'
-import { ReservationOwnerWriteDto } from './reservationOwner-write-dto'
+import { ReservationPersonDto } from './reservation-person-dto'
 
 export interface ReservationWriteDto {
 
@@ -20,8 +20,8 @@ export interface ReservationWriteDto {
     berths: BerthWriteDto[]
     boat: ReservationBoatDto
     insurance: ReservationInsuranceDto
-    owner: ReservationOwnerWriteDto
-    billing: ReservationOwnerWriteDto
+    owner: ReservationPersonDto
+    billing: ReservationPersonDto
     fee: ReservationFeeDto
     putAt: string
 

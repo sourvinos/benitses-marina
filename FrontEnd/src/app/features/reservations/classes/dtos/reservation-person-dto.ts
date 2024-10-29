@@ -1,6 +1,6 @@
 import { Guid } from 'guid-typescript'
 
-export interface ReservationOwnerDto {
+export interface ReservationPersonDto {
 
     reservationId: Guid
     name: string
