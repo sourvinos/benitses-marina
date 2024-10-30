@@ -18,7 +18,7 @@
 }
 
 .p-datatable .p-datatable-thead > tr > th {
-    background-color: var(--color-background) !important;
+    background-color: var(--color-background-table-header) !important;
     border-right: 0.0625rem solid color-mix(in srgb, var(--color-primary) 30%, transparent);
     color: var(--color-text) !important;
     font-family: var(--font-family-fira-sans-condensed) !important;
