@@ -47,7 +47,7 @@ namespace API.Features.Reservations.Berths {
             List<BerthAvailableListVM> berthStates = new();
             foreach (var berth in await berths) {
                 var occupiedBerths = context.ReservationBerths
-                    .Include(x => x.Reservation)
+                    .Include(x => x.Reservation).ThenInclude(x => x.Boat)
                     .Where(x => x.Description == berth.Description && x.Reservation.IsDocked);
                 if (occupiedBerths.IsNullOrEmpty()) {
                     berthStates.Add(new BerthAvailableListVM {
