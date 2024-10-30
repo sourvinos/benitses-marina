@@ -94,10 +94,13 @@ namespace API.Features.Reservations {
             CreateMap<ReservationWriteDto, Reservation>()
                 .ForMember(x => x.Boat, x => x.MapFrom(x => new ReservationBoatDetails {
                     ReservationId = x.ReservationId,
-                    Name = x.Boat.Name,
-                    Loa = x.Boat.Loa,
                     Beam = x.Boat.Beam,
                     Draft = x.Boat.Draft,
+                    Flag = x.Boat.Flag,
+                    Loa = x.Boat.Loa,
+                    Name = x.Boat.Name,
+                    RegistryNo = x.Boat.RegistryNo,
+                    RegistryPort = x.Boat.RegistryPort,
                     Type = x.Boat.Type,
                     Usage = x.Boat.Usage
                 }))
