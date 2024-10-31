@@ -56,7 +56,7 @@
 }
 
 .p-datatable .p-datatable-thead > tr:nth-child(1) > th:hover {
-    background-color: var(--color-background) !important;
+    background-color: var(--color-background-table-header) !important;
 }
 
 .p-datatable .p-datatable-thead > tr:nth-child(1) > th:last-child {

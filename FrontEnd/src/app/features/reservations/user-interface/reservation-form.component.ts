@@ -254,6 +254,7 @@ export class ReservationFormComponent {
             isDocked: false,
             isLongTerm: false,
             isAthenian: false,
+            isCash: false,
             ownerName: '',
             ownerAddress: '',
             ownerTaxNo: '',
@@ -334,7 +335,8 @@ export class ReservationFormComponent {
             reservationId: form.value.reservationId,
             netAmount: form.value.netAmount,
             vatAmount: form.value.vatAmount,
-            grossAmount: form.value.grossAmount
+            grossAmount: form.value.grossAmount,
+            isCash: form.value.isCash
         }
         return x
     }
@@ -371,6 +373,7 @@ export class ReservationFormComponent {
                 isDocked: this.reservation.isDocked,
                 isLongTerm: this.reservation.isLongTerm,
                 isAthenian: this.reservation.isAthenian,
+                isCash: this.reservation.fee.isCash,
                 paymentStatus: { 'id': this.reservation.paymentStatus.id, 'description': this.reservation.paymentStatus.description },
                 insuranceCompany: this.reservation.insurance.insuranceCompany,
                 policyNo: this.reservation.insurance.policyNo,

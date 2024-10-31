@@ -54,7 +54,7 @@
                                     <div [formGroupName]="i">
                                         <mat-form-field>
                                             <mat-label>{{ getLabel("berth") }}</mat-label>
-                                            <input [inputTabStop]="input" dataTabIndex="8" formControlName="description" matInput>
+                                            <input [inputTabStop]="input" dataTabIndex="7" formControlName="description" matInput>
                                             <div *ngIf="berthsArray.length > 1" matSuffix style="display:flex">
                                                 <button (click)="onRemoveBerth(i)" mat-icon-button type="button">
                                                     <mat-icon class="input-suffix material-icons-outlined">close</mat-icon>
@@ -92,25 +92,25 @@
                     <div class="group-input-field">
                         <mat-form-field>
                             <mat-label>{{ getLabel('flag') }}</mat-label>
-                            <input [inputTabStop]="input" dataTabIndex="6" formControlName="flag" matInput>
+                            <input [inputTabStop]="input" dataTabIndex="1" formControlName="flag" matInput>
                         </mat-form-field>
                         <mat-form-field>
                             <mat-label>{{ getLabel('registryPort') }}</mat-label>
-                            <input [inputTabStop]="input" dataTabIndex="7" formControlName="registryPort" matInput>
+                            <input [inputTabStop]="input" dataTabIndex="2" formControlName="registryPort" matInput>
                         </mat-form-field>
                         <mat-form-field>
                             <mat-label>{{ getLabel('registryNo') }}</mat-label>
-                            <input [inputTabStop]="input" dataTabIndex="8" formControlName="registryNo" matInput>
+                            <input [inputTabStop]="input" dataTabIndex="3" formControlName="registryNo" matInput>
                         </mat-form-field>
                     </div>
                     <div class="group-input-field">
                         <mat-form-field>
                             <mat-label>{{ getLabel('boatType') }}</mat-label>
-                            <input [inputTabStop]="input" dataTabIndex="9" formControlName="boatType" matInput>
+                            <input [inputTabStop]="input" dataTabIndex="4" formControlName="boatType" matInput>
                         </mat-form-field>
                         <mat-form-field>
                             <mat-label>{{ getLabel('boatUsage') }}</mat-label>
-                            <input [inputTabStop]="input" dataTabIndex="10" formControlName="boatUsage" matInput>
+                            <input [inputTabStop]="input" dataTabIndex="5" formControlName="boatUsage" matInput>
                         </mat-form-field>
                     </div>
                 </mat-tab>
@@ -119,20 +119,20 @@
                         <div class="group-input-field">
                             <mat-form-field>
                                 <mat-label>{{ getLabel('netAmount') }}</mat-label>
-                                <input [inputTabStop]="input" currencyMask dataTabIndex="11" formControlName="netAmount" matInput>
+                                <input [inputTabStop]="input" currencyMask dataTabIndex="1" formControlName="netAmount" matInput>
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-label>{{ getLabel('vatAmount') }}</mat-label>
-                                <input [inputTabStop]="input" currencyMask dataTabIndex="12" formControlName="vatAmount" matInput>
+                                <input [inputTabStop]="input" currencyMask dataTabIndex="2" formControlName="vatAmount" matInput>
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-label>{{ getLabel('grossAmount') }}</mat-label>
-                                <input [inputTabStop]="input" currencyMask dataTabIndex="13" formControlName="grossAmount" matInput>
+                                <input [inputTabStop]="input" currencyMask dataTabIndex="3" formControlName="grossAmount" matInput>
                             </mat-form-field>
                         </div>
                         <mat-form-field>
                             <mat-label>{{ getLabel('paymentStatus') }}</mat-label>
-                            <input #inputAutoComplete #triggerPaymentStatus="matAutocompleteTrigger" (keydown)="enableOrDisableAutoComplete($event)" (keyup)="checkForEmptyAutoComplete($event)" [inputTabStop]="input" [matAutocompleteDisabled]="isAutoCompleteDisabled" [matAutocomplete]="paymentStatuses" dataTabIndex="8" formControlName="paymentStatus" matInput>
+                            <input #inputAutoComplete #triggerPaymentStatus="matAutocompleteTrigger" (keydown)="enableOrDisableAutoComplete($event)" (keyup)="checkForEmptyAutoComplete($event)" [inputTabStop]="input" [matAutocompleteDisabled]="isAutoCompleteDisabled" [matAutocomplete]="paymentStatuses" dataTabIndex="16" formControlName="paymentStatus" matInput>
                             <div matSuffix style="display:flex">
                                 <button (click)="openOrCloseAutoComplete(triggerPaymentStatus, 'paymentStatus')" mat-icon-button type="button">
                                     <mat-icon class="input-suffix material-icons-outlined">expand_more</mat-icon>
@@ -146,6 +146,11 @@
                             <textarea #input formControlName="financialRemarks" id="textarea" matInput></textarea>
                             <mat-hint class="right">{{ getHint("remainingCharacters", +input.getAttribute('maxlength') - getFinancialRemarksLength()) }}</mat-hint>
                         </mat-form-field>
+                        <div class="stacked-checkboxes">
+                            <mat-checkbox formControlName="isCash">
+                                <span>{{ getLabel("isCash") }}</span>
+                            </mat-checkbox>
+                        </div>
                     </div>
                 </mat-tab>
                 <mat-tab label="{{ getLabel('tab4') }}">
@@ -153,15 +158,15 @@
                         <div class="group-input-field">
                             <mat-form-field>
                                 <mat-label>{{ getLabel('insuranceCompany') }}</mat-label>
-                                <input [inputTabStop]="input" dataTabIndex="3" formControlName="insuranceCompany" matInput>
+                                <input [inputTabStop]="input" dataTabIndex="1" formControlName="insuranceCompany" matInput>
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-label>{{ getLabel('policyNo') }}</mat-label>
-                                <input [inputTabStop]="input" dataTabIndex="4" formControlName="policyNo" matInput>
+                                <input [inputTabStop]="input" dataTabIndex="2" formControlName="policyNo" matInput>
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-label>{{ getLabel('policyEnds') }}</mat-label>
-                                <input [inputTabStop]="input" dataTabIndex="5" formControlName="policyEnds" matInput>
+                                <input [inputTabStop]="input" dataTabIndex="3" formControlName="policyEnds" matInput>
                             </mat-form-field>
                         </div>
                     </div>

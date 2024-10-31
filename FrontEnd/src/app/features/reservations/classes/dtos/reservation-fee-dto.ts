@@ -6,5 +6,6 @@ export interface ReservationFeeDto {
     netAmount: number
     vatAmount: number
     grossAmount: number
+    isCash: boolean
 
 }

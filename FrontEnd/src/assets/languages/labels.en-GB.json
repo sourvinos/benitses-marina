@@ -80,6 +80,10 @@
                 "description": "Overdue"
             },
             {
+                "id": "headerIsCash",
+                "description": "Cash"
+            },
+            {
                 "id": "newRecord",
                 "description": "New record"
             },
@@ -243,6 +247,10 @@
             {
                 "id": "grossAmount",
                 "description": "Gross amount"
+            },
+            {
+                "id": "isCash",
+                "description": "Cash"
             },
             {
                 "id": "tab5",

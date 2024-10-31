@@ -27,6 +27,8 @@ namespace API.Features.Reservations {
                     Id = x.PaymentStatus.Id,
                     Description = x.PaymentStatus.Description
                 }))
+                .ForMember(x => x.IsCash, x => x.MapFrom(x => x.Fee.IsCash))
+                .ForMember(x => x.IsDocked, x => x.MapFrom(x => x.IsDocked))
                 .ForMember(x => x.IsOverdue, x => x.MapFrom(x => ReservationHelpers.IsOverdue(x.ToDate)));
             // GetById
             CreateMap<Reservation, ReservationReadDto>()
@@ -79,7 +81,8 @@ namespace API.Features.Reservations {
                     ReservationId = x.Fee.ReservationId,
                     NetAmount = x.Fee.NetAmount,
                     VatAmount = x.Fee.VatAmount,
-                    GrossAmount = x.Fee.GrossAmount
+                    GrossAmount = x.Fee.GrossAmount,
+                    IsCash = x.Fee.IsCash
                 }))
                 .ForMember(x => x.Berths, x => x.MapFrom(x => x.Berths.Select(berth => new ReservationBerthVM {
                     Id = berth.Id,
@@ -134,7 +137,8 @@ namespace API.Features.Reservations {
                     ReservationId = x.ReservationId,
                     NetAmount = x.Fee.NetAmount,
                     VatAmount = x.Fee.VatAmount,
-                    GrossAmount = x.Fee.GrossAmount
+                    GrossAmount = x.Fee.GrossAmount,
+                    IsCash = x.Fee.IsCash
                 }))
                 .ForMember(x => x.Remarks, x => x.MapFrom(x => x.Remarks.Trim()))
                 .ForMember(x => x.FinancialRemarks, x => x.MapFrom(x => x.FinancialRemarks.Trim()))

@@ -20,6 +20,8 @@
                         <th class="no-border-bottom width-6" pSortableColumn="paymentStatus.description">{{ getLabel('headerPaymentStatus') }}</th>
                         <th class="no-border-bottom width-6" pSortableColumn="isAthenian">{{ getLabel("headerIsAthenian") }}</th>
                         <th class="no-border-bottom width-6" pSortableColumn="isOverdue">{{ getLabel("headerIsOverdue") }}</th>
+                        <th class="no-border-bottom width-6" pSortableColumn="isDocked">{{ getLabel("headerIsDocked") }}</th>
+                        <th class="no-border-bottom width-6" pSortableColumn="isCash">{{ getLabel("headerIsCash") }}</th>
                         <th class="no-border-bottom width-4"></th>
                     </tr>
                     <tr>
@@ -45,6 +47,8 @@
                         </th>
                         <th class="no-border-top width-6"><p-columnFilter field="isAthenian" type="boolean"></p-columnFilter></th>
                         <th class="no-border-top width-6"><p-columnFilter field="isOverdue" type="boolean"></p-columnFilter></th>
+                        <th class="no-border-top width-6"><p-columnFilter field="isDocked" type="boolean"></p-columnFilter></th>
+                        <th class="no-border-top width-6"><p-columnFilter field="isCash" type="boolean"></p-columnFilter></th>
                         <th class="no-border-top width-4"></th>
                     </tr>
                 </ng-template>
@@ -60,6 +64,8 @@
                         <td class="width-6"><span [ngClass]="getPaymentDescriptionColor(record.paymentStatus.description)" class="center no-left-padding no-overflow" style="font-size: 0.5rem; padding-top: 0 !important;">{{ record.paymentStatus.description }}</span></td>
                         <td class="width-6"><span class="center no-left-padding no-overflow red" style="font-size: 0.75rem; padding-top: 0 !important;">{{ getOverdueDescription(record.isAthenian) }}</span></td>
                         <td class="width-6"><span class="center no-left-padding no-overflow red" style="font-size: 0.75rem; padding-top: 0 !important;">{{ getOverdueDescription(record.isOverdue) }}</span></td>
+                        <td class="width-6"><span class="center no-left-padding no-overflow red" style="font-size: 0.75rem; padding-top: 0 !important;">{{ getOverdueDescription(record.isDocked) }}</span></td>
+                        <td class="width-6"><span class="center no-left-padding no-overflow red" style="font-size: 0.75rem; padding-top: 0 !important;">{{ getOverdueDescription(record.isCash) }}</span></td>
                         <td class="width-4">
                             <span (click)="onEditRecord(record.reservationId)" class="center">
                                 <mat-icon class="material-icons-outlined small-icon">more_horiz</mat-icon>

@@ -12,6 +12,7 @@ export interface ReservationListVM {
     paymentStatus: SimpleEntity
     isLongTerm: boolean
     isOverdue: boolean
+    isGray: boolean
     boat: ReservationListBoatVM
     owner: ReservationListOwnerVM
     berths: ReservationListBerthVM[]
