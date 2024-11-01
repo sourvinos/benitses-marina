@@ -17,6 +17,8 @@ export class EmojiService {
             case 'yellow-box': return '🟨'
             case 'warning': return '🆘'
             case 'active': return '🟢 '
+            case 'surprise': return '😮 '
+            case 'money': return '💸 ' 
             case 'ok': return '✔️'
         }
 

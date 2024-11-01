@@ -1,11 +1,11 @@
 using System;
 
-namespace API.Features.Reservations {
+namespace API.Features.LeaseAgreements {
 
-    public class ReservationFeeDetails {
+    public class LeaseAgreementFeeVM {
 
         public int Id { get; set; }
-        public Guid ReservationId { get; set; }
+        public Guid? ReservationId { get; set; }
         public decimal NetAmount { get; set; }
         public decimal VatAmount { get; set; }
         public decimal GrossAmount { get; set; }

@@ -9,6 +9,7 @@ import { CryptoService } from 'src/app/shared/services/crypto.service'
 import { DateHelperService } from 'src/app/shared/services/date-helper.service'
 import { DexieService } from 'src/app/shared/services/dexie.service'
 import { DialogService } from 'src/app/shared/services/modal-dialog.service'
+import { EmojiService } from 'src/app/shared/services/emoji.service'
 import { FormResolved } from 'src/app/shared/classes/form-resolved'
 import { HelperService } from 'src/app/shared/services/helper.service'
 import { InputTabStopDirective } from 'src/app/shared/directives/input-tabstop.directive'
@@ -61,7 +62,7 @@ export class ReservationFormComponent {
 
     //#endregion
 
-    constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateAdapter: DateAdapter<any>, private dateHelperService: DateHelperService, private dexieService: DexieService, private dialogService: DialogService, private formBuilder: FormBuilder, private helperService: HelperService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private reservationHttpService: ReservationHttpService, private router: Router, private sessionStorageService: SessionStorageService) { }
+    constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateAdapter: DateAdapter<any>, private dateHelperService: DateHelperService, private dexieService: DexieService, private dialogService: DialogService, private emojiService: EmojiService, private formBuilder: FormBuilder, private helperService: HelperService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private reservationHttpService: ReservationHttpService, private router: Router, private sessionStorageService: SessionStorageService) { }
 
     //#region lifecycle hooks
 
@@ -105,6 +106,10 @@ export class ReservationFormComponent {
 
     public enableOrDisableAutoComplete(event: any): void {
         this.isAutoCompleteDisabled = this.helperService.enableOrDisableAutoComplete(event)
+    }
+
+    public getEmoji(emoji: string): string {
+        return this.emojiService.getEmoji(emoji)
     }
 
     public getHint(id: string, minmax = 0): string {
@@ -255,6 +260,7 @@ export class ReservationFormComponent {
             isLongTerm: false,
             isAthenian: false,
             isCash: false,
+            isSurprise: false,
             ownerName: '',
             ownerAddress: '',
             ownerTaxNo: '',
@@ -336,7 +342,8 @@ export class ReservationFormComponent {
             netAmount: form.value.netAmount,
             vatAmount: form.value.vatAmount,
             grossAmount: form.value.grossAmount,
-            isCash: form.value.isCash
+            isCash: form.value.isCash,
+            isSurprise: form.value.isSurprise
         }
         return x
     }
@@ -374,6 +381,7 @@ export class ReservationFormComponent {
                 isLongTerm: this.reservation.isLongTerm,
                 isAthenian: this.reservation.isAthenian,
                 isCash: this.reservation.fee.isCash,
+                isSurprise: this.reservation.fee.isSurprise,
                 paymentStatus: { 'id': this.reservation.paymentStatus.id, 'description': this.reservation.paymentStatus.description },
                 insuranceCompany: this.reservation.insurance.insuranceCompany,
                 policyNo: this.reservation.insurance.policyNo,

@@ -78,7 +78,7 @@
 }
 
 .p-datatable .p-sortable-column.p-highlight {
-    background-color: var(--color-background) !important;
+    background-color: var(--color-background-table-header) !important;
 }
 
 .p-datatable .p-datatable-thead > tr > th > .date-picker-wrapper > .mat-datepicker-toggle > .mat-mdc-icon-button > svg {

@@ -253,6 +253,10 @@
                 "description": "Cash"
             },
             {
+                "id": "isSurprise",
+                "description": "Surprise"
+            },
+            {
                 "id": "tab5",
                 "description": "Ownership"
             },
