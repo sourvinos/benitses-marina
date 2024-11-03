@@ -9,7 +9,7 @@ namespace API.Features.Reservations {
         public Guid ReservationId { get; set; }
         public string FromDate { get; set; }
         public string ToDate { get; set; }
-        public ReservationBoatDetails Boat { get; set; }
+        public ReservationBoat Boat { get; set; }
         public bool IsDocked { get; set; }
         public bool IsLongTerm { get; set; }
         public bool IsAthenian { get; set; }

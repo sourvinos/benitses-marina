@@ -50,14 +50,14 @@ namespace Reservations {
         public async Task Simple_Users_Can_List() {
             var actionResponse = await List.Action(_httpClient, _baseUrl, _url, "simpleuser", "A#ba439de-446e-4eef-8c4b-833f1b3e18aa");
             var records = JsonSerializer.Deserialize<List<ReservationListVM>>(await actionResponse.Content.ReadAsStringAsync(), new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-            Assert.Equal(68, records.Count);
+            Assert.Equal(87, records.Count);
         }
 
         [Fact]
         public async Task Admins_Can_List() {
             var actionResponse = await List.Action(_httpClient, _baseUrl, _url, "john", "A#ba439de-446e-4eef-8c4b-833f1b3e18aa");
             var records = JsonSerializer.Deserialize<List<ReservationListVM>>(await actionResponse.Content.ReadAsStringAsync(), new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-            Assert.Equal(68, records.Count);
+            Assert.Equal(87, records.Count);
         }
 
     }

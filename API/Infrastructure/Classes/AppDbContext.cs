@@ -15,11 +15,11 @@ namespace API.Infrastructure.Classes {
 
         public DbSet<Berth> Berths { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
-        public DbSet<ReservationBoatDetails> ReservationBoats { get; set; }
-        public DbSet<ReservationInsuranceDetails> ReservationInsuranceDetails { get; set; }
-        public DbSet<ReservationOwnerDetails> ReservationOwnerDetails { get; set; }
-        public DbSet<ReservationBillingDetails> ReservationBillingDetails { get; set; }
-        public DbSet<ReservationFeeDetails> ReservationFeeDetails { get; set; }
+        public DbSet<ReservationBoat> ReservationBoats { get; set; }
+        public DbSet<ReservationInsurance> ReservationInsuranceDetails { get; set; }
+        public DbSet<ReservationOwner> ReservationOwnerDetails { get; set; }
+        public DbSet<ReservationBilling> ReservationBillingDetails { get; set; }
+        public DbSet<ReservationFee> ReservationFeeDetails { get; set; }
         public DbSet<ReservationBerth> ReservationBerths { get; set; }
         public DbSet<PaymentStatus> PaymentStatuses { get; set; }
         public DbSet<Token> Tokens { get; set; }

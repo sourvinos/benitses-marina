@@ -109,27 +109,27 @@ namespace API.Features.Reservations {
             context.Reservations.Update(reservation);
         }
 
-        private void UpdateBoat(ReservationBoatDetails boat) {
+        private void UpdateBoat(ReservationBoat boat) {
             var x = context.ReservationBoats.Where(x => x.ReservationId == boat.ReservationId).SingleOrDefault();
             context.ReservationBoats.Update(boat);
         }
 
-        private void UpdateInsurance(ReservationInsuranceDetails insurance) {
+        private void UpdateInsurance(ReservationInsurance insurance) {
             var x = context.ReservationInsuranceDetails.Where(x => x.ReservationId == insurance.ReservationId).SingleOrDefault();
             context.ReservationInsuranceDetails.Update(insurance);
         }
 
-        private void UpdateOwner(ReservationOwnerDetails owner) {
+        private void UpdateOwner(ReservationOwner owner) {
             var x = context.ReservationOwnerDetails.Where(x => x.ReservationId == owner.ReservationId).SingleOrDefault();
             context.ReservationOwnerDetails.Update(owner);
         }
 
-        private void UpdateBilling(ReservationBillingDetails billing) {
+        private void UpdateBilling(ReservationBilling billing) {
             var x = context.ReservationBillingDetails.Where(x => x.ReservationId == billing.ReservationId).SingleOrDefault();
             context.ReservationBillingDetails.Update(billing);
         }
 
-        private void UpdateFee(ReservationFeeDetails fee) {
+        private void UpdateFee(ReservationFee fee) {
             var x = context.ReservationFeeDetails.Where(x => x.ReservationId == fee.ReservationId).SingleOrDefault();
             context.ReservationFeeDetails.Update(fee);
         }

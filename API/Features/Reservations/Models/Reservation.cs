@@ -16,11 +16,11 @@ namespace API.Features.Reservations {
         public bool IsDocked { get; set; }
         public bool IsLongTerm { get; set; }
         public bool IsAthenian { get; set; }
-        public ReservationBoatDetails Boat { get; set; }
-        public ReservationInsuranceDetails Insurance { get; set; }
-        public ReservationOwnerDetails Owner { get; set; }
-        public ReservationBillingDetails Billing { get; set; }
-        public ReservationFeeDetails Fee { get; set; }
+        public ReservationBoat Boat { get; set; }
+        public ReservationInsurance Insurance { get; set; }
+        public ReservationOwner Owner { get; set; }
+        public ReservationBilling Billing { get; set; }
+        public ReservationFee Fee { get; set; }
         public List<ReservationBerth> Berths { get; set; }
         public PaymentStatus PaymentStatus { get; set; }
         public string PostAt { get; set; }

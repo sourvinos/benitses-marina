@@ -169,8 +169,15 @@
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-label>{{ getLabel('policyEnds') }}</mat-label>
-                                <input [inputTabStop]="input" dataTabIndex="3" formControlName="policyEnds" matInput>
+                                <input [inputTabStop]="input" [matDatepicker]="policyEndsDatePicker" dataTabIndex="3" formControlName="policyEnds" matInput>
+                                <mat-datepicker-toggle matIconSuffix [for]="policyEndsDatePicker"></mat-datepicker-toggle>
+                                <mat-datepicker #policyEndsDatePicker></mat-datepicker>
+                                <mat-error *ngIf="fromDate.hasError('required')">{{ getHint("required") }}</mat-error>
                             </mat-form-field>
+                            <!-- <mat-form-field>
+                                <mat-label>{{ getLabel('policyEnds') }}</mat-label>
+                                <input [inputTabStop]="input" dataTabIndex="3" formControlName="policyEnds" matInput>
+                            </mat-form-field> -->
                         </div>
                     </div>
                 </mat-tab>

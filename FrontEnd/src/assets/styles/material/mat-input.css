@@ -139,6 +139,7 @@
 .mat-datepicker-toggle button {
     color: var(--color-text) !important;
     margin-right: 0.3125rem;
+    padding: 0.5rem 1rem 0.5rem 1rem !important;
     transition: color var(--theme-delay);
 }
 

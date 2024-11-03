@@ -97,7 +97,7 @@ namespace API.Features.Reservations {
                 }));
             // Write reservation
             CreateMap<ReservationWriteDto, Reservation>()
-                .ForMember(x => x.Boat, x => x.MapFrom(x => new ReservationBoatDetails {
+                .ForMember(x => x.Boat, x => x.MapFrom(x => new ReservationBoat {
                     ReservationId = x.ReservationId,
                     Beam = x.Boat.Beam,
                     Draft = x.Boat.Draft,
@@ -109,13 +109,13 @@ namespace API.Features.Reservations {
                     Type = x.Boat.Type,
                     Usage = x.Boat.Usage
                 }))
-                .ForMember(x => x.Insurance, x => x.MapFrom(x => new ReservationInsuranceDetails {
+                .ForMember(x => x.Insurance, x => x.MapFrom(x => new ReservationInsurance {
                     ReservationId = x.ReservationId,
                     InsuranceCompany = x.Insurance.InsuranceCompany,
                     PolicyNo = x.Insurance.PolicyNo,
-                    PolicyEnds = new DateTime(2199, 12, 31),
+                    PolicyEnds = DateHelpers.StringToDate(x.Insurance.PolicyEnds)
                 }))
-                .ForMember(x => x.Owner, x => x.MapFrom(x => new ReservationOwnerDetails {
+                .ForMember(x => x.Owner, x => x.MapFrom(x => new ReservationOwner {
                     ReservationId = x.ReservationId,
                     Name = x.Owner.Name,
                     Address = x.Owner.Address,
@@ -125,7 +125,7 @@ namespace API.Features.Reservations {
                     Phones = x.Owner.Phones,
                     Email = x.Owner.Email,
                 }))
-                .ForMember(x => x.Billing, x => x.MapFrom(x => new ReservationBillingDetails {
+                .ForMember(x => x.Billing, x => x.MapFrom(x => new ReservationBilling {
                     ReservationId = x.ReservationId,
                     Name = x.Billing.Name,
                     Address = x.Billing.Address,
@@ -135,7 +135,7 @@ namespace API.Features.Reservations {
                     Phones = x.Billing.Phones,
                     Email = x.Billing.Email,
                 }))
-                .ForMember(x => x.Fee, x => x.MapFrom(x => new ReservationFeeDetails {
+                .ForMember(x => x.Fee, x => x.MapFrom(x => new ReservationFee {
                     ReservationId = x.ReservationId,
                     NetAmount = x.Fee.NetAmount,
                     VatAmount = x.Fee.VatAmount,

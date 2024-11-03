@@ -33,7 +33,7 @@ namespace Reservations {
                     Insurance = new TestReservationInsurance {
                         InsuranceCompany = "",
                         PolicyNo = "",
-                        PolicyEnds = ""
+                        PolicyEnds = "2024-12-31"
                     },
                     Owner = new TestReservationOwner {
                         Name = "Owner",

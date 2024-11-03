@@ -189,8 +189,8 @@ export class ReservationFormComponent {
     private flattenForm(): ReservationWriteDto {
         return {
             reservationId: this.form.value.reservationId != '' ? this.form.value.reservationId : null,
-            fromDate: this.form.value.fromDate,
-            toDate: this.form.value.toDate,
+            fromDate: this.dateHelperService.formatDateToIso(new Date(this.form.value.fromDate)),
+            toDate: this.dateHelperService.formatDateToIso(new Date(this.form.value.toDate)),
             berths: this.form.value.berths,
             remarks: this.form.value.remarks,
             financialRemarks: this.form.value.financialRemarks,
@@ -303,7 +303,7 @@ export class ReservationFormComponent {
             reservationId: form.value.reservationId,
             insuranceCompany: form.value.insuranceCompany,
             policyNo: form.value.policyNo,
-            policyEnds: form.value.policyEnds
+            policyEnds: this.dateHelperService.formatDateToIso(new Date(this.form.value.policyEnds))
         }
         return x
     }
