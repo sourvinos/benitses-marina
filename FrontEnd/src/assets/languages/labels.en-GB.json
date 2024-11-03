@@ -110,15 +110,15 @@
             },
             {
                 "id": "tab2",
-                "description": "Details"
-            },
-            {
-                "id": "tab3",
                 "description": "Financial"
             },
             {
-                "id": "tab4",
+                "id": "tab3",
                 "description": "Insurance"
+            },
+            {
+                "id": "tab4",
+                "description": "Ownership"
             },
             {
                 "id": "boatName",
@@ -255,10 +255,6 @@
             {
                 "id": "isSurprise",
                 "description": "Surprise"
-            },
-            {
-                "id": "tab5",
-                "description": "Ownership"
             },
             {
                 "id": "owner",

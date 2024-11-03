@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { NgModule } from '@angular/core'
+import { NgxCurrencyDirective, NgxCurrencyInputMode, provideEnvironmentNgxCurrency } from 'ngx-currency'
 import { PrimeNgModule } from './primeng.module'
 import { RouterModule } from '@angular/router'
 // Custom
@@ -51,6 +52,7 @@ import { ThemeSelectorComponent } from '../components/theme-selector/theme-selec
         CommonModule,
         FormsModule,
         MaterialModule,
+        NgxCurrencyDirective,
         PrimeNgModule,
         ReactiveFormsModule,
         RouterModule
@@ -70,6 +72,7 @@ import { ThemeSelectorComponent } from '../components/theme-selector/theme-selec
         MainMenuComponent,
         MaterialModule,
         MetadataPanelComponent,
+        NgxCurrencyDirective,
         PadNumberPipe,
         PrettyPrintPipe,
         PrimeNgModule,
@@ -77,9 +80,24 @@ import { ThemeSelectorComponent } from '../components/theme-selector/theme-selec
         ReplaceZeroPipe,
         RouterModule,
         RouterModule,
-        ThemeSelectorComponent,
         TableTotalFilteredRecordsComponent,
+        ThemeSelectorComponent,
         TrimStringPipe
+    ], providers: [
+        provideEnvironmentNgxCurrency({
+            align: 'right',
+            allowNegative: false,
+            allowZero: true,
+            decimal: '.',
+            inputMode: NgxCurrencyInputMode.Natural,
+            max: null,
+            min: null,
+            nullable: true,
+            precision: 2,
+            prefix: '',
+            suffix: '',
+            thousands: ','
+        })
     ]
 })
 

@@ -50,6 +50,11 @@
 }
 
 #copy-owner-to-billing {
-    position: relative;
-    margin-top: -11px;
+    color: var(--color-button-secondary) !important;
+    margin-top: -0.6875rem;
+    padding: 0.5rem 1rem 0.5rem 1rem !important;
+}
+
+#copy-owner-to-billing:hover {
+    cursor: pointer;
 }
