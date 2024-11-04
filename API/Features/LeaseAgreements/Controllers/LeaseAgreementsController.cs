@@ -13,14 +13,16 @@ namespace API.Features.LeaseAgreements {
 
         #region variables
 
+        private readonly ILeaseAgreementPdfRepository leaseAgreementPdfRepo;
         private readonly ILeaseAgreementRepository leaseAgreementRepo;
         private readonly IMapper mapper;
 
         #endregion
 
-        public LeaseAgreementsController(ILeaseAgreementRepository leaseAgreementRepo, IMapper mapper) {
-            this.mapper = mapper;
+        public LeaseAgreementsController(ILeaseAgreementPdfRepository leaseAgreementPdfRepo, ILeaseAgreementRepository leaseAgreementRepo, IMapper mapper) {
+            this.leaseAgreementPdfRepo = leaseAgreementPdfRepo;
             this.leaseAgreementRepo = leaseAgreementRepo;
+            this.mapper = mapper;
         }
 
         [HttpGet("{reservationId}")]
@@ -39,6 +41,25 @@ namespace API.Features.LeaseAgreements {
                     ResponseCode = 404
                 };
             }
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "admin")]
+        public async Task<ResponseWithBody> BuildLeaseAgreementPdfAsync([FromBody] string reservationId) {
+            var x = await leaseAgreementRepo.GetByIdAsync(reservationId);
+            if (x != null) {
+                var z = leaseAgreementPdfRepo.BuildPdf(mapper.Map<Reservation, LeaseAgreementVM>(x));
+            } else {
+                throw new CustomException() {
+                    ResponseCode = 404
+                };
+            }
+            return new ResponseWithBody {
+                Code = 200,
+                Icon = Icons.Info.ToString(),
+                Message = ApiMessages.OK(),
+                Body = reservationId
+            };
         }
 
     }

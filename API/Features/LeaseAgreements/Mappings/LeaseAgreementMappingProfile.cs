@@ -8,8 +8,11 @@ namespace API.Features.LeaseAgreements {
 
         public LeaseAgreementMappingProfile() {
             CreateMap<Reservation, LeaseAgreementVM>()
-                .ForMember(x => x.FromDate, x => x.MapFrom(x => DateHelpers.DateToISOString(x.FromDate)))
-                .ForMember(x => x.ToDate, x => x.MapFrom(x => DateHelpers.DateToISOString(x.ToDate)))
+                .ForMember(x => x.Period, x => x.MapFrom(x => new LeaseAgreementPeriodVM {
+                    ReservationId = x.ReservationId,
+                    FromDate = DateHelpers.DateToISOString(x.FromDate),
+                    ToDate = DateHelpers.DateToISOString(x.ToDate)
+                }))
                 .ForMember(x => x.Boat, x => x.MapFrom(x => new LeaseAgreementBoatVM {
                     Id = x.Boat.Id,
                     ReservationId = x.Boat.ReservationId,
@@ -57,9 +60,7 @@ namespace API.Features.LeaseAgreements {
                     ReservationId = x.Fee.ReservationId,
                     NetAmount = x.Fee.NetAmount,
                     VatAmount = x.Fee.VatAmount,
-                    GrossAmount = x.Fee.GrossAmount,
-                    IsCash = x.Fee.IsCash,
-                    IsSurprise = x.Fee.IsSurprise,
+                    GrossAmount = x.Fee.GrossAmount
                 }));
         }
 

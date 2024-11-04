@@ -4,6 +4,7 @@ using API.Features.Reservations.Berths;
 using API.Infrastructure.Auth;
 using API.Infrastructure.Users;
 using Microsoft.Extensions.DependencyInjection;
+using API.Features.LeaseAgreements;
 
 namespace API.Infrastructure.Extensions {
 
@@ -14,6 +15,8 @@ namespace API.Infrastructure.Extensions {
             services.AddTransient<IPaymentStatusRepository, PaymentStatusRepository>();
             services.AddTransient<IBerthRepository, BerthRepository>();
             services.AddTransient<IReservationRepository, ReservationRepository>();
+            services.AddTransient<ILeaseAgreementRepository, LeaseAgreementRepository>();
+            services.AddTransient<ILeaseAgreementPdfRepository, LeaseAgreementPdfRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             #endregion
             #region validations

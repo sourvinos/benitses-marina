@@ -15,6 +15,7 @@ Obj/
 **/.angular
 **/node_modules
 **/logs
+**/reports
 **/ssl
 **/appsettings.json
 **/desktop.ini
