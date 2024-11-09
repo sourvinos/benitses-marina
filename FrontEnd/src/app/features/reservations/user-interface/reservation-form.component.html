@@ -29,17 +29,17 @@
                             <div class="group-input-field">
                                 <mat-form-field>
                                     <mat-label>{{ getLabel('length') }}</mat-label>
-                                    <input [inputTabStop]="input" dataTabIndex="4" formControlName="loa" matInput>
+                                    <input [inputTabStop]="input" currencyMask dataTabIndex="4" formControlName="loa" matInput>
                                     <mat-error *ngIf="loa.hasError('required')">{{ getHint("required") }}</mat-error>
                                 </mat-form-field>
                                 <mat-form-field>
                                     <mat-label>{{ getLabel('beam') }}</mat-label>
-                                    <input [inputTabStop]="input" dataTabIndex="5" formControlName="beam" matInput>
+                                    <input [inputTabStop]="input" currencyMask dataTabIndex="5" formControlName="beam" matInput>
                                     <mat-error *ngIf="beam.hasError('required')">{{ getHint("required") }}</mat-error>
                                 </mat-form-field>
                                 <mat-form-field>
                                     <mat-label>{{ getLabel('draft') }}</mat-label>
-                                    <input [inputTabStop]="input" dataTabIndex="6" formControlName="draft" matInput>
+                                    <input [inputTabStop]="input" currencyMask dataTabIndex="6" formControlName="draft" matInput>
                                     <mat-error *ngIf="draft.hasError('required')">{{ getHint("required") }}</mat-error>
                                 </mat-form-field>
                             </div>

@@ -46,14 +46,13 @@ export class ReservationListComponent {
     //#region lifecycle hooks
 
     ngOnInit(): void {
-        this.loadRecords().then(() => {
-            this.populateDropdownFilters()
-            this.stringifyBerths()
-            this.filterTableFromStoredFilters()
-            this.setTabTitle()
-            this.doVirtualTableTasks()
-            this.setSidebarsHeight()
-        })
+        this.loadRecords()
+        this.populateDropdownFilters()
+        this.stringifyBerths()
+        this.filterTableFromStoredFilters()
+        this.setTabTitle()
+        this.doVirtualTableTasks()
+        this.setSidebarsHeight()
     }
 
     ngAfterViewInit(): void {
@@ -163,14 +162,14 @@ export class ReservationListComponent {
         const filters = this.sessionStorageService.getFilters(this.feature + '-' + 'filters')
         if (filters != undefined) {
             setTimeout(() => {
-                this.filterColumn(filters.boatName, 'boatName', 'contains')
-                this.filterColumn(filters.customer, 'customer', 'contains')
-                this.filterColumn(filters.loa, 'loa', 'contains')
-                this.filterColumn(filters.fromDate, 'fromDate', 'contains')
-                this.filterColumn(filters.toDate, 'toDate', 'contains')
-                this.filterColumn(filters.joinedBerths, 'joinedBerths', 'contains')
-                this.filterColumn(filters.paymentStatus, 'paymentStatus', 'in')
-                this.filterColumn(filters.isOverdue, 'isOverdue', 'contains')
+                // this.filterColumn(filters.boat.name, 'boat', 'contains')
+                // this.filterColumn(filters.owner.name, 'owner.name', 'contains')
+                // this.filterColumn(filters.loa, 'loa', 'contains')
+                // this.filterColumn(filters.fromDate, 'fromDate', 'contains')
+                // this.filterColumn(filters.toDate, 'toDate', 'contains')
+                // this.filterColumn(filters.joinedBerths, 'joinedBerths', 'contains')
+                // this.filterColumn(filters.paymentStatus, 'paymentStatus', 'in')
+                // this.filterColumn(filters.isOverdue, 'isOverdue', 'contains')
             }, 500)
         }
     }

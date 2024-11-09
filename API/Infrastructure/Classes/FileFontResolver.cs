@@ -21,6 +21,7 @@ namespace API.Infrastructure.Classes {
                 "ACCanterBold" => new FontResolverInfo("Fonts/ACCanterBold.ttf"),
                 "RobotoMono" => new FontResolverInfo("Fonts/RobotoMono.ttf"),
                 "MonoType" => new FontResolverInfo("Fonts/MonoType.ttf"),
+                "Tahoma" => new FontResolverInfo("Fonts/Tahoma.ttf"),
                 _ => new FontResolverInfo("Fonts/Tahoma.ttf")
             };
         }
