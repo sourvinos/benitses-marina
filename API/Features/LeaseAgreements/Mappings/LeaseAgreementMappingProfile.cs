@@ -59,6 +59,7 @@ namespace API.Features.LeaseAgreements {
                     Id = x.Fee.Id,
                     ReservationId = x.Fee.ReservationId,
                     NetAmount = x.Fee.NetAmount,
+                    VatPercent = x.Fee.VatPercent,
                     VatAmount = x.Fee.VatAmount,
                     GrossAmount = x.Fee.GrossAmount
                 }));

@@ -55,6 +55,7 @@ namespace Reservations {
                     },
                     Fee = new TestReservationFee {
                         NetAmount = 1234.56M,
+                        VatPercent = 24M,
                         VatAmount = 296.29M,
                         GrossAmount = 1530.85M
                     },

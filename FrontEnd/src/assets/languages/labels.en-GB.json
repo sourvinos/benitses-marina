@@ -245,6 +245,10 @@
                 "description": "Vat amount"
             },
             {
+                "id": "vatPercent",
+                "description": "Vat percent"
+            },
+            {
                 "id": "grossAmount",
                 "description": "Gross amount"
             },

@@ -78,6 +78,7 @@ namespace API.Features.Reservations {
                     Id = x.Fee.Id,
                     ReservationId = x.Fee.ReservationId,
                     NetAmount = x.Fee.NetAmount,
+                    VatPercent = x.Fee.VatPercent,
                     VatAmount = x.Fee.VatAmount,
                     GrossAmount = x.Fee.GrossAmount,
                     IsCash = x.Fee.IsCash,
@@ -135,6 +136,7 @@ namespace API.Features.Reservations {
                 .ForMember(x => x.Fee, x => x.MapFrom(x => new ReservationFee {
                     ReservationId = x.ReservationId,
                     NetAmount = x.Fee.NetAmount,
+                    VatPercent = x.Fee.VatPercent,
                     VatAmount = x.Fee.VatAmount,
                     GrossAmount = x.Fee.GrossAmount,
                     IsCash = x.Fee.IsCash,

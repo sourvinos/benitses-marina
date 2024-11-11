@@ -88,6 +88,39 @@ export class ReservationFormComponent {
         return object ? object[fieldName] : undefined
     }
 
+    public calculateVatAmountAndGrossAmountBasedOnNetAmount(fieldName: string, digits: number): void {
+        this.patchNumericFieldsWithZeroIfNullOrEmpty(fieldName, digits)
+        const netAmount = parseFloat(this.form.value.netAmount)
+        const vatPercent = this.form.value.vatPercent
+        const vatAmount = netAmount * (vatPercent / 100)
+        const grossAmount = netAmount + vatAmount
+        this.form.patchValue(
+            {
+                netAmount: netAmount.toFixed(2),
+                vatAmount: vatAmount.toFixed(2),
+                grossAmount: grossAmount.toFixed(2)
+            })
+    }
+
+    public calculateNetAndGrossAmountBasedOnVatPercent(fieldName: string, digits: number): void {
+        this.patchNumericFieldsWithZeroIfNullOrEmpty(fieldName, digits)
+        this.calculateVatAmountAndGrossAmountBasedOnNetAmount(fieldName, digits)
+    }
+
+    public calculateNetAmountBasedOnGrossAmount(fieldName: string, digits: number): void {
+        this.patchNumericFieldsWithZeroIfNullOrEmpty(fieldName, digits)
+        const netAmount = this.form.value.grossAmount / (1 + (this.form.value.vatPercent / 100))
+        const vatPercent = this.form.value.vatPercent
+        const vatAmount = netAmount * (vatPercent / 100)
+        const grossAmount = parseFloat(this.form.value.grossAmount)
+        this.form.patchValue(
+            {
+                netAmount: netAmount.toFixed(2),
+                vatAmount: vatAmount.toFixed(2),
+                grossAmount: grossAmount.toFixed(2)
+            })
+    }
+
     public copyOwnerToBilling(): void {
         this.form.patchValue({
             billingName: this.form.value.ownerName,
@@ -254,6 +287,7 @@ export class ReservationFormComponent {
             policyNo: '',
             policyEnds: '',
             netAmount: ['', [Validators.required, Validators.min(0), Validators.max(99999)]],
+            vatPercent: ['', [Validators.required, Validators.min(0), Validators.max(99)]],
             vatAmount: ['', [Validators.required, Validators.min(0), Validators.max(99999)]],
             grossAmount: ['', [Validators.required, Validators.min(0), Validators.max(99999)]],
             isDocked: false,
@@ -340,12 +374,19 @@ export class ReservationFormComponent {
         const x: ReservationFeeDto = {
             reservationId: form.value.reservationId,
             netAmount: form.value.netAmount,
+            vatPercent: form.value.vatPercent,
             vatAmount: form.value.vatAmount,
             grossAmount: form.value.grossAmount,
             isCash: form.value.isCash,
             isSurprise: form.value.isSurprise
         }
         return x
+    }
+
+    private patchNumericFieldsWithZeroIfNullOrEmpty(fieldName: string, digits: number): void {
+        if (this.form.controls[fieldName].value == null || this.form.controls[fieldName].value == '') {
+            this.form.patchValue({ [fieldName]: parseInt('0').toFixed(digits) })
+        }
     }
 
     private populateDropdownFromDexieDB(dexieTable: string, filteredTable: string, formField: string, modelProperty: string, orderBy: string): void {
@@ -387,6 +428,7 @@ export class ReservationFormComponent {
                 policyNo: this.reservation.insurance.policyNo,
                 policyEnds: this.reservation.insurance.policyEnds,
                 netAmount: this.reservation.fee.netAmount,
+                vatPercent: this.reservation.fee.vatPercent,
                 vatAmount: this.reservation.fee.vatAmount,
                 grossAmount: this.reservation.fee.grossAmount,
                 ownerName: this.reservation.owner.name,
@@ -550,6 +592,10 @@ export class ReservationFormComponent {
 
     get netAmount(): AbstractControl {
         return this.form.get('netAmount')
+    }
+
+    get vatPercent(): AbstractControl {
+        return this.form.get('vatPercent')
     }
 
     get vatAmount(): AbstractControl {
