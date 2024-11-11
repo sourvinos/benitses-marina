@@ -162,15 +162,18 @@ export class ReservationListComponent {
         const filters = this.sessionStorageService.getFilters(this.feature + '-' + 'filters')
         if (filters != undefined) {
             setTimeout(() => {
-                // this.filterColumn(filters.boat.name, 'boat', 'contains')
-                // this.filterColumn(filters.owner.name, 'owner.name', 'contains')
-                // this.filterColumn(filters.loa, 'loa', 'contains')
-                // this.filterColumn(filters.fromDate, 'fromDate', 'contains')
-                // this.filterColumn(filters.toDate, 'toDate', 'contains')
-                // this.filterColumn(filters.joinedBerths, 'joinedBerths', 'contains')
-                // this.filterColumn(filters.paymentStatus, 'paymentStatus', 'in')
-                // this.filterColumn(filters.isOverdue, 'isOverdue', 'contains')
-            }, 500)
+                this.filterColumn(filters.boatName, 'boatName', 'contains')
+                this.filterColumn(filters.ownerName, 'ownerName', 'contains')
+                this.filterColumn(filters.boatLoa, 'boatLoa', 'contains')
+                this.filterColumn(filters.fromDate, 'fromDate', 'contains')
+                this.filterColumn(filters.toDate, 'toDate', 'contains')
+                this.filterColumn(filters.joinedBerths, 'joinedBerths', 'contains')
+                this.filterColumn(filters.paymentStatus, 'paymentStatus', 'in')
+                this.filterColumn(filters.isAthenian, 'isAthenian', 'contains')
+                this.filterColumn(filters.isOverdue, 'isOverdue', 'contains')
+                this.filterColumn(filters.isDocked, 'isDocked', 'contains')
+                this.filterColumn(filters.isCash, 'isCash', 'contains')
+            }, 1000)
         }
     }
 

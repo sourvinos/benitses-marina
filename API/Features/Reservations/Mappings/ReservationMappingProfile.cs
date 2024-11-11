@@ -10,13 +10,11 @@ namespace API.Features.Reservations {
         public ReservationMappingProfile() {
             // List
             CreateMap<Reservation, ReservationListVM>()
+                .ForMember(x => x.BoatName, x => x.MapFrom(x => x.Boat.Name))
                 .ForMember(x => x.FromDate, x => x.MapFrom(x => DateHelpers.DateToISOString(x.FromDate)))
                 .ForMember(x => x.ToDate, x => x.MapFrom(x => DateHelpers.DateToISOString(x.ToDate)))
-                .ForMember(x => x.Owner, x => x.MapFrom(x => new ReservationListOwnerVM {
-                    Id = x.Owner.Id,
-                    ReservationId = x.Owner.ReservationId.ToString(),
-                    Name = x.Owner.Name
-                }))
+                .ForMember(x => x.OwnerName, x => x.MapFrom(x => x.Owner.Name))
+                .ForMember(x => x.BoatLoa, x => x.MapFrom(x => x.Boat.Loa))
                 .ForMember(x => x.Berths, x => x.MapFrom(x => x.Berths.Select(berth => new ReservationBerthVM {
                     Id = berth.Id,
                     ReservationId = berth.ReservationId.ToString(),

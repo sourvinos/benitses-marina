@@ -13,8 +13,9 @@ export interface ReservationListVM {
     isLongTerm: boolean
     isOverdue: boolean
     isGray: boolean
-    boat: ReservationListBoatVM
-    owner: ReservationListOwnerVM
+    boatName: string
+    boatLoa: string
+    ownerName: string
     berths: ReservationListBerthVM[]
     joinedBerths: string
 

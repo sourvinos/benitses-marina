@@ -9,7 +9,8 @@ namespace API.Features.Reservations {
         public Guid ReservationId { get; set; }
         public string FromDate { get; set; }
         public string ToDate { get; set; }
-        public ReservationBoat Boat { get; set; }
+        public string BoatName { get; set; }
+        public string BoatLoa { get; set; }
         public bool IsDocked { get; set; }
         public bool IsLongTerm { get; set; }
         public bool IsAthenian { get; set; }
@@ -17,7 +18,7 @@ namespace API.Features.Reservations {
         public bool IsCash { get; set; }
         public bool IsSurprise { get; set; }
         public List<ReservationBerthVM> Berths { get; set; }
-        public ReservationListOwnerVM Owner { get; set; }
+        public string OwnerName { get; set; }
         public SimpleEntity PaymentStatus { get; set; }
 
     }
