@@ -4,8 +4,8 @@ namespace API.Features.Reservations {
 
     public static class ReservationHelpers {
 
-        public static bool IsOverdue(DateTime toDate) {
-            return toDate.AddDays(1) < TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "E. Europe Standard Time");
+        public static bool IsOverdue(Boolean isDocked, DateTime toDate) {
+            return toDate.AddDays(1) < TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "E. Europe Standard Time") && isDocked;
         }
 
         public static string DeterminePaymentStatus(int paymentStatus) {

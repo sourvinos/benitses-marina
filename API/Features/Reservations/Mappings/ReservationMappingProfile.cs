@@ -27,7 +27,7 @@ namespace API.Features.Reservations {
                 .ForMember(x => x.IsCash, x => x.MapFrom(x => x.Fee.IsCash))
                 .ForMember(x => x.IsSurprise, x => x.MapFrom(x => x.Fee.IsSurprise))
                 .ForMember(x => x.IsDocked, x => x.MapFrom(x => x.IsDocked))
-                .ForMember(x => x.IsOverdue, x => x.MapFrom(x => ReservationHelpers.IsOverdue(x.ToDate)));
+                .ForMember(x => x.IsOverdue, x => x.MapFrom(x => ReservationHelpers.IsOverdue(x.IsDocked, x.ToDate)));
             // GetById
             CreateMap<Reservation, ReservationReadDto>()
                 .ForMember(x => x.FromDate, x => x.MapFrom(x => DateHelpers.DateToISOString(x.FromDate)))
