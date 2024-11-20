@@ -21,6 +21,7 @@ const appRoutes: Routes = [
     // Home
     { path: 'home', component: HomeComponent, canActivate: [AuthGuardService] },
     // Main menu
+    { path: 'insurancePolicies', loadChildren: () => import('../features/insurancePolicies/classes/modules/insurance-policy.module').then(m => m.InsurancePolicyModule) },
     { path: 'berths', loadChildren: () => import('../features/berths/classes/modules/berth.module').then(m => m.BerthModule) },
     { path: 'reservations', loadChildren: () => import('../features/reservations/classes/modules/reservation.module').then(m => m.ReservationModule) },
     { path: 'users', loadChildren: () => import('../features/users/classes/modules/user.module').then(m => m.UserModule) },

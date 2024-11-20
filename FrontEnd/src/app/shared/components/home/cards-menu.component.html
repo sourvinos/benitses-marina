@@ -1,21 +1,15 @@
 <div id="cards-menu">
+    <mat-card (click)="doNavigation('insurancePolicies',true)">
+        <img (load)="loadImage()" [ngClass]="imageIsLoading()" [src]="getIcon('insurance-policies')" style="height: 6.25rem; margin-left: 1rem; width: 6.25rem">
+        <mat-card-title>{{ getLabel("insurancePoliciesTitle") }}</mat-card-title>
+        <mat-divider inset></mat-divider>
+        <mat-card-subtitle>{{ getLabel("insurancePoliciesSubTitle") }}</mat-card-subtitle>
+    </mat-card>
     <mat-card (click)="doNavigation('reservations',true)">
         <img (load)="loadImage()" [ngClass]="imageIsLoading()" [src]="getIcon('reservations')" style="height: 6.25rem; margin-left: 1rem; width: 6.25rem">
         <mat-card-title>{{ getLabel("reservationsTitle") }}</mat-card-title>
         <mat-divider inset></mat-divider>
         <mat-card-subtitle>{{ getLabel("reservationsSubTitle") }}</mat-card-subtitle>
-    </mat-card>
-    <mat-card (click)="doNavigation('availability',true)">
-        <img (load)="loadImage()" [ngClass]="imageIsLoading()" [src]="getIcon('arrivals')" style="height: 6.25rem; margin-left: 1rem; width: 6.25rem">
-        <mat-card-title>{{ getLabel("arrivalsTitle") }}</mat-card-title>
-        <mat-divider inset></mat-divider>
-        <mat-card-subtitle>{{ getLabel("arrivalsSubTitle") }}</mat-card-subtitle>
-    </mat-card>
-    <mat-card (click)="doNavigation('invoices',true)">
-        <img (load)="loadImage()" [ngClass]="imageIsLoading()" [src]="getIcon('departures')" style="height: 6.25rem; margin-left: 1rem; width: 6.25rem">
-        <mat-card-title>{{ getLabel("departuresTitle") }}</mat-card-title>
-        <mat-divider inset></mat-divider>
-        <mat-card-subtitle>{{ getLabel("departuresSubTitle") }}</mat-card-subtitle>
     </mat-card>
     <mat-card (click)="doNavigation('berths',true)">
         <img (load)="loadImage()" [ngClass]="imageIsLoading()" [src]="getIcon('berths')" style="height: 6.25rem; margin-left: 1rem; width: 6.25rem">

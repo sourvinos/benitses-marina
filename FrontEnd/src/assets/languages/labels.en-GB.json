@@ -568,6 +568,27 @@
         ]
     },
     {
+        "feature": "insurancePolicyList",
+        "labels": [
+            {
+                "id": "header",
+                "description": "Insurance policies"
+            },
+            {
+                "id": "headerBoatName",
+                "description": "Boat"
+            },
+            {
+                "id": "headerInsuranceCompany",
+                "description": "Insurance company"
+            },
+            {
+                "id": "headerPolicyEnds",
+                "description": "Expires"
+            }
+        ]
+    },
+    {
         "feature": "cardsMenu",
         "labels": [
             {
@@ -601,6 +622,14 @@
             {
                 "id": "berthsSubTitle",
                 "description": "Show the available berths."
+            },
+            {
+                "id": "insurancePoliciesTitle",
+                "description": "Insurance policies"
+            },
+            {
+                "id": "insurancePoliciesSubTitle",
+                "description": "Show the insurances policies due to expire."
             }
         ]
     }
