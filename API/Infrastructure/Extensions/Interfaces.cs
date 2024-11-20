@@ -5,6 +5,7 @@ using API.Infrastructure.Auth;
 using API.Infrastructure.Users;
 using Microsoft.Extensions.DependencyInjection;
 using API.Features.LeaseAgreements;
+using API.Features.InsurancePolicies;
 
 namespace API.Infrastructure.Extensions {
 
@@ -18,6 +19,7 @@ namespace API.Infrastructure.Extensions {
             services.AddTransient<ILeaseAgreementRepository, LeaseAgreementRepository>();
             services.AddTransient<ILeaseAgreementPdfRepository, LeaseAgreementPdfRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IInsurancePolicyRepository, InsurancePolicyRepository>();
             #endregion
             #region validations
             services.AddTransient<IPaymentStatusValidation, PaymentStatusValidation>();

@@ -7,7 +7,6 @@ using PdfSharp;
 using System.Globalization;
 using System.IO;
 using API.Infrastructure.Helpers;
-using System.Drawing;
 
 namespace API.Features.LeaseAgreements {
 
