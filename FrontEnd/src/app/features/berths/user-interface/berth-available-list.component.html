@@ -27,8 +27,7 @@
             </div>
 
             <div id="table-wrapper">
-                <p-contextMenu #contextMenu [model]="menuItems"></p-contextMenu>
-                <p-table #table (onFilter)="onFilterRecords($event)" [(contextMenuSelection)]="selectedRecord" [contextMenu]="contextMenu" [(selection)]="selectedRecords" [scrollable]="true" [value]="records" [virtualScrollItemSize]="32" [virtualScroll]="true" dataKey="id" scrollHeight="flex" selectionMode="single" sortMode="multiple">
+                <p-table #table (onFilter)="onFilterRecords($event)" [(selection)]="selectedRecords" [scrollable]="true" [value]="records" [virtualScrollItemSize]="32" [virtualScroll]="true" dataKey="id" scrollHeight="flex" selectionMode="single" sortMode="multiple">
                     <ng-template pTemplate="header">
                         <tr>
                             <th class="no-border-bottom width-3"></th>
@@ -46,7 +45,7 @@
                         </tr>
                     </ng-template>
                     <ng-template let-record pTemplate="body">
-                        <tr (click)="onHighlightRow(record.id)" (contextmenu)="onHighlightRow(record.id)" (dblclick)="onEditRecord(record.id)" [attr.id]=record.id [pContextMenuRow]="record" style="height: 32px;">
+                        <tr (click)="onHighlightRow(record.id)" [attr.id]=record.id [pContextMenuRow]="record" style="height: 32px;">
                             <td class="width-3"><span class="center no-overflow" style="padding-top: 0.25rem !important;"><p-tableCheckbox [value]="record"></p-tableCheckbox></span></td>
                             <td class="width-4"><span class="center">{{ record.description }}</span></td>
                             <td class="width-auto"><span [ngClass]="getBoatNameColor(record.boatName)">{{ record.boatName }}</span></td>

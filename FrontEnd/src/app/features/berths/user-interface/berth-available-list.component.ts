@@ -8,7 +8,6 @@ import { BerthListVM } from '../classes/view-models/berth-list-vm'
 import { CryptoService } from 'src/app/shared/services/crypto.service'
 import { DateHelperService } from 'src/app/shared/services/date-helper.service'
 import { DialogService } from 'src/app/shared/services/modal-dialog.service'
-import { EmojiService } from 'src/app/shared/services/emoji.service'
 import { HelperService } from 'src/app/shared/services/helper.service'
 import { ListResolved } from 'src/app/shared/classes/list-resolved'
 import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
@@ -28,7 +27,6 @@ export class BerthAvailableListComponent {
     @ViewChild('table') table: Table
 
     private url = 'berths'
-    private virtualElement: any
     public feature = 'berthAvailableList'
     public featureIcon = 'berths'
     public form: FormGroup
@@ -61,7 +59,7 @@ export class BerthAvailableListComponent {
 
     //#endregion
 
-    constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateHelperService: DateHelperService, private dialogService: DialogService, private emojiService: EmojiService, private formBuilder: FormBuilder, private helperService: HelperService, private messageDialogService: MessageDialogService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService) { }
+    constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateHelperService: DateHelperService, private dialogService: DialogService, private formBuilder: FormBuilder, private helperService: HelperService, private messageDialogService: MessageDialogService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService) { }
 
     //#region lifecycle hooks
 
@@ -71,17 +69,9 @@ export class BerthAvailableListComponent {
             this.occupied = this.records.filter((x) => x.boatName != 'AVAILABLE').length
             this.available = this.records.filter((x) => x.boatName == 'AVAILABLE').length
             this.athenian = this.records.filter((x) => x.isAthenian).length
+            // this.athenian = this.records.filter((x) => x.isAthenian).filter((item, pos, self) => self.findIndex(v => v.boatName === item.boatName) === pos).length
             this.setSidebarsHeight()
         })
-    }
-
-    ngAfterViewInit(): void {
-        // setTimeout(() => {
-        //     this.getVirtualElement()
-        //     this.scrollToSavedPosition()
-        //     this.hightlightSavedRow()
-        //     this.enableDisableFilters()
-        // }, 500)
     }
 
     //#endregion
@@ -96,16 +86,6 @@ export class BerthAvailableListComponent {
 
     public formatDateToLocale(date: string, showWeekday: boolean, showYear: boolean, returnEmptyString: boolean): string {
         return returnEmptyString && date == '2199-12-31' ? '' : this.dateHelperService.formatISODateToLocale(date, showWeekday, showYear)
-    }
-
-    public getEmoji(anything: any): string {
-        return typeof anything == 'string'
-            ? this.emojiService.getEmoji(anything)
-            : anything ? this.emojiService.getEmoji('green-box') : this.emojiService.getEmoji('red-box')
-    }
-
-    public getWarningEmoji(isOverdue: boolean): string {
-        return isOverdue ? this.emojiService.getEmoji('warning') : ''
     }
 
     public getLabel(id: string): string {
@@ -127,12 +107,6 @@ export class BerthAvailableListComponent {
 
     public isAdmin(): boolean {
         return this.cryptoService.decrypt(this.sessionStorageService.getItem('isAdmin')) == 'true' ? true : false
-    }
-
-    public onEditRecord(id: number): void {
-        this.storeScrollTop()
-        this.storeSelectedId(id)
-        this.navigateToRecord(id)
     }
 
     public onFilter(event: any, column: string, matchMode: string): void {
@@ -160,56 +134,8 @@ export class BerthAvailableListComponent {
 
     //#region private methods
 
-    private doVirtualTableTasks(): void {
-        setTimeout(() => {
-            this.getVirtualElement()
-            this.scrollToSavedPosition()
-            this.hightlightSavedRow()
-        }, 1000)
-    }
-
-    private enableDisableFilters(): void {
-        this.records.length == 0 ? this.helperService.disableTableFilters() : this.helperService.enableTableFilters()
-    }
-
-    private filterColumn(element: { value: any }, field: string, matchMode: string): void {
-        if (element != undefined && (element.value != null || element.value != undefined)) {
-            this.table.filter(element.value, field, matchMode)
-        }
-    }
-
-    private filterTableFromStoredFilters(): void {
-        const filters = this.sessionStorageService.getFilters(this.feature + '-' + 'filters')
-        if (filters != undefined) {
-            setTimeout(() => {
-                this.filterColumn(filters.boatName, 'boatName', 'contains')
-                this.filterColumn(filters.customer, 'customer', 'contains')
-                this.filterColumn(filters.loa, 'loa', 'contains')
-                this.filterColumn(filters.fromDate, 'fromDate', 'contains')
-                this.filterColumn(filters.toDate, 'toDate', 'contains')
-                this.filterColumn(filters.joinedBerths, 'joinedBerths', 'contains')
-                this.filterColumn(filters.paymentStatus, 'paymentStatus', 'in')
-                this.filterColumn(filters.isOverdue, 'isOverdue', 'contains')
-            }, 500)
-        }
-    }
-
-    private getVirtualElement(): void {
-        this.virtualElement = document.getElementsByClassName('p-scroller-inline')[0]
-    }
-
     private goBack(): void {
         this.router.navigate([this.parentUrl])
-    }
-
-    private hightlightSavedRow(): void {
-        this.helperService.highlightSavedRow(this.feature)
-    }
-
-    private initContextMenu(): void {
-        this.menuItems = [
-            { label: this.getLabel('contextMenuEdit'), command: () => this.onEditRecord(this.selectedRecord.id) }
-        ]
     }
 
     private initForm(): void {
@@ -233,28 +159,8 @@ export class BerthAvailableListComponent {
         })
     }
 
-    private navigateToRecord(id: any): void {
-        this.router.navigate([this.url, id])
-    }
-
-    private scrollToSavedPosition(): void {
-        this.helperService.scrollToSavedPosition(this.virtualElement, this.feature)
-    }
-
     private setSidebarsHeight(): void {
         this.helperService.setSidebarsTopMargin('0')
-    }
-
-    private setTabTitle(): void {
-        this.helperService.setTabTitle(this.feature)
-    }
-
-    private storeSelectedId(id: number): void {
-        this.sessionStorageService.saveItem(this.feature + '-id', id.toString())
-    }
-
-    private storeScrollTop(): void {
-        this.sessionStorageService.saveItem(this.feature + '-scrollTop', this.virtualElement.scrollTop)
     }
 
     //#endregion
