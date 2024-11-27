@@ -17,7 +17,6 @@ namespace API.Infrastructure.Extensions {
             services.AddTransient<IBerthRepository, BerthRepository>();
             services.AddTransient<IReservationRepository, ReservationRepository>();
             services.AddTransient<ILeaseAgreementRepository, LeaseAgreementRepository>();
-            services.AddTransient<ILeaseAgreementPdfRepository, LeaseAgreementPdfRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IInsurancePolicyRepository, InsurancePolicyRepository>();
             #endregion
