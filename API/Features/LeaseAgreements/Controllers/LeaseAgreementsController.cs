@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Threading.Tasks;
+using API.Infrastructure.Helpers;
+using API.Infrastructure.Responses;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Features.LeaseAgreements {
@@ -12,10 +15,23 @@ namespace API.Features.LeaseAgreements {
             this.leaseAgreementRepo = leaseAgreementRepo;
         }
 
-        [HttpGet]
+        [HttpGet("{reservationId}")]
         [Authorize(Roles = "user, admin")]
-        public void BuildLeaseAgreement() {
-            leaseAgreementRepo.BuildLeaseAgreement();
+        public async Task<Response> BuildLeaseAgreement(string reservationId) {
+            var x = leaseAgreementRepo.GetByIdAsync(reservationId);
+            if (x != null) {
+                leaseAgreementRepo.BuildLeaseAgreement(await x);
+                return new Response {
+                    Code = 200,
+                    Icon = Icons.Success.ToString(),
+                    Id = x.Result.ReservationId.ToString(),
+                    Message = ApiMessages.OK()
+                };
+            } else {
+                throw new CustomException() {
+                    ResponseCode = 404
+                };
+            }
         }
 
     }

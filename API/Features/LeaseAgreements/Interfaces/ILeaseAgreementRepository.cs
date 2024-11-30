@@ -1,8 +1,13 @@
+using System.Threading.Tasks;
+using API.Features.Reservations;
+using API.Infrastructure.Interfaces;
+
 namespace API.Features.LeaseAgreements {
 
-    public interface ILeaseAgreementRepository {
+    public interface ILeaseAgreementRepository : IRepository<Reservation> {
 
-        void BuildLeaseAgreement();
+        Task<LeaseAgreementVM> GetByIdAsync(string reservationId);
+        void BuildLeaseAgreement(LeaseAgreementVM leaseAgreement);
 
     }
 
