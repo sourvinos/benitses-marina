@@ -7,7 +7,7 @@ namespace API.Features.LeaseAgreements {
     public interface ILeaseAgreementRepository : IRepository<Reservation> {
 
         Task<LeaseAgreementVM> GetByIdAsync(string reservationId);
-        void BuildLeaseAgreement(LeaseAgreementVM leaseAgreement);
+        string BuildLeaseAgreement(LeaseAgreementVM leaseAgreement);
 
     }
 

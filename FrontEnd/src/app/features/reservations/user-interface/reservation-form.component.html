@@ -279,6 +279,12 @@
     </div>
 
     <div id="footer">
+        <button [matMenuTriggerFor]="menu" class="fab fab-with-no-background" mat-icon-button>
+            <mat-icon class="material-icons-outlined">more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu" class="primary" xPosition="before">
+            <ng-container *ngTemplateOutlet="actionsMenu"></ng-container>
+        </mat-menu>
         <div id="align-right">
             <button *ngIf="form.value.reservationId != ''" (click)="onDelete()" [disabled]="!isAdmin()" class="delete" mat-flat-button>
                 <span>{{ getLabel('deleteButton') | uppercase }}</span>
@@ -297,3 +303,9 @@
         {{ option.description }}
     </mat-option>
 </mat-autocomplete>
+
+<ng-template #actionsMenu xPosition="before">
+    <button (click)="onCreateAndOpenPdf()" mat-menu-item>
+        <span>Create lease agreement pdf</span>
+    </button>
+</ng-template>

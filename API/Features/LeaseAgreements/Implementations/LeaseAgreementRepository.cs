@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Features.Reservations;
@@ -40,7 +41,7 @@ namespace API.Features.LeaseAgreements {
             return mapper.Map<Reservation, LeaseAgreementVM>(x);
         }
 
-        public void BuildLeaseAgreement(LeaseAgreementVM leaseAgreement) {
+        public string BuildLeaseAgreement(LeaseAgreementVM leaseAgreement) {
             var document = new Document();
             Style style = document.Styles["Normal"];
             style.Font.Name = "Verdana";
@@ -79,6 +80,7 @@ namespace API.Features.LeaseAgreements {
             SignatureSpaces(section);
             TermsAndConditions(document, section);
             SavePdf(document);
+            return "OK";
         }
 
         private static Row LogoAndCompany(Section section) {
@@ -656,10 +658,11 @@ namespace API.Features.LeaseAgreements {
             return row;
         }
 
-        private static void SavePdf(Document document) {
+        private static string SavePdf(Document document) {
             var pdfRenderer = new PdfDocumentRenderer { Document = document };
             pdfRenderer.RenderDocument();
-            pdfRenderer.Save("Invoice.pdf");
+            pdfRenderer.Save(Path.Combine("Reports" + Path.DirectorySeparatorChar + "LeaseAgreement.pdf"));
+            return "LeaseAgreement";
         }
 
     }

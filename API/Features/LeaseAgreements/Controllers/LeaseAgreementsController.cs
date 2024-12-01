@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using API.Infrastructure.Helpers;
 using API.Infrastructure.Responses;
 using Microsoft.AspNetCore.Authorization;
@@ -15,23 +16,27 @@ namespace API.Features.LeaseAgreements {
             this.leaseAgreementRepo = leaseAgreementRepo;
         }
 
-        [HttpGet("{reservationId}")]
+        [HttpPost("buildLeaseAgreement")]
         [Authorize(Roles = "user, admin")]
-        public async Task<Response> BuildLeaseAgreement(string reservationId) {
-            var x = leaseAgreementRepo.GetByIdAsync(reservationId);
-            if (x != null) {
-                leaseAgreementRepo.BuildLeaseAgreement(await x);
-                return new Response {
-                    Code = 200,
-                    Icon = Icons.Success.ToString(),
-                    Id = x.Result.ReservationId.ToString(),
-                    Message = ApiMessages.OK()
-                };
-            } else {
-                throw new CustomException() {
-                    ResponseCode = 404
-                };
+        public async Task<ResponseWithBody> BuildLeaseAgreement([FromBody] string[] reservationIds) {
+            var filenames = new List<string>();
+            foreach (var reservationId in reservationIds) {
+                var x = await leaseAgreementRepo.GetByIdAsync(reservationId);
+                if (x != null) {
+                    var z = leaseAgreementRepo.BuildLeaseAgreement(x);
+                    filenames.Add(z);
+                } else {
+                    throw new CustomException() {
+                        ResponseCode = 404
+                    };
+                }
             }
+            return new ResponseWithBody {
+                Code = 200,
+                Icon = Icons.Info.ToString(),
+                Message = ApiMessages.OK(),
+                Body = filenames.ToArray()
+            };
         }
 
     }

@@ -19,6 +19,7 @@ import { MessageInputHintService } from 'src/app/shared/services/message-input-h
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
 import { ReservationBoatDto } from '../classes/dtos/reservation-boat-dto'
 import { ReservationFeeDto } from '../classes/dtos/reservation-fee-dto'
+import { ReservationHttpPdfService } from '../classes/services/reservation-http-pdf.service'
 import { ReservationHttpService } from '../classes/services/reservation-http.service'
 import { ReservationInsuranceDto } from '../classes/dtos/reservation-insurance-dto'
 import { ReservationPersonDto } from '../classes/dtos/reservation-person-dto'
@@ -62,7 +63,7 @@ export class ReservationFormComponent {
 
     //#endregion
 
-    constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateAdapter: DateAdapter<any>, private dateHelperService: DateHelperService, private dexieService: DexieService, private dialogService: DialogService, private emojiService: EmojiService, private formBuilder: FormBuilder, private helperService: HelperService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private reservationHttpService: ReservationHttpService, private router: Router, private sessionStorageService: SessionStorageService) { }
+    constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateAdapter: DateAdapter<any>, private dateHelperService: DateHelperService, private dexieService: DexieService, private dialogService: DialogService, private emojiService: EmojiService, private formBuilder: FormBuilder, private helperService: HelperService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private reservationHttpService: ReservationHttpService, private reservationHttpPdfService: ReservationHttpPdfService, private router: Router, private sessionStorageService: SessionStorageService) { }
 
     //#region lifecycle hooks
 
@@ -86,6 +87,28 @@ export class ReservationFormComponent {
 
     public autocompleteFields(fieldName: any, object: any): any {
         return object ? object[fieldName] : undefined
+    }
+
+    public onCreateAndOpenPdf(): void {
+        const ids = []
+        ids.push(this.form.value.reservationId)
+        this.reservationHttpPdfService.buildPdf(ids).subscribe({
+            next: (response) => {
+                // this.reservationHttpPdfService.openPdf(response.body[0]).subscribe({
+                //     next: (response) => {
+                //         const blob = new Blob([response], { type: 'application/pdf' })
+                //         const fileURL = URL.createObjectURL(blob)
+                //         window.open(fileURL, '_blank')
+                //     },
+                //     error: (errorFromInterceptor) => {
+                //         this.dialogService.open(this.messageDialogService.filterResponse(errorFromInterceptor), 'error', ['ok'])
+                //     }
+                // })
+            },
+            error: (errorFromInterceptor) => {
+                this.dialogService.open(this.messageDialogService.filterResponse(errorFromInterceptor), 'error', ['ok'])
+            }
+        })
     }
 
     public calculateVatAmountAndGrossAmountBasedOnNetAmount(fieldName: string, digits: number): void {
