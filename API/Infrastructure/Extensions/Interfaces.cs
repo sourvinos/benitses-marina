@@ -6,6 +6,7 @@ using API.Infrastructure.Users;
 using Microsoft.Extensions.DependencyInjection;
 using API.Features.LeaseAgreements;
 using API.Features.InsurancePolicies;
+using API.Features.BoatTypes;
 
 namespace API.Infrastructure.Extensions {
 
@@ -13,16 +14,18 @@ namespace API.Infrastructure.Extensions {
 
         public static void AddInterfaces(IServiceCollection services) {
             #region reservations
-            services.AddTransient<IPaymentStatusRepository, PaymentStatusRepository>();
             services.AddTransient<IBerthRepository, BerthRepository>();
-            services.AddTransient<IReservationRepository, ReservationRepository>();
-            services.AddTransient<ILeaseAgreementRepository, LeaseAgreementRepository>();
-            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IBoatTypeRepository, BoatTypeRepository>();
             services.AddTransient<IInsurancePolicyRepository, InsurancePolicyRepository>();
+            services.AddTransient<ILeaseAgreementRepository, LeaseAgreementRepository>();
+            services.AddTransient<IPaymentStatusRepository, PaymentStatusRepository>();
+            services.AddTransient<IReservationRepository, ReservationRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
             #endregion
             #region validations
-            services.AddTransient<IPaymentStatusValidation, PaymentStatusValidation>();
             services.AddTransient<IBerthValidation, BerthValidation>();
+            services.AddTransient<IBoatTypeValidation, BoatTypeValidation>();
+            services.AddTransient<IPaymentStatusValidation, PaymentStatusValidation>();
             services.AddTransient<IReservationValidation, ReservationValidation>();
             services.AddTransient<IUserValidation<IUser>, UserValidation>();
             #endregion
