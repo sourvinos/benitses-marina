@@ -94,16 +94,16 @@ export class ReservationFormComponent {
         ids.push(this.form.value.reservationId)
         this.reservationHttpPdfService.buildPdf(ids).subscribe({
             next: (response) => {
-                // this.reservationHttpPdfService.openPdf(response.body[0]).subscribe({
-                //     next: (response) => {
-                //         const blob = new Blob([response], { type: 'application/pdf' })
-                //         const fileURL = URL.createObjectURL(blob)
-                //         window.open(fileURL, '_blank')
-                //     },
-                //     error: (errorFromInterceptor) => {
-                //         this.dialogService.open(this.messageDialogService.filterResponse(errorFromInterceptor), 'error', ['ok'])
-                //     }
-                // })
+                this.reservationHttpPdfService.openPdf(response.body[0]).subscribe({
+                    next: (response) => {
+                        const blob = new Blob([response], { type: 'application/pdf' })
+                        const fileURL = URL.createObjectURL(blob)
+                        window.open(fileURL, '_blank')
+                    },
+                    error: (errorFromInterceptor) => {
+                        this.dialogService.open(this.messageDialogService.filterResponse(errorFromInterceptor), 'error', ['ok'])
+                    }
+                })
             },
             error: (errorFromInterceptor) => {
                 this.dialogService.open(this.messageDialogService.filterResponse(errorFromInterceptor), 'error', ['ok'])

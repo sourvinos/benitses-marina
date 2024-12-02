@@ -39,6 +39,12 @@ namespace API.Features.LeaseAgreements {
             };
         }
 
+        [HttpGet("[action]/{filename}")]
+        [Authorize(Roles = "admin")]
+        public IActionResult OpenPdf([FromRoute] string filename) {
+            return leaseAgreementRepo.OpenPdf(filename);
+        }
+
     }
 
 }

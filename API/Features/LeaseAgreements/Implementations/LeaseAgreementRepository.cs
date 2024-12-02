@@ -10,6 +10,7 @@ using API.Infrastructure.Users;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using MigraDoc.DocumentObjectModel;
@@ -34,8 +35,6 @@ namespace API.Features.LeaseAgreements {
                 .Include(x => x.Owner)
                 .Include(x => x.Billing)
                 .Include(x => x.Fee)
-                .Include(x => x.PaymentStatus)
-                .Include(x => x.Berths)
                 .Where(x => x.ReservationId.ToString() == reservationId)
                 .SingleOrDefaultAsync();
             return mapper.Map<Reservation, LeaseAgreementVM>(x);
@@ -79,8 +78,14 @@ namespace API.Features.LeaseAgreements {
             Signatures(section);
             SignatureSpaces(section);
             TermsAndConditions(document, section);
-            SavePdf(document);
-            return "OK";
+            return SavePdf(document, leaseAgreement.ReservationId.ToString());
+        }
+
+        public FileStreamResult OpenPdf(string filename) {
+            var fullpathname = Path.Combine("Reports" + Path.DirectorySeparatorChar + filename);
+            byte[] byteArray = File.ReadAllBytes(fullpathname);
+            MemoryStream memoryStream = new(byteArray);
+            return new FileStreamResult(memoryStream, "application/pdf");
         }
 
         private static Row LogoAndCompany(Section section) {
@@ -658,11 +663,12 @@ namespace API.Features.LeaseAgreements {
             return row;
         }
 
-        private static string SavePdf(Document document) {
+        private static string SavePdf(Document document, string reservationId) {
             var pdfRenderer = new PdfDocumentRenderer { Document = document };
+            var filename = reservationId + ".pdf";
             pdfRenderer.RenderDocument();
-            pdfRenderer.Save(Path.Combine("Reports" + Path.DirectorySeparatorChar + "LeaseAgreement.pdf"));
-            return "LeaseAgreement";
+            pdfRenderer.Save(Path.Combine("Reports" + Path.DirectorySeparatorChar + filename));
+            return filename;
         }
 
     }
