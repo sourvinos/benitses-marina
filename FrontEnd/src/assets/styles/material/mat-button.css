@@ -18,7 +18,7 @@
     font-family: var(--font-family-fira-sans-condensed) !important;
     font-size: var(--font-size-button) !important;
     font-weight: 300 !important;
-    margin-top: 0.25rem !important;
+    margin-top: 0.125rem !important;
     transform: scale(1, 1.4);
 }
 
@@ -42,7 +42,7 @@ button {
 }
 
 button:not(.mat-calendar-body-cell) {
-    padding: 0 1.5rem 0.125rem 1.5rem !important;
+    /* padding: 0 1.5rem 0.125rem 1.5rem !important; */
 }
 
 button.fab {

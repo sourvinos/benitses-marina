@@ -1,4 +1,5 @@
 using System;
+using API.Infrastructure.Classes;
 
 namespace API.Features.Reservations {
 
@@ -6,6 +7,7 @@ namespace API.Features.Reservations {
 
         public int Id { get; set; }
         public Guid? ReservationId { get; set; }
+        public SimpleEntity Type { get; set; }
         public string Name { get; set; }
         public string Flag { get; set; }
         public string Loa { get; set; }
@@ -13,7 +15,6 @@ namespace API.Features.Reservations {
         public string Draft { get; set; }
         public string RegistryPort { get; set; }
         public string RegistryNo { get; set; }
-        public string Type { get; set; }
         public string Usage { get; set; }
 
     }

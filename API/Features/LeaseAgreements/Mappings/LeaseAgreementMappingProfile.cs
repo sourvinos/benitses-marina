@@ -23,7 +23,6 @@ namespace API.Features.LeaseAgreements {
                     Draft = x.Boat.Draft,
                     RegistryPort = x.Boat.RegistryPort,
                     RegistryNo = x.Boat.RegistryNo,
-                    Type = x.Boat.Type,
                     Usage = x.Boat.Usage
                 }))
                 .ForMember(x => x.Insurance, x => x.MapFrom(x => new LeaseAgreementInsuranceVM {

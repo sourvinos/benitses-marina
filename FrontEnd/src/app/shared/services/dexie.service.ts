@@ -10,6 +10,7 @@ export class DexieService extends Dexie {
         super('BenitsesMarinaDB')
         this.version(1).stores({
             berths: 'id, description',
+            boatTypes: 'id, description',
             paymentStatuses: 'id, description'
         })
         this.open()

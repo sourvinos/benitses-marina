@@ -18,8 +18,14 @@
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-label>{{ getLabel('boatType') }}</mat-label>
-                                <input [inputTabStop]="input" dataTabIndex="2" formControlName="boatType" matInput>
+                                <input #inputAutoComplete #triggerBoatType="matAutocompleteTrigger" (keydown)="enableOrDisableAutoComplete($event)" (keyup)="checkForEmptyAutoComplete($event)" [inputTabStop]="input" [matAutocompleteDisabled]="isAutoCompleteDisabled" [matAutocomplete]="boatTypes" dataTabIndex="2" formControlName="boatType" matInput>
+                                <div matSuffix style="display:flex">
+                                    <button (click)="openOrCloseAutoComplete(triggerBoatType, 'boatType')" mat-icon-button type="button">
+                                        <mat-icon class="input-suffix material-icons-outlined">expand_more</mat-icon>
+                                    </button>
+                                </div>
                                 <mat-error *ngIf="boatType.hasError('required')">{{ getHint("required") }}</mat-error>
+                                <mat-error *ngIf="!boatType.hasError('required') && boatType.hasError('incorrect')">{{ getHint("invalid") }}</mat-error>
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-label>{{ getLabel('boatUsage') }}</mat-label>
@@ -297,6 +303,12 @@
     </div>
 
 </div>
+
+<mat-autocomplete #boatTypes="matAutocomplete" [displayWith]="autocompleteFields.bind(this, 'description')" autoActiveFirstOption>
+    <mat-option *ngFor="let option of dropdownBoatTypes | async" [value]="option">
+        {{ option.description }}
+    </mat-option>
+</mat-autocomplete>
 
 <mat-autocomplete #paymentStatuses="matAutocomplete" [displayWith]="autocompleteFields.bind(this, 'description')" autoActiveFirstOption>
     <mat-option *ngFor="let option of dropdownPaymentStatuses | async" [value]="option">

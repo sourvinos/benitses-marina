@@ -1,7 +1,7 @@
 import { Guid } from 'guid-typescript'
 // Custom
 import { BerthWriteDto } from './berth-write-dto'
-import { ReservationBoatDto } from './reservation-boat-dto'
+import { ReservationBoatWriteDto } from './reservation-boat-write-dto'
 import { ReservationFeeDto } from './reservation-fee-dto'
 import { ReservationInsuranceDto } from './reservation-insurance-dto'
 import { ReservationPersonDto } from './reservation-person-dto'
@@ -18,7 +18,7 @@ export interface ReservationWriteDto {
     isLongTerm: boolean
     isAthenian: boolean
     berths: BerthWriteDto[]
-    boat: ReservationBoatDto
+    boat: ReservationBoatWriteDto
     insurance: ReservationInsuranceDto
     owner: ReservationPersonDto
     billing: ReservationPersonDto

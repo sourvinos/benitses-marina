@@ -15,6 +15,7 @@ import { ResetPasswordViewModel } from 'src/app/features/users/classes/view-mode
 import { SessionStorageService } from './session-storage.service'
 import { TokenRequest } from '../classes/token-request'
 import { environment } from '../../../environments/environment'
+import { BoatTypeHttpService } from 'src/app/features/boatTypes/classes/services/boatType-http.service'
 
 @Injectable({ providedIn: 'root' })
 
@@ -29,7 +30,7 @@ export class AccountService extends HttpDataService {
 
     //#endregion
 
-    constructor(httpClient: HttpClient, private cryptoService: CryptoService, private dexieService: DexieService, private ngZone: NgZone, private paymentStatusHttpService: PaymentStatusHttpService, private berthHttpService: BerthHttpService, private router: Router, private sessionStorageService: SessionStorageService) {
+    constructor(httpClient: HttpClient, private boatTypeHttpService: BoatTypeHttpService, private cryptoService: CryptoService, private dexieService: DexieService, private ngZone: NgZone, private paymentStatusHttpService: PaymentStatusHttpService, private berthHttpService: BerthHttpService, private router: Router, private sessionStorageService: SessionStorageService) {
         super(httpClient, environment.apiUrl)
     }
 
@@ -126,6 +127,7 @@ export class AccountService extends HttpDataService {
 
     private populateDexieFromAPI(): void {
         this.dexieService.populateTable('berths', this.berthHttpService)
+        this.dexieService.populateTable('boatTypes', this.boatTypeHttpService)
         this.dexieService.populateTable('paymentStatuses', this.paymentStatusHttpService)
     }
 

@@ -28,6 +28,7 @@ import { ReservationWriteDto } from '../classes/dtos/reservation-write-dto'
 import { SessionStorageService } from 'src/app/shared/services/session-storage.service'
 import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 import { ValidationService } from 'src/app/shared/services/validation.service'
+import { ReservationBoatWriteDto } from '../classes/dtos/reservation-boat-write-dto'
 
 @Component({
     selector: 'reservation-form',
@@ -52,6 +53,7 @@ export class ReservationFormComponent {
 
     //#region autocompletes
 
+    public dropdownBoatTypes: Observable<SimpleEntity[]>
     public dropdownPaymentStatuses: Observable<SimpleEntity[]>
     public isAutoCompleteDisabled = true
 
@@ -298,7 +300,7 @@ export class ReservationFormComponent {
             draft: ['', [Validators.required, Validators.min(0), Validators.max(30)]],
             registryPort: ['', [Validators.required]],
             registryNo: ['', [Validators.required]],
-            boatType: ['', [Validators.required]],
+            boatType: ['', [Validators.required, ValidationService.RequireAutocomplete]],
             boatUsage: ['', [Validators.required]],
             fromDate: ['', [Validators.required]],
             toDate: ['', [Validators.required]],
@@ -339,8 +341,8 @@ export class ReservationFormComponent {
         })
     }
 
-    private mapBoat(form: any): ReservationBoatDto {
-        const x: ReservationBoatDto = {
+    private mapBoat(form: any): ReservationBoatWriteDto {
+        const x: ReservationBoatWriteDto = {
             reservationId: form.value.reservationId,
             name: form.value.boatName,
             flag: form.value.flag,
@@ -349,7 +351,7 @@ export class ReservationFormComponent {
             draft: form.value.draft,
             registryPort: form.value.registryPort,
             registryNo: form.value.registryNo,
-            type: form.value.boatType,
+            typeId: form.value.boatType.id,
             usage: form.value.boatUsage
         }
         return x
@@ -420,6 +422,7 @@ export class ReservationFormComponent {
     }
 
     private populateDropdowns(): void {
+        this.populateDropdownFromDexieDB('boatTypes', 'dropdownBoatTypes', 'boatType', 'description', 'description')
         this.populateDropdownFromDexieDB('paymentStatuses', 'dropdownPaymentStatuses', 'paymentStatus', 'description', 'description')
     }
 
@@ -434,7 +437,6 @@ export class ReservationFormComponent {
                 draft: this.reservation.boat.draft,
                 registryPort: this.reservation.boat.registryPort,
                 registryNo: this.reservation.boat.registryNo,
-                boatType: this.reservation.boat.type,
                 boatUsage: this.reservation.boat.usage,
                 fromDate: this.reservation.fromDate,
                 toDate: this.reservation.toDate,
@@ -447,6 +449,7 @@ export class ReservationFormComponent {
                 isCash: this.reservation.fee.isCash,
                 isSurprise: this.reservation.fee.isSurprise,
                 paymentStatus: { 'id': this.reservation.paymentStatus.id, 'description': this.reservation.paymentStatus.description },
+                boatType: { 'id': this.reservation.boat.type.id, 'description': this.reservation.boat.type.description },
                 insuranceCompany: this.reservation.insurance.insuranceCompany,
                 policyNo: this.reservation.insurance.policyNo,
                 policyEnds: this.reservation.insurance.policyEnds,

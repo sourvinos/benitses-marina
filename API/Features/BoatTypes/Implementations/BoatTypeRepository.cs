@@ -32,11 +32,11 @@ namespace API.Features.BoatTypes {
         }
 
         public async Task<IEnumerable<BoatTypeBrowserVM>> GetForBrowserAsync() {
-            var BoatTypes = await context.BoatTypes
+            var boatTypes = await context.BoatTypes
                 .AsNoTracking()
                 .OrderBy(x => x.Description)
                 .ToListAsync();
-            return mapper.Map<IEnumerable<BoatType>, IEnumerable<BoatTypeBrowserVM>>(BoatTypes);
+            return mapper.Map<IEnumerable<BoatType>, IEnumerable<BoatTypeBrowserVM>>(boatTypes);
         }
 
         public async Task<BoatTypeBrowserVM> GetByIdForBrowserAsync(int id) {

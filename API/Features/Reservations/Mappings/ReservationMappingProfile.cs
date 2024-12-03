@@ -24,6 +24,10 @@ namespace API.Features.Reservations {
                     Id = x.PaymentStatus.Id,
                     Description = x.PaymentStatus.Description
                 }))
+                .ForMember(x => x.BoatType, x => x.MapFrom(x => new SimpleEntity {
+                    Id = x.Boat.Type.Id,
+                    Description = x.Boat.Type.Description
+                }))
                 .ForMember(x => x.IsCash, x => x.MapFrom(x => x.Fee.IsCash))
                 .ForMember(x => x.IsSurprise, x => x.MapFrom(x => x.Fee.IsSurprise))
                 .ForMember(x => x.IsDocked, x => x.MapFrom(x => x.IsDocked))
@@ -42,8 +46,8 @@ namespace API.Features.Reservations {
                     Draft = x.Boat.Draft,
                     RegistryPort = x.Boat.RegistryPort,
                     RegistryNo = x.Boat.RegistryNo,
-                    Type = x.Boat.Type,
-                    Usage = x.Boat.Usage
+                    Type = new SimpleEntity { Id = x.Boat.Type.Id, Description = x.Boat.Type.Description },
+                    Usage = x.Boat.Usage,
                 }))
                 .ForMember(x => x.Insurance, x => x.MapFrom(x => new ReservationInsuranceDetailsDto {
                     Id = x.Insurance.Id,
@@ -97,6 +101,7 @@ namespace API.Features.Reservations {
             CreateMap<ReservationWriteDto, Reservation>()
                 .ForMember(x => x.Boat, x => x.MapFrom(x => new ReservationBoat {
                     ReservationId = x.ReservationId,
+                    TypeId = x.Boat.TypeId,
                     Beam = x.Boat.Beam,
                     Draft = x.Boat.Draft,
                     Flag = x.Boat.Flag,
@@ -104,7 +109,6 @@ namespace API.Features.Reservations {
                     Name = x.Boat.Name,
                     RegistryNo = x.Boat.RegistryNo,
                     RegistryPort = x.Boat.RegistryPort,
-                    Type = x.Boat.Type,
                     Usage = x.Boat.Usage
                 }))
                 .ForMember(x => x.Insurance, x => x.MapFrom(x => new ReservationInsurance {

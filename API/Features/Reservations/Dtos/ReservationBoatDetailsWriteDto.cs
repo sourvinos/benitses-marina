@@ -1,12 +1,11 @@
 using System;
-using API.Features.BoatTypes;
 
 namespace API.Features.Reservations {
 
-    public class ReservationBoat {
+    public class ReservationBoatDetailsWriteDto {
 
         public int Id { get; set; }
-        public Guid ReservationId { get; set; }
+        public Guid? ReservationId { get; set; }
         public int TypeId { get; set; }
         public string Name { get; set; }
         public string Flag { get; set; }
@@ -16,7 +15,6 @@ namespace API.Features.Reservations {
         public string RegistryPort { get; set; }
         public string RegistryNo { get; set; }
         public string Usage { get; set; }
-        public BoatType Type { get; set; }
 
     }
 

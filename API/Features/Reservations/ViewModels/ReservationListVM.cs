@@ -20,6 +20,7 @@ namespace API.Features.Reservations {
         public List<ReservationBerthVM> Berths { get; set; }
         public string OwnerName { get; set; }
         public SimpleEntity PaymentStatus { get; set; }
+        public SimpleEntity BoatType { get; set; }
 
     }
 

@@ -1,8 +1,6 @@
 import { Guid } from 'guid-typescript'
-// Custom
-import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 
-export interface ReservationBoatDto {
+export interface ReservationBoatWriteDto {
 
     reservationId: Guid
     name: string
@@ -12,7 +10,7 @@ export interface ReservationBoatDto {
     draft: string
     registryPort: string
     registryNo: string
-    type: SimpleEntity
+    typeId: number
     usage: string
 
 }
