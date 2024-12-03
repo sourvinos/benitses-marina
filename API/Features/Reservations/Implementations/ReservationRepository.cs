@@ -62,6 +62,7 @@ namespace API.Features.Reservations {
                 ? await context.Reservations
                     .AsNoTracking()
                     .Include(x => x.Boat).ThenInclude(x => x.Type)
+                    .Include(x => x.Boat).ThenInclude(x => x.Usage)
                     .Include(x => x.Insurance)
                     .Include(x => x.Owner)
                     .Include(x => x.Billing)

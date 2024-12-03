@@ -13,6 +13,6 @@ export interface ReservationBoatDto {
     registryPort: string
     registryNo: string
     type: SimpleEntity
-    usage: string
+    usage: SimpleEntity
 
 }

@@ -27,8 +27,8 @@ namespace Reservations {
                         Loa = "12.5",
                         Beam = "7.8",
                         Draft = "2.2",
-                        Type = "S/Y",
-                        Usage = "PRIVATE"
+                        TypeId = 1,
+                        UsageId = 1
                     },
                     Insurance = new TestReservationInsurance {
                         InsuranceCompany = "",

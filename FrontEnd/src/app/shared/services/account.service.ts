@@ -4,18 +4,19 @@ import { Observable } from 'rxjs'
 import { Router } from '@angular/router'
 import { map } from 'rxjs/operators'
 // Custom
+import { BerthHttpService } from 'src/app/features/berths/classes/services/berth-http.service'
+import { BoatTypeHttpService } from 'src/app/features/boatTypes/classes/services/boatType-http.service'
+import { BoatUsageHttpService } from 'src/app/features/boatUsages/classes/services/boatUsage-http.service'
 import { ChangePasswordViewModel } from 'src/app/features/users/classes/view-models/change-password-view-model'
 import { CryptoService } from './crypto.service'
 import { DexieService } from './dexie.service'
 import { DotNetVersion } from '../classes/dotnet-version'
 import { HttpDataService } from './http-data.service'
 import { PaymentStatusHttpService } from 'src/app/features/paymentStatuses/classes/services/paymentStatus-http.service'
-import { BerthHttpService } from 'src/app/features/berths/classes/services/berth-http.service'
 import { ResetPasswordViewModel } from 'src/app/features/users/classes/view-models/reset-password-view-model'
 import { SessionStorageService } from './session-storage.service'
 import { TokenRequest } from '../classes/token-request'
 import { environment } from '../../../environments/environment'
-import { BoatTypeHttpService } from 'src/app/features/boatTypes/classes/services/boatType-http.service'
 
 @Injectable({ providedIn: 'root' })
 
@@ -30,7 +31,8 @@ export class AccountService extends HttpDataService {
 
     //#endregion
 
-    constructor(httpClient: HttpClient, private boatTypeHttpService: BoatTypeHttpService, private cryptoService: CryptoService, private dexieService: DexieService, private ngZone: NgZone, private paymentStatusHttpService: PaymentStatusHttpService, private berthHttpService: BerthHttpService, private router: Router, private sessionStorageService: SessionStorageService) {
+    constructor(
+        httpClient: HttpClient, private berthHttpService: BerthHttpService, private boatTypeHttpService: BoatTypeHttpService, private boatUsageHttpService: BoatUsageHttpService, private cryptoService: CryptoService, private dexieService: DexieService, private ngZone: NgZone, private paymentStatusHttpService: PaymentStatusHttpService, private router: Router, private sessionStorageService: SessionStorageService) {
         super(httpClient, environment.apiUrl)
     }
 
@@ -128,6 +130,7 @@ export class AccountService extends HttpDataService {
     private populateDexieFromAPI(): void {
         this.dexieService.populateTable('berths', this.berthHttpService)
         this.dexieService.populateTable('boatTypes', this.boatTypeHttpService)
+        this.dexieService.populateTable('boatUsages', this.boatUsageHttpService)
         this.dexieService.populateTable('paymentStatuses', this.paymentStatusHttpService)
     }
 

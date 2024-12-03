@@ -11,6 +11,7 @@ export class DexieService extends Dexie {
         this.version(1).stores({
             berths: 'id, description',
             boatTypes: 'id, description',
+            boatUsages: 'id, description',
             paymentStatuses: 'id, description'
         })
         this.open()

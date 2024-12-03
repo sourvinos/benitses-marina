@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using API.Features.LeaseAgreements;
 using API.Features.InsurancePolicies;
 using API.Features.BoatTypes;
+using API.Features.BoatUsages;
 
 namespace API.Infrastructure.Extensions {
 
@@ -16,6 +17,7 @@ namespace API.Infrastructure.Extensions {
             #region reservations
             services.AddTransient<IBerthRepository, BerthRepository>();
             services.AddTransient<IBoatTypeRepository, BoatTypeRepository>();
+            services.AddTransient<IBoatUsageRepository, BoatUsageRepository>();
             services.AddTransient<IInsurancePolicyRepository, InsurancePolicyRepository>();
             services.AddTransient<ILeaseAgreementRepository, LeaseAgreementRepository>();
             services.AddTransient<IPaymentStatusRepository, PaymentStatusRepository>();
@@ -25,6 +27,7 @@ namespace API.Infrastructure.Extensions {
             #region validations
             services.AddTransient<IBerthValidation, BerthValidation>();
             services.AddTransient<IBoatTypeValidation, BoatTypeValidation>();
+            services.AddTransient<IBoatUsageValidation, BoatUsageValidation>();
             services.AddTransient<IPaymentStatusValidation, PaymentStatusValidation>();
             services.AddTransient<IReservationValidation, ReservationValidation>();
             services.AddTransient<IUserValidation<IUser>, UserValidation>();

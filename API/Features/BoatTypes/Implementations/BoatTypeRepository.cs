@@ -9,9 +9,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using API.Infrastructure.Helpers;
-using System;
 
 namespace API.Features.BoatTypes {
 

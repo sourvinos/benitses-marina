@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using API.Features.Reservations;
 using API.Features.Reservations.PaymentStatuses;
 using API.Features.BoatTypes;
+using API.Features.BoatUsages;
 
 namespace API.Infrastructure.Classes {
 
@@ -16,6 +17,7 @@ namespace API.Infrastructure.Classes {
 
         public DbSet<Berth> Berths { get; set; }
         public DbSet<BoatType> BoatTypes { get; set; }
+        public DbSet<BoatUsage> BoatUsages { get; set; }
         public DbSet<PaymentStatus> PaymentStatuses { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<ReservationBerth> ReservationBerths { get; set; }

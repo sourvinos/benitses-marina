@@ -11,6 +11,6 @@ export interface ReservationBoatWriteDto {
     registryPort: string
     registryNo: string
     typeId: number
-    usage: string
+    usageId: number
 
 }

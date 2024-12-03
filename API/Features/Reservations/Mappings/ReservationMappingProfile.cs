@@ -47,7 +47,7 @@ namespace API.Features.Reservations {
                     RegistryPort = x.Boat.RegistryPort,
                     RegistryNo = x.Boat.RegistryNo,
                     Type = new SimpleEntity { Id = x.Boat.Type.Id, Description = x.Boat.Type.Description },
-                    Usage = x.Boat.Usage,
+                    Usage = new SimpleEntity { Id = x.Boat.Usage.Id, Description = x.Boat.Usage.Description },
                 }))
                 .ForMember(x => x.Insurance, x => x.MapFrom(x => new ReservationInsuranceDetailsDto {
                     Id = x.Insurance.Id,
@@ -102,14 +102,14 @@ namespace API.Features.Reservations {
                 .ForMember(x => x.Boat, x => x.MapFrom(x => new ReservationBoat {
                     ReservationId = x.ReservationId,
                     TypeId = x.Boat.TypeId,
+                    UsageId = x.Boat.UsageId,
                     Beam = x.Boat.Beam,
                     Draft = x.Boat.Draft,
                     Flag = x.Boat.Flag,
                     Loa = x.Boat.Loa,
                     Name = x.Boat.Name,
                     RegistryNo = x.Boat.RegistryNo,
-                    RegistryPort = x.Boat.RegistryPort,
-                    Usage = x.Boat.Usage
+                    RegistryPort = x.Boat.RegistryPort
                 }))
                 .ForMember(x => x.Insurance, x => x.MapFrom(x => new ReservationInsurance {
                     ReservationId = x.ReservationId,

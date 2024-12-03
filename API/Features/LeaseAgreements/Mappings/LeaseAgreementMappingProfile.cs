@@ -1,4 +1,5 @@
 using API.Features.Reservations;
+using API.Infrastructure.Classes;
 using API.Infrastructure.Helpers;
 using AutoMapper;
 
@@ -16,6 +17,8 @@ namespace API.Features.LeaseAgreements {
                 .ForMember(x => x.Boat, x => x.MapFrom(x => new LeaseAgreementBoatVM {
                     Id = x.Boat.Id,
                     ReservationId = x.Boat.ReservationId,
+                    Type = new SimpleEntity { Id = x.Boat.Type.Id, Description = x.Boat.Type.Description },
+                    Usage = new SimpleEntity { Id = x.Boat.Usage.Id, Description = x.Boat.Usage.Description },
                     Name = x.Boat.Name,
                     Flag = x.Boat.Flag,
                     Loa = x.Boat.Loa,
@@ -23,7 +26,6 @@ namespace API.Features.LeaseAgreements {
                     Draft = x.Boat.Draft,
                     RegistryPort = x.Boat.RegistryPort,
                     RegistryNo = x.Boat.RegistryNo,
-                    Usage = x.Boat.Usage
                 }))
                 .ForMember(x => x.Insurance, x => x.MapFrom(x => new LeaseAgreementInsuranceVM {
                     Id = x.Insurance.Id,

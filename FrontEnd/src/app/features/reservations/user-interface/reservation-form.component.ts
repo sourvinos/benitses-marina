@@ -54,6 +54,7 @@ export class ReservationFormComponent {
     //#region autocompletes
 
     public dropdownBoatTypes: Observable<SimpleEntity[]>
+    public dropdownBoatUsages: Observable<SimpleEntity[]>
     public dropdownPaymentStatuses: Observable<SimpleEntity[]>
     public isAutoCompleteDisabled = true
 
@@ -301,7 +302,7 @@ export class ReservationFormComponent {
             registryPort: ['', [Validators.required]],
             registryNo: ['', [Validators.required]],
             boatType: ['', [Validators.required, ValidationService.RequireAutocomplete]],
-            boatUsage: ['', [Validators.required]],
+            boatUsage: ['', [Validators.required, ValidationService.RequireAutocomplete]],
             fromDate: ['', [Validators.required]],
             toDate: ['', [Validators.required]],
             berths: this.formBuilder.array([]),
@@ -352,7 +353,7 @@ export class ReservationFormComponent {
             registryPort: form.value.registryPort,
             registryNo: form.value.registryNo,
             typeId: form.value.boatType.id,
-            usage: form.value.boatUsage
+            usageId: form.value.boatUsage.id
         }
         return x
     }
@@ -423,6 +424,7 @@ export class ReservationFormComponent {
 
     private populateDropdowns(): void {
         this.populateDropdownFromDexieDB('boatTypes', 'dropdownBoatTypes', 'boatType', 'description', 'description')
+        this.populateDropdownFromDexieDB('boatUsages', 'dropdownBoatUsages', 'boatUsage', 'description', 'description')
         this.populateDropdownFromDexieDB('paymentStatuses', 'dropdownPaymentStatuses', 'paymentStatus', 'description', 'description')
     }
 
@@ -437,7 +439,6 @@ export class ReservationFormComponent {
                 draft: this.reservation.boat.draft,
                 registryPort: this.reservation.boat.registryPort,
                 registryNo: this.reservation.boat.registryNo,
-                boatUsage: this.reservation.boat.usage,
                 fromDate: this.reservation.fromDate,
                 toDate: this.reservation.toDate,
                 berths: [],
@@ -450,6 +451,7 @@ export class ReservationFormComponent {
                 isSurprise: this.reservation.fee.isSurprise,
                 paymentStatus: { 'id': this.reservation.paymentStatus.id, 'description': this.reservation.paymentStatus.description },
                 boatType: { 'id': this.reservation.boat.type.id, 'description': this.reservation.boat.type.description },
+                boatUsage: { 'id': this.reservation.boat.usage.id, 'description': this.reservation.boat.usage.description },
                 insuranceCompany: this.reservation.insurance.insuranceCompany,
                 policyNo: this.reservation.insurance.policyNo,
                 policyEnds: this.reservation.insurance.policyEnds,

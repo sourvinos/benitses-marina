@@ -226,7 +226,7 @@ namespace API.Features.LeaseAgreements {
             row.Cells[2].AddParagraph("Χρήση σκάφους");
             row.Cells[2].AddParagraph("Vessel use");
             row.Cells[2].Borders.Right.Clear();
-            row.Cells[3].AddParagraph(boat.Usage);
+            row.Cells[3].AddParagraph(boat.Usage.Description);
             return row;
         }
 
