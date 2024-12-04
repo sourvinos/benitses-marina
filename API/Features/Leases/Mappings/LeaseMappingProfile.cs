@@ -3,18 +3,18 @@ using API.Infrastructure.Classes;
 using API.Infrastructure.Helpers;
 using AutoMapper;
 
-namespace API.Features.LeaseAgreements {
+namespace API.Features.Leases {
 
-    public class LeaseAgreementMappingProfile : Profile {
+    public class LeasePdfMappingProfile : Profile {
 
-        public LeaseAgreementMappingProfile() {
-            CreateMap<Reservation, LeaseAgreementVM>()
-                .ForMember(x => x.Period, x => x.MapFrom(x => new LeaseAgreementPeriodVM {
+        public LeasePdfMappingProfile() {
+            CreateMap<Reservation, LeasePdfVM>()
+                .ForMember(x => x.Period, x => x.MapFrom(x => new LeasePdfPeriodVM {
                     ReservationId = x.ReservationId,
                     FromDate = DateHelpers.DateToISOString(x.FromDate),
                     ToDate = DateHelpers.DateToISOString(x.ToDate)
                 }))
-                .ForMember(x => x.Boat, x => x.MapFrom(x => new LeaseAgreementBoatVM {
+                .ForMember(x => x.Boat, x => x.MapFrom(x => new LeasePdfBoatVM {
                     Id = x.Boat.Id,
                     ReservationId = x.Boat.ReservationId,
                     Type = new SimpleEntity { Id = x.Boat.Type.Id, Description = x.Boat.Type.Description },
@@ -27,14 +27,14 @@ namespace API.Features.LeaseAgreements {
                     RegistryPort = x.Boat.RegistryPort,
                     RegistryNo = x.Boat.RegistryNo,
                 }))
-                .ForMember(x => x.Insurance, x => x.MapFrom(x => new LeaseAgreementInsuranceVM {
+                .ForMember(x => x.Insurance, x => x.MapFrom(x => new LeasePdfInsuranceVM {
                     Id = x.Insurance.Id,
                     ReservationId = x.Insurance.ReservationId,
                     InsuranceCompany = x.Insurance.InsuranceCompany,
                     PolicyNo = x.Insurance.PolicyNo,
                     PolicyEnds = DateHelpers.DateToISOString(x.Insurance.PolicyEnds)
                 }))
-                .ForMember(x => x.Owner, x => x.MapFrom(x => new LeaseAgreementPersonVM {
+                .ForMember(x => x.Owner, x => x.MapFrom(x => new LeasePdfPersonVM {
                     Id = x.Owner.Id,
                     ReservationId = x.Owner.ReservationId,
                     Name = x.Owner.Name,
@@ -45,7 +45,7 @@ namespace API.Features.LeaseAgreements {
                     Phones = x.Owner.Phones,
                     Email = x.Owner.Email
                 }))
-                .ForMember(x => x.Billing, x => x.MapFrom(x => new LeaseAgreementPersonVM {
+                .ForMember(x => x.Billing, x => x.MapFrom(x => new LeasePdfPersonVM {
                     Id = x.Billing.Id,
                     ReservationId = x.Billing.ReservationId,
                     Name = x.Billing.Name,
@@ -56,7 +56,7 @@ namespace API.Features.LeaseAgreements {
                     Phones = x.Billing.Phones,
                     Email = x.Billing.Email
                 }))
-                .ForMember(x => x.Fee, x => x.MapFrom(x => new LeaseAgreementFeeVM {
+                .ForMember(x => x.Fee, x => x.MapFrom(x => new LeasePdfFeeVM {
                     Id = x.Fee.Id,
                     ReservationId = x.Fee.ReservationId,
                     NetAmount = x.Fee.NetAmount,

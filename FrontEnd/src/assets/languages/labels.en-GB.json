@@ -197,6 +197,10 @@
                 "description": "Save"
             },
             {
+                "id": "printLeaseButton",
+                "description": "Print lease agreement"
+            },
+            {
                 "id": "post",
                 "description": "Initial entry"
             },

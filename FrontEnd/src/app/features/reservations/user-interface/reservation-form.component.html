@@ -329,7 +329,7 @@
 </mat-autocomplete>
 
 <ng-template #actionsMenu xPosition="before">
-    <button (click)="onCreateAndOpenPdf()" mat-menu-item>
-        <span>Create lease agreement pdf</span>
+    <button (click)="onCreateLeaseAndOpen()" mat-menu-item>
+        <span>{{ getLabel("printLeaseButton") }}</span>
     </button>
 </ng-template>

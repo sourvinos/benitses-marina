@@ -4,10 +4,10 @@ using API.Features.Reservations.Berths;
 using API.Infrastructure.Auth;
 using API.Infrastructure.Users;
 using Microsoft.Extensions.DependencyInjection;
-using API.Features.LeaseAgreements;
 using API.Features.InsurancePolicies;
 using API.Features.BoatTypes;
 using API.Features.BoatUsages;
+using API.Features.Leases;
 
 namespace API.Infrastructure.Extensions {
 
@@ -19,7 +19,8 @@ namespace API.Infrastructure.Extensions {
             services.AddTransient<IBoatTypeRepository, BoatTypeRepository>();
             services.AddTransient<IBoatUsageRepository, BoatUsageRepository>();
             services.AddTransient<IInsurancePolicyRepository, InsurancePolicyRepository>();
-            services.AddTransient<ILeaseAgreementRepository, LeaseAgreementRepository>();
+            services.AddTransient<ILeasePdfRepository, LeasePdfRepository>();
+            services.AddTransient<ILeaseRepository, LeaseRepository>();
             services.AddTransient<IPaymentStatusRepository, PaymentStatusRepository>();
             services.AddTransient<IReservationRepository, ReservationRepository>();
             services.AddTransient<IUserRepository, UserRepository>();

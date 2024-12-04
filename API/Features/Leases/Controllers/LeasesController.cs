@@ -5,25 +5,25 @@ using API.Infrastructure.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Features.LeaseAgreements {
+namespace API.Features.Leases {
 
     [Route("api/[controller]")]
-    public class LeaseAgreementsController : ControllerBase {
+    public class LeasesController : ControllerBase {
 
-        private readonly ILeaseAgreementRepository leaseAgreementRepo;
+        private readonly ILeasePdfRepository leasePdfRepo;
 
-        public LeaseAgreementsController(ILeaseAgreementRepository leaseAgreementRepo) {
-            this.leaseAgreementRepo = leaseAgreementRepo;
+        public LeasesController(ILeasePdfRepository leasePdfRepo) {
+            this.leasePdfRepo = leasePdfRepo;
         }
 
-        [HttpPost("buildLeaseAgreement")]
+        [HttpPost]
         [Authorize(Roles = "user, admin")]
-        public async Task<ResponseWithBody> BuildLeaseAgreement([FromBody] string[] reservationIds) {
+        public async Task<ResponseWithBody> BuildLeasePdf([FromBody] string[] reservationIds) {
             var filenames = new List<string>();
             foreach (var reservationId in reservationIds) {
-                var x = await leaseAgreementRepo.GetByIdAsync(reservationId);
+                var x = await leasePdfRepo.GetByIdAsync(reservationId);
                 if (x != null) {
-                    var z = leaseAgreementRepo.BuildLeaseAgreement(x);
+                    var z = leasePdfRepo.BuildLeasePdf(x);
                     filenames.Add(z);
                 } else {
                     throw new CustomException() {
@@ -41,8 +41,8 @@ namespace API.Features.LeaseAgreements {
 
         [HttpGet("[action]/{filename}")]
         [Authorize(Roles = "admin")]
-        public IActionResult OpenPdf([FromRoute] string filename) {
-            return leaseAgreementRepo.OpenPdf(filename);
+        public IActionResult OpenLeasePdf([FromRoute] string filename) {
+            return leasePdfRepo.OpenPdf(filename);
         }
 
     }

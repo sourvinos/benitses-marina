@@ -1,9 +1,9 @@
 using System;
 using API.Infrastructure.Classes;
 
-namespace API.Features.LeaseAgreements {
+namespace API.Features.Leases {
 
-    public class LeaseAgreementBoatVM {
+    public class LeasePdfBoatVM {
 
         public int Id { get; set; }
         public Guid? ReservationId { get; set; }

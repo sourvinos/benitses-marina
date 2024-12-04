@@ -1,8 +1,8 @@
 using System;
 
-namespace API.Features.LeaseAgreements {
+namespace API.Features.Leases {
 
-    public class LeaseAgreementPersonVM {
+    public class LeasePdfPersonVM {
 
         public int Id { get; set; }
         public Guid? ReservationId { get; set; }

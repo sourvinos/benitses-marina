@@ -17,30 +17,31 @@ using MigraDoc.DocumentObjectModel;
 using MigraDoc.DocumentObjectModel.Tables;
 using MigraDoc.Rendering;
 
-namespace API.Features.LeaseAgreements {
+namespace API.Features.Leases {
 
-    public class LeaseAgreementRepository : Repository<Reservation>, ILeaseAgreementRepository {
+    public class LeasePdfRepository : Repository<Reservation>, ILeasePdfRepository {
 
         private readonly IMapper mapper;
 
-        public LeaseAgreementRepository(AppDbContext appDbContext, IHttpContextAccessor httpContext, IMapper mapper, IOptions<TestingEnvironment> settings, UserManager<UserExtended> userManager) : base(appDbContext, httpContext, settings, userManager) {
+        public LeasePdfRepository(AppDbContext appDbContext, IHttpContextAccessor httpContext, IMapper mapper, IOptions<TestingEnvironment> settings, UserManager<UserExtended> userManager) : base(appDbContext, httpContext, settings, userManager) {
             this.mapper = mapper;
         }
 
-        public async Task<LeaseAgreementVM> GetByIdAsync(string reservationId) {
+        public async Task<LeasePdfVM> GetByIdAsync(string reservationId) {
             var x = await context.Reservations
                 .AsNoTracking()
-                .Include(x => x.Boat)
+                .Include(x => x.Boat).ThenInclude(x => x.Type)
+                .Include(x => x.Boat).ThenInclude(x => x.Usage)
                 .Include(x => x.Insurance)
                 .Include(x => x.Owner)
                 .Include(x => x.Billing)
                 .Include(x => x.Fee)
                 .Where(x => x.ReservationId.ToString() == reservationId)
                 .SingleOrDefaultAsync();
-            return mapper.Map<Reservation, LeaseAgreementVM>(x);
+            return mapper.Map<Reservation, LeasePdfVM>(x);
         }
 
-        public string BuildLeaseAgreement(LeaseAgreementVM leaseAgreement) {
+        public string BuildLeasePdf(LeasePdfVM lease) {
             var document = new Document();
             Style style = document.Styles["Normal"];
             style.Font.Name = "Verdana";
@@ -50,35 +51,35 @@ namespace API.Features.LeaseAgreements {
             Spacer(section);
             Header(section);
             Spacer(section);
-            VesselNameAndFlag(leaseAgreement.Boat, section);
-            PortAndVesselRegistryNo(leaseAgreement.Boat, section);
-            VesselDimensions(leaseAgreement.Boat, section);
-            VesselTypeAndUse(leaseAgreement.Boat, section);
-            MooringPeriod(leaseAgreement.Period, section);
-            InsuranceCompany(leaseAgreement.Insurance, section);
-            PolicyNoAndExpireDate(leaseAgreement.Insurance, section);
+            VesselNameAndFlag(lease.Boat, section);
+            PortAndVesselRegistryNo(lease.Boat, section);
+            VesselDimensions(lease.Boat, section);
+            VesselTypeAndUse(lease.Boat, section);
+            MooringPeriod(lease.Period, section);
+            InsuranceCompany(lease.Insurance, section);
+            PolicyNoAndExpireDate(lease.Insurance, section);
             Spacer(section);
             PersonHeaders(section);
-            PersonNames(leaseAgreement.Owner, leaseAgreement.Billing, section);
-            PersonAddresses(leaseAgreement.Owner, leaseAgreement.Billing, section);
-            PersonVATs(leaseAgreement.Owner, leaseAgreement.Billing, section);
-            PersonTaxOffices(leaseAgreement.Owner, leaseAgreement.Billing, section);
-            PersonIdNumbers(leaseAgreement.Owner, leaseAgreement.Billing, section);
-            PersonPhoneNumbers(leaseAgreement.Owner, leaseAgreement.Billing, section);
-            PersonEmails(leaseAgreement.Owner, leaseAgreement.Billing, section);
+            PersonNames(lease.Owner, lease.Billing, section);
+            PersonAddresses(lease.Owner, lease.Billing, section);
+            PersonVATs(lease.Owner, lease.Billing, section);
+            PersonTaxOffices(lease.Owner, lease.Billing, section);
+            PersonIdNumbers(lease.Owner, lease.Billing, section);
+            PersonPhoneNumbers(lease.Owner, lease.Billing, section);
+            PersonEmails(lease.Owner, lease.Billing, section);
             Spacer(section);
             CaptainHeaders(section);
             CaptainDetails(section);
             Spacer(section);
             FeeHeaders(section);
-            FeeDetails(leaseAgreement.Fee, section);
+            FeeDetails(lease.Fee, section);
             Spacer(section);
             SmallTerms(section);
             Spacer(section);
             Signatures(section);
             SignatureSpaces(section);
             TermsAndConditions(document, section);
-            return SavePdf(document, leaseAgreement.ReservationId.ToString());
+            return SavePdf(document, lease.ReservationId.ToString());
         }
 
         public FileStreamResult OpenPdf(string filename) {
@@ -124,7 +125,7 @@ namespace API.Features.LeaseAgreements {
             return row;
         }
 
-        private static Row VesselNameAndFlag(LeaseAgreementBoatVM boat, Section section) {
+        private static Row VesselNameAndFlag(LeasePdfBoatVM boat, Section section) {
             var table = section.AddTable();
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
@@ -149,7 +150,7 @@ namespace API.Features.LeaseAgreements {
             return row;
         }
 
-        private static Row PortAndVesselRegistryNo(LeaseAgreementBoatVM boat, Section section) {
+        private static Row PortAndVesselRegistryNo(LeasePdfBoatVM boat, Section section) {
             var table = section.AddTable();
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
@@ -174,7 +175,7 @@ namespace API.Features.LeaseAgreements {
             return row;
         }
 
-        private static Row VesselDimensions(LeaseAgreementBoatVM boat, Section section) {
+        private static Row VesselDimensions(LeasePdfBoatVM boat, Section section) {
             var table = section.AddTable();
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
@@ -205,7 +206,7 @@ namespace API.Features.LeaseAgreements {
             return row;
         }
 
-        private static Row VesselTypeAndUse(LeaseAgreementBoatVM boat, Section section) {
+        private static Row VesselTypeAndUse(LeasePdfBoatVM boat, Section section) {
             var table = section.AddTable();
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
@@ -230,7 +231,7 @@ namespace API.Features.LeaseAgreements {
             return row;
         }
 
-        private static Row MooringPeriod(LeaseAgreementPeriodVM period, Section section) {
+        private static Row MooringPeriod(LeasePdfPeriodVM period, Section section) {
             var table = section.AddTable();
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
@@ -255,7 +256,7 @@ namespace API.Features.LeaseAgreements {
             return row;
         }
 
-        private static Row InsuranceCompany(LeaseAgreementInsuranceVM insurance, Section section) {
+        private static Row InsuranceCompany(LeasePdfInsuranceVM insurance, Section section) {
             var table = section.AddTable();
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
@@ -274,7 +275,7 @@ namespace API.Features.LeaseAgreements {
             return row;
         }
 
-        private static Row PolicyNoAndExpireDate(LeaseAgreementInsuranceVM insurance, Section section) {
+        private static Row PolicyNoAndExpireDate(LeasePdfInsuranceVM insurance, Section section) {
             var table = section.AddTable();
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
@@ -318,7 +319,7 @@ namespace API.Features.LeaseAgreements {
             return row;
         }
 
-        private static Row PersonNames(LeaseAgreementPersonVM owner, LeaseAgreementPersonVM billing, Section section) {
+        private static Row PersonNames(LeasePdfPersonVM owner, LeasePdfPersonVM billing, Section section) {
             var table = section.AddTable();
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
@@ -343,7 +344,7 @@ namespace API.Features.LeaseAgreements {
             return row;
         }
 
-        private static Row PersonAddresses(LeaseAgreementPersonVM owner, LeaseAgreementPersonVM billing, Section section) {
+        private static Row PersonAddresses(LeasePdfPersonVM owner, LeasePdfPersonVM billing, Section section) {
             var table = section.AddTable();
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
@@ -368,7 +369,7 @@ namespace API.Features.LeaseAgreements {
             return row;
         }
 
-        private static Row PersonVATs(LeaseAgreementPersonVM owner, LeaseAgreementPersonVM billing, Section section) {
+        private static Row PersonVATs(LeasePdfPersonVM owner, LeasePdfPersonVM billing, Section section) {
             var table = section.AddTable();
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
@@ -393,7 +394,7 @@ namespace API.Features.LeaseAgreements {
             return row;
         }
 
-        private static Row PersonTaxOffices(LeaseAgreementPersonVM owner, LeaseAgreementPersonVM billing, Section section) {
+        private static Row PersonTaxOffices(LeasePdfPersonVM owner, LeasePdfPersonVM billing, Section section) {
             var table = section.AddTable();
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
@@ -418,7 +419,7 @@ namespace API.Features.LeaseAgreements {
             return row;
         }
 
-        private static Row PersonIdNumbers(LeaseAgreementPersonVM owner, LeaseAgreementPersonVM billing, Section section) {
+        private static Row PersonIdNumbers(LeasePdfPersonVM owner, LeasePdfPersonVM billing, Section section) {
             var table = section.AddTable();
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
@@ -443,7 +444,7 @@ namespace API.Features.LeaseAgreements {
             return row;
         }
 
-        private static Row PersonPhoneNumbers(LeaseAgreementPersonVM owner, LeaseAgreementPersonVM billing, Section section) {
+        private static Row PersonPhoneNumbers(LeasePdfPersonVM owner, LeasePdfPersonVM billing, Section section) {
             var table = section.AddTable();
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
@@ -468,7 +469,7 @@ namespace API.Features.LeaseAgreements {
             return row;
         }
 
-        private static Row PersonEmails(LeaseAgreementPersonVM owner, LeaseAgreementPersonVM billing, Section section) {
+        private static Row PersonEmails(LeasePdfPersonVM owner, LeasePdfPersonVM billing, Section section) {
             var table = section.AddTable();
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
@@ -548,7 +549,7 @@ namespace API.Features.LeaseAgreements {
             return row;
         }
 
-        private static Row FeeDetails(LeaseAgreementFeeVM fee, Section section) {
+        private static Row FeeDetails(LeasePdfFeeVM fee, Section section) {
             var locale = CultureInfo.CreateSpecificCulture("el-GR");
             var table = section.AddTable();
             table.Borders.Width = 0.1;

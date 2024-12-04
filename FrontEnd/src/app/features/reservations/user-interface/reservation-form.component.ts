@@ -13,13 +13,13 @@ import { EmojiService } from 'src/app/shared/services/emoji.service'
 import { FormResolved } from 'src/app/shared/classes/form-resolved'
 import { HelperService } from 'src/app/shared/services/helper.service'
 import { InputTabStopDirective } from 'src/app/shared/directives/input-tabstop.directive'
+import { LeasePdfHttpService } from '../../leases/classes/services/lease-pdf-http.service'
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service'
 import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
 import { MessageInputHintService } from 'src/app/shared/services/message-input-hint.service'
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
-import { ReservationBoatDto } from '../classes/dtos/reservation-boat-dto'
+import { ReservationBoatWriteDto } from '../classes/dtos/reservation-boat-write-dto'
 import { ReservationFeeDto } from '../classes/dtos/reservation-fee-dto'
-import { ReservationHttpPdfService } from '../classes/services/reservation-http-pdf.service'
 import { ReservationHttpService } from '../classes/services/reservation-http.service'
 import { ReservationInsuranceDto } from '../classes/dtos/reservation-insurance-dto'
 import { ReservationPersonDto } from '../classes/dtos/reservation-person-dto'
@@ -28,7 +28,6 @@ import { ReservationWriteDto } from '../classes/dtos/reservation-write-dto'
 import { SessionStorageService } from 'src/app/shared/services/session-storage.service'
 import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 import { ValidationService } from 'src/app/shared/services/validation.service'
-import { ReservationBoatWriteDto } from '../classes/dtos/reservation-boat-write-dto'
 
 @Component({
     selector: 'reservation-form',
@@ -66,7 +65,24 @@ export class ReservationFormComponent {
 
     //#endregion
 
-    constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateAdapter: DateAdapter<any>, private dateHelperService: DateHelperService, private dexieService: DexieService, private dialogService: DialogService, private emojiService: EmojiService, private formBuilder: FormBuilder, private helperService: HelperService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private reservationHttpService: ReservationHttpService, private reservationHttpPdfService: ReservationHttpPdfService, private router: Router, private sessionStorageService: SessionStorageService) { }
+    constructor(
+        private activatedRoute: ActivatedRoute,
+        private cryptoService: CryptoService,
+        private dateAdapter: DateAdapter<any>,
+        private dateHelperService: DateHelperService,
+        private dexieService: DexieService,
+        private dialogService: DialogService,
+        private emojiService: EmojiService,
+        private formBuilder: FormBuilder,
+        private helperService: HelperService,
+        private localStorageService: LocalStorageService,
+        private messageDialogService: MessageDialogService,
+        private messageHintService: MessageInputHintService,
+        private messageLabelService: MessageLabelService,
+        private reservationHttpService: ReservationHttpService,
+        private leasePdfHttpService: LeasePdfHttpService,
+        private router: Router,
+        private sessionStorageService: SessionStorageService) { }
 
     //#region lifecycle hooks
 
@@ -92,12 +108,12 @@ export class ReservationFormComponent {
         return object ? object[fieldName] : undefined
     }
 
-    public onCreateAndOpenPdf(): void {
+    public onCreateLeaseAndOpen(): void {
         const ids = []
         ids.push(this.form.value.reservationId)
-        this.reservationHttpPdfService.buildPdf(ids).subscribe({
+        this.leasePdfHttpService.buildLeasePdf(ids).subscribe({
             next: (response) => {
-                this.reservationHttpPdfService.openPdf(response.body[0]).subscribe({
+                this.leasePdfHttpService.openLeasePdf(response.body[0]).subscribe({
                     next: (response) => {
                         const blob = new Blob([response], { type: 'application/pdf' })
                         const fileURL = URL.createObjectURL(blob)
