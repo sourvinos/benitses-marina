@@ -11,9 +11,17 @@ namespace API.Features.Leases {
     public class LeasesController : ControllerBase {
 
         private readonly ILeasePdfRepository leasePdfRepo;
+        private readonly ILeaseRepository leaseRepo;
 
-        public LeasesController(ILeasePdfRepository leasePdfRepo) {
+        public LeasesController(ILeaseRepository leaseRepo, ILeasePdfRepository leasePdfRepo) {
             this.leasePdfRepo = leasePdfRepo;
+            this.leaseRepo = leaseRepo;
+        }
+
+        [HttpGet()]
+        [Authorize(Roles = "user, admin")]
+        public async Task<IEnumerable<LeaseUpcomingTerminationListVM>> GetAsync() {
+            return await leaseRepo.GetAsync();
         }
 
         [HttpPost]

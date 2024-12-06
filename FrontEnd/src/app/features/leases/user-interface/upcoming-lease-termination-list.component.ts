@@ -7,34 +7,34 @@ import { DateHelperService } from 'src/app/shared/services/date-helper.service'
 import { DialogService } from 'src/app/shared/services/modal-dialog.service'
 import { EmojiService } from 'src/app/shared/services/emoji.service'
 import { HelperService } from 'src/app/shared/services/helper.service'
-import { InsurancePolicyListVM } from '../classes/view-models/insurance-policy-list-vm'
 import { ListResolved } from 'src/app/shared/classes/list-resolved'
 import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
 import { SessionStorageService } from 'src/app/shared/services/session-storage.service'
+import { UpcomingLeaseTerminationListVM } from '../classes/view-models/upcoming-lease-termination-list-vm'
 
 @Component({
-    selector: 'insurance-policy-list',
-    templateUrl: './insurance-policy-list.component.html',
-    styleUrls: ['../../../../assets/styles/custom/lists.css', 'insurance-policy-list.component.css']
+    selector: 'upcoming-lease-termination-list',
+    templateUrl: './upcoming-lease-termination-list.component.html',
+    styleUrls: ['../../../../assets/styles/custom/lists.css', 'upcoming-lease-termination-list.component.css']
 })
 
-export class InsurancePolicyListComponent {
+export class UpcomingLeaseTerminationListComponent {
 
     //#region variables
 
     @ViewChild('table') table: Table
 
-    private url = 'insurancePolicies'
+    private url = 'upcomingLeaseTerminations'
     private virtualElement: any
-    public feature = 'upcominginsurancesList'
-    public featureIcon = 'insurance-policies'
+    public feature = 'upcomingLeasesList'
+    public featureIcon = 'leases'
     public icon = 'home'
     public parentUrl = '/home'
-    public records: InsurancePolicyListVM[] = []
+    public records: UpcomingLeaseTerminationListVM[] = []
     public recordsFilteredCount = 0
 
-    public selectedRecords: InsurancePolicyListVM[] = []
+    public selectedRecords: UpcomingLeaseTerminationListVM[] = []
 
     //#endregion
 

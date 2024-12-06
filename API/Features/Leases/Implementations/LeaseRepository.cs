@@ -27,9 +27,9 @@ namespace API.Features.Leases {
             var daysToAdd = 30;
             var reservations = await context.Reservations
                 .Include(x => x.Boat)
-                .Include(x => x.Insurance)
                 .AsNoTracking()
-                .Where(x => x.Insurance.PolicyEnds <= today.AddDays(daysToAdd) && x.IsDocked)
+                .Where(x => x.ToDate <= today.AddDays(daysToAdd) && x.IsDocked)
+                .OrderBy(x => x.ToDate)
                 .ToListAsync();
             return mapper.Map<IEnumerable<Reservation>, IEnumerable<LeaseUpcomingTerminationListVM>>(reservations);
         }

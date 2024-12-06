@@ -572,22 +572,35 @@
         ]
     },
     {
-        "feature": "insurancePolicyList",
+        "feature": "upcominginsurancesList",
         "labels": [
             {
                 "id": "header",
-                "description": "Insurance policies"
+                "description": "Upcoming insurance terminations"
             },
             {
                 "id": "headerBoatName",
                 "description": "Boat"
             },
             {
-                "id": "headerInsuranceCompany",
-                "description": "Insurance company"
+                "id": "headerInsuranceEnds",
+                "description": "Expires"
+            }
+        ]
+    },
+    {
+        "feature": "upcomingLeasesList",
+        "labels": [
+            {
+                "id": "header",
+                "description": "Upcoming lease terminations"
             },
             {
-                "id": "headerPolicyEnds",
+                "id": "headerBoatName",
+                "description": "Boat"
+            },
+            {
+                "id": "headerLeaseEnds",
                 "description": "Expires"
             }
         ]
@@ -634,6 +647,14 @@
             {
                 "id": "insurancePoliciesSubTitle",
                 "description": "Show the insurances policies due to expire."
+            },
+            {
+                "id": "upcomingLeaseTerminationsTitle",
+                "description": "End-of-lease"
+            },
+            {
+                "id": "upcomingLeaseTerminationsSubTitle",
+                "description": "Show the upcoming end-of-lease agreements."
             }
         ]
     }

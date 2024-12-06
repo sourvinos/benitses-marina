@@ -6,7 +6,7 @@ import { InsurancePolicyListComponent } from '../../user-interface/insurance-pol
 import { InsurancePolicyListResolver } from '../resolvers/insurance-policy-list.resolver'
 
 const routes: Routes = [
-    { path: '', component: InsurancePolicyListComponent, canActivate: [AuthGuardService], resolve: { insurancePolicyList: InsurancePolicyListResolver } }
+    { path: '', component: InsurancePolicyListComponent, canActivate: [AuthGuardService], resolve: { upcominginsurancesList: InsurancePolicyListResolver } }
 ]
 
 @NgModule({

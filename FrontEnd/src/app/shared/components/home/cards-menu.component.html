@@ -5,6 +5,12 @@
         <mat-divider inset></mat-divider>
         <mat-card-subtitle>{{ getLabel("insurancePoliciesSubTitle") }}</mat-card-subtitle>
     </mat-card>
+    <mat-card (click)="doNavigation('upcomingLeaseTerminations',true)">
+        <img (load)="loadImage()" [ngClass]="imageIsLoading()" [src]="getIcon('leases')" style="height: 6.25rem; margin-left: 1rem; width: 6.25rem">
+        <mat-card-title>{{ getLabel("upcomingLeaseTerminationsTitle") }}</mat-card-title>
+        <mat-divider inset></mat-divider>
+        <mat-card-subtitle>{{ getLabel("upcomingLeaseTerminationsSubTitle") }}</mat-card-subtitle>
+    </mat-card>
     <mat-card (click)="doNavigation('reservations',true)">
         <img (load)="loadImage()" [ngClass]="imageIsLoading()" [src]="getIcon('reservations')" style="height: 6.25rem; margin-left: 1rem; width: 6.25rem">
         <mat-card-title>{{ getLabel("reservationsTitle") }}</mat-card-title>

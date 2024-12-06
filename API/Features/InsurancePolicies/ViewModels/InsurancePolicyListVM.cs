@@ -4,7 +4,6 @@ namespace API.Features.InsurancePolicies {
 
         public string ReservationId { get; set; }
         public string BoatName { get; set; }
-        public string InsuranceCompany { get; set; }
         public string PolicyEnds { get; set; }
 
     }
