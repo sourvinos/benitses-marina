@@ -4,17 +4,17 @@ import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 export interface ReservationListVM {
 
     reservationId: string
+    boatName: string
+    ownerName: string
+    boatLoa: string
     fromDate: string
     toDate: string
-    isDocked: boolean
-    paymentStatus: SimpleEntity
-    isDryDock: boolean
-    isOverdue: boolean
-    isGray: boolean
-    boatName: string
-    boatLoa: string
-    ownerName: string
     berths: ReservationListBerthVM[]
+    paymentStatus: SimpleEntity
+    isAthenian: boolean
+    isOverdue: boolean
+    isDocked: boolean
+    isDryDock: boolean
     joinedBerths: string
 
 }

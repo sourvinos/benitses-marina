@@ -11,10 +11,10 @@ namespace API.Features.Reservations {
             // List
             CreateMap<Reservation, ReservationListVM>()
                 .ForMember(x => x.BoatName, x => x.MapFrom(x => x.Boat.Name))
-                .ForMember(x => x.FromDate, x => x.MapFrom(x => DateHelpers.DateToISOString(x.FromDate)))
-                .ForMember(x => x.ToDate, x => x.MapFrom(x => DateHelpers.DateToISOString(x.ToDate)))
                 .ForMember(x => x.OwnerName, x => x.MapFrom(x => x.Owner.Name))
                 .ForMember(x => x.BoatLoa, x => x.MapFrom(x => x.Boat.Loa))
+                .ForMember(x => x.FromDate, x => x.MapFrom(x => DateHelpers.DateToISOString(x.FromDate)))
+                .ForMember(x => x.ToDate, x => x.MapFrom(x => DateHelpers.DateToISOString(x.ToDate)))
                 .ForMember(x => x.Berths, x => x.MapFrom(x => x.Berths.Select(berth => new ReservationBerthVM {
                     Id = berth.Id,
                     ReservationId = berth.ReservationId.ToString(),
@@ -24,13 +24,10 @@ namespace API.Features.Reservations {
                     Id = x.PaymentStatus.Id,
                     Description = x.PaymentStatus.Description
                 }))
-                .ForMember(x => x.BoatType, x => x.MapFrom(x => new SimpleEntity {
-                    Id = x.Boat.Type.Id,
-                    Description = x.Boat.Type.Description
-                }))
-                .ForMember(x => x.IsCash, x => x.MapFrom(x => x.Fee.IsCash))
-                .ForMember(x => x.IsDocked, x => x.MapFrom(x => x.IsDocked))
-                .ForMember(x => x.IsOverdue, x => x.MapFrom(x => ReservationHelpers.IsOverdue(x.IsDocked, x.ToDate)));
+                .ForMember(x => x.IsAthenian, x => x.MapFrom(x => x.IsAthenian))
+                .ForMember(x => x.IsOverdue, x => x.MapFrom(x => ReservationHelpers.IsOverdue(x.IsDocked, x.ToDate)))
+                .ForMember(x => x.IsDryDock, x => x.MapFrom(x => x.IsDryDock))
+                .ForMember(x => x.IsDocked, x => x.MapFrom(x => x.IsDocked));
             // GetById
             CreateMap<Reservation, ReservationReadDto>()
                 .ForMember(x => x.FromDate, x => x.MapFrom(x => DateHelpers.DateToISOString(x.FromDate)))

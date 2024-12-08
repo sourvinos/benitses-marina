@@ -60,10 +60,6 @@
                 "description": "Berth(s)"
             },
             {
-                "id": "headerIsDocked",
-                "description": "Docked"
-            },
-            {
                 "id": "headerPaymentStatus",
                 "description": "Payment"
             },
@@ -72,16 +68,16 @@
                 "description": "Athenian"
             },
             {
-                "id": "headerIsDryDock",
-                "description": "Dry dock"
-            },
-            {
                 "id": "headerIsOverdue",
                 "description": "Overdue"
             },
             {
-                "id": "headerIsCash",
-                "description": "Cash"
+                "id": "headerIsDocked",
+                "description": "Docked"
+            },
+            {
+                "id": "headerIsDryDock",
+                "description": "Dry dock"
             },
             {
                 "id": "newRecord",
@@ -642,7 +638,7 @@
             },
             {
                 "id": "insurancePoliciesSubTitle",
-                "description": "Show the insurances policies due to expire."
+                "description": "Show the insurance policies due to expire."
             },
             {
                 "id": "upcomingLeaseTerminationsTitle",
