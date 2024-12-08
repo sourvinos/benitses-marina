@@ -12,7 +12,7 @@ namespace API.Features.Reservations {
         public string BoatName { get; set; }
         public string BoatLoa { get; set; }
         public bool IsDocked { get; set; }
-        public bool IsLongTerm { get; set; }
+        public bool IsDryDock { get; set; }
         public bool IsAthenian { get; set; }
         public bool IsOverdue { get; set; }
         public bool IsCash { get; set; }

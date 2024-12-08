@@ -1,6 +1,4 @@
 import { ReservationListBerthVM } from './reservation-list-berth-vm'
-import { ReservationListBoatVM } from './reservation-list-boat-vm'
-import { ReservationListOwnerVM } from './reservation-list-owner-vm'
 import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 
 export interface ReservationListVM {
@@ -10,7 +8,7 @@ export interface ReservationListVM {
     toDate: string
     isDocked: boolean
     paymentStatus: SimpleEntity
-    isLongTerm: boolean
+    isDryDock: boolean
     isOverdue: boolean
     isGray: boolean
     boatName: string

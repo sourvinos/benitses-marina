@@ -14,7 +14,7 @@ namespace API.Features.Reservations {
         public string Remarks { get; set; }
         public string FinancialRemarks { get; set; }
         public bool IsDocked { get; set; }
-        public bool IsLongTerm { get; set; }
+        public bool IsDryDock { get; set; }
         public bool IsAthenian { get; set; }
         public ReservationBoat Boat { get; set; }
         public ReservationInsurance Insurance { get; set; }

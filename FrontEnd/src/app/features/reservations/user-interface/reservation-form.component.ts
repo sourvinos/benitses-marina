@@ -276,7 +276,7 @@ export class ReservationFormComponent {
             billing: this.mapBilling(this.form),
             fee: this.mapFee(this.form),
             isDocked: this.form.value.isDocked,
-            isLongTerm: this.form.value.isLongTerm,
+            isDryDock: this.form.value.isDryDock,
             isAthenian: this.form.value.isAthenian,
             putAt: this.form.value.putAt
         }
@@ -333,7 +333,7 @@ export class ReservationFormComponent {
             vatAmount: ['', [Validators.required, Validators.min(0), Validators.max(99999)]],
             grossAmount: ['', [Validators.required, Validators.min(0), Validators.max(99999)]],
             isDocked: false,
-            isLongTerm: false,
+            isDryDock: false,
             isAthenian: false,
             isCash: false,
             isSurprise: false,
@@ -461,7 +461,7 @@ export class ReservationFormComponent {
                 remarks: this.reservation.remarks,
                 financialRemarks: this.reservation.financialRemarks,
                 isDocked: this.reservation.isDocked,
-                isLongTerm: this.reservation.isLongTerm,
+                isDryDock: this.reservation.isDryDock,
                 isAthenian: this.reservation.isAthenian,
                 isCash: this.reservation.fee.isCash,
                 isSurprise: this.reservation.fee.isSurprise,

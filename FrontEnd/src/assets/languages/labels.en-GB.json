@@ -72,8 +72,8 @@
                 "description": "Athenian"
             },
             {
-                "id": "headerIsLongTerm",
-                "description": "Long term"
+                "id": "headerIsDryDock",
+                "description": "Dry dock"
             },
             {
                 "id": "headerIsOverdue",
@@ -177,8 +177,8 @@
                 "description": "Fully paid"
             },
             {
-                "id": "isLongTerm",
-                "description": "Long term"
+                "id": "isDryDock",
+                "description": "Dry dock"
             },
             {
                 "id": "contractDateEnd",
