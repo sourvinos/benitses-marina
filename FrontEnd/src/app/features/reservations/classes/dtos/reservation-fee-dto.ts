@@ -8,6 +8,5 @@ export interface ReservationFeeDto {
     vatAmount: number
     grossAmount: number
     isCash: boolean
-    isSurprise: boolean
 
 }

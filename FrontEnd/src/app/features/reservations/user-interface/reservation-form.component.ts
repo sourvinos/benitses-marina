@@ -336,7 +336,6 @@ export class ReservationFormComponent {
             isDryDock: false,
             isAthenian: false,
             isCash: false,
-            isSurprise: false,
             ownerName: '',
             ownerAddress: '',
             ownerTaxNo: '',
@@ -419,8 +418,7 @@ export class ReservationFormComponent {
             vatPercent: form.value.vatPercent,
             vatAmount: form.value.vatAmount,
             grossAmount: form.value.grossAmount,
-            isCash: form.value.isCash,
-            isSurprise: form.value.isSurprise
+            isCash: form.value.isCash
         }
         return x
     }
@@ -464,7 +462,6 @@ export class ReservationFormComponent {
                 isDryDock: this.reservation.isDryDock,
                 isAthenian: this.reservation.isAthenian,
                 isCash: this.reservation.fee.isCash,
-                isSurprise: this.reservation.fee.isSurprise,
                 paymentStatus: { 'id': this.reservation.paymentStatus.id, 'description': this.reservation.paymentStatus.description },
                 boatType: { 'id': this.reservation.boat.type.id, 'description': this.reservation.boat.type.description },
                 boatUsage: { 'id': this.reservation.boat.usage.id, 'description': this.reservation.boat.usage.description },

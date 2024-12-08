@@ -11,7 +11,6 @@ namespace API.Features.Leases {
         public decimal VatAmount { get; set; }
         public decimal GrossAmount { get; set; }
         public bool IsCash { get; set; }
-        public bool IsSurprise { get; set; }
 
     }
 

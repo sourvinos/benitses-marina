@@ -16,7 +16,6 @@ namespace API.Features.Reservations {
         public bool IsAthenian { get; set; }
         public bool IsOverdue { get; set; }
         public bool IsCash { get; set; }
-        public bool IsSurprise { get; set; }
         public List<ReservationBerthVM> Berths { get; set; }
         public string OwnerName { get; set; }
         public SimpleEntity PaymentStatus { get; set; }
