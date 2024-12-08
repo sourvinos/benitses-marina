@@ -1,6 +1,5 @@
-.blue {
-    color: #39a4d9;
-    font-size: 0.6875rem !important
+#header form {
+    margin-top: 0.125rem;
 }
 
 #knobs-and-table {

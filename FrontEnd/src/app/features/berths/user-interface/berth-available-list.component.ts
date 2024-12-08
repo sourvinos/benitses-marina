@@ -8,6 +8,7 @@ import { BerthListVM } from '../classes/view-models/berth-list-vm'
 import { CryptoService } from 'src/app/shared/services/crypto.service'
 import { DateHelperService } from 'src/app/shared/services/date-helper.service'
 import { DialogService } from 'src/app/shared/services/modal-dialog.service'
+import { EmojiService } from 'src/app/shared/services/emoji.service'
 import { HelperService } from 'src/app/shared/services/helper.service'
 import { ListResolved } from 'src/app/shared/classes/list-resolved'
 import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
@@ -59,7 +60,7 @@ export class BerthAvailableListComponent {
 
     //#endregion
 
-    constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateHelperService: DateHelperService, private dialogService: DialogService, private formBuilder: FormBuilder, private helperService: HelperService, private messageDialogService: MessageDialogService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService) { }
+    constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateHelperService: DateHelperService, private dialogService: DialogService, private emojiService: EmojiService, private formBuilder: FormBuilder, private helperService: HelperService, private messageDialogService: MessageDialogService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService) { }
 
     //#region lifecycle hooks
 
@@ -96,10 +97,10 @@ export class BerthAvailableListComponent {
         return isOverdue ? 'YES' : ''
     }
 
-    public getBoatNameColor(boatName: string): string {
+    public getBoatName(boatName: string): string {
         switch (boatName) {
             case 'AVAILABLE':
-                return 'green'
+                return this.emojiService.getEmoji('blue-box') + ' ' + boatName.substring(0, 1) + boatName.substring(1, boatName.length).toLowerCase()
             default:
                 return ''
         }

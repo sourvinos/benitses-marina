@@ -39,6 +39,10 @@ export class ReservationListComponent {
     public selectedRecords: ReservationListVM[] = []
     public distinctPaymentStatuses: SimpleEntity[] = []
 
+    public occupied = 0
+    public dryDock = 0
+    public athenian = 0
+
     //#endregion
 
     constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateHelperService: DateHelperService, private dialogService: DialogService, private emojiService: EmojiService, private helperService: HelperService, private messageDialogService: MessageDialogService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService) { }
@@ -47,6 +51,9 @@ export class ReservationListComponent {
 
     ngOnInit(): void {
         this.loadRecords()
+        this.filterOccupied()
+        this.filterDryDock()
+        this.filterAthenian()
         this.populateDropdownFilters()
         this.stringifyBerths()
         this.filterTableFromStoredFilters()
@@ -175,6 +182,18 @@ export class ReservationListComponent {
                 this.filterColumn(filters.isCash, 'isCash', 'contains')
             }, 1000)
         }
+    }
+
+    private filterOccupied(): void {
+        this.occupied = this.records.filter((x) => x.isDocked).length
+    }
+
+    private filterDryDock(): void {
+        this.dryDock = this.records.filter((x) => x.isDocked && x.isDryDock).length
+    }
+
+    private filterAthenian(): void {
+        this.athenian = this.records.filter((x) => x.isAthenian).length
     }
 
     private getVirtualElement(): void {

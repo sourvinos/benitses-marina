@@ -37,7 +37,7 @@
             },
             {
                 "id": "headerBoatName",
-                "description": "Name"
+                "description": "Boat name"
             },
             {
                 "id": "headerCustomer",
@@ -291,7 +291,7 @@
         "labels": [
             {
                 "id": "header",
-                "description": "Berths"
+                "description": "Current status"
             },
             {
                 "id": "headerDescription",
@@ -572,7 +572,7 @@
             },
             {
                 "id": "headerBoatName",
-                "description": "Boat"
+                "description": "Boat name"
             },
             {
                 "id": "headerInsuranceEnds",
@@ -589,7 +589,7 @@
             },
             {
                 "id": "headerBoatName",
-                "description": "Boat"
+                "description": "Boat name"
             },
             {
                 "id": "headerLeaseEnds",
@@ -626,11 +626,11 @@
             },
             {
                 "id": "berthsTitle",
-                "description": "Berths"
+                "description": "Current status"
             },
             {
                 "id": "berthsSubTitle",
-                "description": "Show the available berths."
+                "description": "Show the current status of the marina."
             },
             {
                 "id": "insurancePoliciesTitle",

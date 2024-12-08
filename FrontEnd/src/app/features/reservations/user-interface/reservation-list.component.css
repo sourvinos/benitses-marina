@@ -17,3 +17,31 @@
     font-size: 1rem;
     padding: 0.25rem 0 0 0;
 }
+
+#knobs-and-table {
+    column-gap: 2rem;
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+
+#knobs {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    row-gap: 0.5rem;
+}
+
+.knob {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.knob .label {
+    color: var(--color-text);
+    font-family: var(--font-family-fahkwang);
+    font-size: 0.75rem;
+    transition: all var(--theme-delay);
+}

@@ -6,74 +6,93 @@
             <home-button-and-title [featureIcon]="featureIcon" [feature]="feature" [icon]="icon" [parentUrl]="parentUrl"></home-button-and-title>
         </div>
 
-        <div id="table-wrapper">
-            <p-table #table (onFilter)="onFilterRecords($event)" [(selection)]="selectedRecords" [scrollable]="true" [value]="records" [virtualScrollItemSize]="32" [virtualScroll]="true" dataKey="reservationId" scrollHeight="flex" selectionMode="single" sortMode="multiple">
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th class="no-border-bottom width-3"></th>
-                        <th class="no-border-bottom width-10" pSortableColumn="boatName">{{ getLabel("headerBoatName") }}</th>
-                        <th class="no-border-bottom width-10" pSortableColumn="ownerName">{{ getLabel("headerCustomer") }}</th>
-                        <th class="no-border-bottom width-5" pSortableColumn="boatLoa">{{ getLabel("headerLength") }}</th>
-                        <th class="no-border-bottom width-5" pSortableColumn="fromDate">{{ getLabel("headerFromDate") }}</th>
-                        <th class="no-border-bottom width-5" pSortableColumn="toDate">{{ getLabel("headerToDate") }}</th>
-                        <th class="no-border-bottom width-6" pSortableColumn="joinedBerths">{{ getLabel("headerBerths") }}</th>
-                        <th class="no-border-bottom width-6" pSortableColumn="paymentStatus.description">{{ getLabel('headerPaymentStatus') }}</th>
-                        <th class="no-border-bottom width-6" pSortableColumn="isAthenian">{{ getLabel("headerIsAthenian") }}</th>
-                        <th class="no-border-bottom width-6" pSortableColumn="isOverdue">{{ getLabel("headerIsOverdue") }}</th>
-                        <th class="no-border-bottom width-6" pSortableColumn="isDocked">{{ getLabel("headerIsDocked") }}</th>
-                        <th class="no-border-bottom width-6" pSortableColumn="isDryDock">{{ getLabel("headerIsDryDock") }}</th>
-                        <th class="no-border-bottom width-4"></th>
-                    </tr>
-                    <tr>
-                        <th class="no-border-top width-3"><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
-                        <th class="no-border-top width-10"><p-columnFilter (input)="onFilter($event.target.value,'boatName','contains')" field="boatName"></p-columnFilter></th>
-                        <th class="no-border-top width-10"><p-columnFilter (input)="onFilter($event.target.value,'ownerName','contains')" field="ownerName"></p-columnFilter></th>
-                        <th class="no-border-top width-5"><p-columnFilter (input)="onFilter($event.target.value,'boatLoa','contains')" field="boatLoa"></p-columnFilter></th>
-                        <th class="no-border-top width-5"><p-columnFilter (input)="onFilter($event.target.value,'fromDate','contains')" field="fromDate"></p-columnFilter></th>
-                        <th class="no-border-top width-5"><p-columnFilter (input)="onFilter($event.target.value,'toDate','contains')" field="toDate"></p-columnFilter></th>
-                        <th class="no-border-top width-6"><p-columnFilter (input)="onFilter($event.target.value,'joinedBerths','contains')" field="joinedBerths"></p-columnFilter></th>
-                        <th class="no-border-top width-6">
-                            <p-columnFilter [showMenu]="false" field="paymentStatus" matchMode="in">
-                                <ng-template let-filter="filterCallback" let-value pTemplate="filter">
-                                    <p-multiSelect (onChange)="filter($event.value)" [ngModel]="value" [options]="distinctPaymentStatuses" [placeholder]="getEmoji('wildcard')" optionLabel="description">
-                                        <ng-template let-option pTemplate="item">
-                                            <div class="p-multiselect-option">
-                                                <span>{{ option.description }}</span>
-                                            </div>
-                                        </ng-template>
-                                    </p-multiSelect>
-                                </ng-template>
-                            </p-columnFilter>
-                        </th>
-                        <th class="no-border-top width-6"><p-columnFilter field="isAthenian" type="boolean"></p-columnFilter></th>
-                        <th class="no-border-top width-6"><p-columnFilter field="isOverdue" type="boolean"></p-columnFilter></th>
-                        <th class="no-border-top width-6"><p-columnFilter field="isDocked" type="boolean"></p-columnFilter></th>
-                        <th class="no-border-top width-6"><p-columnFilter field="isDryDock" type="boolean"></p-columnFilter></th>
-                        <th class="no-border-top width-4"></th>
-                    </tr>
-                </ng-template>
-                <ng-template let-record pTemplate="body">
-                    <tr (click)="onHighlightRow(record.reservationId)" (dblclick)="onEditRecord(record.reservationId)" [attr.id]=record.reservationId style="height: 32px;">
-                        <td class="width-3"><span class="center no-overflow" style="padding-right: 0 !important; padding-top: 0.25rem !important;"><p-tableCheckbox [value]="record"></p-tableCheckbox></span></td>
-                        <td class="width-10"><span>{{ record.boatName }}</span></td>
-                        <td class="width-10"><span>{{ record.ownerName }}</span></td>
-                        <td class="width-5"><span class="center">{{ record.boatLoa }}</span></td>
-                        <td class="width-5"><span class="center no-overflow">{{ formatDateToLocale(record.fromDate,false,true) }}</span></td>
-                        <td class="width-5"><span class="center no-overflow">{{ formatDateToLocale(record.toDate,false,true) }}</span></td>
-                        <td class="width-6"><span class="center">{{ record.joinedBerths }}</span></td>
-                        <td class="width-6"><span [ngClass]="getPaymentDescriptionColor(record.paymentStatus.description)" class="center no-left-padding no-overflow" style="font-size: 0.5rem; padding-top: 0 !important;">{{ record.paymentStatus.description }}</span></td>
-                        <td class="width-6"><span class="center no-left-padding no-overflow red" style="font-size: 0.75rem; padding-top: 0 !important;">{{ getOverdueDescription(record.isAthenian) }}</span></td>
-                        <td class="width-6"><span class="center no-left-padding no-overflow red" style="font-size: 0.75rem; padding-top: 0 !important;">{{ getOverdueDescription(record.isOverdue) }}</span></td>
-                        <td class="width-6"><span class="center no-left-padding no-overflow red" style="font-size: 0.75rem; padding-top: 0 !important;">{{ getOverdueDescription(record.isDocked) }}</span></td>
-                        <td class="width-6"><span class="center no-left-padding no-overflow red" style="font-size: 0.75rem; padding-top: 0 !important;">{{ getOverdueDescription(record.isDryDock) }}</span></td>
-                        <td class="width-4">
-                            <span (click)="onEditRecord(record.reservationId)" class="center">
-                                <mat-icon class="material-icons-outlined small-icon">more_horiz</mat-icon>
-                            </span>
-                        </td>
-                    </tr>
-                </ng-template>
-            </p-table>
+        <div id="knobs-and-table">
+
+            <div id="knobs">
+                <div class="knob">
+                    <span class="label">Occupied</span>
+                    <p-knob [(ngModel)]="occupied" [disabled]="true" valueColor="#e3283a" rangeColor="lightgray" [strokeWidth]="10" textColor=var(--color-text) />
+                </div>
+                <div class="knob">
+                    <span class="label">Dry dock</span>
+                    <p-knob [(ngModel)]="dryDock" [disabled]="true" valueColor="#28e3d1" rangeColor="lightgray" [strokeWidth]="10" textColor=var(--color-text) />
+                </div>
+                <div class="knob">
+                    <span class="label">Athenian</span>
+                    <p-knob [(ngModel)]="athenian" [disabled]="true" valueColor="#f3bf08" rangeColor="lightgray" [strokeWidth]="10" textColor=var(--color-text) />
+                </div>
+            </div>
+
+            <div id="table-wrapper">
+                <p-table #table (onFilter)="onFilterRecords($event)" [(selection)]="selectedRecords" [scrollable]="true" [value]="records" [virtualScrollItemSize]="32" [virtualScroll]="true" dataKey="reservationId" scrollHeight="flex" selectionMode="single" sortMode="multiple">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th class="no-border-bottom width-3"></th>
+                            <th class="no-border-bottom width-10" pSortableColumn="boatName">{{ getLabel("headerBoatName") }}</th>
+                            <th class="no-border-bottom width-10" pSortableColumn="ownerName">{{ getLabel("headerCustomer") }}</th>
+                            <th class="no-border-bottom width-5" pSortableColumn="boatLoa">{{ getLabel("headerLength") }}</th>
+                            <th class="no-border-bottom width-5" pSortableColumn="fromDate">{{ getLabel("headerFromDate") }}</th>
+                            <th class="no-border-bottom width-5" pSortableColumn="toDate">{{ getLabel("headerToDate") }}</th>
+                            <th class="no-border-bottom width-6" pSortableColumn="joinedBerths">{{ getLabel("headerBerths") }}</th>
+                            <th class="no-border-bottom width-6" pSortableColumn="paymentStatus.description">{{ getLabel('headerPaymentStatus') }}</th>
+                            <th class="no-border-bottom width-6" pSortableColumn="isAthenian">{{ getLabel("headerIsAthenian") }}</th>
+                            <th class="no-border-bottom width-6" pSortableColumn="isOverdue">{{ getLabel("headerIsOverdue") }}</th>
+                            <th class="no-border-bottom width-6" pSortableColumn="isDocked">{{ getLabel("headerIsDocked") }}</th>
+                            <th class="no-border-bottom width-6" pSortableColumn="isDryDock">{{ getLabel("headerIsDryDock") }}</th>
+                            <th class="no-border-bottom width-4"></th>
+                        </tr>
+                        <tr>
+                            <th class="no-border-top width-3"><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
+                            <th class="no-border-top width-10"><p-columnFilter (input)="onFilter($event.target.value,'boatName','contains')" field="boatName"></p-columnFilter></th>
+                            <th class="no-border-top width-10"><p-columnFilter (input)="onFilter($event.target.value,'ownerName','contains')" field="ownerName"></p-columnFilter></th>
+                            <th class="no-border-top width-5"><p-columnFilter (input)="onFilter($event.target.value,'boatLoa','contains')" field="boatLoa"></p-columnFilter></th>
+                            <th class="no-border-top width-5"><p-columnFilter (input)="onFilter($event.target.value,'fromDate','contains')" field="fromDate"></p-columnFilter></th>
+                            <th class="no-border-top width-5"><p-columnFilter (input)="onFilter($event.target.value,'toDate','contains')" field="toDate"></p-columnFilter></th>
+                            <th class="no-border-top width-6"><p-columnFilter (input)="onFilter($event.target.value,'joinedBerths','contains')" field="joinedBerths"></p-columnFilter></th>
+                            <th class="no-border-top width-6">
+                                <p-columnFilter [showMenu]="false" field="paymentStatus" matchMode="in">
+                                    <ng-template let-filter="filterCallback" let-value pTemplate="filter">
+                                        <p-multiSelect (onChange)="filter($event.value)" [ngModel]="value" [options]="distinctPaymentStatuses" [placeholder]="getEmoji('wildcard')" optionLabel="description">
+                                            <ng-template let-option pTemplate="item">
+                                                <div class="p-multiselect-option">
+                                                    <span>{{ option.description }}</span>
+                                                </div>
+                                            </ng-template>
+                                        </p-multiSelect>
+                                    </ng-template>
+                                </p-columnFilter>
+                            </th>
+                            <th class="no-border-top width-6"><p-columnFilter field="isAthenian" type="boolean"></p-columnFilter></th>
+                            <th class="no-border-top width-6"><p-columnFilter field="isOverdue" type="boolean"></p-columnFilter></th>
+                            <th class="no-border-top width-6"><p-columnFilter field="isDocked" type="boolean"></p-columnFilter></th>
+                            <th class="no-border-top width-6"><p-columnFilter field="isDryDock" type="boolean"></p-columnFilter></th>
+                            <th class="no-border-top width-4"></th>
+                        </tr>
+                    </ng-template>
+                    <ng-template let-record pTemplate="body">
+                        <tr (click)="onHighlightRow(record.reservationId)" (dblclick)="onEditRecord(record.reservationId)" [attr.id]=record.reservationId style="height: 32px;">
+                            <td class="width-3"><span class="center no-overflow" style="padding-right: 0 !important; padding-top: 0.25rem !important;"><p-tableCheckbox [value]="record"></p-tableCheckbox></span></td>
+                            <td class="width-10"><span>{{ record.boatName }}</span></td>
+                            <td class="width-10"><span>{{ record.ownerName }}</span></td>
+                            <td class="width-5"><span class="center">{{ record.boatLoa }}</span></td>
+                            <td class="width-5"><span class="center no-overflow">{{ formatDateToLocale(record.fromDate,false,true) }}</span></td>
+                            <td class="width-5"><span class="center no-overflow">{{ formatDateToLocale(record.toDate,false,true) }}</span></td>
+                            <td class="width-6"><span class="center">{{ record.joinedBerths }}</span></td>
+                            <td class="width-6"><span [ngClass]="getPaymentDescriptionColor(record.paymentStatus.description)" class="center no-left-padding no-overflow" style="font-size: 0.5rem; padding-top: 0 !important;">{{ record.paymentStatus.description }}</span></td>
+                            <td class="width-6"><span class="center no-left-padding no-overflow red" style="font-size: 0.75rem; padding-top: 0 !important;">{{ getOverdueDescription(record.isAthenian) }}</span></td>
+                            <td class="width-6"><span class="center no-left-padding no-overflow red" style="font-size: 0.75rem; padding-top: 0 !important;">{{ getOverdueDescription(record.isOverdue) }}</span></td>
+                            <td class="width-6"><span class="center no-left-padding no-overflow red" style="font-size: 0.75rem; padding-top: 0 !important;">{{ getOverdueDescription(record.isDocked) }}</span></td>
+                            <td class="width-6"><span class="center no-left-padding no-overflow red" style="font-size: 0.75rem; padding-top: 0 !important;">{{ getOverdueDescription(record.isDryDock) }}</span></td>
+                            <td class="width-4">
+                                <span (click)="onEditRecord(record.reservationId)" class="center">
+                                    <mat-icon class="material-icons-outlined small-icon">more_horiz</mat-icon>
+                                </span>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+
         </div>
 
     </div>
