@@ -302,6 +302,10 @@
                 "description": "Boat name"
             },
             {
+                "id": "headerIsDryDock",
+                "description": "DryDock"
+            },
+            {
                 "id": "headerIsAthenian",
                 "description": "Athenian"
             },

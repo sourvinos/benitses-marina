@@ -5,6 +5,6 @@ export interface BerthListVM {
     boatName: string
     toDate: string
     isAthenian: boolean
-    isOverDue: boolean
+    isDryDock: boolean
 
 }

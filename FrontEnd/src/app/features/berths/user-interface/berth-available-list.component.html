@@ -14,15 +14,19 @@
             <div id="knobs">
                 <div class="knob">
                     <span class="label">Occupied</span>
-                    <p-knob [(ngModel)]="occupied" [disabled]="true" valueColor="#e3283a" rangeColor="lightgray" [strokeWidth]="10" textColor=var(--color-text) />
+                    <p-knob [(ngModel)]="isOccupied" [disabled]="true" valueColor="#e3283a" rangeColor="lightgray" [strokeWidth]="10" textColor=var(--color-text) />
                 </div>
                 <div class="knob">
                     <span class="label">Available</span>
-                    <p-knob [(ngModel)]="available" [disabled]="true" valueColor="#28e3d1" rangeColor="lightgray" [strokeWidth]="10" textColor=var(--color-text) />
+                    <p-knob [(ngModel)]="isAvailable" [disabled]="true" valueColor="#28e3d1" rangeColor="lightgray" [strokeWidth]="10" textColor=var(--color-text) />
+                </div>
+                <div class="knob">
+                    <span class="label">DryDock</span>
+                    <p-knob [(ngModel)]="isDryDock" [disabled]="true" valueColor="#f3bf08" rangeColor="lightgray" [strokeWidth]="10" textColor=var(--color-text) />
                 </div>
                 <div class="knob">
                     <span class="label">Athenian</span>
-                    <p-knob [(ngModel)]="athenian" [disabled]="true" valueColor="#f3bf08" rangeColor="lightgray" [strokeWidth]="10" textColor=var(--color-text) />
+                    <p-knob [(ngModel)]="isAthenian" [disabled]="true" valueColor="#80c9ff" rangeColor="lightgray" [strokeWidth]="10" textColor=var(--color-text) />
                 </div>
             </div>
 
@@ -31,15 +35,17 @@
                     <ng-template pTemplate="header">
                         <tr>
                             <th class="no-border-bottom width-3"></th>
-                            <th class="no-border-bottom width-6" pSortableColumn="description">{{ getLabel("headerDescription") }}</th>
+                            <th class="no-border-bottom width-6" pSortableColumn="berth">{{ getLabel("headerDescription") }}</th>
                             <th class="no-border-bottom width-auto" pSortableColumn="boatName">{{ getLabel("headerBoatName") }}</th>
+                            <th class="no-border-bottom width-6" pSortableColumn="isDryDock">{{ getLabel("headerIsDryDock") }}</th>
                             <th class="no-border-bottom width-6" pSortableColumn="isAthenian">{{ getLabel("headerIsAthenian") }}</th>
                             <th class="no-border-bottom width-6" pSortableColumn="toDate">{{ getLabel("headerToDate") }}</th>
                         </tr>
                         <tr>
                             <th class="no-border-top width-3"><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
-                            <th class="no-border-top width-6"><p-columnFilter (input)="onFilter($event.target.value,'description','contains')" field="description"></p-columnFilter></th>
+                            <th class="no-border-top width-6"><p-columnFilter (input)="onFilter($event.target.value,'berth','contains')" field="berth"></p-columnFilter></th>
                             <th class="no-border-top width-auto"><p-columnFilter (input)="onFilter($event.target.value,'boatName','contains')" field="boatName"></p-columnFilter></th>
+                            <th class="no-border-top width-6"><p-columnFilter field="isDryDock" type="boolean"></p-columnFilter></th>
                             <th class="no-border-top width-6"><p-columnFilter field="isAthenian" type="boolean"></p-columnFilter></th>
                             <th class="no-border-top width-6"><p-columnFilter (input)="onFilter($event.target.value,'toDate','contains')" field="toDate"></p-columnFilter></th>
                         </tr>
@@ -47,10 +53,10 @@
                     <ng-template let-record pTemplate="body">
                         <tr (click)="onHighlightRow(record.id)" [attr.id]=record.id [pContextMenuRow]="record" style="height: 32px;">
                             <td class="width-3"><span class="center no-overflow" style="padding-top: 0.25rem !important;"><p-tableCheckbox [value]="record"></p-tableCheckbox></span></td>
-                            <td class="width-6"><span class="center">{{ record.description }}</span></td>
-                            <!-- <td class="width-auto"><span [ngClass]="getBoatNameColor(record.boatName)">{{ record.boatName }}</span></td> -->
+                            <td class="width-6"><span class="center">{{ record.berth }}</span></td>
                             <td class="width-auto"><span>{{ getBoatName(record.boatName) }}</span></td>
-                            <td class="width-6"><span class="center no-left-padding no-overflow red" style="font-size: 0.75rem; padding-top: 0 !important;">{{ getOverdueDescription(record.isAthenian) }}</span></td>
+                            <td class="width-6"><span class="center no-left-padding no-overflow red" style="font-size: 0.75rem; padding-top: 0 !important;">{{ getYesOrNo(record.isDryDock) }}</span></td>
+                            <td class="width-6"><span class="center no-left-padding no-overflow red" style="font-size: 0.75rem; padding-top: 0 !important;">{{ getYesOrNo(record.isAthenian) }}</span></td>
                             <td class="width-6"><span class="center no-overflow">{{ formatDateToLocale(record.toDate,false,true,true) }}</span></td>
                         </tr>
                     </ng-template>

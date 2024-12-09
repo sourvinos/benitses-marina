@@ -14,6 +14,7 @@ namespace API.Features.Reservations.Berths {
         public string PostUser { get; set; }
         public string PutAt { get; set; }
         public string PutUser { get; set; }
+        
     }
 
 }

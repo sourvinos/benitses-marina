@@ -189,7 +189,7 @@ export class ReservationListComponent {
     }
 
     private filterDryDock(): void {
-        this.dryDock = this.records.filter((x) => x.isDocked && x.isDryDock).length
+        this.dryDock = this.records.filter((x) => x.isDryDock).length
     }
 
     private filterAthenian(): void {

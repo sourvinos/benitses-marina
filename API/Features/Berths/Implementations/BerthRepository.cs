@@ -48,25 +48,25 @@ namespace API.Features.Reservations.Berths {
             foreach (var berth in await berths) {
                 var occupiedBerths = context.ReservationBerths
                     .Include(x => x.Reservation).ThenInclude(x => x.Boat)
-                    .Where(x => x.Description == berth.Description && x.Reservation.IsDocked && x.Reservation.IsDryDock == false);
+                    .Where(x => x.Description == berth.Description && (x.Reservation.IsDocked || x.Reservation.IsDryDock));
                 if (occupiedBerths.IsNullOrEmpty()) {
                     berthStates.Add(new BerthAvailableListVM {
                         Id = berth.Id,
-                        Description = berth.Description,
+                        Berth = berth.Description,
                         BoatName = "AVAILABLE",
                         ToDate = "2199-12-31",
                         IsAthenian = false,
-                        IsOverdue = false
+                        IsDryDock = berthStates.LastOrDefault().IsDryDock
                     });
                 } else {
                     foreach (var occupiedBerth in occupiedBerths) {
                         berthStates.Add(new BerthAvailableListVM {
                             Id = occupiedBerth.Id,
-                            Description = occupiedBerth.Description,
+                            Berth = occupiedBerth.Description,
                             BoatName = occupiedBerth.Reservation.Boat.Name,
                             ToDate = DateHelpers.DateToISOString(occupiedBerth.Reservation.ToDate),
                             IsAthenian = occupiedBerth.Reservation.IsAthenian,
-                            IsOverdue = occupiedBerth.Reservation.ToDate.AddDays(1) < TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Now, "E. Europe Standard Time")
+                            IsDryDock = occupiedBerth.Reservation.IsDryDock
                         });
                     }
                 }

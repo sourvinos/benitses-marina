@@ -48,9 +48,10 @@ export class BerthAvailableListComponent {
     //#region availability filters
 
     public selectedRecords: BerthListVM[] = []
-    public occupied = 0
-    public available = 0
-    public athenian = 0
+    public isOccupied = 0
+    public isAvailable = 0
+    public isAthenian = 0
+    public isDryDock = 0
 
     public berthAvailabilityOptions: any[] = [
         { label: 'All', value: 'all' },
@@ -67,10 +68,10 @@ export class BerthAvailableListComponent {
     ngOnInit(): void {
         this.initForm()
         this.loadRecords().then(() => {
-            this.occupied = this.records.filter((x) => x.boatName != 'AVAILABLE').length
-            this.available = this.records.filter((x) => x.boatName == 'AVAILABLE').length
-            this.athenian = this.records.filter((x) => x.isAthenian).length
-            // this.athenian = this.records.filter((x) => x.isAthenian).filter((item, pos, self) => self.findIndex(v => v.boatName === item.boatName) === pos).length
+            this.isOccupied = this.records.filter(x => x.boatName != 'AVAILABLE').length
+            this.isAvailable = this.records.filter(x => x.boatName == 'AVAILABLE').length
+            this.isAthenian = this.records.filter(x => x.isAthenian).length
+            this.isDryDock = this.records.filter(x => x.isDryDock).length
             this.setSidebarsHeight()
         })
     }
@@ -93,7 +94,7 @@ export class BerthAvailableListComponent {
         return this.messageLabelService.getDescription(this.feature, id)
     }
 
-    public getOverdueDescription(isOverdue: boolean): string {
+    public getYesOrNo(isOverdue: boolean): string {
         return isOverdue ? 'YES' : ''
     }
 
@@ -102,7 +103,7 @@ export class BerthAvailableListComponent {
             case 'AVAILABLE':
                 return this.emojiService.getEmoji('blue-box') + ' ' + boatName.substring(0, 1) + boatName.substring(1, boatName.length).toLowerCase()
             default:
-                return ''
+                return boatName
         }
     }
 
