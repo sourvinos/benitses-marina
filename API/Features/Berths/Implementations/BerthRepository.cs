@@ -11,7 +11,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using API.Infrastructure.Helpers;
-using System;
 
 namespace API.Features.Reservations.Berths {
 
@@ -56,6 +55,7 @@ namespace API.Features.Reservations.Berths {
                         BoatName = "AVAILABLE",
                         ToDate = "2199-12-31",
                         IsAthenian = false,
+                        IsFishingBoat = false,
                         IsDryDock = berthStates.LastOrDefault().IsDryDock
                     });
                 } else {
@@ -66,6 +66,7 @@ namespace API.Features.Reservations.Berths {
                             BoatName = occupiedBerth.Reservation.Boat.Name,
                             ToDate = DateHelpers.DateToISOString(occupiedBerth.Reservation.ToDate),
                             IsAthenian = occupiedBerth.Reservation.IsAthenian,
+                            IsFishingBoat = occupiedBerth.Reservation.Boat.IsFishingBoat,
                             IsDryDock = occupiedBerth.Reservation.IsDryDock
                         });
                     }

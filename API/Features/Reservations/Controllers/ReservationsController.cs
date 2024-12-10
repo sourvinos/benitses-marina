@@ -49,7 +49,7 @@ namespace API.Features.Reservations {
         public async Task<ResponseWithBody> GetByIdAsync(string reservationId) {
             var x = await reservationRepo.GetByIdAsync(reservationId, true);
             if (x != null) {
-                return new ResponseWithBody {
+                return new ResponseWithBody {   
                     Code = 200,
                     Icon = Icons.Info.ToString(),
                     Message = ApiMessages.OK(),

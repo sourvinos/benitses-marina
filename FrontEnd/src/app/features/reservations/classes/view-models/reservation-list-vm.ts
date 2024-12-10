@@ -11,6 +11,7 @@ export interface ReservationListVM {
     toDate: string
     berths: ReservationListBerthVM[]
     paymentStatus: SimpleEntity
+    isFishingBoat: boolean
     isAthenian: boolean
     isOverdue: boolean
     isDocked: boolean

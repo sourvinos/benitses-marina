@@ -26,6 +26,7 @@ namespace API.Features.Reservations {
                 }))
                 .ForMember(x => x.IsAthenian, x => x.MapFrom(x => x.IsAthenian))
                 .ForMember(x => x.IsOverdue, x => x.MapFrom(x => ReservationHelpers.IsOverdue(x.IsDocked, x.ToDate)))
+                .ForMember(x => x.IsFishingBoat, x => x.MapFrom(x => x.Boat.IsFishingBoat))
                 .ForMember(x => x.IsDryDock, x => x.MapFrom(x => x.IsDryDock))
                 .ForMember(x => x.IsDocked, x => x.MapFrom(x => x.IsDocked));
             // GetById
@@ -36,6 +37,7 @@ namespace API.Features.Reservations {
                     Id = x.Boat.Id,
                     ReservationId = x.Boat.ReservationId,
                     Name = x.Boat.Name,
+                    IsFishingBoat = x.Boat.IsFishingBoat,
                     Flag = x.Boat.Flag,
                     Loa = x.Boat.Loa,
                     Beam = x.Boat.Beam,
@@ -98,6 +100,7 @@ namespace API.Features.Reservations {
                     ReservationId = x.ReservationId,
                     TypeId = x.Boat.TypeId,
                     UsageId = x.Boat.UsageId,
+                    IsFishingBoat = x.Boat.IsFishingBoat,
                     Beam = x.Boat.Beam,
                     Draft = x.Boat.Draft,
                     Flag = x.Boat.Flag,

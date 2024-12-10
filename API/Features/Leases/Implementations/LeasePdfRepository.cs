@@ -47,6 +47,7 @@ namespace API.Features.Leases {
             style.Font.Name = "Verdana";
             var section = document.AddSection();
             section.PageSetup.TopMargin = 40;
+            section.PageSetup.LeftMargin = 30;
             LogoAndCompany(section);
             Spacer(section);
             Header(section);
@@ -93,7 +94,7 @@ namespace API.Features.Leases {
             var table = section.AddTable();
             table.Borders.Width = 0;
             table.Format.Font.Size = Unit.FromCentimeter(0.25);
-            table.AddColumn("5cm");
+            table.AddColumn("6cm");
             table.AddColumn("11cm");
             Row row = table.AddRow();
             row.VerticalAlignment = VerticalAlignment.Center;
@@ -114,7 +115,7 @@ namespace API.Features.Leases {
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
             table.Format.Font.Size = Unit.FromCentimeter(0.25);
-            table.AddColumn("16cm");
+            table.AddColumn("19cm");
             Row row = table.AddRow();
             row.Shading.Color = new Color(218, 238, 243);
             row.TopPadding = 7;
@@ -130,10 +131,10 @@ namespace API.Features.Leases {
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
             table.Format.Font.Size = Unit.FromCentimeter(0.25);
-            table.AddColumn("3cm");
-            table.AddColumn("5cm");
-            table.AddColumn("3cm");
-            table.AddColumn("5cm");
+            table.AddColumn("3.5cm");
+            table.AddColumn("6cm");
+            table.AddColumn("3.5cm");
+            table.AddColumn("6cm");
             Row row = table.AddRow();
             row.Shading.Color = new Color(218, 238, 243);
             row.TopPadding = 2;
@@ -155,10 +156,10 @@ namespace API.Features.Leases {
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
             table.Format.Font.Size = Unit.FromCentimeter(0.25);
-            table.AddColumn("3cm");
-            table.AddColumn("5cm");
-            table.AddColumn("3cm");
-            table.AddColumn("5cm");
+            table.AddColumn("3.5cm");
+            table.AddColumn("6cm");
+            table.AddColumn("3.5cm");
+            table.AddColumn("6cm");
             Row row = table.AddRow();
             row.Shading.Color = new Color(255, 255, 255);
             row.TopPadding = 2;
@@ -180,12 +181,12 @@ namespace API.Features.Leases {
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
             table.Format.Font.Size = Unit.FromCentimeter(0.25);
-            table.AddColumn("3cm");
-            table.AddColumn("2.34cm");
-            table.AddColumn("3cm");
-            table.AddColumn("2.34cm");
-            table.AddColumn("3cm");
-            table.AddColumn("2.32cm");
+            table.AddColumn("3.17cm");
+            table.AddColumn("3.17cm");
+            table.AddColumn("3.17cm");
+            table.AddColumn("3.17cm");
+            table.AddColumn("3.17cm");
+            table.AddColumn("3.17cm");
             Row row = table.AddRow();
             row.Shading.Color = new Color(218, 238, 243);
             row.TopPadding = 2;
@@ -211,10 +212,10 @@ namespace API.Features.Leases {
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
             table.Format.Font.Size = Unit.FromCentimeter(0.25);
-            table.AddColumn("3cm");
-            table.AddColumn("5cm");
-            table.AddColumn("3cm");
-            table.AddColumn("5cm");
+            table.AddColumn("3.5cm");
+            table.AddColumn("6cm");
+            table.AddColumn("3.5cm");
+            table.AddColumn("6cm");
             Row row = table.AddRow();
             row.Shading.Color = new Color(255, 255, 255);
             row.TopPadding = 2;
@@ -236,10 +237,10 @@ namespace API.Features.Leases {
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
             table.Format.Font.Size = Unit.FromCentimeter(0.25);
-            table.AddColumn("3cm");
-            table.AddColumn("5cm");
-            table.AddColumn("3cm");
-            table.AddColumn("5cm");
+            table.AddColumn("3.5cm");
+            table.AddColumn("6cm");
+            table.AddColumn("3.5cm");
+            table.AddColumn("6cm");
             Row row = table.AddRow();
             row.Shading.Color = new Color(218, 238, 243);
             row.TopPadding = 2;
@@ -261,8 +262,8 @@ namespace API.Features.Leases {
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
             table.Format.Font.Size = Unit.FromCentimeter(0.25);
-            table.AddColumn("3cm");
-            table.AddColumn("13cm");
+            table.AddColumn("3.5cm");
+            table.AddColumn("15.5cm");
             Row row = table.AddRow();
             row.Shading.Color = new Color(255, 255, 255);
             row.TopPadding = 2;
@@ -280,10 +281,10 @@ namespace API.Features.Leases {
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
             table.Format.Font.Size = Unit.FromCentimeter(0.25);
-            table.AddColumn("3cm");
-            table.AddColumn("5cm");
-            table.AddColumn("3cm");
-            table.AddColumn("5cm");
+            table.AddColumn("3.5cm");
+            table.AddColumn("6cm");
+            table.AddColumn("3.5cm");
+            table.AddColumn("6cm");
             Row row = table.AddRow();
             row.Shading.Color = new Color(218, 238, 243);
             row.TopPadding = 2;
@@ -305,8 +306,8 @@ namespace API.Features.Leases {
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
             table.Format.Font.Size = Unit.FromCentimeter(0.25);
-            table.AddColumn("8cm");
-            table.AddColumn("8cm");
+            table.AddColumn("9.5cm");
+            table.AddColumn("9.5cm");
             Row row = table.AddRow();
             row.Shading.Color = new Color(218, 238, 243);
             row.TopPadding = 2;
@@ -324,10 +325,10 @@ namespace API.Features.Leases {
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
             table.Format.Font.Size = Unit.FromCentimeter(0.25);
-            table.AddColumn("3cm");
-            table.AddColumn("5cm");
-            table.AddColumn("3cm");
-            table.AddColumn("5cm");
+            table.AddColumn("3.5cm");
+            table.AddColumn("6cm");
+            table.AddColumn("3.5cm");
+            table.AddColumn("6cm");
             Row row = table.AddRow();
             row.Shading.Color = new Color(255, 255, 255);
             row.TopPadding = 2;
@@ -349,10 +350,10 @@ namespace API.Features.Leases {
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
             table.Format.Font.Size = Unit.FromCentimeter(0.25);
-            table.AddColumn("3cm");
-            table.AddColumn("5cm");
-            table.AddColumn("3cm");
-            table.AddColumn("5cm");
+            table.AddColumn("3.5cm");
+            table.AddColumn("6cm");
+            table.AddColumn("3.5cm");
+            table.AddColumn("6cm");
             Row row = table.AddRow();
             row.Shading.Color = new Color(218, 238, 243);
             row.TopPadding = 2;
@@ -374,10 +375,10 @@ namespace API.Features.Leases {
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
             table.Format.Font.Size = Unit.FromCentimeter(0.25);
-            table.AddColumn("3cm");
-            table.AddColumn("5cm");
-            table.AddColumn("3cm");
-            table.AddColumn("5cm");
+            table.AddColumn("3.5cm");
+            table.AddColumn("6cm");
+            table.AddColumn("3.5cm");
+            table.AddColumn("6cm");
             Row row = table.AddRow();
             row.Shading.Color = new Color(255, 255, 255);
             row.TopPadding = 2;
@@ -399,10 +400,10 @@ namespace API.Features.Leases {
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
             table.Format.Font.Size = Unit.FromCentimeter(0.25);
-            table.AddColumn("3cm");
-            table.AddColumn("5cm");
-            table.AddColumn("3cm");
-            table.AddColumn("5cm");
+            table.AddColumn("3.5cm");
+            table.AddColumn("6cm");
+            table.AddColumn("3.5cm");
+            table.AddColumn("6cm");
             Row row = table.AddRow();
             row.Shading.Color = new Color(218, 238, 243);
             row.TopPadding = 2;
@@ -424,10 +425,10 @@ namespace API.Features.Leases {
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
             table.Format.Font.Size = Unit.FromCentimeter(0.25);
-            table.AddColumn("3cm");
-            table.AddColumn("5cm");
-            table.AddColumn("3cm");
-            table.AddColumn("5cm");
+            table.AddColumn("3.5cm");
+            table.AddColumn("6cm");
+            table.AddColumn("3.5cm");
+            table.AddColumn("6cm");
             Row row = table.AddRow();
             row.Shading.Color = new Color(255, 255, 255);
             row.TopPadding = 2;
@@ -449,10 +450,10 @@ namespace API.Features.Leases {
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
             table.Format.Font.Size = Unit.FromCentimeter(0.25);
-            table.AddColumn("3cm");
-            table.AddColumn("5cm");
-            table.AddColumn("3cm");
-            table.AddColumn("5cm");
+            table.AddColumn("3.5cm");
+            table.AddColumn("6cm");
+            table.AddColumn("3.5cm");
+            table.AddColumn("6cm");
             Row row = table.AddRow();
             row.Shading.Color = new Color(218, 238, 243);
             row.TopPadding = 2;
@@ -474,10 +475,10 @@ namespace API.Features.Leases {
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
             table.Format.Font.Size = Unit.FromCentimeter(0.25);
-            table.AddColumn("3cm");
-            table.AddColumn("5cm");
-            table.AddColumn("3cm");
-            table.AddColumn("5cm");
+            table.AddColumn("3.5cm");
+            table.AddColumn("6cm");
+            table.AddColumn("3.5cm");
+            table.AddColumn("6cm");
             Row row = table.AddRow();
             row.Shading.Color = new Color(255, 255, 255);
             row.TopPadding = 7;
@@ -497,7 +498,7 @@ namespace API.Features.Leases {
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
             table.Format.Font.Size = Unit.FromCentimeter(0.25);
-            table.AddColumn("16cm");
+            table.AddColumn("19cm");
             Row row = table.AddRow();
             row.Shading.Color = new Color(218, 238, 243);
             row.TopPadding = 2;
@@ -513,10 +514,10 @@ namespace API.Features.Leases {
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
             table.Format.Font.Size = Unit.FromCentimeter(0.25);
-            table.AddColumn("3cm");
-            table.AddColumn("5cm");
-            table.AddColumn("3cm");
-            table.AddColumn("5cm");
+            table.AddColumn("3.5cm");
+            table.AddColumn("6cm");
+            table.AddColumn("3.5cm");
+            table.AddColumn("6cm");
             Row row = table.AddRow();
             row.Shading.Color = new Color(255, 255, 255);
             row.TopPadding = 2;
@@ -538,7 +539,7 @@ namespace API.Features.Leases {
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
             table.Format.Font.Size = Unit.FromCentimeter(0.25);
-            table.AddColumn("16cm");
+            table.AddColumn("19cm");
             Row row = table.AddRow();
             row.Shading.Color = new Color(218, 238, 243);
             row.TopPadding = 2;
@@ -555,8 +556,8 @@ namespace API.Features.Leases {
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
             table.Format.Font.Size = Unit.FromCentimeter(0.25);
-            table.AddColumn("12cm");
-            table.AddColumn("4cm");
+            table.AddColumn("14cm");
+            table.AddColumn("5cm");
             Row row = table.AddRow();
             row.Shading.Color = new Color(255, 255, 255);
             row.TopPadding = 2;
@@ -585,8 +586,8 @@ namespace API.Features.Leases {
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
             table.Format.Font.Size = Unit.FromPoint(7);
-            table.AddColumn("8cm");
-            table.AddColumn("8cm");
+            table.AddColumn("9.5cm");
+            table.AddColumn("9.5cm");
             Row row = table.AddRow();
             row.Shading.Color = new Color(255, 255, 255);
             row.TopPadding = 2;
@@ -602,8 +603,8 @@ namespace API.Features.Leases {
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
             table.Format.Font.Size = Unit.FromPoint(7);
-            table.AddColumn("8cm");
-            table.AddColumn("8cm");
+            table.AddColumn("9.5cm");
+            table.AddColumn("9.5cm");
             Row row = table.AddRow();
             row.Shading.Color = new Color(218, 238, 243);
             row.TopPadding = 2;
@@ -621,8 +622,8 @@ namespace API.Features.Leases {
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
             table.Format.Font.Size = Unit.FromPoint(7);
-            table.AddColumn("8cm");
-            table.AddColumn("8cm");
+            table.AddColumn("9.5cm");
+            table.AddColumn("9.5cm");
             Row row = table.AddRow();
             row.Shading.Color = new Color(255, 255, 255);
             row.TopPadding = 50;
@@ -632,7 +633,7 @@ namespace API.Features.Leases {
         private static Row Spacer(Section section) {
             var table = section.AddTable();
             table.Borders.Width = 0;
-            table.AddColumn("16cm");
+            table.AddColumn("19cm");
             var row = table.AddRow();
             return row;
         }
@@ -649,19 +650,26 @@ namespace API.Features.Leases {
             var table = section.AddTable();
             table.Borders.Width = 0;
             table.Borders.Color = new Color(153, 162, 165);
-            table.Format.Font.Size = Unit.FromPoint(6.5);
-            table.AddColumn("8cm");
-            table.AddColumn("8cm");
+            table.Format.Font.Size = Unit.FromPoint(4.45);
+            table.AddColumn("19cm");
             Row row = table.AddRow();
             row.Shading.Color = new Color(255, 255, 255);
             row.TopPadding = 2;
             row.BottomPadding = 2;
             row.VerticalAlignment = VerticalAlignment.Top;
-            row.Cells[0].AddParagraph("GENERAL BERTHING REGULATIONS\n\n").Format.Alignment = ParagraphAlignment.Center; ;
-            row.Cells[0].AddParagraph("The regulations which follow are excerpts from the Operational Regulations of the Marina.\n\nBerthing position and duration of berthing are determined by the marina. In case of absence of a yacht from its allocated berth the Marina has the right to moor another yacht in that berth.\n\nA berthing position may only be changed by prior agreement with the Marina.\n\nThe Marina may request that a yacht changes its berth or leaves the Marina: a) to enable the proper operation of the Marina, b) If there is a probability that the yacht will cause damage to another yacht or yachts, c) if the yacht is improperly or illegally occupying a particular berth.\n\nAnchoring anywhere in the Marina sea area is forbidden unless permission to do so has been granted by the Marina.\n\nAll yachts berthed in the Marina are obliged to have all necessary registration documentation issued by the Authorities of their origin country, as well as insurance cover.\n\nThe captain of any yacht is obliged to ensure that the yacht is safely moored. The Marina staff may check a yacht’s mooring and indicate changes if required. In the event of an emergency the Marina staff may assume all necessary actions to ensure safety to other Marina users.\n\nYachts entering the Marina sea area are obliged to communicate with the Marina by VHF and keep the max speed limit iaw the Marina’s Regulation.\n\nOn arrival the owner or captain is required to complete the forms given to them by the Marina staff and to present their ship’s paper.\n\nA yacht may not leave the Marina without prior notification to the Marina.\n\nBerthing fees are paid in advance upon the yacht’s arrival. Prior to a yacht’s departure berthing fees and any other outstanding charges must be paid in full.\n\nRefueling is only permitted at the Marina fuel station if any. If not, only by appropriate fuel trucks.\n\nThe Marina bears no responsibility for any damage caused to yachts due to, bad weather conditions or acts of God.\n\nRepair or maintenance works on yachts may be carried out by persons other than Marina staff only if prior permission has been granted by the Marina. In such a case a declaration must be made by the yacht owner that these persons are covered by the Greek State National Insurance System and that the yacht owner assumes liability for any third-party material damages or personal injury caused by these persons.\n\nIt is forbidden for any materials or objects to be ejected into the Marina sea area or to leave any materials or equipment on the Marina land area.\n\nThe use of lifting machines can only be undertaken by agreement with the Marina.\n\nUse of the Marina storage facilities can only be made by agreement with the Marina and only if items/materials to be stored are and suitably packaged and non- perishable.\n\nIn case of changing the yacht’s ownership the previous owner must notify the Marina the details of the new owner and the date of change of ownership.\n\nIt is explicitly agreed to use parking services free of charge for annual contracts. For contracts with a duration of 3-8 months, a 20% discount is provided. In any other case, the current price list is applied.\n\nAny legal disputes may only be resolved by the Greek local Courts.");
-            row.Cells[1].AddParagraph("ΓΕΝΙΚΟΙ ΟΡΟΙ ΕΛΛΙΜΕΝΙΣΜΟΥ\n\n").Format.Alignment = ParagraphAlignment.Center;
-            row.Cells[1].AddParagraph("Οι όροι που ακολουθούν αποτελούν περίληψη από τον Κανονισμό Λειτουργίας της μαρίνας.\n\nΕλλιμενισμός επιτρέπεται μόνον στη θέση και γα το χρονικό διάστημα που υποδεικνύεται από την Μαρίνα. Σε περίπτωση απουσίας σκάφους από τη θέση του, η Μαρίνα έχει το δικαίωμα να ελλιμενίσει άλλο σκάφος στη  θέση αυτή.\n\nΑλλαγή θέσης επιτρέπεται μόνο κατόπιν αδείας της Μαρίνας.\n\nΜεθόρμιση σκάφους σε άλλη θέση ή και εκτός του λιμένα, αποφασίζεται από την Μαρίνα σε περίπτωση που  α) παρακωλύεται η λειτουργία του λιμένα, β) πιθανολογείται πρόκληση ζημιάς σε άλλο σκάφος  και γ) υπάρχει αυθαίρετη κατάληψη της θέσης ελλιμενισμού.\n\nΑγκυροβολία στο θαλάσσιο χώρο της Μαρίνας απαγορεύεται, εκτός αν δοθεί άδεια από την Μαρίνα.\n\nΤα ελλιμενιζόμενα σκάφη οφείλουν να είναι εφοδιασμένα με τα απαραίτητα διαπιστωτικά έγγραφα, καθώς και με ασφαλιστήριο συμβόλαιο.\n\nΟ κυβερνήτης κάθε σκάφους οφείλει να μεριμνά για την ασφαλή πρόσδεση του σκάφους. Το προσωπικό της Μαρίνας μπορεί να επιθεωρεί τον τρόπο πρόσδεσης του σκάφους να προβαίνει σε υποδείξεις αλλά και σε ενέργειες λήψης μέτρων ασφαλείας, σε περίπτωση έκτακτης ανάγκης.\n\nΚατά την προσέγγιση στη θαλάσσια ζώνη της Μαρίνας τα σκάφη οφείλουν να επικοινωνούν με την Μαρίνα στο VHF και να τηρούν το όριο ταχύτητας σύμφωνα με τον Κανονισμό της Μαρίνας.\n\nΑμέσως μετά τον κατάπλου οι κυβερνήτες των σκαφών οφείλουν να συμπληρώσουν τα έγγραφα που τους παραδίδονται και να επιδεικνύουν τα ναυτιλιακά έγγραφα του σκάφους. Πριν τον απόπλου του σκάφους ο κυβερνήτης του οφείλει ενημερώνει τη Μαρίνα.\n\nΤα τέλη ελλιμενισμού προκαταβάλλονται με τον κατάπλου του σκάφους. Πριν τον απόπλου θα πρέπει να έχουν εξοφληθεί τα τέλη ελλιμενισμού και τυχόν άλλες οφειλές προς την Μαρίνα.\n\nΕφοδιασμός Καυσίμων επιτρέπεται μόνον από τον Σταθμό Καυσίμων του Λιμένα εφόσον υπάρχει άλλως από βυτιοφόρα οχήματα που διαθέτουν τις απαραίτητες άδειες.\n\nΗ Μαρίνα δεν φέρει καμία ευθύνη για οποιαδήποτε ζημιά μπορεί να προκληθεί σε ελλιμενισμένα σκάφη εξαιτίας εξ αιτίας δυσμενών καιρικών φαινομένων ή συνθηκών ανωτέρας βίας.\n\nΕργασίες συντήρησης ή επισκευής σε σκάφη από πρόσωπα που δεν ανήκουν στο προσωπικό της Μαρίνας μπορεί να εκτελεσθούν  μόνο κατόπιν αδείας της Μαρίνας. Στην περίπτωση αυτή, απαιτείται δήλωση του ιδιοκτήτη ότι τα πρόσωπα, που θα εργασθούν στο σκάφος του, είναι ασφαλισμένα σε δημόσιο ασφαλιστικό φορέα  και ότι αναλαμβάνει την ευθύνη για οποιαδήποτε ζημιά προκληθεί σε πρόσωπα ή πράγματα από τους εργαζομένους αυτούς.\n\nΑπαγορεύεται η απόρριψη στη θάλασσα οποιουδήποτε υλικού ή αντικειμένου, καθώς και η εγκατάλειψη οποιουδήποτε υλικού ή εξοπλισμού στους χώρους του Λιμένα.\n\nΗ χρήση ανυψωτικών μηχανημάτων γίνεται μόνο σε συνεννόηση με την Μαρίνα.\n\nΗ χρήση αποθηκευτικών χώρων επιτρέπεται μετά από συνεννόηση με τη Μαρίνα και εφόσον τα προς αποθήκευση υλικά δεν είναι εύφλεκτα και είναι κατάλληλα συσκευασμένα.\n\nΣε περίπτωση  αλλαγής ιδιοκτησίας ελλιμενισμένου σκάφους, ο πωλητής οφείλει να γνωστοποιήσει εγγράφως στη Μαρίνα, τα στοιχεία του νέου ιδιοκτήτη και την ημερομηνία μεταβίβασης.\n\nΡητά συμφωνείται η δωρεάν χρήση υπηρεσιών στάθμευσης για ετήσια συμβόλαια. Για συμβόλαια με διάρκεια 3-8 μηνών παρέχεται έκπτωση 20%. Σε κάθε άλλη περίπτωση εφαρμόζεται ο ισχύων τιμοκατάλογος.\n\nΓια κάθε διαφορά από το παρόν, ορίζονται αρμόδια τα τοπικά δικαστήρια και εφαρμοστέο δίκαιο το Ελληνικό.");
+            row.Cells[0].AddParagraph(OpenTermsEL()).Format.Alignment = ParagraphAlignment.Left;
             return row;
+        }
+
+        private static string OpenTermsEL() {
+            try {
+                using StreamReader reader = new("TermsAndConditions" + Path.DirectorySeparatorChar + "TermsAndConditionsEL.txt");
+                string text = reader.ReadToEndAsync().Result;
+                return text;
+            }
+            catch (IOException e) {
+                return e.InnerException.Message;
+            }
         }
 
         private static string SavePdf(Document document, string reservationId) {

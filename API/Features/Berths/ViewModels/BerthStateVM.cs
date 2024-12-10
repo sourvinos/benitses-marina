@@ -7,6 +7,7 @@ namespace API.Features.Reservations.Berths {
         public string BoatName { get; set; }
         public string ToDate { get; set; }
         public bool IsAthenian { get; set; }
+        public bool IsFishingBoat { get; set; }
         public bool IsDryDock { get; set; }
 
     }

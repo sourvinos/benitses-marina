@@ -51,6 +51,7 @@ export class BerthAvailableListComponent {
     public isOccupied = 0
     public isAvailable = 0
     public isAthenian = 0
+    public isFishingBoat = 0
     public isDryDock = 0
 
     public berthAvailabilityOptions: any[] = [
@@ -69,8 +70,9 @@ export class BerthAvailableListComponent {
         this.initForm()
         this.loadRecords().then(() => {
             this.isOccupied = this.records.filter(x => x.boatName != 'AVAILABLE').length
-            this.isAvailable = this.records.filter(x => x.boatName == 'AVAILABLE').length
+            this.isAvailable = this.records.filter(x => x.boatName == 'AVAILABLE').length + this.records.filter(x => x.isDryDock).length
             this.isAthenian = this.records.filter(x => x.isAthenian).length
+            this.isFishingBoat = this.records.filter(x => x.isFishingBoat).length
             this.isDryDock = this.records.filter(x => x.isDryDock).length
             this.setSidebarsHeight()
         })
@@ -90,6 +92,10 @@ export class BerthAvailableListComponent {
         return returnEmptyString && date == '2199-12-31' ? '' : this.dateHelperService.formatISODateToLocale(date, showWeekday, showYear)
     }
 
+    public getKnobBackgroundColor(): string {
+        return "LightSlateGray"
+    }
+
     public getLabel(id: string): string {
         return this.messageLabelService.getDescription(this.feature, id)
     }
@@ -98,12 +104,14 @@ export class BerthAvailableListComponent {
         return isOverdue ? 'YES' : ''
     }
 
-    public getBoatName(boatName: string): string {
+    public getBoatName(boatName: string, isDryDock: boolean): string {
         switch (boatName) {
             case 'AVAILABLE':
-                return this.emojiService.getEmoji('blue-box') + ' ' + boatName.substring(0, 1) + boatName.substring(1, boatName.length).toLowerCase()
+                return this.emojiService.getEmoji('green-box') + ' ' + boatName.substring(0, 1) + boatName.substring(1, boatName.length)
             default:
-                return boatName
+                return isDryDock
+                    ? this.emojiService.getEmoji('yellow-box') + ' ' + boatName.substring(0, 1) + boatName.substring(1, boatName.length)
+                    : boatName
         }
     }
 

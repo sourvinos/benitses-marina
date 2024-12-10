@@ -10,6 +10,7 @@ export interface ReservationBoatWriteDto {
     draft: string
     registryPort: string
     registryNo: string
+    isFishingBoat: boolean
     typeId: number
     usageId: number
 

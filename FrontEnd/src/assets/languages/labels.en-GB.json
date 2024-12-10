@@ -80,6 +80,10 @@
                 "description": "Dry dock"
             },
             {
+                "id": "headerIsFishingBoat",
+                "description": "Fishing boat"
+            },
+            {
                 "id": "newRecord",
                 "description": "New record"
             },
@@ -163,6 +167,10 @@
             {
                 "id": "isAthenian",
                 "description": "Athenian"
+            },
+            {
+                "id": "isFishingBoat",
+                "description": "Fishing boat"
             },
             {
                 "id": "paymentStatus",
@@ -308,6 +316,10 @@
             {
                 "id": "headerIsAthenian",
                 "description": "Athenian"
+            },
+            {
+                "id": "headerIsFishingBoat",
+                "description": "Fishing boat"
             },
             {
                 "id": "headerToDate",

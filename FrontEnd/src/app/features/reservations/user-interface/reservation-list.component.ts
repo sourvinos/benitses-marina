@@ -41,6 +41,7 @@ export class ReservationListComponent {
 
     public occupied = 0
     public dryDock = 0
+    public fishingBoats = 0
     public athenian = 0
 
     //#endregion
@@ -53,6 +54,7 @@ export class ReservationListComponent {
         this.loadRecords()
         this.filterOccupied()
         this.filterDryDock()
+        this.filterFishingBoats()
         this.filterAthenian()
         this.populateDropdownFilters()
         this.stringifyBerths()
@@ -91,6 +93,10 @@ export class ReservationListComponent {
 
     public getLabel(id: string): string {
         return this.messageLabelService.getDescription(this.feature, id)
+    }
+
+    public getKnobBackgroundColor(): string {
+        return "LightSlateGray"
     }
 
     public getOverdueDescription(isOverdue: boolean): string {
@@ -190,6 +196,10 @@ export class ReservationListComponent {
 
     private filterDryDock(): void {
         this.dryDock = this.records.filter((x) => x.isDryDock).length
+    }
+
+    private filterFishingBoats(): void {
+        this.fishingBoats = this.records.filter((x) => x.isFishingBoat).length
     }
 
     private filterAthenian(): void {

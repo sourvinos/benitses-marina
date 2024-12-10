@@ -11,15 +11,19 @@
             <div id="knobs">
                 <div class="knob">
                     <span class="label">Occupied</span>
-                    <p-knob [(ngModel)]="occupied" [disabled]="true" valueColor="#e3283a" rangeColor="lightgray" [strokeWidth]="10" textColor=var(--color-text) />
+                    <p-knob [(ngModel)]="occupied" [disabled]="true" [rangeColor]="getKnobBackgroundColor()" [size]="80" [strokeWidth]="10" textColor=var(--color-text) valueColor="#e3283a" />
                 </div>
                 <div class="knob">
                     <span class="label">Dry dock</span>
-                    <p-knob [(ngModel)]="dryDock" [disabled]="true" valueColor="#28e3d1" rangeColor="lightgray" [strokeWidth]="10" textColor=var(--color-text) />
+                    <p-knob [(ngModel)]="dryDock" [disabled]="true" [rangeColor]="getKnobBackgroundColor()" [size]="80" [strokeWidth]="10" textColor=var(--color-text) valueColor="#f3bf08" />
+                </div>
+                <div class="knob">
+                    <span class="label">Fishing boats</span>
+                    <p-knob [(ngModel)]="fishingBoats" [disabled]="true" [rangeColor]="getKnobBackgroundColor()" [size]="80" [strokeWidth]="10" textColor=var(--color-text) valueColor="#00ff80" />
                 </div>
                 <div class="knob">
                     <span class="label">Athenian</span>
-                    <p-knob [(ngModel)]="athenian" [disabled]="true" valueColor="#f3bf08" rangeColor="lightgray" [strokeWidth]="10" textColor=var(--color-text) />
+                    <p-knob [(ngModel)]="athenian" [disabled]="true" [rangeColor]="getKnobBackgroundColor()" [size]="80" [strokeWidth]="10" textColor=var(--color-text) valueColor="#80c9ff" />
                 </div>
             </div>
 
@@ -39,6 +43,7 @@
                             <th class="no-border-bottom width-6" pSortableColumn="isOverdue">{{ getLabel("headerIsOverdue") }}</th>
                             <th class="no-border-bottom width-6" pSortableColumn="isDocked">{{ getLabel("headerIsDocked") }}</th>
                             <th class="no-border-bottom width-6" pSortableColumn="isDryDock">{{ getLabel("headerIsDryDock") }}</th>
+                            <th class="no-border-bottom width-6" pSortableColumn="isFishingBoat">{{ getLabel("headerIsFishingBoat") }}</th>
                             <th class="no-border-bottom width-4"></th>
                         </tr>
                         <tr>
@@ -66,6 +71,7 @@
                             <th class="no-border-top width-6"><p-columnFilter field="isOverdue" type="boolean"></p-columnFilter></th>
                             <th class="no-border-top width-6"><p-columnFilter field="isDocked" type="boolean"></p-columnFilter></th>
                             <th class="no-border-top width-6"><p-columnFilter field="isDryDock" type="boolean"></p-columnFilter></th>
+                            <th class="no-border-top width-6"><p-columnFilter field="isFishingBoat" type="boolean"></p-columnFilter></th>
                             <th class="no-border-top width-4"></th>
                         </tr>
                     </ng-template>
@@ -83,6 +89,7 @@
                             <td class="width-6"><span class="center no-left-padding no-overflow red" style="font-size: 0.75rem; padding-top: 0 !important;">{{ getOverdueDescription(record.isOverdue) }}</span></td>
                             <td class="width-6"><span class="center no-left-padding no-overflow red" style="font-size: 0.75rem; padding-top: 0 !important;">{{ getOverdueDescription(record.isDocked) }}</span></td>
                             <td class="width-6"><span class="center no-left-padding no-overflow red" style="font-size: 0.75rem; padding-top: 0 !important;">{{ getOverdueDescription(record.isDryDock) }}</span></td>
+                            <td class="width-6"><span class="center no-left-padding no-overflow red" style="font-size: 0.75rem; padding-top: 0 !important;">{{ getOverdueDescription(record.isFishingBoat) }}</span></td>
                             <td class="width-4">
                                 <span (click)="onEditRecord(record.reservationId)" class="center">
                                     <mat-icon class="material-icons-outlined small-icon">more_horiz</mat-icon>

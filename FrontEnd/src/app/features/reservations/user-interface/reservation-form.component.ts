@@ -335,6 +335,7 @@ export class ReservationFormComponent {
             isDocked: false,
             isDryDock: false,
             isAthenian: false,
+            isFishingBoat: false,
             isCash: false,
             ownerName: '',
             ownerAddress: '',
@@ -367,8 +368,9 @@ export class ReservationFormComponent {
             draft: form.value.draft,
             registryPort: form.value.registryPort,
             registryNo: form.value.registryNo,
+            isFishingBoat: form.value.isFishingBoat,
             typeId: form.value.boatType.id,
-            usageId: form.value.boatUsage.id
+            usageId: form.value.boatUsage.id,
         }
         return x
     }
@@ -461,6 +463,7 @@ export class ReservationFormComponent {
                 isDocked: this.reservation.isDocked,
                 isDryDock: this.reservation.isDryDock,
                 isAthenian: this.reservation.isAthenian,
+                isFishingBoat: this.reservation.boat.isFishingBoat,
                 isCash: this.reservation.fee.isCash,
                 paymentStatus: { 'id': this.reservation.paymentStatus.id, 'description': this.reservation.paymentStatus.description },
                 boatType: { 'id': this.reservation.boat.type.id, 'description': this.reservation.boat.type.description },

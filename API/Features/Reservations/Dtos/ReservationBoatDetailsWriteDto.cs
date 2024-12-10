@@ -6,6 +6,7 @@ namespace API.Features.Reservations {
 
         public int Id { get; set; }
         public Guid? ReservationId { get; set; }
+        public bool IsFishingBoat { get; set; }
         public int TypeId { get; set; }
         public int UsageId { get; set; }
         public string Name { get; set; }

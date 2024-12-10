@@ -43,5 +43,6 @@
     color: var(--color-text);
     font-family: var(--font-family-fahkwang);
     font-size: 0.75rem;
+    text-align: center;
     transition: all var(--theme-delay);
 }
