@@ -643,10 +643,12 @@ namespace API.Features.Leases {
             style.Font.Name = "Verdana";
             section.PageSetup.TopMargin = 40;
             section.AddPageBreak();
-            TermsInEnglish(section);
+            Terms(section, "EN");
+            section.AddPageBreak();
+            Terms(section, "EL");
         }
 
-        private static Row TermsInEnglish(Section section) {
+        private static Row Terms(Section section, string language) {
             var table = section.AddTable();
             table.Borders.Width = 0;
             table.Borders.Color = new Color(153, 162, 165);
@@ -657,13 +659,13 @@ namespace API.Features.Leases {
             row.TopPadding = 2;
             row.BottomPadding = 2;
             row.VerticalAlignment = VerticalAlignment.Top;
-            row.Cells[0].AddParagraph(OpenTermsEL()).Format.Alignment = ParagraphAlignment.Left;
+            row.Cells[0].AddParagraph(OpenTerms(language)).Format.Alignment = ParagraphAlignment.Left;
             return row;
         }
 
-        private static string OpenTermsEL() {
+        private static string OpenTerms(string language) {
             try {
-                using StreamReader reader = new("TermsAndConditions" + Path.DirectorySeparatorChar + "TermsAndConditionsEL.txt");
+                using StreamReader reader = new("TermsAndConditions" + Path.DirectorySeparatorChar + "TermsAndConditions" + language + ".txt");
                 string text = reader.ReadToEndAsync().Result;
                 return text;
             }

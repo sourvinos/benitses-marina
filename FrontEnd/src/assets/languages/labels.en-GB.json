@@ -121,6 +121,10 @@
                 "description": "Ownership"
             },
             {
+                "id": "tab5",
+                "description": "Remarks"
+            },
+            {
                 "id": "boatName",
                 "description": "Boat name"
             },
