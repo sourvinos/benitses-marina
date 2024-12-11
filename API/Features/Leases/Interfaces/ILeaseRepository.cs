@@ -7,7 +7,7 @@ namespace API.Features.Leases {
 
     public interface ILeaseRepository : IRepository<Reservation> {
 
-        Task<IEnumerable<LeaseUpcomingTerminationListVM>> GetAsync();
+        Task<IEnumerable<LeaseUpcomingTerminationListVM>> GetAsync(int days);
 
     }
 

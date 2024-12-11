@@ -16,6 +16,7 @@ import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_F
 import { MatRadioModule } from '@angular/material/radio'
 import { MatSelectModule } from '@angular/material/select'
 import { MatSidenavModule } from '@angular/material/sidenav'
+import { MatSliderModule } from '@angular/material/slider'
 import { MatTabsModule } from '@angular/material/tabs'
 // Custom
 import { CustomDateAdapter } from '../adapters/custom-date-adapter'
@@ -38,6 +39,7 @@ import { CustomDateAdapter } from '../adapters/custom-date-adapter'
         MatRadioModule,
         MatSelectModule,
         MatSidenavModule,
+        MatSliderModule,
         MatTabsModule
     ],
     providers: [

@@ -44,7 +44,6 @@ export class AccountService extends HttpDataService {
 
     public clearSessionStorage(): void {
         this.sessionStorageService.deleteItems([
-            // Auth
             { 'item': 'displayName', 'when': 'always' },
             { 'item': 'expiration', 'when': 'always' },
             { 'item': 'isAdmin', 'when': 'always' },
@@ -86,6 +85,7 @@ export class AccountService extends HttpDataService {
             this.setAuthSettings(response)
             this.populateDexieFromAPI()
             this.setSelectedYear()
+            this.setUpcomingLeaseEndDays()
             this.clearConsole()
         }))
     }
@@ -140,6 +140,11 @@ export class AccountService extends HttpDataService {
 
     private setSelectedYear(): void {
         this.sessionStorageService.saveItem('selectedYear', new Date().getFullYear().toString())
+    }
+
+    private setUpcomingLeaseEndDays(): void {
+        const days = this.sessionStorageService.getItem('lease-days') != '' ? this.sessionStorageService.getItem('lease-days') : '30'
+        this.sessionStorageService.saveItem('lease-days', days)
     }
 
     private setUserData(response: any): void {

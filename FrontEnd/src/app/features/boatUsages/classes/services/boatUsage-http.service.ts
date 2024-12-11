@@ -14,12 +14,8 @@ export class BoatUsageHttpService extends HttpDataService {
         super(httpClient, environment.apiUrl + '/boatUsages')
     }
 
-    //#region public methods
-
     public getForBrowser(): Observable<BoatUsageAutoCompleteVM[]> {
         return this.http.get<BoatUsageAutoCompleteVM[]>(environment.apiUrl + '/boatUsages/getForBrowser')
     }
-
-    //#endregion
 
 }

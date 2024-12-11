@@ -18,10 +18,10 @@ namespace API.Features.Leases {
             this.leaseRepo = leaseRepo;
         }
 
-        [HttpGet()]
+        [HttpGet("{days}")]
         [Authorize(Roles = "user, admin")]
-        public async Task<IEnumerable<LeaseUpcomingTerminationListVM>> GetAsync() {
-            return await leaseRepo.GetAsync();
+        public async Task<IEnumerable<LeaseUpcomingTerminationListVM>> GetAsync(int days) {
+            return await leaseRepo.GetAsync(days);
         }
 
         [HttpPost]

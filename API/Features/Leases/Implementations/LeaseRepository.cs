@@ -22,13 +22,12 @@ namespace API.Features.Leases {
             this.mapper = mapper;
         }
 
-        public async Task<IEnumerable<LeaseUpcomingTerminationListVM>> GetAsync() {
+        public async Task<IEnumerable<LeaseUpcomingTerminationListVM>> GetAsync(int days) {
             var today = DateHelpers.GetLocalDateTime();
-            var daysToAdd = 30;
             var reservations = await context.Reservations
                 .Include(x => x.Boat)
                 .AsNoTracking()
-                .Where(x => x.ToDate <= today.AddDays(daysToAdd) && x.IsDocked && x.Boat.IsFishingBoat == false)
+                .Where(x => x.ToDate <= today.AddDays(days) && x.IsDocked && x.Boat.IsFishingBoat == false)
                 .OrderBy(x => x.ToDate)
                 .ToListAsync();
             return mapper.Map<IEnumerable<Reservation>, IEnumerable<LeaseUpcomingTerminationListVM>>(reservations);
