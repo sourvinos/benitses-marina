@@ -6,7 +6,7 @@ import { UpcomingLeaseTerminationListComponent } from '../../user-interface/upco
 import { UpcomingLeaseTerminationListResolver } from '../resolvers/upcoming-lease-termination-list.resolver'
 
 const routes: Routes = [
-    { path: '', component: UpcomingLeaseTerminationListComponent, canActivate: [AuthGuardService], resolve: { upcomingLeasesList: UpcomingLeaseTerminationListResolver } }
+    { path: '', component: UpcomingLeaseTerminationListComponent, canActivate: [AuthGuardService], resolve: { upcomingLeasesList: UpcomingLeaseTerminationListResolver }, runGuardsAndResolvers: 'always' }
 ]
 
 @NgModule({

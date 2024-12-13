@@ -4,11 +4,9 @@
 
         <div id="header">
             <home-button-and-title [featureIcon]="featureIcon" [feature]="feature" [icon]="icon" [parentUrl]="parentUrl"></home-button-and-title>
-            <label id="example-name-label" class="example-name-label">Value</label>
-            <label class="example-value-label">{{ slider.value }}</label>
-            <mat-slider class="example-margin" [max]=90 [min]=30 [step]=15>
-                <input matSliderThumb [(ngModel)]="value" #slider>
-            </mat-slider>
+            <form [formGroup]="form">
+                <p-selectButton (click)="filterBySelection()" [options]="leaseDays" formControlName="value" optionLabel="label" optionValue="value" />
+            </form>
         </div>
 
         <div id="table-wrapper">
