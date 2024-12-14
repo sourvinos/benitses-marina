@@ -30,3 +30,19 @@
     text-align: center;
     transition: all var(--theme-delay);
 }
+
+.blue {
+    color: #34cbc5;
+}
+
+.green {
+    color: green;
+}
+
+.orange {
+    color: orange;
+}
+
+.red {
+    color: red;
+}

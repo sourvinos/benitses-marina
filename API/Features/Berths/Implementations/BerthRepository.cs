@@ -56,7 +56,7 @@ namespace API.Features.Reservations.Berths {
                         ToDate = "2199-12-31",
                         IsAthenian = false,
                         IsFishingBoat = false,
-                        IsDryDock = berthStates.LastOrDefault().IsDryDock
+                        IsDryDock = false
                     });
                 } else {
                     foreach (var occupiedBerth in occupiedBerths) {

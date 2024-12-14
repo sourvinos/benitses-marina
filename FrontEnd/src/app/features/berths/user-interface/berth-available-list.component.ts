@@ -104,15 +104,25 @@ export class BerthAvailableListComponent {
         return isOverdue ? 'YES' : ''
     }
 
-    public getBoatName(boatName: string, isDryDock: boolean): string {
+    public getBoatName(boatName: string): string {
+        return ' ' + boatName
+    }
+
+    public getColor(boatName: string, isDryDock: boolean): string {
         switch (boatName) {
             case 'AVAILABLE':
-                return this.emojiService.getEmoji('green-box') + ' ' + boatName.substring(0, 1) + boatName.substring(1, boatName.length)
+                return 'green'
             default:
-                return isDryDock
-                    ? this.emojiService.getEmoji('yellow-box') + ' ' + boatName.substring(0, 1) + boatName.substring(1, boatName.length)
-                    : boatName
+                return isDryDock ? 'orange' : 'red'
         }
+    }
+
+    public getIcon(): string {
+        return 'adjust'
+    }
+
+    public getStar(field: boolean): string {
+        return field ? 'star' : ''
     }
 
     public isAdmin(): boolean {
