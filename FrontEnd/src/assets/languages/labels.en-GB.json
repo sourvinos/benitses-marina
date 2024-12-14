@@ -588,7 +588,7 @@
         "labels": [
             {
                 "id": "header",
-                "description": "Upcoming insurance terminations"
+                "description": "Insurance terminations"
             },
             {
                 "id": "headerBoatName",
@@ -605,7 +605,7 @@
         "labels": [
             {
                 "id": "header",
-                "description": "Upcoming lease terminations"
+                "description": "Lease terminations"
             },
             {
                 "id": "headerBoatName",

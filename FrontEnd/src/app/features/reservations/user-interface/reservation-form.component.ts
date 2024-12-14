@@ -28,6 +28,7 @@ import { ReservationWriteDto } from '../classes/dtos/reservation-write-dto'
 import { SessionStorageService } from 'src/app/shared/services/session-storage.service'
 import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 import { ValidationService } from 'src/app/shared/services/validation.service'
+import { environment } from 'src/environments/environment'
 
 @Component({
     selector: 'reservation-form',
@@ -47,6 +48,7 @@ export class ReservationFormComponent {
     public icon = 'arrow_back'
     public input: InputTabStopDirective
     public parentUrl = '/reservations'
+    public imgIsLoaded = false
 
     //#endregion
 
@@ -65,24 +67,7 @@ export class ReservationFormComponent {
 
     //#endregion
 
-    constructor(
-        private activatedRoute: ActivatedRoute,
-        private cryptoService: CryptoService,
-        private dateAdapter: DateAdapter<any>,
-        private dateHelperService: DateHelperService,
-        private dexieService: DexieService,
-        private dialogService: DialogService,
-        private emojiService: EmojiService,
-        private formBuilder: FormBuilder,
-        private helperService: HelperService,
-        private localStorageService: LocalStorageService,
-        private messageDialogService: MessageDialogService,
-        private messageHintService: MessageInputHintService,
-        private messageLabelService: MessageLabelService,
-        private reservationHttpService: ReservationHttpService,
-        private leasePdfHttpService: LeasePdfHttpService,
-        private router: Router,
-        private sessionStorageService: SessionStorageService) { }
+    constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateAdapter: DateAdapter<any>, private dateHelperService: DateHelperService, private dexieService: DexieService, private dialogService: DialogService, private emojiService: EmojiService, private formBuilder: FormBuilder, private helperService: HelperService, private leasePdfHttpService: LeasePdfHttpService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private reservationHttpService: ReservationHttpService, private router: Router, private sessionStorageService: SessionStorageService) { }
 
     //#region lifecycle hooks
 
@@ -98,6 +83,7 @@ export class ReservationFormComponent {
 
     ngAfterViewInit(): void {
         this.focusOnField()
+        this.leftAlignLastTab()
     }
 
     //#endregion
@@ -191,6 +177,10 @@ export class ReservationFormComponent {
         return this.messageHintService.getDescription(id, minmax)
     }
 
+    public getIcon(filename: string): string {
+        return environment.featuresIconDirectory + filename + '.svg'
+    }
+
     public getLabel(id: string): string {
         return this.messageLabelService.getDescription(this.feature, id)
     }
@@ -207,8 +197,20 @@ export class ReservationFormComponent {
         return this.form.value.financialRemarks != null ? this.form.value.financialRemarks.length : 0
     }
 
+    public imageIsLoading(): any {
+        return this.imgIsLoaded ? '' : 'skeleton'
+    }
+
     public isAdmin(): boolean {
         return this.cryptoService.decrypt(this.sessionStorageService.getItem('isAdmin')) == 'true' ? true : false
+    }
+
+    public isNotNewRecord(): string {
+        return this.form.value.reservationId
+    }
+
+    public loadImage(): void {
+        this.imgIsLoaded = true
     }
 
     public onAddBerthTextBox(): void {
@@ -356,6 +358,10 @@ export class ReservationFormComponent {
             putAt: [''],
             putUser: ['']
         })
+    }
+
+    private leftAlignLastTab(): void {
+        this.helperService.leftAlignLastTab()
     }
 
     private mapBoat(form: any): ReservationBoatWriteDto {

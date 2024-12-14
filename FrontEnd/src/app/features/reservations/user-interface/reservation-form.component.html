@@ -4,6 +4,10 @@
 
         <div id="header">
             <home-button-and-title [feature]="feature" [featureIcon]="featureIcon" [header]="getNewOrEditHeader()" [icon]="icon" [parentUrl]="parentUrl"></home-button-and-title>
+            <div *ngIf="isNotNewRecord()" id="boat-name">
+                <span>{{ this.form.value.boatName }}</span>
+                <img (load)="loadImage()" [ngClass]="imageIsLoading()" [src]="getIcon('boat')" style="height: 32px; margin-left: 1rem; width: 32px;">
+            </div>
         </div>
 
         <form [formGroup]="form" id="form">
@@ -276,7 +280,7 @@
                         </div>
                     </div>
                 </mat-tab>
-                <mat-tab label="{{ getLabel('tab5') }}">
+                <mat-tab class="left-align" label="{{ getLabel('tab5') }}">
                     <mat-form-field>
                         <mat-label>{{ getLabel("remarks") }}</mat-label>
                         <textarea #input formControlName="remarks" id="textarea" matInput></textarea>

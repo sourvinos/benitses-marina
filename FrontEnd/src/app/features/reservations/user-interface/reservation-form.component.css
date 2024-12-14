@@ -58,3 +58,16 @@
 #copy-owner-to-billing:hover {
     cursor: pointer;
 }
+
+#boat-name {
+    align-items: center;
+    color: #466dab;
+    display: flex;
+    font-family: var(--font-family-fahkwang);
+    font-size: 1rem;
+    font-weight: 600;
+    margin-left: auto;
+    margin-right: 1rem;
+    margin-top: 0.25rem;
+    transform: scale(1, 1.4);
+}

@@ -41,10 +41,6 @@ button {
     outline: 0 !important;
 }
 
-button:not(.mat-calendar-body-cell) {
-    /* padding: 0 1.5rem 0.125rem 1.5rem !important; */
-}
-
 button.fab {
     height: 2.375rem !important;
     padding: 0 !important;

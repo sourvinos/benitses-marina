@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.Features.Reservations;
 using API.Infrastructure.Classes;
+using API.Infrastructure.Extensions;
 using API.Infrastructure.Helpers;
 using API.Infrastructure.Implementations;
 using API.Infrastructure.Users;
@@ -21,10 +22,14 @@ namespace API.Features.Leases {
 
     public class LeasePdfRepository : Repository<Reservation>, ILeasePdfRepository {
 
+        private readonly IHttpContextAccessor httpContextAccessor;
         private readonly IMapper mapper;
+        private readonly UserManager<UserExtended> userManager;
 
-        public LeasePdfRepository(AppDbContext appDbContext, IHttpContextAccessor httpContext, IMapper mapper, IOptions<TestingEnvironment> settings, UserManager<UserExtended> userManager) : base(appDbContext, httpContext, settings, userManager) {
+        public LeasePdfRepository(AppDbContext appDbContext, IHttpContextAccessor httpContextAccessor, IMapper mapper, IOptions<TestingEnvironment> settings, UserManager<UserExtended> userManager) : base(appDbContext, httpContextAccessor, settings, userManager) {
             this.mapper = mapper;
+            this.httpContextAccessor = httpContextAccessor;
+            this.userManager = userManager;
         }
 
         public async Task<LeasePdfVM> GetByIdAsync(string reservationId) {
@@ -46,7 +51,7 @@ namespace API.Features.Leases {
             Style style = document.Styles["Normal"];
             style.Font.Name = "Verdana";
             var section = document.AddSection();
-            section.PageSetup.TopMargin = 40;
+            section.PageSetup.TopMargin = 20;
             section.PageSetup.LeftMargin = 30;
             LogoAndCompany(section);
             Spacer(section);
@@ -77,8 +82,9 @@ namespace API.Features.Leases {
             Spacer(section);
             SmallTerms(section);
             Spacer(section);
+            SignatureHeaders(section);
             Signatures(section);
-            SignatureSpaces(section);
+            Username(section);
             TermsAndConditions(document, section);
             return SavePdf(document, lease.ReservationId.ToString());
         }
@@ -598,7 +604,7 @@ namespace API.Features.Leases {
             return row;
         }
 
-        private static Row Signatures(Section section) {
+        private static Row SignatureHeaders(Section section) {
             var table = section.Footers.Primary.AddTable();
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
@@ -617,7 +623,30 @@ namespace API.Features.Leases {
             return row;
         }
 
-        private static Row SignatureSpaces(Section section) {
+        private Row Signatures(Section section) {
+            var table = section.Footers.Primary.AddTable();
+            table.Borders.Width = 0.1;
+            table.Borders.Color = new Color(153, 162, 165);
+            table.Format.Font.Size = Unit.FromPoint(5);
+            table.AddColumn("9.5cm");
+            table.AddColumn("9.5cm");
+            Row row = table.AddRow();
+            row.Cells[1].Format.Alignment = ParagraphAlignment.Center;
+            row.Cells[1].VerticalAlignment = VerticalAlignment.Center;
+            var x = GetConnectedUsername();
+            var z = "TermsAndConditions" + Path.DirectorySeparatorChar + x + ".jpg";
+            if (File.Exists(z)) {
+                row.Cells[1].AddParagraph().AddImage(z).Width = "4cm";
+            } else {
+                row.Cells[1].AddParagraph();
+            }
+            row.Shading.Color = new Color(255, 255, 255);
+            row.TopPadding = 0;
+            row.Height = "2cm";
+            return row;
+        }
+
+        private Row Username(Section section) {
             var table = section.Footers.Primary.AddTable();
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
@@ -625,8 +654,11 @@ namespace API.Features.Leases {
             table.AddColumn("9.5cm");
             table.AddColumn("9.5cm");
             Row row = table.AddRow();
-            row.Shading.Color = new Color(255, 255, 255);
-            row.TopPadding = 50;
+            row.Shading.Color = new Color(218, 238, 243);
+            row.TopPadding = 2;
+            row.BottomPadding = 2;
+            row.VerticalAlignment = VerticalAlignment.Center;
+            row.Cells[1].AddParagraph("Signed by user: " + GetConnectedUsername()).Format.Alignment = ParagraphAlignment.Center;
             return row;
         }
 
@@ -652,18 +684,18 @@ namespace API.Features.Leases {
             var table = section.AddTable();
             table.Borders.Width = 0;
             table.Borders.Color = new Color(153, 162, 165);
-            table.Format.Font.Size = Unit.FromPoint(4.45);
+            table.Format.Font.Size = Unit.FromPoint(4.4);
             table.AddColumn("19cm");
             Row row = table.AddRow();
             row.Shading.Color = new Color(255, 255, 255);
             row.TopPadding = 2;
             row.BottomPadding = 2;
             row.VerticalAlignment = VerticalAlignment.Top;
-            row.Cells[0].AddParagraph(OpenTerms(language)).Format.Alignment = ParagraphAlignment.Left;
+            row.Cells[0].AddParagraph(OpenTermsFile(language)).Format.Alignment = ParagraphAlignment.Left;
             return row;
         }
 
-        private static string OpenTerms(string language) {
+        private static string OpenTermsFile(string language) {
             try {
                 using StreamReader reader = new("TermsAndConditions" + Path.DirectorySeparatorChar + "TermsAndConditions" + language + ".txt");
                 string text = reader.ReadToEndAsync().Result;
@@ -680,6 +712,10 @@ namespace API.Features.Leases {
             pdfRenderer.RenderDocument();
             pdfRenderer.Save(Path.Combine("Reports" + Path.DirectorySeparatorChar + filename));
             return filename;
+        }
+
+        private string GetConnectedUsername() {
+            return Identity.GetConnectedUserDetails(userManager, Identity.GetConnectedUserId(httpContextAccessor)).UserName;
         }
 
     }
