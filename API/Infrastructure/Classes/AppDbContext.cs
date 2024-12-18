@@ -8,6 +8,7 @@ using API.Features.Reservations;
 using API.Features.Reservations.PaymentStatuses;
 using API.Features.BoatTypes;
 using API.Features.BoatUsages;
+using API.Features.Suppliers;
 
 namespace API.Infrastructure.Classes {
 
@@ -26,6 +27,7 @@ namespace API.Infrastructure.Classes {
         public DbSet<ReservationFee> ReservationFeeDetails { get; set; }
         public DbSet<ReservationInsurance> ReservationInsuranceDetails { get; set; }
         public DbSet<ReservationOwner> ReservationOwnerDetails { get; set; }
+        public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<Token> Tokens { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {

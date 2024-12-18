@@ -24,7 +24,7 @@ namespace API.Infrastructure.Helpers {
 
         #region Specific Messages
 
-        public static string InvalidPaymentStatus() { return "The payment status doesn't exist or is inactive."; }
+        public static string VatNumberIsDuplicate() { return "The Tax Number already exists."; }
 
         #endregion
 

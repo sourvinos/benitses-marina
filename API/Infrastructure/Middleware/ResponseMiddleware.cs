@@ -79,7 +79,6 @@ namespace API.Infrastructure.Middleware {
                 401 => ApiMessages.AuthenticationFailed(),
                 404 => ApiMessages.RecordNotFound(),
                 415 => ApiMessages.ConcurrencyError(),
-                452 => ApiMessages.InvalidPaymentStatus(),
                 491 => ApiMessages.RecordInUse(),
                 498 => ApiMessages.EmailNotSent(),
                 _ => ApiMessages.UnknownError(),
