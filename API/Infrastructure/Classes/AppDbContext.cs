@@ -43,6 +43,7 @@ namespace API.Infrastructure.Classes {
             modelBuilder.ApplyConfiguration(new PaymentStatusesConfig());
             modelBuilder.ApplyConfiguration(new ReservationBerthsConfig());
             modelBuilder.ApplyConfiguration(new ReservationsConfig());
+            modelBuilder.ApplyConfiguration(new SuppliersConfig());
             modelBuilder.ApplyConfiguration(new UsersConfig());
         }
 

@@ -8,6 +8,7 @@ using API.Features.InsurancePolicies;
 using API.Features.BoatTypes;
 using API.Features.BoatUsages;
 using API.Features.Leases;
+using API.Features.Suppliers;
 
 namespace API.Infrastructure.Extensions {
 
@@ -23,6 +24,7 @@ namespace API.Infrastructure.Extensions {
             services.AddTransient<ILeaseRepository, LeaseRepository>();
             services.AddTransient<IPaymentStatusRepository, PaymentStatusRepository>();
             services.AddTransient<IReservationRepository, ReservationRepository>();
+            services.AddTransient<ISupplierRepository, SupplierRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             #endregion
             #region validations
@@ -31,6 +33,7 @@ namespace API.Infrastructure.Extensions {
             services.AddTransient<IBoatUsageValidation, BoatUsageValidation>();
             services.AddTransient<IPaymentStatusValidation, PaymentStatusValidation>();
             services.AddTransient<IReservationValidation, ReservationValidation>();
+            services.AddTransient<ISupplierValidation, SupplierValidation>();
             services.AddTransient<IUserValidation<IUser>, UserValidation>();
             #endregion
             #region shared

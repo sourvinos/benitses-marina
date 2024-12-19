@@ -7,8 +7,6 @@ export const environment = {
     clientUrl: 'https://localhost:4200',
     defaultLanguage: 'en-GB',
     featuresIconDirectory: 'assets/images/features/',
-    nationalitiesIconDirectory: 'assets/images/nationalities/',
-    portStopOrdersDirectory: 'assets/images/port-stop-orders/',
     cssUserSelect: 'none',
     minWidth: 1280,
     login: {

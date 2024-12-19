@@ -60,6 +60,8 @@ export class MessageDialogService {
     public confirmDeleteDexieDB(): string { return this.getDescription(this.feature, 'confirmDeleteDexieDB') }
     public confirmLogout(): string { return this.getDescription(this.feature, 'confirmLogout') }
     public helpDialog(): string { return this.getDescription(this.feature, 'helpDialog') }
+    public supplierVatNumberIsDuplicate(): string { return this.getDescription(this.feature, 'supplierVatNumberIsDuplicate') }
+
 
     public filterResponse(error: any, feature = 'snackbarMessages'): string {
         let returnValue = ''

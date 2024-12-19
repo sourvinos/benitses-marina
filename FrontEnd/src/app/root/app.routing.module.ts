@@ -25,6 +25,7 @@ const appRoutes: Routes = [
     { path: 'upcomingLeaseTerminations', loadChildren: () => import('../features/leases/classes/modules/upcoming-lease-termination.module').then(m => m.UpcomingLeaseTerminationModule) },
     { path: 'berths', loadChildren: () => import('../features/berths/classes/modules/berth.module').then(m => m.BerthModule) },
     { path: 'reservations', loadChildren: () => import('../features/reservations/classes/modules/reservation.module').then(m => m.ReservationModule) },
+    { path: 'suppliers', loadChildren: () => import('../features/suppliers/classes/modules/supplier.module').then(m => m.SupplierModule) },
     { path: 'users', loadChildren: () => import('../features/users/classes/modules/user.module').then(m => m.UserModule) },
     // Empty
     { path: '**', component: EmptyPageComponent }

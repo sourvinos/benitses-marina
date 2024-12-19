@@ -1,5 +1,5 @@
-import { Injectable, NgZone } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
+import { Injectable, NgZone } from '@angular/core'
 import { Observable } from 'rxjs'
 import { Router } from '@angular/router'
 import { map } from 'rxjs/operators'
@@ -15,6 +15,7 @@ import { HttpDataService } from './http-data.service'
 import { PaymentStatusHttpService } from 'src/app/features/paymentStatuses/classes/services/paymentStatus-http.service'
 import { ResetPasswordViewModel } from 'src/app/features/users/classes/view-models/reset-password-view-model'
 import { SessionStorageService } from './session-storage.service'
+import { SupplierHttpService } from 'src/app/features/suppliers/classes/services/supplier-http.service'
 import { TokenRequest } from '../classes/token-request'
 import { environment } from '../../../environments/environment'
 
@@ -31,8 +32,7 @@ export class AccountService extends HttpDataService {
 
     //#endregion
 
-    constructor(
-        httpClient: HttpClient, private berthHttpService: BerthHttpService, private boatTypeHttpService: BoatTypeHttpService, private boatUsageHttpService: BoatUsageHttpService, private cryptoService: CryptoService, private dexieService: DexieService, private ngZone: NgZone, private paymentStatusHttpService: PaymentStatusHttpService, private router: Router, private sessionStorageService: SessionStorageService) {
+    constructor(httpClient: HttpClient, private berthHttpService: BerthHttpService, private boatTypeHttpService: BoatTypeHttpService, private boatUsageHttpService: BoatUsageHttpService, private cryptoService: CryptoService, private dexieService: DexieService, private ngZone: NgZone, private paymentStatusHttpService: PaymentStatusHttpService, private router: Router, private sessionStorageService: SessionStorageService, private supplierHttpService: SupplierHttpService) {
         super(httpClient, environment.apiUrl)
     }
 
@@ -132,6 +132,7 @@ export class AccountService extends HttpDataService {
         this.dexieService.populateTable('boatTypes', this.boatTypeHttpService)
         this.dexieService.populateTable('boatUsages', this.boatUsageHttpService)
         this.dexieService.populateTable('paymentStatuses', this.paymentStatusHttpService)
+        this.dexieService.populateTable('suppliers', this.supplierHttpService)
     }
 
     private setDotNetVersion(response: any): void {

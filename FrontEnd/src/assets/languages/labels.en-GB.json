@@ -618,6 +618,96 @@
         ]
     },
     {
+        "feature": "supplierList",
+        "labels": [
+            {
+                "id": "header",
+                "description": "Suppliers"
+            },
+            {
+                "id": "headerIsActive",
+                "description": "Active"
+            },
+            {
+                "id": "headerDescription",
+                "description": "Description"
+            },
+            {
+                "id": "headerVatNumber",
+                "description": "ΑΦΜ"
+            },
+            {
+                "id": "headerPhones",
+                "description": "Phones"
+            },
+            {
+                "id": "headerEmail",
+                "description": "Email"
+            },
+            {
+                "id": "newRecord",
+                "description": "New record"
+            },
+            {
+                "id": "contextMenuEdit",
+                "description": "Edit"
+            }
+        ]
+    },
+    {
+        "feature": "supplierForm",
+        "labels": [
+            {
+                "id": "header",
+                "description": "Supplier"
+            },
+            {
+                "id": "description",
+                "description": "Description"
+            },
+            {
+                "id": "vatNumber",
+                "description": "VAT Number"
+            },
+            {
+                "id": "taxOffice",
+                "description": "Tax Office"
+            },
+            {
+                "id": "phones",
+                "description": "Phones"
+            },
+            {
+                "id": "email",
+                "description": "Email"
+            },
+            {
+                "id": "remarks",
+                "description": "Remarks"
+            },
+            {
+                "id": "isActive",
+                "description": "Active"
+            },
+            {
+                "id": "post",
+                "description": "Initial entry"
+            },
+            {
+                "id": "put",
+                "description": "Last update"
+            },
+            {
+                "id": "deleteButton",
+                "description": "Delete"
+            },
+            {
+                "id": "saveButton",
+                "description": "Save"
+            }
+        ]
+    },
+    {
         "feature": "cardsMenu",
         "labels": [
             {

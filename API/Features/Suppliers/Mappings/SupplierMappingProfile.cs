@@ -1,4 +1,3 @@
-using API.Infrastructure.Classes;
 using AutoMapper;
 
 namespace API.Features.Suppliers {
@@ -8,7 +7,6 @@ namespace API.Features.Suppliers {
         public SupplierMappingProfile() {
             CreateMap<Supplier, SupplierListVM>();
             CreateMap<Supplier, SupplierBrowserVM>();
-            CreateMap<Supplier, SimpleEntity>();
             CreateMap<Supplier, SupplierReadDto>();
             CreateMap<SupplierWriteDto, Supplier>()
                 .ForMember(x => x.Description, x => x.MapFrom(x => x.Description.Trim()))

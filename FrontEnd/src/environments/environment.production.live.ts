@@ -7,8 +7,6 @@ export const environment = {
     clientUrl: 'https://appsourvinos.com',
     defaultLanguage: 'en-GB',
     featuresIconDirectory: 'assets/images/features/',
-    nationalitiesIconDirectory: 'assets/images/nationalities/',
-    portStopOrdersDirectory: 'assets/images/port-stop-orders/',
     cssUserSelect: 'auto',
     minWidth: 1280,
     login: {

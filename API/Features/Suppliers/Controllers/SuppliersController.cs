@@ -15,40 +15,40 @@ namespace API.Features.Suppliers {
 
         #region variables
 
-        private readonly ISupplierRepository SupplierRepo;
-        private readonly ISupplierValidation SupplierValidation;
+        private readonly ISupplierRepository supplierRepo;
+        private readonly ISupplierValidation supplierValidation;
         private readonly IMapper mapper;
 
         #endregion
 
-        public SuppliersController(ISupplierRepository SupplierRepo, ISupplierValidation SupplierValidation, IMapper mapper) {
-            this.SupplierRepo = SupplierRepo;
-            this.SupplierValidation = SupplierValidation;
+        public SuppliersController(ISupplierRepository supplierRepo, ISupplierValidation supplierValidation, IMapper mapper) {
+            this.supplierRepo = supplierRepo;
+            this.supplierValidation = supplierValidation;
             this.mapper = mapper;
         }
 
         [HttpGet]
         [Authorize(Roles = "admin")]
         public async Task<IEnumerable<SupplierListVM>> GetAsync() {
-            return await SupplierRepo.GetAsync();
+            return await supplierRepo.GetAsync();
         }
 
         [HttpGet("[action]")]
         [Authorize(Roles = "user, admin")]
         public async Task<IEnumerable<SupplierBrowserVM>> GetForBrowserAsync() {
-            return await SupplierRepo.GetForBrowserAsync();
+            return await supplierRepo.GetForBrowserAsync();
         }
 
         [HttpGet("[action]")]
         [Authorize(Roles = "user, admin")]
         public async Task<IEnumerable<SimpleEntity>> GetForCriteriaAsync() {
-            return await SupplierRepo.GetForCriteriaAsync();
+            return await supplierRepo.GetForCriteriaAsync();
         }
 
         [HttpGet("{id}")]
         [Authorize(Roles = "admin")]
         public async Task<ResponseWithBody> GetByIdAsync(int id) {
-            var x = await SupplierRepo.GetByIdAsync(id, true);
+            var x = await supplierRepo.GetByIdAsync(id, true);
             if (x != null) {
                 return new ResponseWithBody {
                     Code = 200,
@@ -67,14 +67,14 @@ namespace API.Features.Suppliers {
         [Authorize(Roles = "admin")]
         [ServiceFilter(typeof(ModelValidationAttribute))]
         public async Task<ResponseWithBody> PostAsync([FromBody] SupplierWriteDto Supplier) {
-            var x = SupplierValidation.IsValid(null, Supplier);
+            var x = supplierValidation.IsValid(null, Supplier);
             if (x == 200) {
-                var isValidWithWarnings = await SupplierValidation.IsValidWithWarningAsync(Supplier);
-                var z = SupplierRepo.Create(mapper.Map<SupplierWriteDto, Supplier>((SupplierWriteDto)SupplierRepo.AttachMetadataToPostDto(Supplier)));
+                var isValidWithWarnings = await supplierValidation.IsValidWithWarningAsync(Supplier);
+                var z = supplierRepo.Create(mapper.Map<SupplierWriteDto, Supplier>((SupplierWriteDto)supplierRepo.AttachMetadataToPostDto(Supplier)));
                 return new ResponseWithBody {
                     Code = isValidWithWarnings,
                     Icon = Icons.Success.ToString(),
-                    Body = SupplierRepo.GetByIdForBrowserAsync(z.Id).Result,
+                    Body = supplierRepo.GetByIdForBrowserAsync(z.Id).Result,
                     Message = isValidWithWarnings == 200 ? ApiMessages.OK() : ApiMessages.VatNumberIsDuplicate()
                 };
             } else {
@@ -87,16 +87,16 @@ namespace API.Features.Suppliers {
         [HttpPut]
         [Authorize(Roles = "admin")]
         [ServiceFilter(typeof(ModelValidationAttribute))]
-        public async Task<ResponseWithBody> PutAsync([FromBody] SupplierWriteDto Supplier) {
-            var x = await SupplierRepo.GetByIdAsync(Supplier.Id, false);
+        public async Task<ResponseWithBody> PutAsync([FromBody] SupplierWriteDto supplier) {
+            var x = await supplierRepo.GetByIdAsync(supplier.Id, false);
             if (x != null) {
-                var z = SupplierValidation.IsValid(x, Supplier);
+                var z = supplierValidation.IsValid(x, supplier);
                 if (z == 200) {
-                    SupplierRepo.Update(mapper.Map<SupplierWriteDto, Supplier>((SupplierWriteDto)SupplierRepo.AttachMetadataToPutDto((Infrastructure.Interfaces.IMetadata)x, Supplier)));
+                    supplierRepo.Update(mapper.Map<SupplierWriteDto, Supplier>((SupplierWriteDto)supplierRepo.AttachMetadataToPutDto((Infrastructure.Interfaces.IMetadata)x, supplier)));
                     return new ResponseWithBody {
                         Code = 200,
                         Icon = Icons.Success.ToString(),
-                        Body = SupplierRepo.GetByIdForBrowserAsync(Supplier.Id).Result,
+                        Body = supplierRepo.GetByIdForBrowserAsync(supplier.Id).Result,
                         Message = ApiMessages.OK()
                     };
                 } else {
@@ -114,9 +114,9 @@ namespace API.Features.Suppliers {
         [HttpDelete("{id}")]
         [Authorize(Roles = "admin")]
         public async Task<Response> Delete([FromRoute] int id) {
-            var x = await SupplierRepo.GetByIdAsync(id, false);
+            var x = await supplierRepo.GetByIdAsync(id, false);
             if (x != null) {
-                SupplierRepo.Delete(x);
+                supplierRepo.Delete(x);
                 return new Response {
                     Code = 200,
                     Icon = Icons.Success.ToString(),

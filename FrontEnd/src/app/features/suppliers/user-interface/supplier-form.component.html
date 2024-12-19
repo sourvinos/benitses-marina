@@ -1,0 +1,63 @@
+<div id="form-wrapper">
+
+    <div id="content">
+
+        <div id="header">
+            <home-button-and-title [feature]="feature" [featureIcon]="featureIcon" [icon]="icon" [parentUrl]="parentUrl"></home-button-and-title>
+        </div>
+
+        <form [formGroup]="form" id="form">
+            <!-- Description -->
+            <mat-form-field>
+                <mat-label>{{ getLabel('description') }}</mat-label>
+                <input [inputTabStop]="input" dataTabIndex="1" formControlName="description" matInput>
+                <mat-error *ngIf="description.hasError('required')">{{ getHint("required") }}</mat-error>
+            </mat-form-field>
+            <!-- Vat Number -->
+            <mat-form-field>
+                <mat-label>{{ getLabel('vatNumber') }}</mat-label>
+                <input [inputTabStop]="input" dataTabIndex="2" formControlName="vatNumber" matInput>
+                <mat-error *ngIf="vatNumber.hasError('required')">{{ getHint("required") }}</mat-error>
+            </mat-form-field>
+            <!-- Phones -->
+            <mat-form-field>
+                <mat-label>{{ getLabel('phones') }}</mat-label>
+                <input [inputTabStop]="input" dataTabIndex="3" formControlName="phones" matInput>
+            </mat-form-field>
+            <!-- Email -->
+            <mat-form-field>
+                <mat-label>{{ getLabel('email') }}</mat-label>
+                <input [inputTabStop]="input" dataTabIndex="4" formControlName="email" matInput>
+                <mat-error *ngIf="email.hasError('email')">{{ getHint("invalid") }}</mat-error>
+            </mat-form-field>
+            <!-- Remarks -->
+            <mat-form-field>
+                <mat-label>{{ getLabel('remarks') }}</mat-label>
+                <textarea #input formControlName="remarks" id="textarea" matInput></textarea>
+                <mat-hint class="right">{{ getHint("remainingCharacters", +input.getAttribute('maxlength') - getRemarksLength()) }}</mat-hint>
+            </mat-form-field>
+            <div class="stacked-checkboxes">
+                <!-- Active -->
+                <mat-checkbox formControlName="isActive">
+                    <span>{{ getLabel("isActive") }}</span>
+                </mat-checkbox>
+            </div>
+            <div class="align-bottom">
+                <!-- Metadata -->
+                <metadata-panel [feature]="feature" [postAt]="form.value.postAt" [postUser]="form.value.postUser" [putAt]="form.value.putAt" [putUser]="form.value.putUser"></metadata-panel>
+            </div>
+        </form>
+
+    </div>
+
+    <div id="footer">
+        <div id="align-right">
+            <button (click)="onDelete()" *ngIf="form.value.id !== 0" class="delete" mat-flat-button>{{ getLabel("deleteButton") | uppercase }}</button>
+            <button (click)="onSave()" [disabled]="!form.valid" class="primary" mat-flat-button>
+                <mat-icon *ngIf="!form.valid" class="material-icons-outlined">lock</mat-icon>
+                <span>{{ getLabel("saveButton") | uppercase }}</span>
+            </button>
+        </div>
+    </div>
+
+</div>

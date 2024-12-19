@@ -1,6 +1,8 @@
-﻿namespace API.Features.Suppliers {
+﻿using API.Infrastructure.Interfaces;
 
-    public class Supplier  {
+namespace API.Features.Suppliers {
+
+    public class Supplier : IBaseEntity, IMetadata {
 
         // PK
         public int Id { get; set; }
