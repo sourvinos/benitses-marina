@@ -9,6 +9,7 @@ using API.Features.BoatTypes;
 using API.Features.BoatUsages;
 using API.Features.Leases;
 using API.Features.Suppliers;
+using API.Features.Banks;
 
 namespace API.Infrastructure.Extensions {
 
@@ -16,6 +17,7 @@ namespace API.Infrastructure.Extensions {
 
         public static void AddInterfaces(IServiceCollection services) {
             #region reservations
+            services.AddTransient<IBankRepository, BankRepository>();
             services.AddTransient<IBerthRepository, BerthRepository>();
             services.AddTransient<IBoatTypeRepository, BoatTypeRepository>();
             services.AddTransient<IBoatUsageRepository, BoatUsageRepository>();
@@ -28,6 +30,7 @@ namespace API.Infrastructure.Extensions {
             services.AddTransient<IUserRepository, UserRepository>();
             #endregion
             #region validations
+            services.AddTransient<IBankValidation, BankValidation>();
             services.AddTransient<IBerthValidation, BerthValidation>();
             services.AddTransient<IBoatTypeValidation, BoatTypeValidation>();
             services.AddTransient<IBoatUsageValidation, BoatUsageValidation>();

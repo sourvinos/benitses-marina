@@ -1,17 +1,17 @@
 import { Metadata } from '../../../../shared/classes/metadata'
+import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 
 export interface SupplierReadDto extends Metadata {
 
-    // PK
     id: number
-    // Fields
+    bank: SimpleEntity
+    iban: string
     description: string
     vatNumber: string
     phones: string
     email: string
     remarks: string
     isActive: boolean
-    // Metadata
     postAt: string
     postUser: string
     putAt: string

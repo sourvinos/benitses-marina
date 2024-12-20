@@ -1,15 +1,14 @@
 export interface SupplierWriteDto {
 
-    // PK
     id: number
-    // Fields
+    bankId: number
+    iban: string
     description: string
     vatNumber: string
     phones: string
     email: string
     remarks: string
     isActive: boolean
-    // Metadata
     putAt: string
 
 }

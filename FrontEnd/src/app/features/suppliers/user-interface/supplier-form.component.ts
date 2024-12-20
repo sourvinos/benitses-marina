@@ -13,6 +13,10 @@ import { MessageLabelService } from 'src/app/shared/services/message-label.servi
 import { SupplierHttpService } from '../classes/services/supplier-http.service'
 import { SupplierReadDto } from '../classes/dtos/supplier-read-dto'
 import { SupplierWriteDto } from '../classes/dtos/supplier-write-dto'
+import { ValidationService } from 'src/app/shared/services/validation.service'
+import { map, Observable, startWith } from 'rxjs'
+import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete'
 
 @Component({
     selector: 'supplier-form',
@@ -35,6 +39,13 @@ export class SupplierFormComponent {
 
     //#endregion
 
+    //#region autocompletes
+
+    public dropdownBanks: Observable<SimpleEntity[]>
+    public isAutoCompleteDisabled = true
+
+    //#endregion
+
     constructor(private activatedRoute: ActivatedRoute, private supplierHttpService: SupplierHttpService, private dexieService: DexieService, private dialogService: DialogService, private formBuilder: FormBuilder, private helperService: HelperService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private router: Router) { }
 
     //#region lifecycle hooks
@@ -44,6 +55,7 @@ export class SupplierFormComponent {
         this.setRecordId()
         this.getRecord()
         this.populateFields()
+        this.populateDropdowns()
     }
 
     ngAfterViewInit(): void {
@@ -53,6 +65,19 @@ export class SupplierFormComponent {
     //#endregion
 
     //#region public methods
+
+    public autocompleteFields(fieldName: any, object: any): any {
+        return object ? object[fieldName] : undefined
+    }
+
+    public checkForEmptyAutoComplete(event: { target: { value: any } }): void {
+        if (event.target.value == '') this.isAutoCompleteDisabled = true
+    }
+
+    public enableOrDisableAutoComplete(event: any): void {
+        this.isAutoCompleteDisabled = this.helperService.enableOrDisableAutoComplete(event)
+    }
+
 
     public getHint(id: string, minmax = 0): string {
         return this.messageHintService.getDescription(id, minmax)
@@ -86,13 +111,27 @@ export class SupplierFormComponent {
         this.saveRecord(this.flattenForm())
     }
 
+    public openOrCloseAutoComplete(trigger: MatAutocompleteTrigger, element: any): void {
+        this.helperService.openOrCloseAutocomplete(this.form, element, trigger)
+    }
+
     //#endregion
 
     //#region private methods
 
+    private filterAutocomplete(array: string, field: string, value: any): any[] {
+        if (typeof value !== 'object') {
+            const filtervalue = value.toLowerCase()
+            return this[array].filter((element: { [x: string]: string; }) =>
+                element[field].toLowerCase().startsWith(filtervalue))
+        }
+    }
+
     private flattenForm(): SupplierWriteDto {
         return {
             id: this.form.value.id,
+            bankId: this.form.value.bank.id,
+            iban: this.form.value.iban,
             description: this.form.value.description,
             vatNumber: this.form.value.vatNumber,
             phones: this.form.value.phones,
@@ -131,6 +170,8 @@ export class SupplierFormComponent {
     private initForm(): void {
         this.form = this.formBuilder.group({
             id: 0,
+            bank: ['', [Validators.required, ValidationService.RequireAutocomplete]],
+            iban: [''],
             description: ['', [Validators.required, Validators.maxLength(128)]],
             vatNumber: ['', [Validators.required, Validators.maxLength(36)]],
             phones: ['', [Validators.maxLength(128)]],
@@ -144,10 +185,23 @@ export class SupplierFormComponent {
         })
     }
 
+    private populateDropdownFromDexieDB(dexieTable: string, filteredTable: string, formField: string, modelProperty: string, orderBy: string): void {
+        this.dexieService.table(dexieTable).orderBy(orderBy).toArray().then((response) => {
+            this[dexieTable] = this.recordId == undefined ? response.filter(x => x.isActive) : response
+            this[filteredTable] = this.form.get(formField).valueChanges.pipe(startWith(''), map(value => this.filterAutocomplete(dexieTable, modelProperty, value)))
+        })
+    }
+
+    private populateDropdowns(): void {
+        this.populateDropdownFromDexieDB('banks', 'dropdownBanks', 'bank', 'description', 'description')
+    }
+
     private populateFields(): void {
         if (this.record != undefined) {
             this.form.setValue({
                 id: this.record.id,
+                bank: { 'id': this.record.bank.id, 'description': this.record.bank.description },
+                iban: this.record.iban,
                 description: this.record.description,
                 vatNumber: this.record.vatNumber,
                 phones: this.record.phones,
@@ -200,6 +254,14 @@ export class SupplierFormComponent {
 
     get description(): AbstractControl {
         return this.form.get('description')
+    }
+
+    get bank(): AbstractControl {
+        return this.form.get('bank')
+    }
+
+    get iban(): AbstractControl {
+        return this.form.get('iban')
     }
 
     get vatNumber(): AbstractControl {

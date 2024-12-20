@@ -9,6 +9,7 @@ using API.Features.Reservations.PaymentStatuses;
 using API.Features.BoatTypes;
 using API.Features.BoatUsages;
 using API.Features.Suppliers;
+using API.Features.Banks;
 
 namespace API.Infrastructure.Classes {
 
@@ -17,6 +18,7 @@ namespace API.Infrastructure.Classes {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         public DbSet<Berth> Berths { get; set; }
+        public DbSet<Bank> Banks { get; set; }
         public DbSet<BoatType> BoatTypes { get; set; }
         public DbSet<BoatUsage> BoatUsages { get; set; }
         public DbSet<PaymentStatus> PaymentStatuses { get; set; }

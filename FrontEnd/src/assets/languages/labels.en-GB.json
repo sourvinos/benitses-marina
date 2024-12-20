@@ -666,6 +666,14 @@
                 "description": "Επωνυμία"
             },
             {
+                "id": "bank",
+                "description": "Τράπεζα"
+            },
+            {
+                "id": "iban",
+                "description": "IBAN"
+            },
+            {
                 "id": "vatNumber",
                 "description": "ΑΦΜ"
             },

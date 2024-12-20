@@ -56,6 +56,7 @@ namespace API.Features.Suppliers {
             return includeTables
                 ? await context.Suppliers
                     .AsNoTracking()
+                    .Include(x => x.Bank)
                     .SingleOrDefaultAsync(x => x.Id == id)
                 : await context.Suppliers
                     .AsNoTracking()
