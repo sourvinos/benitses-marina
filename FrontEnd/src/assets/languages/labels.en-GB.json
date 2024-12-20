@@ -622,15 +622,15 @@
         "labels": [
             {
                 "id": "header",
-                "description": "Suppliers"
+                "description": "Προμηθευτές"
             },
             {
                 "id": "headerIsActive",
-                "description": "Active"
+                "description": "Ενεργός"
             },
             {
                 "id": "headerDescription",
-                "description": "Description"
+                "description": "Επωνυμία"
             },
             {
                 "id": "headerVatNumber",
@@ -638,7 +638,7 @@
             },
             {
                 "id": "headerPhones",
-                "description": "Phones"
+                "description": "Τηλέφωνα"
             },
             {
                 "id": "headerEmail",
@@ -646,11 +646,11 @@
             },
             {
                 "id": "newRecord",
-                "description": "New record"
+                "description": "Νεα εγγραφη"
             },
             {
                 "id": "contextMenuEdit",
-                "description": "Edit"
+                "description": "Μεταβολη"
             }
         ]
     },
@@ -659,23 +659,19 @@
         "labels": [
             {
                 "id": "header",
-                "description": "Supplier"
+                "description": "Προμηθευτής"
             },
             {
                 "id": "description",
-                "description": "Description"
+                "description": "Επωνυμία"
             },
             {
                 "id": "vatNumber",
-                "description": "VAT Number"
-            },
-            {
-                "id": "taxOffice",
-                "description": "Tax Office"
+                "description": "ΑΦΜ"
             },
             {
                 "id": "phones",
-                "description": "Phones"
+                "description": "Τηλέφωνα"
             },
             {
                 "id": "email",
@@ -683,27 +679,27 @@
             },
             {
                 "id": "remarks",
-                "description": "Remarks"
+                "description": "Παρατηρήσεις"
             },
             {
                 "id": "isActive",
-                "description": "Active"
+                "description": "Ενεργός"
             },
             {
                 "id": "post",
-                "description": "Initial entry"
+                "description": "Αρχική καταχώρηση"
             },
             {
                 "id": "put",
-                "description": "Last update"
+                "description": "Τελευταία ενημέρωση"
             },
             {
                 "id": "deleteButton",
-                "description": "Delete"
+                "description": "Διαγραφη"
             },
             {
                 "id": "saveButton",
-                "description": "Save"
+                "description": "Αποθηκευση"
             }
         ]
     },

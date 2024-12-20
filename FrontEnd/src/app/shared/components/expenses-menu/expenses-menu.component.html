@@ -1,0 +1,8 @@
+<div *ngIf=isAdmin() id="button-wrapper">
+    <button [matMenuTriggerFor]="menu" class="fab fab-with-no-background" mat-icon-button>
+        <mat-icon class="material-icons-outlined">arrow_circle_up</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu" class="primary">
+        <button (click)="doNavigation('suppliers',true)" mat-menu-item><span>{{ getLabel('suppliers') }}</span></button>
+    </mat-menu>
+</div>

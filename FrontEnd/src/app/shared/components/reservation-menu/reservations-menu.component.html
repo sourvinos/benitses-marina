@@ -1,0 +1,13 @@
+<div *ngIf=isAdmin() id="button-wrapper">
+    <button [matMenuTriggerFor]="menu" class="fab fab-with-no-background" mat-icon-button>
+        <mat-icon class="material-symbols-outlined">screen_record</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu" class="primary">
+        <button (click)="doNavigation('upcomingLeaseTerminations',true)" mat-menu-item><span>{{ getLabel('lease-terminations') }}</span></button>
+        <button (click)="doNavigation('insurancePolicies',true)" mat-menu-item><span>{{ getLabel('insurance-policies') }}</span></button>
+        <mat-divider></mat-divider>
+        <button (click)="doNavigation('reservations',true)" mat-menu-item><span>{{ getLabel('reservations') }}</span></button>
+        <mat-divider></mat-divider>
+        <button (click)="doNavigation('berths',true)" mat-menu-item><span>{{ getLabel('current-status') }}</span></button>
+    </mat-menu>
+</div>
