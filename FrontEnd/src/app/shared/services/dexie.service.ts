@@ -1,6 +1,6 @@
 import Dexie from 'dexie'
 import { Injectable } from '@angular/core'
-import { BerthHttpService } from 'src/app/features/berths/classes/services/berth-http.service'
+import { BerthHttpService } from 'src/app/features/reservations/berths/classes/services/berth-http.service'
 
 @Injectable({ providedIn: 'root' })
 

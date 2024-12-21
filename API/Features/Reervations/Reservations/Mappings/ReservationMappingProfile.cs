@@ -90,7 +90,7 @@ namespace API.Features.Reservations {
                     ReservationId = berth.ReservationId.ToString(),
                     Description = berth.Description
                 })))
-                .ForMember(x => x.PaymentMethod, x => x.MapFrom(x => new SimpleEntity {
+                .ForMember(x => x.PaymentStatus, x => x.MapFrom(x => new SimpleEntity {
                     Id = x.PaymentStatus.Id,
                     Description = x.PaymentStatus.Description
                 }));

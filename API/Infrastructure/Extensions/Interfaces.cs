@@ -11,6 +11,7 @@ using API.Features.Expenses.Banks;
 using API.Features.Expenses.Expenses;
 using API.Features.Expenses.PaymentMethods;
 using API.Features.Expenses.Suppliers;
+using API.Features.Reservations.PaymentStatuses;
 
 namespace API.Infrastructure.Extensions {
 
@@ -30,6 +31,7 @@ namespace API.Infrastructure.Extensions {
             services.AddTransient<IInsurancePolicyRepository, InsurancePolicyRepository>();
             services.AddTransient<ILeasePdfRepository, LeasePdfRepository>();
             services.AddTransient<ILeaseRepository, LeaseRepository>();
+            services.AddTransient<IPaymentStatusRepository, PaymentStatusRepository>();
             services.AddTransient<IReservationRepository, ReservationRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             #endregion
@@ -40,6 +42,7 @@ namespace API.Infrastructure.Extensions {
             services.AddTransient<IBoatUsageValidation, BoatUsageValidation>();
             services.AddTransient<IExpenseValidation, ExpenseValidation>();
             services.AddTransient<IPaymentMethodValidation, PaymentMethodValidation>();
+            services.AddTransient<IPaymentStatusValidation, PaymentStatusValidation>();
             services.AddTransient<IReservationValidation, ReservationValidation>();
             services.AddTransient<ISupplierValidation, SupplierValidation>();
             services.AddTransient<IUserValidation<IUser>, UserValidation>();

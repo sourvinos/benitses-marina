@@ -21,11 +21,11 @@ const appRoutes: Routes = [
     // Home
     { path: 'home', component: HomeComponent, canActivate: [AuthGuardService] },
     // Main menu
-    { path: 'insurancePolicies', loadChildren: () => import('../features/insurancePolicies/classes/modules/insurance-policy.module').then(m => m.InsurancePolicyModule) },
-    { path: 'upcomingLeaseTerminations', loadChildren: () => import('../features/leases/classes/modules/upcoming-lease-termination.module').then(m => m.UpcomingLeaseTerminationModule) },
-    { path: 'berths', loadChildren: () => import('../features/berths/classes/modules/berth.module').then(m => m.BerthModule) },
-    { path: 'reservations', loadChildren: () => import('../features/reservations/classes/modules/reservation.module').then(m => m.ReservationModule) },
-    { path: 'suppliers', loadChildren: () => import('../features/suppliers/classes/modules/supplier.module').then(m => m.SupplierModule) },
+    { path: 'insurancePolicies', loadChildren: () => import('../features/reservations/insurancePolicies/classes/modules/insurance-policy.module').then(m => m.InsurancePolicyModule) },
+    { path: 'upcomingLeaseTerminations', loadChildren: () => import('../features/reservations/leases/classes/modules/upcoming-lease-termination.module').then(m => m.UpcomingLeaseTerminationModule) },
+    { path: 'berths', loadChildren: () => import('../features/reservations/berths/classes/modules/berth.module').then(m => m.BerthModule) },
+    { path: 'reservations', loadChildren: () => import('../features/reservations/reservations/classes/modules/reservation.module').then(m => m.ReservationModule) },
+    { path: 'suppliers', loadChildren: () => import('../features/expenses/suppliers/classes/modules/supplier.module').then(m => m.SupplierModule) },
     { path: 'users', loadChildren: () => import('../features/users/classes/modules/user.module').then(m => m.UserModule) },
     // Empty
     { path: '**', component: EmptyPageComponent }

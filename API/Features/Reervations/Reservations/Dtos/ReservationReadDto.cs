@@ -21,7 +21,7 @@ namespace API.Features.Reservations {
         public bool IsDocked { get; set; }
         public bool IsDryDock { get; set; }
         public bool IsAthenian { get; set; }
-        public SimpleEntity PaymentMethod { get; set; }
+        public SimpleEntity PaymentStatus { get; set; }
         public string PostAt { get; set; }
         public string PostUser { get; set; }
         public string PutAt { get; set; }
