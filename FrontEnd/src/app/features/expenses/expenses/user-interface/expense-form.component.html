@@ -1,0 +1,329 @@
+<div id="form-wrapper">
+
+    <div id="content">
+
+        <div id="header">
+            <home-button-and-title [feature]="feature" [featureIcon]="featureIcon" [header]="getNewOrEditHeader()" [icon]="icon" [parentUrl]="parentUrl"></home-button-and-title>
+            <div *ngIf="isNotNewRecord()" id="boat-name">
+                <span>{{ this.form.value.boatName }}</span>
+                <img (load)="loadImage()" [ngClass]="imageIsLoading()" [src]="getIcon('boat')" style="height: 32px; margin-left: 1rem; width: 32px;">
+            </div>
+        </div>
+
+        <form [formGroup]="form" id="form">
+            <mat-tab-group mat-stretch-tabs="false">
+                <mat-tab label="{{ getLabel('tab1') }}">
+                    <div id="general-tab">
+                        <div class="group-input-field">
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('boatName') }}</mat-label>
+                                <input [inputTabStop]="input" dataTabIndex="1" formControlName="boatName" matInput>
+                                <mat-error *ngIf="boatName.hasError('required')">{{ getHint("required") }}</mat-error>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('boatType') }}</mat-label>
+                                <input #inputAutoComplete #triggerBoatType="matAutocompleteTrigger" (keydown)="enableOrDisableAutoComplete($event)" (keyup)="checkForEmptyAutoComplete($event)" [inputTabStop]="input" [matAutocompleteDisabled]="isAutoCompleteDisabled" [matAutocomplete]="boatTypes" dataTabIndex="2" formControlName="boatType" matInput>
+                                <div matSuffix style="display:flex">
+                                    <button (click)="openOrCloseAutoComplete(triggerBoatType, 'boatType')" mat-icon-button type="button">
+                                        <mat-icon class="input-suffix material-icons-outlined">expand_more</mat-icon>
+                                    </button>
+                                </div>
+                                <mat-error *ngIf="boatType.hasError('required')">{{ getHint("required") }}</mat-error>
+                                <mat-error *ngIf="!boatType.hasError('required') && boatType.hasError('incorrect')">{{ getHint("invalid") }}</mat-error>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('boatUsage') }}</mat-label>
+                                <input #inputAutoComplete #triggerBoatUsage="matAutocompleteTrigger" (keydown)="enableOrDisableAutoComplete($event)" (keyup)="checkForEmptyAutoComplete($event)" [inputTabStop]="input" [matAutocompleteDisabled]="isAutoCompleteDisabled" [matAutocomplete]="boatUsages" dataTabIndex="3" formControlName="boatUsage" matInput>
+                                <div matSuffix style="display:flex">
+                                    <button (click)="openOrCloseAutoComplete(triggerBoatUsage, 'boatUsage')" mat-icon-button type="button">
+                                        <mat-icon class="input-suffix material-icons-outlined">expand_more</mat-icon>
+                                    </button>
+                                </div>
+                                <mat-error *ngIf="boatUsage.hasError('required')">{{ getHint("required") }}</mat-error>
+                                <mat-error *ngIf="!boatUsage.hasError('required') && boatUsage.hasError('incorrect')">{{ getHint("invalid") }}</mat-error>
+                            </mat-form-field>
+                            <div class="group-input-field">
+                                <mat-form-field>
+                                    <mat-label>{{ getLabel('length') }}</mat-label>
+                                    <input [inputTabStop]="input" currencyMask dataTabIndex="4" formControlName="loa" matInput>
+                                    <mat-error *ngIf="loa.hasError('required')">{{ getHint("required") }}</mat-error>
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <mat-label>{{ getLabel('beam') }}</mat-label>
+                                    <input [inputTabStop]="input" currencyMask dataTabIndex="5" formControlName="beam" matInput>
+                                    <mat-error *ngIf="beam.hasError('required')">{{ getHint("required") }}</mat-error>
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <mat-label>{{ getLabel('draft') }}</mat-label>
+                                    <input [inputTabStop]="input" currencyMask dataTabIndex="6" formControlName="draft" matInput>
+                                    <mat-error *ngIf="draft.hasError('required')">{{ getHint("required") }}</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="group-input-field">
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('flag') }}</mat-label>
+                                <input [inputTabStop]="input" dataTabIndex="7" formControlName="flag" matInput>
+                                <mat-error *ngIf="flag.hasError('required')">{{ getHint("required") }}</mat-error>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('registryPort') }}</mat-label>
+                                <input [inputTabStop]="input" dataTabIndex="8" formControlName="registryPort" matInput>
+                                <mat-error *ngIf="registryPort.hasError('required')">{{ getHint("required") }}</mat-error>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('registryNo') }}</mat-label>
+                                <input [inputTabStop]="input" dataTabIndex="9" formControlName="registryNo" matInput>
+                                <mat-error *ngIf="registryNo.hasError('required')">{{ getHint("required") }}</mat-error>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('fromDate') }}</mat-label>
+                                <input [inputTabStop]="input" [matDatepicker]="fromDatePicker" dataTabIndex="10" formControlName="fromDate" matInput>
+                                <mat-datepicker-toggle matIconSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
+                                <mat-datepicker #fromDatePicker></mat-datepicker>
+                                <mat-error *ngIf="fromDate.hasError('required')">{{ getHint("required") }}</mat-error>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('toDate') }}</mat-label>
+                                <input [inputTabStop]="input" [matDatepicker]="toDatePicker" dataTabIndex="11" formControlName="toDate" matInput>
+                                <mat-datepicker-toggle matIconSuffix [for]="toDatePicker"></mat-datepicker-toggle>
+                                <mat-datepicker #toDatePicker></mat-datepicker>
+                                <mat-error *ngIf="toDate.hasError('required')">{{ getHint("required") }}</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div formArrayName="berths">
+                            <div class="group-input-field">
+                                <div *ngFor="let berth of berthsArray; let i = index">
+                                    <div [formGroupName]="i">
+                                        <mat-form-field>
+                                            <mat-label>{{ getLabel("berth") }}</mat-label>
+                                            <input [inputTabStop]="input" dataTabIndex="12" formControlName="description" matInput>
+                                            <div *ngIf="berthsArray.length > 1" matSuffix style="display:flex">
+                                                <button (click)="onRemoveBerth(i)" mat-icon-button type="button">
+                                                    <mat-icon class="input-suffix material-icons-outlined">close</mat-icon>
+                                                </button>
+                                            </div>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <span (click)="onAddBerthTextBox()" id="add-berth-button">
+                                    <mat-icon class="material-icons-outlined">add</mat-icon>
+                                </span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="stacked-checkboxes">
+                                <mat-checkbox formControlName="isAthenian">
+                                    <span>{{ getLabel("isAthenian") }}</span>
+                                </mat-checkbox>
+                                <mat-checkbox formControlName="isDocked">
+                                    <span>{{ getLabel("isDocked") }}</span>
+                                </mat-checkbox>
+                                <mat-checkbox formControlName="isFishingBoat">
+                                    <span>{{ getLabel("isFishingBoat") }}</span>
+                                </mat-checkbox>
+                                <mat-checkbox formControlName="isDryDock">
+                                    <span>{{ getLabel("isDryDock") }}</span>
+                                </mat-checkbox>
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
+                <mat-tab label="{{ getLabel('tab2') }}">
+                    <div id="financial-tab">
+                        <div class="group-input-field">
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('netAmount') }}</mat-label>
+                                <input (blur)="calculateVatAmountAndGrossAmountBasedOnNetAmount('netAmount',2)" [inputTabStop]="input" currencyMask dataTabIndex="1" formControlName="netAmount" matInput>
+                                <mat-error *ngIf="netAmount.hasError('required')">{{ getHint("required") }}</mat-error>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('vatPercent') }}</mat-label>
+                                <input (blur)="calculateNetAndGrossAmountBasedOnVatPercent('vatPercent',0)" [inputTabStop]="input" currencyMask dataTabIndex="2" formControlName="vatPercent" matInput>
+                                <mat-error *ngIf="vatPercent.hasError('required')">{{ getHint("required") }}</mat-error>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('vatAmount') }}</mat-label>
+                                <input currencyMask formControlName="vatAmount" matInput readonly>
+                                <mat-error *ngIf="vatAmount.hasError('required')">{{ getHint("required") }}</mat-error>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('grossAmount') }}</mat-label>
+                                <input (blur)="calculateNetAmountBasedOnGrossAmount('grossAmount',2)" [inputTabStop]="input" currencyMask dataTabIndex="3" formControlName="grossAmount" matInput>
+                                <mat-error *ngIf="grossAmount.hasError('required')">{{ getHint("required") }}</mat-error>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('paymentStatus') }}</mat-label>
+                                <input #inputAutoComplete #triggerPaymentStatus="matAutocompleteTrigger" (keydown)="enableOrDisableAutoComplete($event)" (keyup)="checkForEmptyAutoComplete($event)" [inputTabStop]="input" [matAutocompleteDisabled]="isAutoCompleteDisabled" [matAutocomplete]="paymentStatuses" dataTabIndex="4" formControlName="paymentStatus" matInput>
+                                <div matSuffix style="display:flex">
+                                    <button (click)="openOrCloseAutoComplete(triggerPaymentStatus, 'paymentStatus')" mat-icon-button type="button">
+                                        <mat-icon class="input-suffix material-icons-outlined">expand_more</mat-icon>
+                                    </button>
+                                </div>
+                                <mat-error *ngIf="paymentStatus.hasError('required')">{{ getHint("required") }}</mat-error>
+                                <mat-error *ngIf="!paymentStatus.hasError('required') && paymentStatus.hasError('incorrect')">{{ getHint("invalid") }}</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <mat-form-field>
+                            <mat-label>{{ getLabel("remarks") }}</mat-label>
+                            <textarea #input formControlName="financialRemarks" id="textarea" matInput></textarea>
+                            <mat-hint class="right">{{ getHint("remainingCharacters", +input.getAttribute('maxlength') - getFinancialRemarksLength()) }}</mat-hint>
+                        </mat-form-field>
+                        <div class="stacked-checkboxes">
+                            <mat-checkbox formControlName="isCash">
+                                <span>{{ getLabel("isCash") }}</span>
+                            </mat-checkbox>
+                        </div>
+                    </div>
+                </mat-tab>
+                <mat-tab label="{{ getLabel('tab3') }}">
+                    <div id="lease-tab">
+                        <div class="group-input-field">
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('insuranceCompany') }}</mat-label>
+                                <input [inputTabStop]="input" dataTabIndex="1" formControlName="insuranceCompany" matInput>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('policyNo') }}</mat-label>
+                                <input [inputTabStop]="input" dataTabIndex="2" formControlName="policyNo" matInput>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('policyEnds') }}</mat-label>
+                                <input [inputTabStop]="input" [matDatepicker]="policyEndsDatePicker" dataTabIndex="3" formControlName="policyEnds" matInput>
+                                <mat-datepicker-toggle matIconSuffix [for]="policyEndsDatePicker"></mat-datepicker-toggle>
+                                <mat-datepicker #policyEndsDatePicker></mat-datepicker>
+                                <mat-error *ngIf="fromDate.hasError('required')">{{ getHint("required") }}</mat-error>
+                            </mat-form-field>
+                            <!-- <mat-form-field>
+                                <mat-label>{{ getLabel('policyEnds') }}</mat-label>
+                                <input [inputTabStop]="input" dataTabIndex="3" formControlName="policyEnds" matInput>
+                            </mat-form-field> -->
+                        </div>
+                    </div>
+                </mat-tab>
+                <mat-tab label="{{ getLabel('tab4') }}">
+                    <div id="tab-content">
+                        <div id="ownwer-tab">
+                            <div id="owner-tab-header">
+                                <span class="label">Owner details</span>
+                            </div>
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('owner') }}</mat-label>
+                                <input [inputTabStop]="input" dataTabIndex="1" formControlName="ownerName" matInput>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('address') }}</mat-label>
+                                <input [inputTabStop]="input" dataTabIndex="2" formControlName="ownerAddress" matInput>
+                            </mat-form-field>
+                            <div class="group-input-field">
+                                <mat-form-field>
+                                    <mat-label>{{ getLabel('taxNo') }}</mat-label>
+                                    <input [inputTabStop]="input" dataTabIndex="3" formControlName="ownerTaxNo" matInput>
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <mat-label>{{ getLabel('taxOffice') }}</mat-label>
+                                    <input [inputTabStop]="input" dataTabIndex="4" formControlName="ownerTaxOffice" matInput>
+                                </mat-form-field>
+                            </div>
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('passportNo') }}</mat-label>
+                                <input [inputTabStop]="input" dataTabIndex="5" formControlName="ownerPassportNo" matInput>
+                            </mat-form-field>
+                            <div class="group-input-field">
+                                <mat-form-field>
+                                    <mat-label>{{ getLabel('phones') }}</mat-label>
+                                    <input [inputTabStop]="input" dataTabIndex="6" formControlName="ownerPhones" matInput>
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <mat-label>{{ getLabel('email') }}</mat-label>
+                                    <input [inputTabStop]="input" dataTabIndex="7" formControlName="ownerEmail" matInput>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div id="billing-tab">
+                            <div id="billing-tab-header">
+                                <span class="label">Invoice details</span>
+                                <span (click)="copyOwnerToBilling()" class="label" id="copy-owner-to-billing">Copy from owner</span>
+                            </div>
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('owner') }}</mat-label>
+                                <input [inputTabStop]="input" dataTabIndex="8" formControlName="billingName" matInput>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('address') }}</mat-label>
+                                <input [inputTabStop]="input" dataTabIndex="9" formControlName="billingAddress" matInput>
+                            </mat-form-field>
+                            <div class="group-input-field">
+                                <mat-form-field>
+                                    <mat-label>{{ getLabel('taxNo') }}</mat-label>
+                                    <input [inputTabStop]="input" dataTabIndex="10" formControlName="billingTaxNo" matInput>
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <mat-label>{{ getLabel('taxOffice') }}</mat-label>
+                                    <input [inputTabStop]="input" dataTabIndex="11" formControlName="billingTaxOffice" matInput>
+                                </mat-form-field>
+                            </div>
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('passportNo') }}</mat-label>
+                                <input [inputTabStop]="input" dataTabIndex="12" formControlName="billingPassportNo" matInput>
+                            </mat-form-field>
+                            <div class="group-input-field">
+                                <mat-form-field>
+                                    <mat-label>{{ getLabel('phones') }}</mat-label>
+                                    <input [inputTabStop]="input" dataTabIndex="13" formControlName="billingPhones" matInput>
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <mat-label>{{ getLabel('email') }}</mat-label>
+                                    <input [inputTabStop]="input" dataTabIndex="14" formControlName="billingEmail" matInput>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
+                <mat-tab class="left-align" label="{{ getLabel('tab5') }}">
+                    <mat-form-field>
+                        <mat-label>{{ getLabel("remarks") }}</mat-label>
+                        <textarea #input formControlName="remarks" id="textarea" matInput></textarea>
+                        <mat-hint class="right">{{ getHint("remainingCharacters", +input.getAttribute('maxlength') - getRemarksLength()) }}</mat-hint>
+                    </mat-form-field>
+                </mat-tab>
+            </mat-tab-group>
+            <div class="align-bottom">
+                <!-- Metadata -->
+                <metadata-panel [feature]="feature" [postAt]="form.value.postAt" [postUser]="form.value.postUser" [putAt]="form.value.putAt" [putUser]="form.value.putUser"></metadata-panel>
+            </div>
+        </form>
+
+    </div>
+
+    <div id="footer">
+        <div id="align-right">
+            <button *ngIf="form.value.reservationId != ''" (click)="onDelete()" [disabled]="!isAdmin()" class="delete" mat-flat-button>
+                <span>{{ getLabel('deleteButton') | uppercase }}</span>
+            </button>
+            <button (click)="onSave()" [disabled]="!form.valid || !isAdmin()" class="primary" mat-flat-button>
+                <mat-icon *ngIf="!form.valid" class="material-icons-outlined">lock</mat-icon>
+                <span>{{ getLabel("saveButton") | uppercase }}</span>
+            </button>
+        </div>
+    </div>
+
+</div>
+
+<mat-autocomplete #boatTypes="matAutocomplete" [displayWith]="autocompleteFields.bind(this, 'description')" autoActiveFirstOption>
+    <mat-option *ngFor="let option of dropdownBoatTypes | async" [value]="option">
+        {{ option.description }}
+    </mat-option>
+</mat-autocomplete>
+
+<mat-autocomplete #boatUsages="matAutocomplete" [displayWith]="autocompleteFields.bind(this, 'description')" autoActiveFirstOption>
+    <mat-option *ngFor="let option of dropdownBoatUsages | async" [value]="option">
+        {{ option.description }}
+    </mat-option>
+</mat-autocomplete>
+
+<mat-autocomplete #paymentStatuses="matAutocomplete" [displayWith]="autocompleteFields.bind(this, 'description')" autoActiveFirstOption>
+    <mat-option *ngFor="let option of dropdownPaymentStatuses | async" [value]="option">
+        {{ option.description }}
+    </mat-option>
+</mat-autocomplete>

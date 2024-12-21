@@ -4,5 +4,7 @@
     </button>
     <mat-menu #menu="matMenu" class="primary">
         <button (click)="doNavigation('suppliers',true)" mat-menu-item><span>{{ getLabel('suppliers') }}</span></button>
+        <mat-divider></mat-divider>
+        <button (click)="doNavigation('expenses',true)" mat-menu-item><span>{{ getLabel('expenses') }}</span></button>
     </mat-menu>
 </div>

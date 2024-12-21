@@ -763,5 +763,42 @@
                 "description": "Show the upcoming end-of-lease agreements."
             }
         ]
+    },
+    {
+        "feature": "expenseList",
+        "labels": [
+            {
+                "id": "header",
+                "description": "Expenses"
+            },
+            {
+                "id": "headerDate",
+                "description": "Date"
+            },
+            {
+                "id": "headerSupplier",
+                "description": "Supplier"
+            },
+            {
+                "id": "headerDocumentType",
+                "description": "Document Type"
+            },
+            {
+                "id": "headerAmount",
+                "description": "Amount"
+            },
+            {
+                "id": "headerPaymentMethod",
+                "description": "Payment"
+            },
+            {
+                "id": "newRecord",
+                "description": "New record"
+            },
+            {
+                "id": "contextMenuEdit",
+                "description": "Edit"
+            }
+        ]
     }
 ]

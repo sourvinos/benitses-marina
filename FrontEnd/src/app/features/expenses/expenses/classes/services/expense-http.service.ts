@@ -7,14 +7,14 @@ import { environment } from 'src/environments/environment'
 
 @Injectable({ providedIn: 'root' })
 
-export class ReservationHttpService extends HttpDataService {
+export class ExpenseHttpService extends HttpDataService {
 
     constructor(httpClient: HttpClient) {
-        super(httpClient, environment.apiUrl + '/reservations')
+        super(httpClient, environment.apiUrl + '/expenses')
     }
 
-    public saveReservation(formData: any): Observable<any> {
-        return formData.reservationId == null
+    public saveExpense(formData: any): Observable<any> {
+        return formData.id == null
             ? this.http.post<any>(this.url, formData)
             : this.http.put<any>(this.url, formData)
     }
