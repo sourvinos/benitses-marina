@@ -20,7 +20,7 @@ namespace Reservations {
         public TestReservationFee Fee { get; set; }
         public List<TestReservationBerth> Berths { get; set; }
         public bool IsDocked { get; set; }
-        public bool IsLongTerm { get; set; }
+        public bool IsDryDock { get; set; }
         public bool IsAthenian { get; set; }
         public string PutAt { get; set; }
 

@@ -5,11 +5,13 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using API.Features.Reservations;
-using API.Features.Reservations.PaymentStatuses;
 using API.Features.BoatTypes;
 using API.Features.BoatUsages;
-using API.Features.Suppliers;
-using API.Features.Banks;
+using API.Features.Expenses.Banks;
+using API.Features.Expenses.Expenses;
+using API.Features.Expenses.PaymentMethods;
+using API.Features.Expenses.Suppliers;
+using API.Features.Reservations.PaymentStatuses;
 
 namespace API.Infrastructure.Classes {
 
@@ -17,8 +19,18 @@ namespace API.Infrastructure.Classes {
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        public DbSet<Berth> Berths { get; set; }
+        #region Expenses
+
         public DbSet<Bank> Banks { get; set; }
+        public DbSet<Berth> Berths { get; set; }
+        public DbSet<Expense> Expenses { get; set; }
+        public DbSet<PaymentMethod> PaymentMethods { get; set; }
+        public DbSet<Supplier> Suppliers { get; set; }
+
+        #endregion
+
+        #region Reservations
+
         public DbSet<BoatType> BoatTypes { get; set; }
         public DbSet<BoatUsage> BoatUsages { get; set; }
         public DbSet<PaymentStatus> PaymentStatuses { get; set; }
@@ -29,8 +41,9 @@ namespace API.Infrastructure.Classes {
         public DbSet<ReservationFee> ReservationFeeDetails { get; set; }
         public DbSet<ReservationInsurance> ReservationInsuranceDetails { get; set; }
         public DbSet<ReservationOwner> ReservationOwnerDetails { get; set; }
-        public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<Token> Tokens { get; set; }
+
+        #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             base.OnModelCreating(modelBuilder);
@@ -40,13 +53,21 @@ namespace API.Infrastructure.Classes {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
 
         private static void ApplyConfigurations(ModelBuilder modelBuilder) {
+            #region Expenses
+            modelBuilder.ApplyConfiguration(new BanksConfig());
+            modelBuilder.ApplyConfiguration(new ExpensesConfig());
+            modelBuilder.ApplyConfiguration(new PaymentMethodsConfig());
+            modelBuilder.ApplyConfiguration(new SuppliersConfig());
+            #endregion
+            #region Reservations
             modelBuilder.ApplyConfiguration(new BerthsConfig());
             modelBuilder.ApplyConfiguration(new BoatTypesConfig());
-            modelBuilder.ApplyConfiguration(new PaymentStatusesConfig());
+            modelBuilder.ApplyConfiguration(new BoatUsagesConfig());
             modelBuilder.ApplyConfiguration(new ReservationBerthsConfig());
             modelBuilder.ApplyConfiguration(new ReservationsConfig());
-            modelBuilder.ApplyConfiguration(new SuppliersConfig());
             modelBuilder.ApplyConfiguration(new UsersConfig());
+            #endregion
+
         }
 
     }

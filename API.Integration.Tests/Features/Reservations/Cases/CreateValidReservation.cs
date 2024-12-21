@@ -20,7 +20,7 @@ namespace Reservations {
                     Remarks = "Test remarks",
                     FinancialRemarks = "Financial remarks",
                     IsDocked = false,
-                    IsLongTerm = true,
+                    IsDryDock = true,
                     IsAthenian = false,
                     Boat = new TestReservationBoat {
                         Name = "Boat name",
