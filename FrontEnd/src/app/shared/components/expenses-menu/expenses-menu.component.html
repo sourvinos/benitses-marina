@@ -6,5 +6,13 @@
         <button (click)="doNavigation('suppliers',true)" mat-menu-item><span>{{ getLabel('suppliers') }}</span></button>
         <mat-divider></mat-divider>
         <button (click)="doNavigation('expenses',true)" mat-menu-item><span>{{ getLabel('expenses') }}</span></button>
+        <button (click)="doNavigation('payments',true)" mat-menu-item><span>{{ getLabel('payments') }}</span></button>
+        <mat-divider></mat-divider>
+        <button (click)="doNavigation('supplierLedger',true)" mat-menu-item><span>{{ getLabel('supplierLedger') }}</span></button>
+        <button (click)="doNavigation('suppliersBalanceSheet',true)" mat-menu-item><span>{{ getLabel('suppliersBalanceSheet') }}</span></button>
+        <mat-divider></mat-divider>
+        <button (click)="doNavigation('banks',true)" mat-menu-item><span>{{ getLabel('banks') }}</span></button>
+        <button (click)="doNavigation('paymentMethods',true)" mat-menu-item><span>{{ getLabel('paymentMethods') }}</span></button>
+        <button (click)="doNavigation('documentTypes',true)" mat-menu-item><span>{{ getLabel('documentTypes') }}</span></button>
     </mat-menu>
 </div>

@@ -8,6 +8,7 @@ namespace API.Features.Expenses.PaymentMethods {
         public int Id { get; set; }
         // Fields
         public string Description { get; set; }
+        public bool IsCredit { get; set; }
         public bool IsActive { get; set; }
         // Metadata
         public string PostAt { get; set; }

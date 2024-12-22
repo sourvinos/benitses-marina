@@ -27,8 +27,9 @@ namespace API.Features.Expenses.Expenses {
         public async Task<IEnumerable<ExpenseListVM>> GetAsync() {
             var expenses = await context.Expenses
                 .AsNoTracking()
-                .Include(x => x.Supplier)
+                .Include(x => x.DocumentType)
                 .Include(x => x.PaymentMethod)
+                .Include(x => x.Supplier)
                 .OrderBy(x => x.Date)
                 .ToListAsync();
             return mapper.Map<IEnumerable<Expense>, IEnumerable<ExpenseListVM>>(expenses);
@@ -38,8 +39,9 @@ namespace API.Features.Expenses.Expenses {
             return includeTables
                 ? await context.Expenses
                     .AsNoTracking()
-                    .Include(x => x.Supplier)
+                    .Include(x => x.DocumentType)
                     .Include(x => x.PaymentMethod)
+                    .Include(x => x.Supplier)
                     .Where(x => x.Id.ToString() == expenseId)
                     .SingleOrDefaultAsync()
                : await context.Expenses

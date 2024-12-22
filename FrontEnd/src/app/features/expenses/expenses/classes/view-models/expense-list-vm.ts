@@ -3,11 +3,11 @@ import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 export interface ExpenseListVM {
 
     id: string
-    supplier: SimpleEntity
+    date: string
     documentType: SimpleEntity
     paymentMethod: SimpleEntity
-    date: string
-    invoiceNo: string
+    supplier: SimpleEntity
+    documentNo: string
     amount: number
 
 }

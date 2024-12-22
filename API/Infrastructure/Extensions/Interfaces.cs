@@ -12,6 +12,7 @@ using API.Features.Expenses.Expenses;
 using API.Features.Expenses.PaymentMethods;
 using API.Features.Expenses.Suppliers;
 using API.Features.Reservations.PaymentStatuses;
+using API.Features.Expenses.DocumentTypes;
 
 namespace API.Infrastructure.Extensions {
 
@@ -23,6 +24,7 @@ namespace API.Infrastructure.Extensions {
             services.AddTransient<IExpenseRepository, ExpenseRepository>();
             services.AddTransient<IPaymentMethodRepository, PaymentMethodRepository>();
             services.AddTransient<ISupplierRepository, SupplierRepository>();
+            services.AddTransient<IDocumentTypeRepository, DocumentTypeRepository>();
             #endregion
             #region reservations
             services.AddTransient<IBerthRepository, BerthRepository>();
@@ -40,6 +42,7 @@ namespace API.Infrastructure.Extensions {
             services.AddTransient<IBerthValidation, BerthValidation>();
             services.AddTransient<IBoatTypeValidation, BoatTypeValidation>();
             services.AddTransient<IBoatUsageValidation, BoatUsageValidation>();
+            services.AddTransient<IDocumentTypeValidation, DocumentTypeValidation>();
             services.AddTransient<IExpenseValidation, ExpenseValidation>();
             services.AddTransient<IPaymentMethodValidation, PaymentMethodValidation>();
             services.AddTransient<IPaymentStatusValidation, PaymentStatusValidation>();

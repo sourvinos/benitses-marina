@@ -769,35 +769,92 @@
         "labels": [
             {
                 "id": "header",
-                "description": "Expenses"
+                "description": "Έξοδα & δαπάνες"
             },
             {
                 "id": "headerDate",
-                "description": "Date"
+                "description": "Ημερομηνία"
             },
             {
                 "id": "headerSupplier",
-                "description": "Supplier"
+                "description": "Προμηθευτής"
             },
             {
                 "id": "headerDocumentType",
-                "description": "Document Type"
+                "description": "Τύπος παραστατικού"
+            },
+            {
+                "id": "headerDocumentNo",
+                "description": "No παραστατικού"
             },
             {
                 "id": "headerAmount",
-                "description": "Amount"
+                "description": "Συνολική αξία"
             },
             {
                 "id": "headerPaymentMethod",
-                "description": "Payment"
+                "description": "Τρόπος πληρωμής"
             },
             {
                 "id": "newRecord",
-                "description": "New record"
+                "description": "Νεα εγγραφη"
             },
             {
                 "id": "contextMenuEdit",
-                "description": "Edit"
+                "description": "Μεταβολή"
+            }
+        ]
+    },
+    {
+        "feature": "expenseForm",
+        "labels": [
+            {
+                "id": "headerNew",
+                "description": "Νέο παραστατικό"
+            },
+            {
+                "id": "headerEdit",
+                "description": "Μεταβολή παραστατικού"
+            },
+            {
+                "id": "date",
+                "description": "Ημερομηνία"
+            },
+            {
+                "id": "supplier",
+                "description": "Προμηθευτής"
+            },
+            {
+                "id": "documentType",
+                "description": "Τύπος παραστατικού"
+            },
+            {
+                "id": "documentNo",
+                "description": "No παραστατικού"
+            },
+            {
+                "id": "paymentMethod",
+                "description": "Τρόπος πληρωμής"
+            },
+            {
+                "id": "amount",
+                "description": "Συνολική αξία"
+            },
+            {
+                "id": "saveButton",
+                "description": "Αποθηκευση"
+            },
+            {
+                "id": "deleteButton",
+                "description": "Διαγραφη"
+            },
+            {
+                "id": "post",
+                "description": "Αρχική καταχώρηση"
+            },
+            {
+                "id": "put",
+                "description": "Τελευταία ενημέρωση"
             }
         ]
     }

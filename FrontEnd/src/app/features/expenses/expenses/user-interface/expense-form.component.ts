@@ -49,16 +49,10 @@ export class ExpenseFormComponent {
 
     //#region autocompletes
 
-    public dropdownBoatTypes: Observable<SimpleEntity[]>
-    public dropdownBoatUsages: Observable<SimpleEntity[]>
-    public dropdownPaymentStatuses: Observable<SimpleEntity[]>
+    public dropdownDocumentTypes: Observable<SimpleEntity[]>
+    public dropdownPaymentMethods: Observable<SimpleEntity[]>
+    public dropdownSuppliers: Observable<SimpleEntity[]>
     public isAutoCompleteDisabled = true
-
-    //#endregion
-
-    //#region berths
-
-    public berthsArray: string[] = []
 
     //#endregion
 
@@ -77,7 +71,6 @@ export class ExpenseFormComponent {
 
     ngAfterViewInit(): void {
         this.focusOnField()
-        this.leftAlignLastTab()
     }
 
     //#endregion
@@ -88,61 +81,12 @@ export class ExpenseFormComponent {
         return object ? object[fieldName] : undefined
     }
 
-    public calculateVatAmountAndGrossAmountBasedOnNetAmount(fieldName: string, digits: number): void {
-        this.patchNumericFieldsWithZeroIfNullOrEmpty(fieldName, digits)
-        const netAmount = parseFloat(this.form.value.netAmount)
-        const vatPercent = this.form.value.vatPercent
-        const vatAmount = netAmount * (vatPercent / 100)
-        const grossAmount = netAmount + vatAmount
-        this.form.patchValue(
-            {
-                netAmount: netAmount.toFixed(2),
-                vatAmount: vatAmount.toFixed(2),
-                grossAmount: grossAmount.toFixed(2)
-            })
-    }
-
-    public calculateNetAndGrossAmountBasedOnVatPercent(fieldName: string, digits: number): void {
-        this.patchNumericFieldsWithZeroIfNullOrEmpty(fieldName, digits)
-        this.calculateVatAmountAndGrossAmountBasedOnNetAmount(fieldName, digits)
-    }
-
-    public calculateNetAmountBasedOnGrossAmount(fieldName: string, digits: number): void {
-        this.patchNumericFieldsWithZeroIfNullOrEmpty(fieldName, digits)
-        const netAmount = this.form.value.grossAmount / (1 + (this.form.value.vatPercent / 100))
-        const vatPercent = this.form.value.vatPercent
-        const vatAmount = netAmount * (vatPercent / 100)
-        const grossAmount = parseFloat(this.form.value.grossAmount)
-        this.form.patchValue(
-            {
-                netAmount: netAmount.toFixed(2),
-                vatAmount: vatAmount.toFixed(2),
-                grossAmount: grossAmount.toFixed(2)
-            })
-    }
-
-    public copyOwnerToBilling(): void {
-        this.form.patchValue({
-            billingName: this.form.value.ownerName,
-            billingAddress: this.form.value.ownerAddress,
-            billingTaxNo: this.form.value.ownerTaxNo,
-            billingTaxOffice: this.form.value.ownerTaxOffice,
-            billingPassportNo: this.form.value.ownerPassportNo,
-            billingPhones: this.form.value.ownerPhones,
-            billingEmail: this.form.value.ownerEmail
-        })
-    }
-
     public checkForEmptyAutoComplete(event: { target: { value: any } }): void {
         if (event.target.value == '') this.isAutoCompleteDisabled = true
     }
 
     public enableOrDisableAutoComplete(event: any): void {
         this.isAutoCompleteDisabled = this.helperService.enableOrDisableAutoComplete(event)
-    }
-
-    public getEmoji(emoji: string): string {
-        return this.emojiService.getEmoji(emoji)
     }
 
     public getHint(id: string, minmax = 0): string {
@@ -161,14 +105,6 @@ export class ExpenseFormComponent {
         return this.form.value.expenseId == '' ? 'headerNew' : 'headerEdit'
     }
 
-    public getRemarksLength(): any {
-        return this.form.value.remarks != null ? this.form.value.remarks.length : 0
-    }
-
-    public getFinancialRemarksLength(): any {
-        return this.form.value.financialRemarks != null ? this.form.value.financialRemarks.length : 0
-    }
-
     public imageIsLoading(): any {
         return this.imgIsLoaded ? '' : 'skeleton'
     }
@@ -185,15 +121,6 @@ export class ExpenseFormComponent {
         this.imgIsLoaded = true
     }
 
-    public onAddBerthTextBox(): void {
-        const control = <FormArray>this.form.get('berths')
-        const newGroup = this.formBuilder.group({
-            description: ''
-        })
-        control.push(newGroup)
-        this.berthsArray.push(this.form.controls.berths.value)
-    }
-
     public onDelete(): void {
         this.dialogService.open(this.messageDialogService.confirmDelete(), 'question', ['abort', 'ok']).subscribe(response => {
             if (response) {
@@ -207,12 +134,6 @@ export class ExpenseFormComponent {
                 })
             }
         })
-    }
-
-    public onRemoveBerth(berthIndex: number): void {
-        const berths = <FormArray>this.form.get('berths')
-        berths.removeAt(berthIndex)
-        this.berthsArray.splice(berthIndex, 1)
     }
 
     public onSave(): void {
@@ -242,7 +163,7 @@ export class ExpenseFormComponent {
             documentTypeId: this.form.value.documentType.id,
             paymentMethodId: this.form.value.paymentMethod.id,
             date: this.dateHelperService.formatDateToIso(new Date(this.form.value.date)),
-            invoiceNo: this.form.value.invoiceNo,
+            documentNo: this.form.value.documentNo,
             amount: this.form.value.amount,
             putAt: this.form.value.putAt
         }
@@ -276,27 +197,17 @@ export class ExpenseFormComponent {
     private initForm(): void {
         this.form = this.formBuilder.group({
             id: '',
+            date: ['', [Validators.required]],
             supplier: ['', [Validators.required, ValidationService.RequireAutocomplete]],
             documentType: ['', [Validators.required, ValidationService.RequireAutocomplete]],
             paymentMethod: ['', [Validators.required, ValidationService.RequireAutocomplete]],
-            date: ['', [Validators.required]],
-            invoiceNo: ['', [Validators.required]],
+            documentNo: ['', [Validators.required]],
             amount: ['', [Validators.required, Validators.min(0), Validators.max(99999)]],
             postAt: [''],
             postUser: [''],
             putAt: [''],
             putUser: ['']
         })
-    }
-
-    private leftAlignLastTab(): void {
-        this.helperService.leftAlignLastTab()
-    }
-
-    private patchNumericFieldsWithZeroIfNullOrEmpty(fieldName: string, digits: number): void {
-        if (this.form.controls[fieldName].value == null || this.form.controls[fieldName].value == '') {
-            this.form.patchValue({ [fieldName]: parseInt('0').toFixed(digits) })
-        }
     }
 
     private populateDropdownFromDexieDB(dexieTable: string, filteredTable: string, formField: string, modelProperty: string, orderBy: string): void {
@@ -307,9 +218,9 @@ export class ExpenseFormComponent {
     }
 
     private populateDropdowns(): void {
-        this.populateDropdownFromDexieDB('boatTypes', 'dropdownBoatTypes', 'boatType', 'description', 'description')
-        this.populateDropdownFromDexieDB('boatUsages', 'dropdownBoatUsages', 'boatUsage', 'description', 'description')
-        this.populateDropdownFromDexieDB('paymentStatuses', 'dropdownPaymentStatuses', 'paymentStatus', 'description', 'description')
+        this.populateDropdownFromDexieDB('documentTypes', 'dropdownDocumentTypes', 'documentType', 'description', 'description')
+        this.populateDropdownFromDexieDB('paymentMethods', 'dropdownPaymentMethods', 'paymentMethod', 'description', 'description')
+        this.populateDropdownFromDexieDB('suppliers', 'dropdownSuppliers', 'supplier', 'description', 'description')
     }
 
     private populateFields(): void {
@@ -317,10 +228,10 @@ export class ExpenseFormComponent {
             this.form.setValue({
                 id: this.expense.id,
                 date: this.expense.date,
-                invoiceNo: this.expense.invoiceNo,
                 supplier: { 'id': this.expense.supplier.id, 'description': this.expense.supplier.description },
                 documentType: { 'id': this.expense.documentType.id, 'description': this.expense.documentType.description },
                 paymentMethod: { 'id': this.expense.paymentMethod.id, 'description': this.expense.paymentMethod.description },
+                documentNo: this.expense.documentNo,
                 amount: this.expense.amount,
                 postAt: this.expense.postAt,
                 postUser: this.expense.postUser,
@@ -363,40 +274,28 @@ export class ExpenseFormComponent {
 
     //#region getters
 
-    get boatName(): AbstractControl {
-        return this.form.get('boatName')
+    get date(): AbstractControl {
+        return this.form.get('date')
     }
 
-    get loa(): AbstractControl {
-        return this.form.get('loa')
+    get documentType(): AbstractControl {
+        return this.form.get('documentType')
     }
 
-    get beam(): AbstractControl {
-        return this.form.get('beam')
+    get documentNo(): AbstractControl {
+        return this.form.get('documentNo')
     }
 
-    get draft(): AbstractControl {
-        return this.form.get('draft')
+    get paymentMethod(): AbstractControl {
+        return this.form.get('paymentMethod')
     }
 
-    get fromDate(): AbstractControl {
-        return this.form.get('fromDate')
+    get supplier(): AbstractControl {
+        return this.form.get('supplier')
     }
 
-    get toDate(): AbstractControl {
-        return this.form.get('toDate')
-    }
-
-    get paymentStatus(): AbstractControl {
-        return this.form.get('paymentStatus')
-    }
-
-    get remarks(): AbstractControl {
-        return this.form.get('remarks')
-    }
-
-    get financialRemarks(): AbstractControl {
-        return this.form.get('financialRemarks')
+    get amount(): AbstractControl {
+        return this.form.get('amount')
     }
 
     get postAt(): AbstractControl {
@@ -413,110 +312,6 @@ export class ExpenseFormComponent {
 
     get putUser(): AbstractControl {
         return this.form.get('putUser')
-    }
-
-    get insuranceCompany(): AbstractControl {
-        return this.form.get('insuranceCompany')
-    }
-
-    get policyNo(): AbstractControl {
-        return this.form.get('policyNo')
-    }
-
-    get policyEnds(): AbstractControl {
-        return this.form.get('policyEnds')
-    }
-
-    get flag(): AbstractControl {
-        return this.form.get('flag')
-    }
-
-    get registryPort(): AbstractControl {
-        return this.form.get('registryPort')
-    }
-
-    get registryNo(): AbstractControl {
-        return this.form.get('registryNo')
-    }
-
-    get boatType(): AbstractControl {
-        return this.form.get('boatType')
-    }
-
-    get boatUsage(): AbstractControl {
-        return this.form.get('boatUsage')
-    }
-
-    get netAmount(): AbstractControl {
-        return this.form.get('netAmount')
-    }
-
-    get vatPercent(): AbstractControl {
-        return this.form.get('vatPercent')
-    }
-
-    get vatAmount(): AbstractControl {
-        return this.form.get('vatAmount')
-    }
-
-    get grossAmount(): AbstractControl {
-        return this.form.get('grossAmount')
-    }
-
-    get ownerName(): AbstractControl {
-        return this.form.get('ownerName')
-    }
-
-    get ownwerAddress(): AbstractControl {
-        return this.form.get('ownerAddress')
-    }
-
-    get ownerTaxNo(): AbstractControl {
-        return this.form.get('ownerTaxNo')
-    }
-
-    get ownerTaxOffice(): AbstractControl {
-        return this.form.get('ownerTaxOffice')
-    }
-
-    get ownerPassportNo(): AbstractControl {
-        return this.form.get('ownerPassportNo')
-    }
-
-    get ownerPhones(): AbstractControl {
-        return this.form.get('ownerPhones')
-    }
-
-    get ownerEmail(): AbstractControl {
-        return this.form.get('ownerEmail')
-    }
-
-    get billingName(): AbstractControl {
-        return this.form.get('billingName')
-    }
-
-    get billingAddress(): AbstractControl {
-        return this.form.get('billingAddress')
-    }
-
-    get billingTaxNo(): AbstractControl {
-        return this.form.get('billingTaxNo')
-    }
-
-    get billingTaxOffice(): AbstractControl {
-        return this.form.get('billingTaxOffice')
-    }
-
-    get billingPassportNo(): AbstractControl {
-        return this.form.get('billingPassportNo')
-    }
-
-    get billingPhones(): AbstractControl {
-        return this.form.get('billingPhones')
-    }
-
-    get billingEmail(): AbstractControl {
-        return this.form.get('billingEmail')
     }
 
     //#endregion

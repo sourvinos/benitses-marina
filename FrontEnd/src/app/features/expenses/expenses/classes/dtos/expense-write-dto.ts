@@ -7,7 +7,7 @@ export interface ExpenseWriteDto {
     documentTypeId: number
     paymentMethodId: number
     date: string
-    invoiceNo: string
+    documentNo: string
     amount: number
     putAt: string
 

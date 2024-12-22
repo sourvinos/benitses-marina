@@ -6,11 +6,11 @@ import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 export interface ExpenseReadDto extends Metadata {
 
     id: Guid
-    supplier: SimpleEntity
+    date: string
     documentType: SimpleEntity
     paymentMethod: SimpleEntity
-    date: string
-    invoiceNo: string
+    supplier: SimpleEntity
+    documentNo: string
     amount: number
     postAt: string
     postUser: string

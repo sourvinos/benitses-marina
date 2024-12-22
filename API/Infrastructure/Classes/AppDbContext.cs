@@ -12,6 +12,7 @@ using API.Features.Expenses.Expenses;
 using API.Features.Expenses.PaymentMethods;
 using API.Features.Expenses.Suppliers;
 using API.Features.Reservations.PaymentStatuses;
+using API.Features.Expenses.DocumentTypes;
 
 namespace API.Infrastructure.Classes {
 
@@ -22,7 +23,7 @@ namespace API.Infrastructure.Classes {
         #region Expenses
 
         public DbSet<Bank> Banks { get; set; }
-        public DbSet<Berth> Berths { get; set; }
+        public DbSet<DocumentType> DocumentTypes { get; set; }
         public DbSet<Expense> Expenses { get; set; }
         public DbSet<PaymentMethod> PaymentMethods { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
@@ -30,7 +31,7 @@ namespace API.Infrastructure.Classes {
         #endregion
 
         #region Reservations
-
+        public DbSet<Berth> Berths { get; set; }
         public DbSet<BoatType> BoatTypes { get; set; }
         public DbSet<BoatUsage> BoatUsages { get; set; }
         public DbSet<PaymentStatus> PaymentStatuses { get; set; }
@@ -55,6 +56,7 @@ namespace API.Infrastructure.Classes {
         private static void ApplyConfigurations(ModelBuilder modelBuilder) {
             #region Expenses
             modelBuilder.ApplyConfiguration(new BanksConfig());
+            modelBuilder.ApplyConfiguration(new DocumentTypesConfig());
             modelBuilder.ApplyConfiguration(new ExpensesConfig());
             modelBuilder.ApplyConfiguration(new PaymentMethodsConfig());
             modelBuilder.ApplyConfiguration(new SuppliersConfig());

@@ -10,7 +10,7 @@ namespace API.Features.Expenses.Expenses {
         public int DocumentTypeId { get; set; }
         public int PaymentMethodId { get; set; }
         public string Date { get; set; }
-        public string InvoiceNo { get; set; }
+        public string DocumentNo { get; set; }
         public decimal Amount { get; set; }
         public string PostAt { get; set; }
         public string PostUser { get; set; }
