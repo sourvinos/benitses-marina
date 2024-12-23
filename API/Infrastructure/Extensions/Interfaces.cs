@@ -13,6 +13,7 @@ using API.Features.Expenses.Suppliers;
 using API.Features.Reservations.PaymentStatuses;
 using API.Features.Expenses.DocumentTypes;
 using API.Features.Expenses.Invoices;
+using API.Features.Expenses.Ledgers;
 
 namespace API.Infrastructure.Extensions {
 
@@ -23,6 +24,7 @@ namespace API.Infrastructure.Extensions {
             services.AddTransient<IBankRepository, BankRepository>();
             services.AddTransient<IDocumentTypeRepository, DocumentTypeRepository>();
             services.AddTransient<IInvoiceRepository, InvoiceRepository>();
+            services.AddTransient<ILedgerRepository, LedgerRepository>();
             services.AddTransient<IPaymentMethodRepository, PaymentMethodRepository>();
             services.AddTransient<ISupplierRepository, SupplierRepository>();
             #endregion

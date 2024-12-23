@@ -12,11 +12,11 @@
         "description": "Πληρωμές"
     },
     {
-        "id": "supplierLedger",
+        "id": "ledger",
         "description": "Καρτέλα προμηθευτή"
     },
     {
-        "id": "suppliersBalanceSheet",
+        "id": "balanceSheet",
         "description": "Ισοζύγιο προμηθευτών"
     },
     {

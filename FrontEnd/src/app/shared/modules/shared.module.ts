@@ -6,6 +6,7 @@ import { PrimeNgModule } from './primeng.module'
 import { RouterModule } from '@angular/router'
 // Custom
 import { AbsPipe } from '../pipes/abs.pipe'
+import { DateRangePickerComponent } from '../components/date-range-picker/date-range-picker.component'
 import { EmojiDirective } from '../directives/emoji.directive'
 import { EmptyPageComponent } from '../components/empty-page/empty-page.component'
 import { HomeButtonAndTitleComponent } from '../components/home-button-and-title/home-button-and-title.component'
@@ -23,12 +24,13 @@ import { PrettyPrintPipe } from '../pipes/json-pretty.pipe'
 import { ReplaceZeroPipe } from '../pipes/replace-zero.pipe'
 import { SafeStylePipe } from '../pipes/safe-style.pipe'
 import { TableTotalFilteredRecordsComponent } from '../components/table-total-filtered-records/table-total-filtered-records.component'
-import { TrimStringPipe } from './../pipes/string-trim.pipe'
 import { ThemeSelectorComponent } from '../components/theme-selector/theme-selector.component'
+import { TrimStringPipe } from './../pipes/string-trim.pipe'
 
 @NgModule({
     declarations: [
         AbsPipe,
+        DateRangePickerComponent,
         EmojiDirective,
         EmptyPageComponent,
         HomeButtonAndTitleComponent,
@@ -44,8 +46,8 @@ import { ThemeSelectorComponent } from '../components/theme-selector/theme-selec
         PrettyPrintPipe,
         ReplaceZeroPipe,
         SafeStylePipe,
-        ThemeSelectorComponent,
         TableTotalFilteredRecordsComponent,
+        ThemeSelectorComponent,
         TrimStringPipe
     ],
     imports: [
@@ -60,6 +62,7 @@ import { ThemeSelectorComponent } from '../components/theme-selector/theme-selec
     exports: [
         AbsPipe,
         CommonModule,
+        DateRangePickerComponent,
         EmojiDirective,
         EmptyPageComponent,
         FormsModule,

@@ -8,6 +8,12 @@ export class ValidationService {
         return isValid ? null : { invalid: true }
     }
 
+    static validDatePeriod: ValidatorFn = (formGroup: FormGroup) => {
+        const [firstControlName, ...otherControlNames] = Object.keys(formGroup.controls || {})
+        const isValid = otherControlNames.every(controlName => formGroup.get(controlName).value >= formGroup.get(firstControlName).value)
+        return isValid ? null : { invalid: true }
+    }
+
     static beginsOrEndsWithSpace(control: AbstractControl): { [key: string]: any } {
         const pattern = /(^\s+)|(\s+$)/
         return pattern.test(control.value) ? { beginsOrEndsWithSpace: true } : null

@@ -120,10 +120,11 @@ export class DateHelperService {
         return x == z
     }
 
-    public isTripDateTodayOrPast(date: string): boolean {
-        const x = date
-        const z = this.formatDateToIso(new Date())
-        return x <= z
+    public removeInvalidClassFromRangePicker(): void {
+        const z = document.querySelectorAll('.mdc-text-field--invalid') as NodeListOf<HTMLElement>
+        z.forEach(x => {
+            x.classList.remove('mdc-text-field--invalid')
+        })
     }
 
     //#endregion

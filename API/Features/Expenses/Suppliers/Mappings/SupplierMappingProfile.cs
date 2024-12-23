@@ -8,6 +8,7 @@ namespace API.Features.Expenses.Suppliers {
         public SupplierMappingProfile() {
             CreateMap<Supplier, SupplierListVM>();
             CreateMap<Supplier, SupplierBrowserVM>();
+            CreateMap<Supplier, SimpleEntity>();
             CreateMap<Supplier, SupplierReadDto>()
                 .ForMember(x => x.Bank, x => x.MapFrom(x => new SimpleEntity { Id = x.Bank.Id, Description = x.Bank.Description }));
             CreateMap<SupplierWriteDto, Supplier>()

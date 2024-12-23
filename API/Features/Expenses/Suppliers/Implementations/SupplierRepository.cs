@@ -37,11 +37,11 @@ namespace API.Features.Expenses.Suppliers {
         }
 
         public async Task<IEnumerable<SimpleEntity>> GetForCriteriaAsync() {
-            var Suppliers = await context.Suppliers
+            var suppliers = await context.Suppliers
                 .AsNoTracking()
                 .OrderBy(x => x.Description)
                 .ToListAsync();
-            return mapper.Map<IEnumerable<Supplier>, IEnumerable<SimpleEntity>>(Suppliers);
+            return mapper.Map<IEnumerable<Supplier>, IEnumerable<SimpleEntity>>(suppliers);
         }
 
         public async Task<SupplierBrowserVM> GetByIdForBrowserAsync(int id) {

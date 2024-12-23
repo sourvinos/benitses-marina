@@ -17,6 +17,7 @@ export class DexieService extends Dexie {
             banks: 'id, description',
             documentTypes: 'id, description',
             paymentMethods: 'id, description',
+            suppliersCriteria: 'id, description',
         })
         this.open()
     }
