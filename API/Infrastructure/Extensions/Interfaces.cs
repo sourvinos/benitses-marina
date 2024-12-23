@@ -8,11 +8,11 @@ using API.Features.BoatTypes;
 using API.Features.BoatUsages;
 using API.Features.Leases;
 using API.Features.Expenses.Banks;
-using API.Features.Expenses.Expenses;
 using API.Features.Expenses.PaymentMethods;
 using API.Features.Expenses.Suppliers;
 using API.Features.Reservations.PaymentStatuses;
 using API.Features.Expenses.DocumentTypes;
+using API.Features.Expenses.Invoices;
 
 namespace API.Infrastructure.Extensions {
 
@@ -21,10 +21,10 @@ namespace API.Infrastructure.Extensions {
         public static void AddInterfaces(IServiceCollection services) {
             #region expenses
             services.AddTransient<IBankRepository, BankRepository>();
-            services.AddTransient<IExpenseRepository, ExpenseRepository>();
+            services.AddTransient<IDocumentTypeRepository, DocumentTypeRepository>();
+            services.AddTransient<IInvoiceRepository, InvoiceRepository>();
             services.AddTransient<IPaymentMethodRepository, PaymentMethodRepository>();
             services.AddTransient<ISupplierRepository, SupplierRepository>();
-            services.AddTransient<IDocumentTypeRepository, DocumentTypeRepository>();
             #endregion
             #region reservations
             services.AddTransient<IBerthRepository, BerthRepository>();
@@ -43,7 +43,7 @@ namespace API.Infrastructure.Extensions {
             services.AddTransient<IBoatTypeValidation, BoatTypeValidation>();
             services.AddTransient<IBoatUsageValidation, BoatUsageValidation>();
             services.AddTransient<IDocumentTypeValidation, DocumentTypeValidation>();
-            services.AddTransient<IExpenseValidation, ExpenseValidation>();
+            services.AddTransient<IInvoiceValidation, InvoiceValidation>();
             services.AddTransient<IPaymentMethodValidation, PaymentMethodValidation>();
             services.AddTransient<IPaymentStatusValidation, PaymentStatusValidation>();
             services.AddTransient<IReservationValidation, ReservationValidation>();

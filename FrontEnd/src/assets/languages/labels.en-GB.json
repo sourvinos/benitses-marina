@@ -765,7 +765,7 @@
         ]
     },
     {
-        "feature": "expenseList",
+        "feature": "invoiceList",
         "labels": [
             {
                 "id": "header",
@@ -806,7 +806,7 @@
         ]
     },
     {
-        "feature": "expenseForm",
+        "feature": "invoiceForm",
         "labels": [
             {
                 "id": "headerNew",
