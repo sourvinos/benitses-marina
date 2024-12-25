@@ -59,7 +59,7 @@ export class AccountService extends HttpDataService {
             { 'item': 'now', 'when': 'always' },
             { 'item': 'refreshToken', 'when': 'always' },
             { 'item': 'returnUrl', 'when': 'always' },
-            { 'item': 'userId', 'when': 'always' },
+            { 'item': 'userId', 'when': 'always' }
         ])
     }
 
@@ -140,6 +140,7 @@ export class AccountService extends HttpDataService {
         this.dexieService.populateTable('documentTypes', this.documentTypeHttpService)
         this.dexieService.populateTable('paymentMethods', this.paymentMethodHttpService)
         this.dexieService.populateTable('suppliers', this.supplierHttpService)
+        this.dexieService.populateCriteria('companiesCriteria', this.companyHttpService)
         this.dexieService.populateCriteria('suppliersCriteria', this.supplierHttpService)
         // Reservations
         this.dexieService.populateTable('berths', this.berthHttpService)

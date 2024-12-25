@@ -2,8 +2,9 @@ import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
 // Custom
-import { CompanyAutoCompleteVM } from '../view-models/company-autocomplete-vm'
+import { CompanyBrowserStorageVM } from '../view-models/company-browser-storage-vm'
 import { HttpDataService } from 'src/app/shared/services/http-data.service'
+import { SimpleCriteriaEntity } from 'src/app/shared/classes/simple-criteria-entity'
 import { environment } from 'src/environments/environment'
 
 @Injectable({ providedIn: 'root' })
@@ -14,12 +15,12 @@ export class CompanyHttpService extends HttpDataService {
         super(httpClient, environment.apiUrl + '/companies')
     }
 
-    //#region public methods
-
-    public getForBrowser(): Observable<CompanyAutoCompleteVM[]> {
-        return this.http.get<CompanyAutoCompleteVM[]>(environment.apiUrl + '/companies/getForBrowser')
+    public getForBrowser(): Observable<CompanyBrowserStorageVM[]> {
+        return this.http.get<CompanyBrowserStorageVM[]>(environment.apiUrl + '/companies/getForBrowser')
     }
 
-    //#endregion
+    public getForCriteria(): Observable<SimpleCriteriaEntity[]> {
+        return this.http.get<SimpleCriteriaEntity[]>(environment.apiUrl + '/companies/getForCriteria')
+    }
 
 }

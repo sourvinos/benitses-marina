@@ -19,7 +19,7 @@ export class LedgerShipOwnerTableComponent {
     @Input() records: LedgerVM[] = []
     @Input() criteria: LedgerCriteriaVM
 
-    public feature = 'billingLedger'
+    public feature = 'ledger'
 
     //#endregion
 

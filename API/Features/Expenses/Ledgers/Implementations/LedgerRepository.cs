@@ -16,22 +16,18 @@ namespace API.Features.Expenses.Ledgers {
 
     public class LedgerRepository : Repository<LedgerRepository>, ILedgerRepository {
 
-        private readonly IHttpContextAccessor httpContext;
-        private readonly UserManager<UserExtended> userManager;
         private readonly IMapper mapper;
 
         public LedgerRepository(AppDbContext appDbContext, IHttpContextAccessor httpContext, IOptions<TestingEnvironment> settings, UserManager<UserExtended> userManager, IMapper mapper) : base(appDbContext, httpContext, settings, userManager) {
-            this.httpContext = httpContext;
-            this.userManager = userManager;
             this.mapper = mapper;
         }
 
-        public async Task<IEnumerable<LedgerVM>> GetForLedger(string fromDate, string toDate, int supplierId) {
+        public async Task<IEnumerable<LedgerVM>> GetForLedger(int companyId, int supplierId, string fromDate, string toDate) {
             var records = await context.Invoices
                 .AsNoTracking()
                 .Include(x => x.Supplier)
                 .Include(x => x.DocumentType)
-                .Where(x => x.Date <= Convert.ToDateTime(toDate) && x.SupplierId == supplierId)
+                .Where(x => x.CompanyId == companyId && x.SupplierId == supplierId && x.Date <= Convert.ToDateTime(toDate))
                 .OrderBy(x => x.Date)
                 .ToListAsync();
             return mapper.Map<IEnumerable<Invoice>, IEnumerable<LedgerVM>>(records);

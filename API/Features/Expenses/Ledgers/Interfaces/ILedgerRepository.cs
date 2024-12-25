@@ -5,7 +5,7 @@ namespace API.Features.Expenses.Ledgers {
 
     public interface ILedgerRepository {
 
-        Task<IEnumerable<LedgerVM>> GetForLedger(string fromDate, string toDate, int supplierId);
+        Task<IEnumerable<LedgerVM>> GetForLedger(int companyId, int supplierId, string fromDate, string toDate);
         IEnumerable<LedgerVM> BuildBalanceForLedger(IEnumerable<LedgerVM> records);
         LedgerVM BuildPrevious(IEnumerable<LedgerVM> records, string fromDate);
         List<LedgerVM> BuildRequested(IEnumerable<LedgerVM> records, string fromDate);

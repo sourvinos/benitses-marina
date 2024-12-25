@@ -21,19 +21,27 @@ namespace API.Features.Expenses.Companies {
         }
 
         public async Task<IEnumerable<CompanyListVM>> GetAsync() {
-            var Companies = await context.Companies
+            var companies = await context.Companies
                 .AsNoTracking()
                 .OrderBy(x => x.Description)
                 .ToListAsync();
-            return mapper.Map<IEnumerable<Company>, IEnumerable<CompanyListVM>>(Companies);
+            return mapper.Map<IEnumerable<Company>, IEnumerable<CompanyListVM>>(companies);
         }
 
         public async Task<IEnumerable<CompanyBrowserVM>> GetForBrowserAsync() {
-            var Companies = await context.Companies
+            var companies = await context.Companies
                 .AsNoTracking()
                 .OrderBy(x => x.Description)
                 .ToListAsync();
-            return mapper.Map<IEnumerable<Company>, IEnumerable<CompanyBrowserVM>>(Companies);
+            return mapper.Map<IEnumerable<Company>, IEnumerable<CompanyBrowserVM>>(companies);
+        }
+
+        public async Task<IEnumerable<SimpleEntity>> GetForCriteriaAsync() {
+            var companies = await context.Companies
+                .AsNoTracking()
+                .OrderBy(x => x.Description)
+                .ToListAsync();
+            return mapper.Map<IEnumerable<Company>, IEnumerable<SimpleEntity>>(companies);
         }
 
         public async Task<CompanyBrowserVM> GetByIdForBrowserAsync(int id) {
@@ -41,14 +49,6 @@ namespace API.Features.Expenses.Companies {
                 .AsNoTracking()
                 .SingleOrDefaultAsync(x => x.Id == id);
             return mapper.Map<Company, CompanyBrowserVM>(record);
-        }
-
-        public async Task<IEnumerable<SimpleEntity>> GetForCriteriaAsync() {
-            var Companies = await context.Companies
-                .AsNoTracking()
-                .OrderBy(x => x.Description)
-                .ToListAsync();
-            return mapper.Map<IEnumerable<Company>, IEnumerable<SimpleEntity>>(Companies);
         }
 
         public async Task<Company> GetByIdAsync(int id, bool includeTables) {

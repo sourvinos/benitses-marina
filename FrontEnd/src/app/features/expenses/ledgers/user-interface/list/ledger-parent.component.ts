@@ -2,15 +2,15 @@ import { Component } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 // Custom
 import { DateHelperService } from '../../../../../shared/services/date-helper.service'
-import { DialogService } from 'src/app/shared/services/modal-dialog.service'
 import { HelperService } from '../../../../../shared/services/helper.service'
 import { InteractionService } from 'src/app/shared/services/interaction.service'
 import { LedgerCriteriaDialogComponent } from '../criteria/ledger-criteria.component'
 import { LedgerCriteriaVM } from '../../classes/view-models/criteria/ledger-criteria-vm'
+import { LedgerFormCriteriaVM } from '../../classes/view-models/criteria/ledger-form-criteria-vm'
 import { LedgerHttpService } from '../../classes/services/ledger-http.service'
 import { LedgerVM } from '../../classes/view-models/list/ledger-vm'
-import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
 import { MessageLabelService } from '../../../../../shared/services/message-label.service'
+import { SessionStorageService } from 'src/app/shared/services/session-storage.service'
 
 @Component({
     selector: 'ledger',
@@ -23,15 +23,15 @@ export class LedgerParentBillingComponent {
     //#region variables
 
     public criteria: LedgerCriteriaVM
-    public feature = 'billingLedger'
+    public criteriaForm: LedgerFormCriteriaVM
+    public feature = 'ledgerParent'
     public featureIcon = 'ledgers'
     public parentUrl = '/home'
     public records: LedgerVM[] = []
-    private selectedTabIndex = 0
 
     //#endregion
 
-    constructor(private dateHelperService: DateHelperService, private dialogService: DialogService, private helperService: HelperService, private interactionService: InteractionService, private ledgerHttpService: LedgerHttpService, private messageDialogService: MessageDialogService, private messageLabelService: MessageLabelService, public dialog: MatDialog) { }
+    constructor(private dateHelperService: DateHelperService, private helperService: HelperService, private interactionService: InteractionService, private ledgerHttpService: LedgerHttpService, private messageLabelService: MessageLabelService, private sessionStorageService: SessionStorageService, public dialog: MatDialog) { }
 
     //#region lifecycle hooks
 
@@ -41,28 +41,25 @@ export class LedgerParentBillingComponent {
         this.setListHeight()
     }
 
+    ngOnDestroy(): void {
+        this.sessionStorageService.deleteItems([{ 'item': 'ledgerCriteria', 'when': 'production' }])
+    }
+
     //#endregion
 
     //#region public methods
 
     public getCriteria(): string {
-        return this.criteria
-            ? this.criteria.supplier.description + ', ' + this.dateHelperService.formatISODateToLocale(this.criteria.fromDate) + ' - ' + this.dateHelperService.formatISODateToLocale(this.criteria.toDate)
-            : ''
+        if (this.sessionStorageService.getItem('ledgerCriteria')) {
+            this.criteriaForm = JSON.parse(this.sessionStorageService.getItem('ledgerCriteria')) ? JSON.parse(this.sessionStorageService.getItem('ledgerCriteria')) : null
+            return this.criteriaForm ?
+                this.criteriaForm.company.description + ', ' + this.criteriaForm.supplier.description + ', ' + this.dateHelperService.formatISODateToLocale(this.criteria.fromDate) + ' - ' + this.dateHelperService.formatISODateToLocale(this.criteria.toDate)
+                : ''
+        }
     }
 
     public getLabel(id: string): string {
         return this.messageLabelService.getDescription(this.feature, id)
-    }
-
-    public onSelectedTabChange(event: number): void {
-        this.selectedTabIndex = event
-        setTimeout(() => {
-            const x = document.getElementsByClassName('table-wrapper') as HTMLCollectionOf<HTMLInputElement>
-            for (let i = 0; i < x.length; i++) {
-                x[i].style.height = document.getElementById('content').offsetHeight - 150 + 'px'
-            }
-        }, 100)
     }
 
     public onShowCriteriaDialog(): void {
@@ -85,17 +82,19 @@ export class LedgerParentBillingComponent {
 
     private buildCriteriaVM(event: LedgerCriteriaVM): void {
         this.criteria = {
+            companyId: event.companyId,
+            supplierId: event.supplierId,
             fromDate: event.fromDate,
             toDate: event.toDate,
-            supplier: event.supplier
         }
     }
 
     private loadRecords(criteria: LedgerCriteriaVM): void {
         const x: LedgerCriteriaVM = {
+            companyId: criteria.companyId,
+            supplierId: criteria.supplierId,
             fromDate: criteria.fromDate,
             toDate: criteria.toDate,
-            supplier: criteria.supplier
         }
         this.ledgerHttpService.get(x).subscribe(response => {
             this.records = response

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using API.Infrastructure.Classes;
 using API.Infrastructure.Extensions;
 using API.Infrastructure.Helpers;
 using API.Infrastructure.Responses;
@@ -14,34 +15,40 @@ namespace API.Features.Expenses.Companies {
 
         #region variables
 
+        private readonly ICompanyRepository companyRepo;
+        private readonly ICompanyValidation companyValidation;
         private readonly IMapper mapper;
-        private readonly ICompanyRepository CompanyRepo;
-        private readonly ICompanyValidation CompanyValidation;
 
         #endregion
 
-        public CompaniesController(IMapper mapper, ICompanyRepository CompanyRepo, ICompanyValidation CompanyValidation) {
+        public CompaniesController(ICompanyRepository companyRepo, ICompanyValidation companyValidation, IMapper mapper) {
+            this.companyRepo = companyRepo;
+            this.companyValidation = companyValidation;
             this.mapper = mapper;
-            this.CompanyRepo = CompanyRepo;
-            this.CompanyValidation = CompanyValidation;
         }
 
         [HttpGet]
         [Authorize(Roles = "admin")]
         public async Task<IEnumerable<CompanyListVM>> GetAsync() {
-            return await CompanyRepo.GetAsync();
+            return await companyRepo.GetAsync();
         }
 
         [HttpGet("[action]")]
         [Authorize(Roles = "user, admin")]
         public async Task<IEnumerable<CompanyBrowserVM>> GetForBrowserAsync() {
-            return await CompanyRepo.GetForBrowserAsync();
+            return await companyRepo.GetForBrowserAsync();
+        }
+
+        [HttpGet("[action]")]
+        [Authorize(Roles = "user, admin")]
+        public async Task<IEnumerable<SimpleEntity>> GetForCriteriaAsync() {
+            return await companyRepo.GetForCriteriaAsync();
         }
 
         [HttpGet("{id}")]
         [Authorize(Roles = "admin")]
         public async Task<ResponseWithBody> GetByIdAsync(int id) {
-            var x = await CompanyRepo.GetByIdAsync(id, true);
+            var x = await companyRepo.GetByIdAsync(id, true);
             if (x != null) {
                 return new ResponseWithBody {
                     Code = 200,
@@ -60,13 +67,13 @@ namespace API.Features.Expenses.Companies {
         [Authorize(Roles = "admin")]
         [ServiceFilter(typeof(ModelValidationAttribute))]
         public ResponseWithBody Post([FromBody] CompanyWriteDto Company) {
-            var x = CompanyValidation.IsValid(null, Company);
+            var x = companyValidation.IsValid(null, Company);
             if (x == 200) {
-                var z = CompanyRepo.Create(mapper.Map<CompanyWriteDto, Company>((CompanyWriteDto)CompanyRepo.AttachMetadataToPostDto(Company)));
+                var z = companyRepo.Create(mapper.Map<CompanyWriteDto, Company>((CompanyWriteDto)companyRepo.AttachMetadataToPostDto(Company)));
                 return new ResponseWithBody {
                     Code = 200,
                     Icon = Icons.Success.ToString(),
-                    Body = CompanyRepo.GetByIdForBrowserAsync(z.Id).Result,
+                    Body = companyRepo.GetByIdForBrowserAsync(z.Id).Result,
                     Message = ApiMessages.OK()
                 };
             } else {
@@ -80,15 +87,15 @@ namespace API.Features.Expenses.Companies {
         [Authorize(Roles = "admin")]
         [ServiceFilter(typeof(ModelValidationAttribute))]
         public async Task<ResponseWithBody> Put([FromBody] CompanyWriteDto Company) {
-            var x = await CompanyRepo.GetByIdAsync(Company.Id, false);
+            var x = await companyRepo.GetByIdAsync(Company.Id, false);
             if (x != null) {
-                var z = CompanyValidation.IsValid(x, Company);
+                var z = companyValidation.IsValid(x, Company);
                 if (z == 200) {
-                    CompanyRepo.Update(mapper.Map<CompanyWriteDto, Company>((CompanyWriteDto)CompanyRepo.AttachMetadataToPutDto(x, Company)));
+                    companyRepo.Update(mapper.Map<CompanyWriteDto, Company>((CompanyWriteDto)companyRepo.AttachMetadataToPutDto(x, Company)));
                     return new ResponseWithBody {
                         Code = 200,
                         Icon = Icons.Success.ToString(),
-                        Body = CompanyRepo.GetByIdForBrowserAsync(Company.Id).Result,
+                        Body = companyRepo.GetByIdForBrowserAsync(Company.Id).Result,
                         Message = ApiMessages.OK(),
                     };
                 } else {
@@ -106,9 +113,9 @@ namespace API.Features.Expenses.Companies {
         [HttpDelete("{id}")]
         [Authorize(Roles = "admin")]
         public async Task<Response> Delete([FromRoute] int id) {
-            var x = await CompanyRepo.GetByIdAsync(id, false);
+            var x = await companyRepo.GetByIdAsync(id, false);
             if (x != null) {
-                CompanyRepo.Delete(x);
+                companyRepo.Delete(x);
                 return new Response {
                     Code = 200,
                     Icon = Icons.Success.ToString(),

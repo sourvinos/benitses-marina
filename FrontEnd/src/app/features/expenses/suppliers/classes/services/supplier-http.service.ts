@@ -15,8 +15,6 @@ export class SupplierHttpService extends HttpDataService {
         super(httpClient, environment.apiUrl + '/suppliers')
     }
 
-    //#region public methods
-
     public getForBrowser(): Observable<SupplierBrowserStorageVM[]> {
         return this.http.get<SupplierBrowserStorageVM[]>(environment.apiUrl + '/suppliers/getForBrowser')
     }
@@ -24,7 +22,5 @@ export class SupplierHttpService extends HttpDataService {
     public getForCriteria(): Observable<SimpleCriteriaEntity[]> {
         return this.http.get<SimpleCriteriaEntity[]>(environment.apiUrl + '/suppliers/getForCriteria')
     }
-
-    //#endregion
 
 }

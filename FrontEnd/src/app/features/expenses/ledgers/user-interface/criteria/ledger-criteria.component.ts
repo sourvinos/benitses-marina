@@ -1,3 +1,5 @@
+import { LedgerCriteriaVM } from './../../classes/view-models/criteria/ledger-criteria-vm';
+import { LedgerFormCriteriaVM } from './../../classes/view-models/criteria/ledger-form-criteria-vm';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Component, EventEmitter, Inject, NgZone, Output } from '@angular/core'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
@@ -39,6 +41,7 @@ export class LedgerCriteriaDialogComponent {
     //#region autocompletes
 
     public isAutoCompleteDisabled = true
+    public dropdownCompanies: Observable<SimpleEntity[]>
     public dropdownSuppliers: Observable<SimpleEntity[]>
 
     //#endregion
@@ -96,7 +99,7 @@ export class LedgerCriteriaDialogComponent {
         this.ngZone.run(() => {
             this.interactionService.updateDateRange(this.form.value)
             this.sessionStorageService.saveItem(this.feature, JSON.stringify(this.form.value))
-            this.dialogRef.close(this.form.value)
+            this.dialogRef.close(this.createCriteriaObject(this.form.value))
         })
     }
 
@@ -129,13 +132,24 @@ export class LedgerCriteriaDialogComponent {
 
     private initForm(): void {
         this.form = this.formBuilder.group({
+            company: ['', [Validators.required, ValidationService.RequireAutocomplete]],
+            supplier: ['', [Validators.required, ValidationService.RequireAutocomplete]],
             fromDate: ['', [Validators.required]],
             toDate: ['', [Validators.required]],
-            supplier: ['', [Validators.required, ValidationService.RequireAutocomplete]]
         })
     }
 
+    private createCriteriaObject(criteria: LedgerFormCriteriaVM): LedgerCriteriaVM {
+        return {
+            companyId: criteria.company.id,
+            supplierId: criteria.supplier.id,
+            fromDate: criteria.fromDate,
+            toDate: criteria.toDate
+        }
+    }
+
     private populateDropdowns(): void {
+        this.populateDropdownFromDexieDB('companiesCriteria', 'dropdownCompanies', 'company', 'description', 'description')
         this.populateDropdownFromDexieDB('suppliersCriteria', 'dropdownSuppliers', 'supplier', 'description', 'description')
     }
 
@@ -148,9 +162,10 @@ export class LedgerCriteriaDialogComponent {
 
     private populateFormFromStoredFields(object: any): void {
         this.form.patchValue({
+            company: object.company,
+            supplier: object.supplier,
             fromDate: object.fromDate,
             toDate: object.toDate,
-            supplier: object.supplier
         })
     }
 
@@ -165,16 +180,20 @@ export class LedgerCriteriaDialogComponent {
 
     //#region getters
 
+    get company(): AbstractControl {
+        return this.form.get('company')
+    }
+
+    get supplier(): AbstractControl {
+        return this.form.get('supplier')
+    }
+
     get fromDate(): AbstractControl {
         return this.form.get('fromDate')
     }
 
     get toDate(): AbstractControl {
         return this.form.get('toDate')
-    }
-
-    get supplier(): AbstractControl {
-        return this.form.get('supplier')
     }
 
     //#endregion

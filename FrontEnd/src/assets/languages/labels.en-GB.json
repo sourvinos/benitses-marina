@@ -865,5 +865,72 @@
                 "description": "Τελευταία ενημέρωση"
             }
         ]
+    },
+    {
+        "feature": "ledgerCriteria",
+        "labels": [
+            {
+                "id": "header",
+                "description": "Λογιστική καρτέλα πελάτη"
+            },
+            {
+                "id": "subHeader",
+                "description": "Δώστε τα κριτήρια με τα οποία θα γίνει η αναζήτηση"
+            },
+            {
+                "id": "company",
+                "description": "Εταιρία"
+            },
+            {
+                "id": "supplier",
+                "description": "Προμηθευτής"
+            },
+            {
+                "id": "cancelButton",
+                "description": "Ακυρο"
+            },
+            {
+                "id": "okButton",
+                "description": "Συνεχεια"
+            }
+        ]
+    },
+    {
+        "feature": "ledgerParent",
+        "labels": [
+            {
+                "id": "header",
+                "description": "Καρτέλα προμηθευτή"
+            }
+        ]
+    },
+    {
+        "feature": "ledger",
+        "labels": [
+            {
+                "id": "headerDate",
+                "description": "Ημερομηνία"
+            },
+            {
+                "id": "headerDocumentTypeDescription",
+                "description": "Παραστατικό"
+            },
+            {
+                "id": "headerInvoiceNo",
+                "description": "Νο"
+            },
+            {
+                "id": "headerDebit",
+                "description": "Χρέωση"
+            },
+            {
+                "id": "headerCredit",
+                "description": "Πίστωση"
+            },
+            {
+                "id": "headerBalance",
+                "description": "Υπόλοιπο"
+            }
+        ]
     }
 ]
