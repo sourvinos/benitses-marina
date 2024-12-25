@@ -11,6 +11,10 @@ namespace API.Features.Expenses.Invoices {
             CreateMap<Invoice, InvoiceListVM>()
                 .ForMember(x => x.Id, x => x.MapFrom(x => x.Id.ToString()))
                 .ForMember(x => x.Date, x => x.MapFrom(x => DateHelpers.DateToISOString(x.Date)))
+                .ForMember(x => x.Company, x => x.MapFrom(x => new SimpleEntity {
+                    Id = x.Company.Id,
+                    Description = x.Company.Description
+                }))
                 .ForMember(x => x.DocumentType, x => x.MapFrom(x => new SimpleEntity {
                     Id = x.DocumentType.Id,
                     Description = x.DocumentType.Description
@@ -26,6 +30,10 @@ namespace API.Features.Expenses.Invoices {
             // GetById
             CreateMap<Invoice, InvoiceReadDto>()
                 .ForMember(x => x.Date, x => x.MapFrom(x => DateHelpers.DateToISOString(x.Date)))
+                .ForMember(x => x.Company, x => x.MapFrom(x => new SimpleEntity {
+                    Id = x.Company.Id,
+                    Description = x.Company.Description
+                }))
                 .ForMember(x => x.DocumentType, x => x.MapFrom(x => new SimpleEntity {
                     Id = x.DocumentType.Id,
                     Description = x.DocumentType.Description
@@ -39,7 +47,8 @@ namespace API.Features.Expenses.Invoices {
                     Description = x.PaymentMethod.Description
                 }));
             // Write reservation
-            CreateMap<InvoiceWriteDto, Invoice>();
+            CreateMap<InvoiceWriteDto, Invoice>()
+                .ForMember(x => x.DiscriminatorId, x => x.MapFrom(x => 1));
         }
 
     }

@@ -4,6 +4,7 @@ export interface InvoiceListVM {
 
     id: string
     date: string
+    company: SimpleEntity
     documentType: SimpleEntity
     paymentMethod: SimpleEntity
     supplier: SimpleEntity

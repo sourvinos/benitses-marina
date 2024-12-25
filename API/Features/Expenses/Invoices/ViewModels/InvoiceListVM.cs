@@ -6,6 +6,7 @@ namespace API.Features.Expenses.Invoices {
 
         public string Id { get; set; }
         public string Date { get; set; }
+        public SimpleEntity Company { get; set; }
         public SimpleEntity DocumentType { get; set; }
         public SimpleEntity PaymentMethod { get; set; }
         public SimpleEntity Supplier { get; set; }

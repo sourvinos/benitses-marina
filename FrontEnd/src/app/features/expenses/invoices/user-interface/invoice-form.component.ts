@@ -49,6 +49,7 @@ export class InvoiceFormComponent {
 
     //#region autocompletes
 
+    public dropdownCompanies: Observable<SimpleEntity[]>
     public dropdownDocumentTypes: Observable<SimpleEntity[]>
     public dropdownPaymentMethods: Observable<SimpleEntity[]>
     public dropdownSuppliers: Observable<SimpleEntity[]>
@@ -159,6 +160,7 @@ export class InvoiceFormComponent {
     private flattenForm(): InvoiceWriteDto {
         return {
             id: this.form.value.id != '' ? this.form.value.id : null,
+            companyId: this.form.value.company.id,
             supplierId: this.form.value.supplier.id,
             documentTypeId: this.form.value.documentType.id,
             paymentMethodId: this.form.value.paymentMethod.id,
@@ -198,6 +200,7 @@ export class InvoiceFormComponent {
         this.form = this.formBuilder.group({
             id: '',
             date: ['', [Validators.required]],
+            company: ['', [Validators.required, ValidationService.RequireAutocomplete]],
             supplier: ['', [Validators.required, ValidationService.RequireAutocomplete]],
             documentType: ['', [Validators.required, ValidationService.RequireAutocomplete]],
             paymentMethod: ['', [Validators.required, ValidationService.RequireAutocomplete]],
@@ -218,6 +221,7 @@ export class InvoiceFormComponent {
     }
 
     private populateDropdowns(): void {
+        this.populateDropdownFromDexieDB('companies', 'dropdownCompanies', 'company', 'description', 'description')
         this.populateDropdownFromDexieDB('documentTypes', 'dropdownDocumentTypes', 'documentType', 'description', 'description')
         this.populateDropdownFromDexieDB('paymentMethods', 'dropdownPaymentMethods', 'paymentMethod', 'description', 'description')
         this.populateDropdownFromDexieDB('suppliers', 'dropdownSuppliers', 'supplier', 'description', 'description')
@@ -228,6 +232,7 @@ export class InvoiceFormComponent {
             this.form.setValue({
                 id: this.invoice.id,
                 date: this.invoice.date,
+                company: { 'id': this.invoice.company.id, 'description': this.invoice.company.description },
                 supplier: { 'id': this.invoice.supplier.id, 'description': this.invoice.supplier.description },
                 documentType: { 'id': this.invoice.documentType.id, 'description': this.invoice.documentType.description },
                 paymentMethod: { 'id': this.invoice.paymentMethod.id, 'description': this.invoice.paymentMethod.description },
@@ -288,6 +293,10 @@ export class InvoiceFormComponent {
 
     get paymentMethod(): AbstractControl {
         return this.form.get('paymentMethod')
+    }
+
+    get company(): AbstractControl {
+        return this.form.get('company')
     }
 
     get supplier(): AbstractControl {

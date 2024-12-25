@@ -24,9 +24,11 @@ namespace API.Features.Expenses.Invoices {
             this.testingEnvironment = testingEnvironment.Value;
         }
 
-        public async Task<IEnumerable<InvoiceListVM>> GetAsync() {
+        public async Task<IEnumerable<InvoiceListVM>> GetAsync(int? companyId) {
             var invoices = await context.Invoices
                 .AsNoTracking()
+                .Where(x => x.DiscriminatorId != 1 || companyId == null || x.CompanyId == companyId)
+                .Include(x => x.Company)
                 .Include(x => x.DocumentType)
                 .Include(x => x.PaymentMethod)
                 .Include(x => x.Supplier)
@@ -39,6 +41,7 @@ namespace API.Features.Expenses.Invoices {
             return includeTables
                 ? await context.Invoices
                     .AsNoTracking()
+                    .Include(x => x.Company)
                     .Include(x => x.DocumentType)
                     .Include(x => x.PaymentMethod)
                     .Include(x => x.Supplier)

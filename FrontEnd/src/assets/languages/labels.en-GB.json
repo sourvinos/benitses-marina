@@ -776,6 +776,10 @@
                 "description": "Ημερομηνία"
             },
             {
+                "id": "headerCompany",
+                "description": "Εταιρία"
+            },
+            {
                 "id": "headerSupplier",
                 "description": "Προμηθευτής"
             },
@@ -815,6 +819,10 @@
             {
                 "id": "headerEdit",
                 "description": "Μεταβολή παραστατικού"
+            },
+            {
+                "id": "company",
+                "description": "Εταιρία"
             },
             {
                 "id": "date",

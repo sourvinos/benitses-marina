@@ -9,6 +9,7 @@ import { BerthHttpService } from 'src/app/features/reservations/berths/classes/s
 import { BoatTypeHttpService } from 'src/app/features/reservations/boatTypes/classes/services/boatType-http.service'
 import { BoatUsageHttpService } from 'src/app/features/reservations/boatUsages/classes/services/boatUsage-http.service'
 import { ChangePasswordViewModel } from 'src/app/features/users/classes/view-models/change-password-view-model'
+import { CompanyHttpService } from 'src/app/features/expenses/companies/classes/services/company-http.service'
 import { CryptoService } from './crypto.service'
 import { DexieService } from './dexie.service'
 import { DocumentTypeHttpService } from 'src/app/features/expenses/documentTypes/classes/services/documentType-http.service'
@@ -35,7 +36,7 @@ export class AccountService extends HttpDataService {
 
     //#endregion
 
-    constructor(httpClient: HttpClient, private bankHttpService: BankHttpService, private berthHttpService: BerthHttpService, private boatTypeHttpService: BoatTypeHttpService, private boatUsageHttpService: BoatUsageHttpService, private cryptoService: CryptoService, private dexieService: DexieService, private documentTypeHttpService: DocumentTypeHttpService, private ngZone: NgZone, private paymentMethodHttpService: PaymentMethodHttpService, private paymentStatusHttpService: PaymentStatusHttpService, private router: Router, private sessionStorageService: SessionStorageService, private supplierHttpService: SupplierHttpService) {
+    constructor(httpClient: HttpClient, private bankHttpService: BankHttpService, private berthHttpService: BerthHttpService, private boatTypeHttpService: BoatTypeHttpService, private boatUsageHttpService: BoatUsageHttpService, private companyHttpService: CompanyHttpService, private cryptoService: CryptoService, private dexieService: DexieService, private documentTypeHttpService: DocumentTypeHttpService, private ngZone: NgZone, private paymentMethodHttpService: PaymentMethodHttpService, private paymentStatusHttpService: PaymentStatusHttpService, private router: Router, private sessionStorageService: SessionStorageService, private supplierHttpService: SupplierHttpService) {
         super(httpClient, environment.apiUrl)
     }
 
@@ -49,13 +50,16 @@ export class AccountService extends HttpDataService {
         this.sessionStorageService.deleteItems([
             { 'item': 'displayName', 'when': 'always' },
             { 'item': 'expiration', 'when': 'always' },
+            { 'item': 'invoiceList-id', 'when': 'always' },
+            { 'item': 'invoiceList-scrollTop', 'when': 'always' },
             { 'item': 'isAdmin', 'when': 'always' },
+            { 'item': 'isFirstFieldFocused', 'when': 'always' },
             { 'item': 'jwt', 'when': 'always' },
+            { 'item': 'lease-days', 'when': 'always' },
             { 'item': 'now', 'when': 'always' },
             { 'item': 'refreshToken', 'when': 'always' },
             { 'item': 'returnUrl', 'when': 'always' },
             { 'item': 'userId', 'when': 'always' },
-            { 'item': 'isFirstFieldFocused', 'when': 'always' }
         ])
     }
 
@@ -87,7 +91,6 @@ export class AccountService extends HttpDataService {
             this.setDotNetVersion(response)
             this.setAuthSettings(response)
             this.populateDexieFromAPI()
-            this.setSelectedYear()
             this.setUpcomingLeaseEndDays()
             this.clearConsole()
         }))
@@ -133,6 +136,7 @@ export class AccountService extends HttpDataService {
     private populateDexieFromAPI(): void {
         // Expenses
         this.dexieService.populateTable('banks', this.bankHttpService)
+        this.dexieService.populateTable('companies', this.companyHttpService)
         this.dexieService.populateTable('documentTypes', this.documentTypeHttpService)
         this.dexieService.populateTable('paymentMethods', this.paymentMethodHttpService)
         this.dexieService.populateTable('suppliers', this.supplierHttpService)
@@ -146,10 +150,6 @@ export class AccountService extends HttpDataService {
 
     private setDotNetVersion(response: any): void {
         DotNetVersion.version = response.dotNetVersion
-    }
-
-    private setSelectedYear(): void {
-        this.sessionStorageService.saveItem('selectedYear', new Date().getFullYear().toString())
     }
 
     private setUpcomingLeaseEndDays(): void {

@@ -7,6 +7,7 @@ export interface InvoiceReadDto extends Metadata {
 
     id: Guid
     date: string
+    company: SimpleEntity
     documentType: SimpleEntity
     paymentMethod: SimpleEntity
     supplier: SimpleEntity

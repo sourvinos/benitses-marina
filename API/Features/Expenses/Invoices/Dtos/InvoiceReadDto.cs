@@ -7,12 +7,14 @@ namespace API.Features.Expenses.Invoices {
     public class InvoiceReadDto : IMetadata {
 
         public Guid Id { get; set; }
+        public int CompanyId { get; set; }
         public int DocumentTypeId { get; set; }
         public int PaymentMethodId { get; set; }
         public int SupplierId { get; set; }
         public string Date { get; set; }
         public string DocumentNo { get; set; }
         public decimal Amount { get; set; }
+        public SimpleEntity Company { get; set; }
         public SimpleEntity DocumentType { get; set; }
         public SimpleEntity PaymentMethod { get; set; }
         public SimpleEntity Supplier { get; set; }

@@ -6,8 +6,8 @@ import { CryptoService } from 'src/app/shared/services/crypto.service'
 import { DateHelperService } from 'src/app/shared/services/date-helper.service'
 import { DialogService } from 'src/app/shared/services/modal-dialog.service'
 import { EmojiService } from 'src/app/shared/services/emoji.service'
-import { InvoiceListVM } from '../classes/view-models/invoice-list-vm'
 import { HelperService } from 'src/app/shared/services/helper.service'
+import { InvoiceListVM } from '../classes/view-models/invoice-list-vm'
 import { ListResolved } from 'src/app/shared/classes/list-resolved'
 import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
@@ -37,6 +37,7 @@ export class InvoiceListComponent {
     public filterDate = ''
 
     public selectedRecords: InvoiceListVM[] = []
+    public distinctCompanies: SimpleEntity[] = []
     public distinctDocumentTypes: SimpleEntity[] = []
     public distinctPaymentMethods: SimpleEntity[] = []
     public distinctSuppliers: SimpleEntity[] = []
@@ -90,14 +91,6 @@ export class InvoiceListComponent {
 
     public getLabel(id: string): string {
         return this.messageLabelService.getDescription(this.feature, id)
-    }
-
-    public getKnobBackgroundColor(): string {
-        return "LightSlateGray"
-    }
-
-    public getOverdueDescription(isOverdue: boolean): string {
-        return isOverdue ? 'YES' : ''
     }
 
     public getPaymentDescriptionColor(paymentStatusDescription: string): string {
@@ -162,12 +155,6 @@ export class InvoiceListComponent {
         this.records.length == 0 ? this.helperService.disableTableFilters() : this.helperService.enableTableFilters()
     }
 
-    private filterColumn(element: { value: any }, field: string, matchMode: string): void {
-        if (element != undefined && (element.value != null || element.value != undefined)) {
-            this.table.filter(element.value, field, matchMode)
-        }
-    }
-
     private filterTableFromStoredFilters(): void {
         const filters = this.sessionStorageService.getFilters(this.feature + '-' + 'filters')
         if (filters != undefined) {
@@ -212,6 +199,7 @@ export class InvoiceListComponent {
     }
 
     private populateDropdownFilters(): void {
+        this.distinctCompanies = this.helperService.getDistinctRecords(this.records, 'company', 'description')
         this.distinctDocumentTypes = this.helperService.getDistinctRecords(this.records, 'documentType', 'description')
         this.distinctPaymentMethods = this.helperService.getDistinctRecords(this.records, 'paymentMethod', 'description')
         this.distinctSuppliers = this.helperService.getDistinctRecords(this.records, 'supplier', 'description')
@@ -229,8 +217,8 @@ export class InvoiceListComponent {
         this.helperService.setTabTitle(this.feature)
     }
 
-    private storeSelectedId(invoiceId: string): void {
-        this.sessionStorageService.saveItem(this.feature + '-id', invoiceId)
+    private storeSelectedId(id: string): void {
+        this.sessionStorageService.saveItem(this.feature + '-id', id)
     }
 
     private storeScrollTop(): void {

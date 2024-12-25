@@ -29,7 +29,13 @@ namespace API.Features.Expenses.Invoices {
         [HttpGet()]
         [Authorize(Roles = "user, admin")]
         public async Task<IEnumerable<InvoiceListVM>> GetAsync() {
-            return await invoiceRepo.GetAsync();
+            return await invoiceRepo.GetAsync(null);
+        }
+
+        [HttpGet("company/{companyId}")]
+        [Authorize(Roles = "user, admin")]
+        public async Task<IEnumerable<InvoiceListVM>> GetByCompanyAsync(int companyId) {
+            return await invoiceRepo.GetAsync(companyId);
         }
 
         [HttpGet("{invoiceId}")]
