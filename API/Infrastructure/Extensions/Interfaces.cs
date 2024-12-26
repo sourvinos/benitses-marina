@@ -15,6 +15,7 @@ using API.Features.Expenses.DocumentTypes;
 using API.Features.Expenses.Invoices;
 using API.Features.Expenses.Ledgers;
 using API.Features.Expenses.Companies;
+using API.Features.Expenses.BalanceSheet;
 
 namespace API.Infrastructure.Extensions {
 
@@ -22,6 +23,7 @@ namespace API.Infrastructure.Extensions {
 
         public static void AddInterfaces(IServiceCollection services) {
             #region expenses
+            services.AddTransient<IBalanceSheetRepository, BalanceSheetRepository>();
             services.AddTransient<IBankRepository, BankRepository>();
             services.AddTransient<ICompanyRepository, CompanyRepository>();
             services.AddTransient<IDocumentTypeRepository, DocumentTypeRepository>();

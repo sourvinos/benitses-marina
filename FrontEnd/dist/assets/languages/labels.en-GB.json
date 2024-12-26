@@ -932,34 +932,5 @@
                 "description": "Υπόλοιπο"
             }
         ]
-    },
-    {
-        "feature": "balanceSheet",
-        "labels": [
-            {
-                "id": "headerSupplier",
-                "description": "Επωνυμία"
-            },
-            {
-                "id": "headerPreviousBalance",
-                "description": "Προηγ. υπόλοιπο"
-            },
-            {
-                "id": "headerPeriod",
-                "description": "Ζητούμενη περίοδος"
-            },
-            {
-                "id": "headerDebit",
-                "description": "Χρέωση"
-            },
-            {
-                "id": "headerCredit",
-                "description": "Πίστωση"
-            },
-            {
-                "id": "headerActualBalance",
-                "description": "Υπόλοιπο"
-            }
-        ]
     }
 ]
