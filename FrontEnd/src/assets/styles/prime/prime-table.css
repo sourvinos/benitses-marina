@@ -229,7 +229,7 @@
 /* #region footer */
 
 .p-datatable .p-datatable-tfoot > tr > td {
-    background-color: var(--color-background);
+    background-color: var(--color-background-table-header) !important;
     border: none;
     border-bottom: 0.0625rem solid color-mix(in srgb, var(--color-primary) 30%, transparent);
     border-right: 0.0625rem solid color-mix(in srgb, var(--color-primary) 30%, transparent);

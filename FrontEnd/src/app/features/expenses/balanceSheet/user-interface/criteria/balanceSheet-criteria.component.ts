@@ -29,7 +29,7 @@ export class BalanceSheetCriteriaDialogComponent {
 
     @Output() outputSelected = new EventEmitter()
 
-    public feature = 'BalanceSheetCriteria'
+    public feature = 'balanceSheetCriteria'
     public featureIcon = 'balanceSheet'
     public form: FormGroup
     public icon = 'arrow_back'

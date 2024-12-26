@@ -41,19 +41,7 @@ export class LoginFormComponent {
 
     //#endregion
 
-    constructor(
-        private accountService: AccountService,
-        private dialogService: DialogService,
-        private emojiService: EmojiService,
-        private formBuilder: FormBuilder,
-        private helperService: HelperService,
-        private localStorageService: LocalStorageService,
-        private messageDialogService: MessageDialogService,
-        private messageHintService: MessageInputHintService,
-        private messageLabelService: MessageLabelService,
-        private router: Router,
-        private titleService: Title
-    ) { }
+    constructor(private accountService: AccountService, private dialogService: DialogService, private emojiService: EmojiService, private formBuilder: FormBuilder, private helperService: HelperService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private router: Router, private titleService: Title) { }
 
     //#region lifecycle hooks
 

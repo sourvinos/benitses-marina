@@ -12,39 +12,35 @@
             </div>
         </div>
 
-        <ng-template [ngIf]="records.length > 0" [ngIfElse]="noData">
+        <ng-template [ngIf]="filteredRecords.length > 0" [ngIfElse]="noData">
             <div id="table-wrapper">
-                <balanceSheetCompanyTable [records]="records" [criteria]="criteria"></balanceSheetCompanyTable>
+                <balanceSheetCompanyTable [records]="filteredRecords" [criteria]="criteria"></balanceSheetCompanyTable>
             </div>
         </ng-template>
 
     </div>
 
     <div id="footer">
-        <button [matMenuTriggerFor]="menu" class="fab fab-with-no-background" mat-icon-button>
-            <mat-icon class="material-icons-outlined">more_vert</mat-icon>
-        </button>
-        <mat-menu #menu="matMenu" class="primary">
-            <ng-container *ngTemplateOutlet="utilityMenu"></ng-container>
-        </mat-menu>
-        <div id="align-right">
-            <!-- <button [disabled]="shipOwnerTotal.length==0" (click)="onExportTasks()" class="primary" mat-flat-button>
-                <mat-icon *ngIf="shipOwnerTotal.length==0" class="material-icons-outlined">lock</mat-icon>
-                <span>{{ getLabel("exportButton") | uppercase }}</span>
-            </button> -->
+        <div id="align-left">
+            <button [matMenuTriggerFor]="menu" class="fab fab-with-no-background" mat-icon-button>
+                <mat-icon class="material-icons-outlined">more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu" class="primary">
+                <ng-container *ngTemplateOutlet="utilityMenu"></ng-container>
+            </mat-menu>
         </div>
     </div>
 
 </div>
 
 <ng-template #utilityMenu>
-    <!-- <button [disabled]="shipOwnerTotal.length==0" (click)="onToggleZeroBalanceRows()" mat-menu-item>
+    <button [disabled]="records.length==0" (click)="onToggleZeroBalanceRows()" mat-menu-item>
         <mat-checkbox [(ngModel)]="showZeroBalanceRow">
             <span>{{ getLabel('zeroBalanceRowVisibility') }}</span>
         </mat-checkbox>
-    </button> -->
+    </button>
 </ng-template>
 
 <ng-template #noData>
-    <!-- <cat-page icon="face" [header]="getLabel('noDataHeader')" [subHeader]="getLabel('noDataSubHeader')"></cat-page> -->
+    <cat-page icon="face" [header]="getLabel('noDataHeader')" [subHeader]="getLabel('noDataSubHeader')"></cat-page>
 </ng-template>

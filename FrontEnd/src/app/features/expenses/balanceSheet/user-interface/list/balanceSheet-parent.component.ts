@@ -2,7 +2,6 @@ import { Component } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 // Custom
 import { BalanceSheetCriteriaVM } from '../../classes/view-models/criteria/balanceSheet-criteria-vm'
-import { BalanceSheetExportService } from '../../classes/services/balanceSheet-export.service'
 import { BalanceSheetHttpService } from '../../classes/services/balanceSheet-http.service'
 import { BalanceSheetVM } from '../../classes/view-models/list/balanceSheet-vm'
 import { DateHelperService } from 'src/app/shared/services/date-helper.service'
@@ -24,16 +23,16 @@ export class BalanceSheetParentComponent {
 
     public criteria: BalanceSheetCriteriaVM
     public criteriaForm: BalanceSheetFormCriteriaVM
-    public feature = 'balanceSheet'
+    public feature = 'balanceSheetParent'
     public featureIcon = 'balanceSheet'
     public parentUrl = '/home'
     public records: BalanceSheetVM[] = []
-    public filteredRecords: BalanceSheetVM
+    public filteredRecords: BalanceSheetVM[] = []
     public showZeroBalanceRow: boolean = true
 
     //#endregion
 
-    constructor(private balanceSheetExportService: BalanceSheetExportService, private balanceSheetHttpService: BalanceSheetHttpService, private dateHelperService: DateHelperService, private helperService: HelperService, private interactionService: InteractionService, private messageLabelService: MessageLabelService, public dialog: MatDialog) { }
+    constructor(private balanceSheetHttpService: BalanceSheetHttpService, private dateHelperService: DateHelperService, private helperService: HelperService, private interactionService: InteractionService, private messageLabelService: MessageLabelService, public dialog: MatDialog) { }
 
     //#region lifecycle hooks
 
@@ -90,7 +89,7 @@ export class BalanceSheetParentComponent {
     }
 
     public onToggleZeroBalanceRows(): void {
-        // this.toggleZeroBalanceRecords()
+        this.toggleZeroBalanceRecords()
     }
 
     //#endregion
@@ -113,7 +112,7 @@ export class BalanceSheetParentComponent {
         }
         this.balanceSheetHttpService.get(x).subscribe(response => {
             this.records = response
-            // this[shipOwnerFilteredRecords] = response
+            this.filteredRecords = response
         })
     }
 
@@ -141,17 +140,13 @@ export class BalanceSheetParentComponent {
         })
     }
 
-    // private toggleZeroBalanceRecords(): void {
-    //     if (this.showZeroBalanceRow) {
-    //         this.shipOwnerFilteredRecordsA = this.shipOwnerRecordsA
-    //         this.shipOwnerFilteredRecordsB = this.shipOwnerRecordsB
-    //         this.shipOwnerFilteredTotal = this.shipOwnerTotal
-    //     } else {
-    //         this.shipOwnerFilteredRecordsA = this.shipOwnerRecordsA.filter(x => x.actualBalance != 0)
-    //         this.shipOwnerFilteredRecordsB = this.shipOwnerRecordsB.filter(x => x.actualBalance != 0)
-    //         this.shipOwnerFilteredTotal = this.shipOwnerTotal.filter(x => x.actualBalance != 0)
-    //     }
-    // }
+    private toggleZeroBalanceRecords(): void {
+        if (this.showZeroBalanceRow) {
+            this.filteredRecords = this.records
+        } else {
+            this.filteredRecords = this.records.filter(x => x.actualBalance != 0)
+        }
+    }
 
     //#endregion
 

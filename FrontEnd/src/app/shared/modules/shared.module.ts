@@ -6,6 +6,7 @@ import { PrimeNgModule } from './primeng.module'
 import { RouterModule } from '@angular/router'
 // Custom
 import { AbsPipe } from '../pipes/abs.pipe'
+import { CatPageComponent } from '../components/cat-page/cat-page.component'
 import { DateRangePickerComponent } from '../components/date-range-picker/date-range-picker.component'
 import { EmojiDirective } from '../directives/emoji.directive'
 import { EmptyPageComponent } from '../components/empty-page/empty-page.component'
@@ -30,6 +31,7 @@ import { TrimStringPipe } from './../pipes/string-trim.pipe'
 @NgModule({
     declarations: [
         AbsPipe,
+        CatPageComponent,
         DateRangePickerComponent,
         EmojiDirective,
         EmptyPageComponent,
@@ -61,6 +63,7 @@ import { TrimStringPipe } from './../pipes/string-trim.pipe'
     ],
     exports: [
         AbsPipe,
+        CatPageComponent,
         CommonModule,
         DateRangePickerComponent,
         EmojiDirective,

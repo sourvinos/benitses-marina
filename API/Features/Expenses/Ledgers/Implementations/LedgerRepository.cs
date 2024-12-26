@@ -116,10 +116,9 @@ namespace API.Features.Expenses.Ledgers {
                     Id = 0,
                     Description = ""
                 },
-                DocumentType = new DocumentTypeVM {
+                DocumentType = new SimpleEntity {
                     Id = 0,
-                    Description = label,
-                    Batch = ""
+                    Description = label
                 },
                 InvoiceNo = "",
                 Debit = debit,

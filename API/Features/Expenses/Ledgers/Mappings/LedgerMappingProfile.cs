@@ -14,7 +14,7 @@ namespace API.Features.Expenses.Ledgers {
                     Id = x.Supplier.Id,
                     Description = x.Supplier.Description
                 }))
-                .ForMember(x => x.DocumentType, x => x.MapFrom(x => new DocumentTypeVM {
+                .ForMember(x => x.DocumentType, x => x.MapFrom(x => new SimpleEntity {
                     Id = x.DocumentType.Id,
                     Description = x.DocumentType.Description
                 }))

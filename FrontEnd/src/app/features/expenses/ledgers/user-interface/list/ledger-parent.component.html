@@ -12,12 +12,16 @@
             </div>
         </div>
 
-        <ng-template [ngIf]="records.length > 0">
+        <ng-template [ngIf]="records.length > 0" [ngIfElse]="noData">
             <div id="table-wrapper">
-                <ledgerShipOwnerTable [records]="records" [criteria]="criteria"></ledgerShipOwnerTable>
+                <ledgerCompanyTable [records]="records" [criteria]="criteria"></ledgerCompanyTable>
             </div>
         </ng-template>
 
     </div>
 
 </div>
+
+<ng-template #noData>
+    <cat-page icon="face" [header]="getLabel('noDataHeader')" [subHeader]="getLabel('noDataSubHeader')"></cat-page>
+</ng-template>

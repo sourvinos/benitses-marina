@@ -42,7 +42,7 @@ export class LedgerParentBillingComponent {
     }
 
     ngOnDestroy(): void {
-        this.sessionStorageService.deleteItems([{ 'item': 'ledgerCriteria', 'when': 'production' }])
+        this.sessionStorageService.deleteItems([{ 'item': 'ledgerCriteria', 'when': 'always' }])
     }
 
     //#endregion
@@ -53,7 +53,7 @@ export class LedgerParentBillingComponent {
         if (this.sessionStorageService.getItem('ledgerCriteria')) {
             this.criteriaForm = JSON.parse(this.sessionStorageService.getItem('ledgerCriteria')) ? JSON.parse(this.sessionStorageService.getItem('ledgerCriteria')) : null
             return this.criteriaForm ?
-                this.criteriaForm.company.description + ', ' + this.criteriaForm.supplier.description + ', ' + this.dateHelperService.formatISODateToLocale(this.criteria.fromDate) + ' - ' + this.dateHelperService.formatISODateToLocale(this.criteria.toDate)
+                this.criteriaForm.company.description + ', ' + this.criteriaForm.supplier.description + ', ' + this.dateHelperService.formatISODateToLocale(this.criteriaForm.fromDate) + ' - ' + this.dateHelperService.formatISODateToLocale(this.criteriaForm.toDate)
                 : ''
         }
     }

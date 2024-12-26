@@ -7,12 +7,12 @@ import { LocalStorageService } from 'src/app/shared/services/local-storage.servi
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
 
 @Component({
-    selector: 'ledgerShipOwnerTable',
-    templateUrl: './ledger-shipOwner-table.component.html',
+    selector: 'ledgerCompanyTable',
+    templateUrl: 'ledger-company-table.component.html',
     styleUrls: ['../../../../../../assets/styles/custom/lists.css', './ledger-parent.component.css']
 })
 
-export class LedgerShipOwnerTableComponent {
+export class LedgerCompanyTableComponent {
 
     //#region variables
 

@@ -567,19 +567,11 @@
         "labels": [
             {
                 "id": "date",
-                "description": "Date range"
+                "description": "Περίοδος"
             },
             {
                 "id": "hint",
-                "description": "Select the date range"
-            },
-            {
-                "id": "today",
-                "description": "Today"
-            },
-            {
-                "id": "ok",
-                "description": "Ok"
+                "description": "Επιλέξτε το ημερολογιακό διάστημα"
             }
         ]
     },
@@ -871,7 +863,7 @@
         "labels": [
             {
                 "id": "header",
-                "description": "Λογιστική καρτέλα πελάτη"
+                "description": "Καρτέλα προμηθευτή"
             },
             {
                 "id": "subHeader",
@@ -901,6 +893,14 @@
             {
                 "id": "header",
                 "description": "Καρτέλα προμηθευτή"
+            },
+            {
+                "id": "noDataHeader",
+                "description": "Δεν βρήκαμε εγγραφές για να εμφανίσουμε."
+            },
+            {
+                "id": "noDataSubHeader",
+                "description": "Ισως πρέπει να δώσετε διαφορετικά κριτήρια."
             }
         ]
     },
@@ -930,6 +930,52 @@
             {
                 "id": "headerBalance",
                 "description": "Υπόλοιπο"
+            }
+        ]
+    },
+    {
+        "feature": "balanceSheetCriteria",
+        "labels": [
+            {
+                "id": "header",
+                "description": "Ισοζύγιο προμηθευτών"
+            },
+            {
+                "id": "subHeader",
+                "description": "Δώστε τα κριτήρια με τα οποία θα γίνει η αναζήτηση"
+            },
+            {
+                "id": "company",
+                "description": "Εταιρία"
+            },
+            {
+                "id": "cancelButton",
+                "description": "Ακυρο"
+            },
+            {
+                "id": "okButton",
+                "description": "Συνεχεια"
+            }
+        ]
+    },
+    {
+        "feature": "balanceSheetParent",
+        "labels": [
+            {
+                "id": "header",
+                "description": "Ισοζύγιο προμηθευτών"
+            },
+            {
+                "id": "noDataHeader",
+                "description": "Δεν βρήκαμε εγγραφές για να εμφανίσουμε."
+            },
+            {
+                "id": "noDataSubHeader",
+                "description": "Ισως πρέπει να δώσετε διαφορετικά κριτήρια."
+            },
+            {
+                "id": "zeroBalanceRowVisibility",
+                "description": "Εμφάνιση μηδενικών υπολοίπων"
             }
         ]
     },

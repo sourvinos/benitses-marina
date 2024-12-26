@@ -26,7 +26,6 @@
     font-size: var(--font-size-dropdown-menu-button) !important;
     font-weight: 300 !important;
     letter-spacing: 0 !important;
-    margin: 0.1875rem 0 0 0 !important;
 }
 
 .mat-mdc-menu-submenu-icon {
