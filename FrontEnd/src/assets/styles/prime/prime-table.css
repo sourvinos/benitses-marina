@@ -238,7 +238,7 @@
     font-family: var(--font-family-fira-sans-condensed) !important;
     font-size: var(--font-size-table-row);
     font-weight: 300;
-    padding: 0.5rem 0 0.5rem 0.3125rem !important;
+    padding: 0.5rem 0.2rem 0.5rem 0.3125rem !important;
     transition: all var(--theme-delay);
 }
 

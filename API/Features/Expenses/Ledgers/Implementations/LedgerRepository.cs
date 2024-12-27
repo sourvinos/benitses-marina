@@ -116,7 +116,7 @@ namespace API.Features.Expenses.Ledgers {
                     Id = 0,
                     Description = ""
                 },
-                DocumentType = new SimpleEntity {
+                DocumentType = new DocumentTypeLedgerVM {
                     Id = 0,
                     Description = label
                 },

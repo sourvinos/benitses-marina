@@ -14,9 +14,11 @@ namespace API.Features.Expenses.Ledgers {
                     Id = x.Supplier.Id,
                     Description = x.Supplier.Description
                 }))
-                .ForMember(x => x.DocumentType, x => x.MapFrom(x => new SimpleEntity {
+                .ForMember(x => x.DocumentType, x => x.MapFrom(x => new DocumentTypeLedgerVM {
                     Id = x.DocumentType.Id,
-                    Description = x.DocumentType.Description
+                    Description = x.DocumentType.Description,
+                    Customers = x.DocumentType.Customers,
+                    Suppliers = x.DocumentType.Suppliers
                 }))
                 .ForMember(x => x.InvoiceNo, x => x.MapFrom(x => x.DocumentNo.ToString()))
                 .ForMember(x => x.Debit, x => x.MapFrom(x => x.DocumentType.Customers == "+" || x.DocumentType.Suppliers == "-" ? x.Amount : 0))
