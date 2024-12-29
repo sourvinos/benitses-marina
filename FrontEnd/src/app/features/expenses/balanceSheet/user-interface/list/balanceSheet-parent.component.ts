@@ -1,15 +1,15 @@
 import { Component } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 // Custom
+import { BalanceSheetCriteriaDialogComponent } from '../criteria/balanceSheet-criteria.component'
 import { BalanceSheetCriteriaVM } from '../../classes/view-models/criteria/balanceSheet-criteria-vm'
+import { BalanceSheetFormCriteriaVM } from '../../classes/view-models/criteria/balanceSheet-form-criteria-vm'
 import { BalanceSheetHttpService } from '../../classes/services/balanceSheet-http.service'
 import { BalanceSheetVM } from '../../classes/view-models/list/balanceSheet-vm'
 import { DateHelperService } from 'src/app/shared/services/date-helper.service'
 import { HelperService } from '../../../../../shared/services/helper.service'
 import { InteractionService } from 'src/app/shared/services/interaction.service'
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
-import { BalanceSheetCriteriaDialogComponent } from '../criteria/balanceSheet-criteria.component'
-import { BalanceSheetFormCriteriaVM } from '../../classes/view-models/criteria/balanceSheet-form-criteria-vm'
 
 @Component({
     selector: 'balanceSheet',
@@ -56,13 +56,6 @@ export class BalanceSheetParentComponent {
         return this.messageLabelService.getDescription(this.feature, id)
     }
 
-    // public onExportTasks(): void {
-    //     const x = this.balanceSheetExportService.buildVM(this.shipOwnerFilteredRecordsA)
-    //     const z = this.balanceSheetExportService.buildVM(this.shipOwnerFilteredRecordsB)
-    //     const i = this.balanceSheetExportService.buildVM(this.shipOwnerFilteredTotal)
-    //     this.balanceSheetExportService.exportToExcel(x, z, i)
-    // }
-
     public onSelectedTabChange(): void {
         setTimeout(() => {
             const x = document.getElementsByClassName('table-wrapper') as HTMLCollectionOf<HTMLInputElement>
@@ -99,6 +92,7 @@ export class BalanceSheetParentComponent {
     private buildCriteriaVM(event: BalanceSheetCriteriaVM): void {
         this.criteria = {
             companyId: event.companyId,
+            balanceFilterId: event.companyId,
             fromDate: event.fromDate,
             toDate: event.toDate,
         }
@@ -107,6 +101,7 @@ export class BalanceSheetParentComponent {
     private loadRecords(criteria: BalanceSheetCriteriaVM): void {
         const x: BalanceSheetCriteriaVM = {
             companyId: criteria.companyId,
+            balanceFilterId: criteria.balanceFilterId,
             fromDate: criteria.fromDate,
             toDate: criteria.toDate
         }

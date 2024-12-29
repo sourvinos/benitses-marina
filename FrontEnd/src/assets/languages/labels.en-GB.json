@@ -949,6 +949,10 @@
                 "description": "Εταιρία"
             },
             {
+                "id": "records",
+                "description": "Εγγραφές"
+            },
+            {
                 "id": "cancelButton",
                 "description": "Ακυρο"
             },

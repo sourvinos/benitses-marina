@@ -21,11 +21,13 @@ export class DateRangePickerComponent {
     //#region variables
 
     @Input() parentDateRange: string[]
+    @Input() initTabIndex: number
     @Output() outputValues = new EventEmitter()
 
     public feature = 'date-range-picker'
     public form: FormGroup
     public input: InputTabStopDirective
+    public x = 3
 
     //#endregion
 
@@ -66,6 +68,10 @@ export class DateRangePickerComponent {
 
     public getLabel(id: string): string {
         return this.messageLabelService.getDescription(this.feature, id)
+    }
+
+    public getInitTabIndex(): number {
+        return 3
     }
 
     public isInvalidDateRange(): boolean {

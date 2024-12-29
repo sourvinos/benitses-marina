@@ -42,6 +42,7 @@ export class BalanceSheetCriteriaDialogComponent {
 
     public isAutoCompleteDisabled = true
     public dropdownCompanies: Observable<SimpleEntity[]>
+    public dropdownBalanceFilters: Observable<SimpleEntity[]>
 
     //#endregion
 
@@ -132,6 +133,7 @@ export class BalanceSheetCriteriaDialogComponent {
     private initForm(): void {
         this.form = this.formBuilder.group({
             company: ['', [Validators.required, ValidationService.RequireAutocomplete]],
+            balanceFilter: ['', [Validators.required, ValidationService.RequireAutocomplete]],
             fromDate: ['', [Validators.required]],
             toDate: ['', [Validators.required]],
         })
@@ -140,6 +142,7 @@ export class BalanceSheetCriteriaDialogComponent {
     private createCriteriaObject(criteria: BalanceSheetFormCriteriaVM): BalanceSheetCriteriaVM {
         return {
             companyId: criteria.company.id,
+            balanceFilterId: criteria.company.id,
             fromDate: criteria.fromDate,
             toDate: criteria.toDate
         }
@@ -147,6 +150,7 @@ export class BalanceSheetCriteriaDialogComponent {
 
     private populateDropdowns(): void {
         this.populateDropdownFromDexieDB('companiesCriteria', 'dropdownCompanies', 'company', 'description', 'description')
+        this.populateDropdownFromDexieDB('balanceFilters', 'dropdownBalanceFilters', 'balanceFilter', 'description', 'description')
     }
 
     private populateDropdownFromDexieDB(dexieTable: string, filteredTable: string, formField: string, modelProperty: string, orderBy: string): void {
@@ -159,6 +163,7 @@ export class BalanceSheetCriteriaDialogComponent {
     private populateFormFromStoredFields(object: any): void {
         this.form.patchValue({
             company: object.company,
+            balanceFilter: object.balanceFilter,
             fromDate: object.fromDate,
             toDate: object.toDate,
         })
@@ -177,6 +182,10 @@ export class BalanceSheetCriteriaDialogComponent {
 
     get company(): AbstractControl {
         return this.form.get('company')
+    }
+
+    get balanceFilter(): AbstractControl {
+        return this.form.get('balanceFilter')
     }
 
     get fromDate(): AbstractControl {

@@ -9,16 +9,18 @@ export class DexieService extends Dexie {
     constructor() {
         super('BenitsesMarinaDB')
         this.version(1).stores({
-            companies: 'id, description',
+            balanceFilters: 'id, description',
+            balanceFiltersCriteria: 'id, description',
+            banks: 'id, description',
             berths: 'id, description',
             boatTypes: 'id, description',
             boatUsages: 'id, description',
-            paymentStatuses: 'id, description',
-            suppliers: 'id, description',
-            banks: 'id, description',
+            companies: 'id, description',
+            companiesCriteria: 'id, description',
             documentTypes: 'id, description',
             paymentMethods: 'id, description',
-            companiesCriteria: 'id, description',
+            paymentStatuses: 'id, description',
+            suppliers: 'id, description',
             suppliersCriteria: 'id, description',
         })
         this.open()

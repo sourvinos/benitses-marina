@@ -16,6 +16,7 @@ using API.Features.Expenses.Invoices;
 using API.Features.Invoices.Invoices;
 using API.Features.Expenses.Companies;
 using API.Features.Expenses.Transactions;
+using API.Features.Expenses.BalanceFilters;
 
 namespace API.Infrastructure.Classes {
 
@@ -25,6 +26,7 @@ namespace API.Infrastructure.Classes {
 
         #region Expenses
 
+        public DbSet<BalanceFilter> BalanceFilters { get; set; }
         public DbSet<Bank> Banks { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<DocumentType> DocumentTypes { get; set; }
