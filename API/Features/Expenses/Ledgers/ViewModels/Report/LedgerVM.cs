@@ -6,7 +6,8 @@ namespace API.Features.Expenses.Ledgers {
 
         public string Date { get; set; }
         public SimpleEntity Supplier { get; set; }
-        public DocumentTypeLedgerVM DocumentType { get; set; }
+        public DocumentTypeVM DocumentType { get; set; }
+        public PaymentMethodVM PaymentMethod { get; set; }
         public string InvoiceNo { get; set; }
         public decimal Amount { get; set; }
         public decimal Debit { get; set; }

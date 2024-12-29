@@ -14,15 +14,21 @@ namespace API.Features.Expenses.Ledgers {
                     Id = x.Supplier.Id,
                     Description = x.Supplier.Description
                 }))
-                .ForMember(x => x.DocumentType, x => x.MapFrom(x => new DocumentTypeLedgerVM {
+                .ForMember(x => x.DocumentType, x => x.MapFrom(x => new DocumentTypeVM {
                     Id = x.DocumentType.Id,
+                    DiscriminatorId = x.DocumentType.DiscriminatorId,
                     Description = x.DocumentType.Description,
                     Customers = x.DocumentType.Customers,
                     Suppliers = x.DocumentType.Suppliers
                 }))
+                .ForMember(x => x.PaymentMethod, x => x.MapFrom(x => new PaymentMethodVM {
+                    Id = x.PaymentMethod.Id,
+                    Description = x.PaymentMethod.Description,
+                    IsCredit = x.PaymentMethod.IsCredit
+                }))
                 .ForMember(x => x.InvoiceNo, x => x.MapFrom(x => x.DocumentNo.ToString()))
-                .ForMember(x => x.Debit, x => x.MapFrom(x => x.DocumentType.Customers == "+" || x.DocumentType.Suppliers == "-" ? x.Amount : 0))
-                .ForMember(x => x.Credit, x => x.MapFrom(x => x.DocumentType.Customers == "-" || x.DocumentType.Suppliers == "+" ? x.Amount : 0));
+                .ForMember(x => x.Debit, x => x.MapFrom(x => x.DocumentType.Suppliers == "-" || (x.DocumentType.Suppliers == "+" && x.DocumentType.DiscriminatorId == 1 && x.PaymentMethod.IsCredit == false) ? x.Amount : 0))
+                .ForMember(x => x.Credit, x => x.MapFrom(x => x.DocumentType.Suppliers == "+" || (x.DocumentType.Suppliers == "-" && x.DocumentType.DiscriminatorId == 1 && x.PaymentMethod.IsCredit == false) ? x.Amount : 0));
         }
 
     }

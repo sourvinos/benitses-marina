@@ -27,6 +27,7 @@ namespace API.Features.Expenses.Ledgers {
                 .AsNoTracking()
                 .Include(x => x.Supplier)
                 .Include(x => x.DocumentType)
+                .Include(x => x.PaymentMethod)
                 .Where(x => x.CompanyId == companyId && x.SupplierId == supplierId && x.Date <= Convert.ToDateTime(toDate))
                 .OrderBy(x => x.Date)
                 .ToListAsync();
@@ -116,7 +117,7 @@ namespace API.Features.Expenses.Ledgers {
                     Id = 0,
                     Description = ""
                 },
-                DocumentType = new DocumentTypeLedgerVM {
+                DocumentType = new DocumentTypeVM {
                     Id = 0,
                     Description = label
                 },

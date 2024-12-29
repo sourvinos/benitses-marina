@@ -28,6 +28,7 @@ namespace API.Features.Expenses.BalanceSheet {
                 .AsNoTracking()
                 .Include(x => x.Supplier)
                 .Include(x => x.DocumentType)
+                .Include(x => x.PaymentMethod)
                 .Where(x => x.Date <= Convert.ToDateTime(toDate)
                     && (x.Company.Id == companyId)
                     && (x.SupplierId == supplierId))

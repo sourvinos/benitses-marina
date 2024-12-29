@@ -14,8 +14,8 @@ namespace API.Features.Expenses.BalanceSheet {
                     Id = x.Supplier.Id,
                     Description = x.Supplier.Description
                 }))
-                .ForMember(x => x.Debit, x => x.MapFrom(source => source.DocumentType.Suppliers == "-" ? source.Amount : 0))
-                .ForMember(x => x.Credit, x => x.MapFrom(source => source.DocumentType.Suppliers == "+" ? source.Amount : 0));
+                .ForMember(x => x.Debit, x => x.MapFrom(x => x.DocumentType.Suppliers == "-" || (x.DocumentType.Suppliers == "+" && x.DocumentType.DiscriminatorId == 1 && x.PaymentMethod.IsCredit == false) ? x.Amount : 0))
+                .ForMember(x => x.Credit, x => x.MapFrom(x => x.DocumentType.Suppliers == "+" || (x.DocumentType.Suppliers == "-" && x.DocumentType.DiscriminatorId == 1 && x.PaymentMethod.IsCredit == false) ? x.Amount : 0));
         }
 
     }
