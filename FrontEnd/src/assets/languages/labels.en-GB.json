@@ -625,6 +625,10 @@
                 "description": "Επωνυμία"
             },
             {
+                "id": "headerLongDescription",
+                "description": "Περιγραφή"
+            },
+            {
                 "id": "headerVatNumber",
                 "description": "ΑΦΜ"
             },
@@ -656,6 +660,10 @@
             {
                 "id": "description",
                 "description": "Επωνυμία"
+            },
+            {
+                "id": "longDescription",
+                "description": "Περιγραφή"
             },
             {
                 "id": "bank",

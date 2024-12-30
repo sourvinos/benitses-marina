@@ -4,6 +4,7 @@ export interface SupplierWriteDto {
     bankId: number
     iban: string
     description: string
+    longDescription: string
     vatNumber: string
     phones: string
     email: string

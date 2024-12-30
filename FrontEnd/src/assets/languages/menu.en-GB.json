@@ -5,11 +5,7 @@
     },
     {
         "id": "expenses",
-        "description": "Εξοδα & δαπάνες"
-    },
-    {
-        "id": "payments",
-        "description": "Πληρωμές"
+        "description": "Εξοδα & πληρωμές"
     },
     {
         "id": "ledger",

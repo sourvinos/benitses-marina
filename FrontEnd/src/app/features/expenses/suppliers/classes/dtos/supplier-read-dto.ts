@@ -7,6 +7,7 @@ export interface SupplierReadDto extends Metadata {
     bank: SimpleEntity
     iban: string
     description: string
+    longDescription: string
     vatNumber: string
     phones: string
     email: string

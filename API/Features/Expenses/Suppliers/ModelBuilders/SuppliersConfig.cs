@@ -10,6 +10,7 @@ namespace API.Features.Expenses.Suppliers {
             entity.Property(x => x.Id).ValueGeneratedOnAdd();
             // Fields
             entity.Property(x => x.Description).HasMaxLength(128).IsRequired(true);
+            entity.Property(x => x.LongDescription).HasMaxLength(128).IsRequired(true);
             entity.Property(x => x.VatNumber).HasMaxLength(36).IsRequired(true);
             entity.Property(x => x.Phones).HasDefaultValue("").HasMaxLength(128);
             entity.Property(x => x.Email).HasDefaultValue("").HasMaxLength(128);
