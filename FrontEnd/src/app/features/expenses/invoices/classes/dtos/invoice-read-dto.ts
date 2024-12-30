@@ -13,6 +13,7 @@ export interface InvoiceReadDto extends Metadata {
     supplier: SimpleEntity
     documentNo: string
     amount: number
+    remarks: string
     postAt: string
     postUser: string
     putAt: string

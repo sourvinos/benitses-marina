@@ -33,19 +33,19 @@
                     <mat-error *ngIf="date.hasError('required')">{{ getHint("required") }}</mat-error>
                 </mat-form-field>
             </div>
-            <!-- Supplier -->
-            <mat-form-field>
-                <mat-label>{{ getLabel('supplier') }}</mat-label>
-                <input #inputAutoComplete #triggerSupplier="matAutocompleteTrigger" (keydown)="enableOrDisableAutoComplete($event)" (keyup)="checkForEmptyAutoComplete($event)" [inputTabStop]="input" [matAutocompleteDisabled]="isAutoCompleteDisabled" [matAutocomplete]="suppliers" dataTabIndex="3" formControlName="supplier" matInput>
-                <div matSuffix style="display:flex">
-                    <button (click)="openOrCloseAutoComplete(triggerSupplier, 'supplier')" mat-icon-button type="button">
-                        <mat-icon class="input-suffix material-icons-outlined">expand_more</mat-icon>
-                    </button>
-                </div>
-                <mat-error *ngIf="supplier.hasError('required')">{{ getHint("required") }}</mat-error>
-                <mat-error *ngIf="!supplier.hasError('required') && supplier.hasError('incorrect')">{{ getHint("invalid") }}</mat-error>
-            </mat-form-field>
             <div class="group-input-field">
+                <!-- Supplier -->
+                <mat-form-field>
+                    <mat-label>{{ getLabel('supplier') }}</mat-label>
+                    <input #inputAutoComplete #triggerSupplier="matAutocompleteTrigger" (keydown)="enableOrDisableAutoComplete($event)" (keyup)="checkForEmptyAutoComplete($event)" [inputTabStop]="input" [matAutocompleteDisabled]="isAutoCompleteDisabled" [matAutocomplete]="suppliers" dataTabIndex="3" formControlName="supplier" matInput>
+                    <div matSuffix style="display:flex">
+                        <button (click)="openOrCloseAutoComplete(triggerSupplier, 'supplier')" mat-icon-button type="button">
+                            <mat-icon class="input-suffix material-icons-outlined">expand_more</mat-icon>
+                        </button>
+                    </div>
+                    <mat-error *ngIf="supplier.hasError('required')">{{ getHint("required") }}</mat-error>
+                    <mat-error *ngIf="!supplier.hasError('required') && supplier.hasError('incorrect')">{{ getHint("invalid") }}</mat-error>
+                </mat-form-field>
                 <!-- Document type -->
                 <mat-form-field>
                     <mat-label>{{ getLabel('documentType') }}</mat-label>
@@ -65,23 +65,31 @@
                     <mat-error *ngIf="documentNo.hasError('required')">{{ getHint("required") }}</mat-error>
                 </mat-form-field>
             </div>
-            <!-- Payment method -->
+            <div class="group-input-field">
+                <!-- Payment method -->
+                <mat-form-field>
+                    <mat-label>{{ getLabel('paymentMethod') }}</mat-label>
+                    <input #inputAutoComplete #triggerPaymentMethod="matAutocompleteTrigger" (keydown)="enableOrDisableAutoComplete($event)" (keyup)="checkForEmptyAutoComplete($event)" [inputTabStop]="input" [matAutocompleteDisabled]="isAutoCompleteDisabled" [matAutocomplete]="paymentMethods" dataTabIndex="6" formControlName="paymentMethod" matInput>
+                    <div matSuffix style="display:flex">
+                        <button (click)="openOrCloseAutoComplete(triggerPaymentMethod, 'paymentMethod')" mat-icon-button type="button">
+                            <mat-icon class="input-suffix material-icons-outlined">expand_more</mat-icon>
+                        </button>
+                    </div>
+                    <mat-error *ngIf="paymentMethod.hasError('required')">{{ getHint("required") }}</mat-error>
+                    <mat-error *ngIf="!paymentMethod.hasError('required') && paymentMethod.hasError('incorrect')">{{ getHint("invalid") }}</mat-error>
+                </mat-form-field>
+                <!-- Amount -->
+                <mat-form-field>
+                    <mat-label>{{ getLabel('amount') }}</mat-label>
+                    <input [inputTabStop]="input" currencyMask dataTabIndex="7" formControlName="amount" matInput>
+                    <mat-error *ngIf="amount.hasError('required')">{{ getHint("required") }}</mat-error>
+                </mat-form-field>
+            </div>
+            <!-- Remarks -->
             <mat-form-field>
-                <mat-label>{{ getLabel('paymentMethod') }}</mat-label>
-                <input #inputAutoComplete #triggerPaymentMethod="matAutocompleteTrigger" (keydown)="enableOrDisableAutoComplete($event)" (keyup)="checkForEmptyAutoComplete($event)" [inputTabStop]="input" [matAutocompleteDisabled]="isAutoCompleteDisabled" [matAutocomplete]="paymentMethods" dataTabIndex="6" formControlName="paymentMethod" matInput>
-                <div matSuffix style="display:flex">
-                    <button (click)="openOrCloseAutoComplete(triggerPaymentMethod, 'paymentMethod')" mat-icon-button type="button">
-                        <mat-icon class="input-suffix material-icons-outlined">expand_more</mat-icon>
-                    </button>
-                </div>
-                <mat-error *ngIf="paymentMethod.hasError('required')">{{ getHint("required") }}</mat-error>
-                <mat-error *ngIf="!paymentMethod.hasError('required') && paymentMethod.hasError('incorrect')">{{ getHint("invalid") }}</mat-error>
-            </mat-form-field>
-            <!-- Amount -->
-            <mat-form-field>
-                <mat-label>{{ getLabel('amount') }}</mat-label>
-                <input [inputTabStop]="input" currencyMask dataTabIndex="7" formControlName="amount" matInput>
-                <mat-error *ngIf="amount.hasError('required')">{{ getHint("required") }}</mat-error>
+                <mat-label>{{ getLabel("remarks") }}</mat-label>
+                <textarea #input formControlName="remarks" id="textarea" matInput></textarea>
+                <mat-hint class="right">{{ getHint("remainingCharacters", +input.getAttribute('maxlength') - getRemarksLength()) }}</mat-hint>
             </mat-form-field>
             <div class="align-bottom">
                 <!-- Metadata -->

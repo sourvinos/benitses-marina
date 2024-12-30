@@ -10,6 +10,7 @@ export interface InvoiceWriteDto {
     date: string
     documentNo: string
     amount: number
+    remarks: string
     putAt: string
 
 }

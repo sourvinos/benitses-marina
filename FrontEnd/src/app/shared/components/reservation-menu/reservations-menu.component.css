@@ -3,5 +3,9 @@
 }
 
 .mat-mdc-menu-item {
-    min-height: 0 !important;
+    min-height: 2rem !important;
+}
+
+.mat-mdc-menu-item-text {
+    margin-top: 0.25rem !important;
 }

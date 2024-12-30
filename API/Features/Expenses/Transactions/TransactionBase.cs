@@ -22,6 +22,7 @@ namespace API.Features.Expenses.Transactions {
         public DocumentType DocumentType { get; set; }
         public PaymentMethod PaymentMethod { get; set; }
         public Supplier Supplier { get; set; }
+        public string Remarks { get; set; }
         public string PostAt { get; set; }
         public string PostUser { get; set; }
         public string PutAt { get; set; }

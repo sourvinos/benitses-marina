@@ -9,7 +9,6 @@ import { CryptoService } from 'src/app/shared/services/crypto.service'
 import { DateHelperService } from 'src/app/shared/services/date-helper.service'
 import { DexieService } from 'src/app/shared/services/dexie.service'
 import { DialogService } from 'src/app/shared/services/modal-dialog.service'
-import { EmojiService } from 'src/app/shared/services/emoji.service'
 import { InvoiceHttpService } from '../classes/services/invoice-http.service'
 import { InvoiceReadDto } from '../classes/dtos/invoice-read-dto'
 import { InvoiceWriteDto } from '../classes/dtos/invoice-write-dto'
@@ -57,7 +56,7 @@ export class InvoiceFormComponent {
 
     //#endregion
 
-    constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateAdapter: DateAdapter<any>, private dateHelperService: DateHelperService, private dexieService: DexieService, private dialogService: DialogService, private emojiService: EmojiService, private formBuilder: FormBuilder, private helperService: HelperService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private invoiceHttpService: InvoiceHttpService, private router: Router, private sessionStorageService: SessionStorageService) { }
+    constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateAdapter: DateAdapter<any>, private dateHelperService: DateHelperService, private dexieService: DexieService, private dialogService: DialogService, private formBuilder: FormBuilder, private helperService: HelperService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private invoiceHttpService: InvoiceHttpService, private router: Router, private sessionStorageService: SessionStorageService) { }
 
     //#region lifecycle hooks
 
@@ -106,6 +105,10 @@ export class InvoiceFormComponent {
         return this.form.value.invoiceId == '' ? 'headerNew' : 'headerEdit'
     }
 
+    public getRemarksLength(): any {
+        return this.form.value.remarks != null ? this.form.value.remarks.length : 0
+    }
+
     public imageIsLoading(): any {
         return this.imgIsLoaded ? '' : 'skeleton'
     }
@@ -125,7 +128,7 @@ export class InvoiceFormComponent {
     public onDelete(): void {
         this.dialogService.open(this.messageDialogService.confirmDelete(), 'question', ['abort', 'ok']).subscribe(response => {
             if (response) {
-                this.invoiceHttpService.delete(this.form.value.invoiceId).subscribe({
+                this.invoiceHttpService.delete(this.form.value.id).subscribe({
                     complete: () => {
                         this.helperService.doPostSaveFormTasks(this.messageDialogService.success(), 'ok', this.parentUrl, true)
                     },
@@ -167,6 +170,7 @@ export class InvoiceFormComponent {
             date: this.dateHelperService.formatDateToIso(new Date(this.form.value.date)),
             documentNo: this.form.value.documentNo,
             amount: this.form.value.amount,
+            remarks: this.form.value.remarks,
             putAt: this.form.value.putAt
         }
     }
@@ -206,6 +210,7 @@ export class InvoiceFormComponent {
             paymentMethod: ['', [Validators.required, ValidationService.RequireAutocomplete]],
             documentNo: ['', [Validators.required]],
             amount: ['', [Validators.required, Validators.min(0), Validators.max(99999)]],
+            remarks: ['', [Validators.maxLength(2048)]],
             postAt: [''],
             postUser: [''],
             putAt: [''],
@@ -238,6 +243,7 @@ export class InvoiceFormComponent {
                 paymentMethod: { 'id': this.invoice.paymentMethod.id, 'description': this.invoice.paymentMethod.description },
                 documentNo: this.invoice.documentNo,
                 amount: this.invoice.amount,
+                remarks: this.invoice.remarks,
                 postAt: this.invoice.postAt,
                 postUser: this.invoice.postUser,
                 putAt: this.invoice.putAt,
@@ -305,6 +311,10 @@ export class InvoiceFormComponent {
 
     get amount(): AbstractControl {
         return this.form.get('amount')
+    }
+
+    get remarks(): AbstractControl {
+        return this.form.get('remarks')
     }
 
     get postAt(): AbstractControl {

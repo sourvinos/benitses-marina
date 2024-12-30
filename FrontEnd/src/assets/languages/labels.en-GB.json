@@ -841,6 +841,10 @@
                 "description": "Συνολική αξία"
             },
             {
+                "id": "remarks",
+                "description": "Παρατηρήσεις"
+            },
+            {
                 "id": "saveButton",
                 "description": "Αποθηκευση"
             },

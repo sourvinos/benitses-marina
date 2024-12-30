@@ -48,6 +48,15 @@ export class ValidationService {
         return pattern.test(control.value) ? null : { containsIllegalCharacters: true }
     }
 
+    static shouldBeEmptyPlusOrMinus(control: AbstractControl): { [key: string]: any } {
+        if (control.value == '') {
+            return null
+        } else {
+            const pattern = /[+-]/
+            return pattern.test(control.value) ? null : { shouldBeEmptyPlusOrMinus: true }
+        }
+    }
+
     static RequireAutocomplete(control: AbstractControl): any {
         const selection: any = control.value
         if (typeof selection === 'string') {
