@@ -1,5 +1,5 @@
 import { ActivatedRoute, Router } from '@angular/router'
-import { Component } from '@angular/core'
+import { Component, EventEmitter, Output } from '@angular/core'
 import { DateAdapter } from '@angular/material/core'
 import { FormBuilder, FormGroup, Validators, AbstractControl, FormArray } from '@angular/forms'
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete'
@@ -23,6 +23,7 @@ import { SessionStorageService } from 'src/app/shared/services/session-storage.s
 import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 import { ValidationService } from 'src/app/shared/services/validation.service'
 import { environment } from 'src/environments/environment'
+import { HttpClient, HttpEventType } from '@angular/common/http'
 
 @Component({
     selector: 'invoice-form',
@@ -56,12 +57,39 @@ export class InvoiceFormComponent {
 
     //#endregion
 
-    constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateAdapter: DateAdapter<any>, private dateHelperService: DateHelperService, private dexieService: DexieService, private dialogService: DialogService, private formBuilder: FormBuilder, private helperService: HelperService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private invoiceHttpService: InvoiceHttpService, private router: Router, private sessionStorageService: SessionStorageService) { }
+    //#region upload
+
+    @Output() public onUploadFinished = new EventEmitter()
+    public myform: FormGroup
+    public message: string
+    public progress: number
+
+    //#endregion
+
+    constructor(
+        private http: HttpClient,
+        private activatedRoute: ActivatedRoute,
+        private cryptoService: CryptoService,
+        private dateAdapter: DateAdapter<any>,
+        private dateHelperService: DateHelperService,
+        private dexieService: DexieService,
+        private dialogService: DialogService,
+        private formBuilder: FormBuilder,
+        private helperService: HelperService,
+        private localStorageService: LocalStorageService,
+        private messageDialogService: MessageDialogService,
+        private messageHintService: MessageInputHintService,
+        private messageLabelService: MessageLabelService,
+        private invoiceHttpService: InvoiceHttpService,
+        private router: Router,
+        private sessionStorageService: SessionStorageService
+    ) { }
 
     //#region lifecycle hooks
 
     ngOnInit(): void {
         this.initForm()
+        this.initRenameFileForm()
         this.setRecordId()
         this.getRecord()
         this.populateFields()
@@ -148,190 +176,228 @@ export class InvoiceFormComponent {
         this.helperService.openOrCloseAutocomplete(this.form, element, trigger)
     }
 
+    public uploadAndRenameFile():void{
+
+    }
+
+    public uploadFile = (files: FileList): void => {
+            if (files.length == 0) {
+                return
+            }
+            const fileToUpload = <File>files[0]
+            const formData = new FormData()
+            formData.append('boo', fileToUpload, fileToUpload.name)
+            this.http.post('https://localhost:5001/api/invoices/upload', formData, { reportProgress: true, observe: 'events' }).subscribe((x) => {
+                if (x.type == HttpEventType.UploadProgress) {
+                    this.progress = Math.round(100 * x.loaded / x.total)
+                } else if (x.type == HttpEventType.Response) {
+                    this.message = 'Upload successful'
+                    this.onUploadFinished.emit(x.body)
+                }
+            })
+        }
+
+    public renameFile(): void {
+    this.myform.patchValue({
+        old: 'old.pdf',
+        new: 'new.pdf'
+    })
+    this.invoiceHttpService.renameInvoice(this.myform.value).subscribe(x => {
+        console.log(x)
+    })
+}
+
     //#endregion
 
     //#region private methods
 
     private filterAutocomplete(array: string, field: string, value: any): any[] {
-        if (typeof value !== 'object') {
-            const filtervalue = value.toLowerCase()
-            return this[array].filter((element: { [x: string]: string; }) =>
-                element[field].toLowerCase().startsWith(filtervalue))
-        }
+    if (typeof value !== 'object') {
+        const filtervalue = value.toLowerCase()
+        return this[array].filter((element: { [x: string]: string; }) =>
+            element[field].toLowerCase().startsWith(filtervalue))
     }
+}
 
     private flattenForm(): InvoiceWriteDto {
-        return {
-            id: this.form.value.id != '' ? this.form.value.id : null,
-            companyId: this.form.value.company.id,
-            supplierId: this.form.value.supplier.id,
-            documentTypeId: this.form.value.documentType.id,
-            paymentMethodId: this.form.value.paymentMethod.id,
-            date: this.dateHelperService.formatDateToIso(new Date(this.form.value.date)),
-            documentNo: this.form.value.documentNo,
-            amount: this.form.value.amount,
-            remarks: this.form.value.remarks,
-            putAt: this.form.value.putAt
-        }
+    return {
+        id: this.form.value.id != '' ? this.form.value.id : null,
+        companyId: this.form.value.company.id,
+        supplierId: this.form.value.supplier.id,
+        documentTypeId: this.form.value.documentType.id,
+        paymentMethodId: this.form.value.paymentMethod.id,
+        date: this.dateHelperService.formatDateToIso(new Date(this.form.value.date)),
+        documentNo: this.form.value.documentNo,
+        amount: this.form.value.amount,
+        remarks: this.form.value.remarks,
+        putAt: this.form.value.putAt
     }
+}
 
     private focusOnField(): void {
-        this.helperService.focusOnField()
-    }
+    this.helperService.focusOnField()
+}
 
-    private getRecord(): Promise<any> {
-        if (this.invoiceId != undefined) {
-            return new Promise((resolve) => {
-                const formResolved: FormResolved = this.activatedRoute.snapshot.data['invoiceForm']
-                if (formResolved.error == null) {
-                    this.invoice = formResolved.record.body
-                    resolve(this.invoice)
-                } else {
-                    this.dialogService.open(this.messageDialogService.filterResponse(formResolved.error), 'error', ['ok']).subscribe(() => {
-                        this.resetForm()
-                        this.goBack()
-                    })
-                }
+    private getRecord(): Promise < any > {
+    if(this.invoiceId != undefined) {
+    return new Promise((resolve) => {
+        const formResolved: FormResolved = this.activatedRoute.snapshot.data['invoiceForm']
+        if (formResolved.error == null) {
+            this.invoice = formResolved.record.body
+            resolve(this.invoice)
+        } else {
+            this.dialogService.open(this.messageDialogService.filterResponse(formResolved.error), 'error', ['ok']).subscribe(() => {
+                this.resetForm()
+                this.goBack()
             })
         }
+    })
+}
     }
 
     private goBack(): void {
-        this.router.navigate([this.parentUrl])
-    }
+    this.router.navigate([this.parentUrl])
+}
 
     private initForm(): void {
-        this.form = this.formBuilder.group({
-            id: '',
-            date: ['', [Validators.required]],
-            company: ['', [Validators.required, ValidationService.RequireAutocomplete]],
-            supplier: ['', [Validators.required, ValidationService.RequireAutocomplete]],
-            documentType: ['', [Validators.required, ValidationService.RequireAutocomplete]],
-            paymentMethod: ['', [Validators.required, ValidationService.RequireAutocomplete]],
-            documentNo: ['', [Validators.required]],
-            amount: ['', [Validators.required, Validators.min(0), Validators.max(99999)]],
-            remarks: ['', [Validators.maxLength(2048)]],
-            postAt: [''],
-            postUser: [''],
-            putAt: [''],
-            putUser: ['']
-        })
-    }
+    this.form = this.formBuilder.group({
+        id: '',
+        date: ['', [Validators.required]],
+        company: ['', [Validators.required, ValidationService.RequireAutocomplete]],
+        supplier: ['', [Validators.required, ValidationService.RequireAutocomplete]],
+        documentType: ['', [Validators.required, ValidationService.RequireAutocomplete]],
+        paymentMethod: ['', [Validators.required, ValidationService.RequireAutocomplete]],
+        documentNo: ['', [Validators.required]],
+        amount: ['', [Validators.required, Validators.min(0), Validators.max(99999)]],
+        remarks: ['', [Validators.maxLength(2048)]],
+        postAt: [''],
+        postUser: [''],
+        putAt: [''],
+        putUser: ['']
+    })
+}
+
+    private initRenameFileForm(): void {
+    this.myform = this.formBuilder.group({
+        old: '',
+        new: ''
+    })
+}
 
     private populateDropdownFromDexieDB(dexieTable: string, filteredTable: string, formField: string, modelProperty: string, orderBy: string): void {
-        this.dexieService.table(dexieTable).orderBy(orderBy).toArray().then((response) => {
-            this[dexieTable] = this.invoiceId == undefined ? response.filter(x => x.isActive) : response
-            this[filteredTable] = this.form.get(formField).valueChanges.pipe(startWith(''), map(value => this.filterAutocomplete(dexieTable, modelProperty, value)))
-        })
-    }
+    this.dexieService.table(dexieTable).orderBy(orderBy).toArray().then((response) => {
+        this[dexieTable] = this.invoiceId == undefined ? response.filter(x => x.isActive) : response
+        this[filteredTable] = this.form.get(formField).valueChanges.pipe(startWith(''), map(value => this.filterAutocomplete(dexieTable, modelProperty, value)))
+    })
+}
 
     private populateDropdowns(): void {
-        this.populateDropdownFromDexieDB('companies', 'dropdownCompanies', 'company', 'description', 'description')
+    this.populateDropdownFromDexieDB('companies', 'dropdownCompanies', 'company', 'description', 'description')
         this.populateDropdownFromDexieDB('documentTypes', 'dropdownDocumentTypes', 'documentType', 'description', 'description')
         this.populateDropdownFromDexieDB('paymentMethods', 'dropdownPaymentMethods', 'paymentMethod', 'description', 'description')
         this.populateDropdownFromDexieDB('suppliers', 'dropdownSuppliers', 'supplier', 'description', 'description')
-    }
+}
 
     private populateFields(): void {
-        if (this.invoice != undefined) {
-            this.form.setValue({
-                id: this.invoice.id,
-                date: this.invoice.date,
-                company: { 'id': this.invoice.company.id, 'description': this.invoice.company.description },
-                supplier: { 'id': this.invoice.supplier.id, 'description': this.invoice.supplier.description },
-                documentType: { 'id': this.invoice.documentType.id, 'description': this.invoice.documentType.description },
-                paymentMethod: { 'id': this.invoice.paymentMethod.id, 'description': this.invoice.paymentMethod.description },
-                documentNo: this.invoice.documentNo,
-                amount: this.invoice.amount,
-                remarks: this.invoice.remarks,
-                postAt: this.invoice.postAt,
-                postUser: this.invoice.postUser,
-                putAt: this.invoice.putAt,
-                putUser: this.invoice.putUser
-            })
-        }
+    if(this.invoice != undefined) {
+    this.form.setValue({
+        id: this.invoice.id,
+        date: this.invoice.date,
+        company: { 'id': this.invoice.company.id, 'description': this.invoice.company.description },
+        supplier: { 'id': this.invoice.supplier.id, 'description': this.invoice.supplier.description },
+        documentType: { 'id': this.invoice.documentType.id, 'description': this.invoice.documentType.description },
+        paymentMethod: { 'id': this.invoice.paymentMethod.id, 'description': this.invoice.paymentMethod.description },
+        documentNo: this.invoice.documentNo,
+        amount: this.invoice.amount,
+        remarks: this.invoice.remarks,
+        postAt: this.invoice.postAt,
+        postUser: this.invoice.postUser,
+        putAt: this.invoice.putAt,
+        putUser: this.invoice.putUser
+    })
+}
     }
 
     private resetForm(): void {
-        this.form.reset()
-    }
+    this.form.reset()
+}
 
     private saveRecord(invoice: InvoiceWriteDto): void {
-        this.invoiceHttpService.saveInvoice(invoice).subscribe({
-            next: (response) => {
-                this.helperService.doPostSaveFormTasks(
-                    response.code == 200 ? this.messageDialogService.success() : '',
-                    response.code == 200 ? 'ok' : 'ok',
-                    this.parentUrl,
-                    true)
-            },
-            error: (errorFromInterceptor) => {
-                this.dialogService.open(this.messageDialogService.filterResponse(errorFromInterceptor), 'error', ['ok'])
-            }
-        })
-    }
+    this.invoiceHttpService.saveInvoice(invoice).subscribe({
+        next: (response) => {
+            this.helperService.doPostSaveFormTasks(
+                response.code == 200 ? this.messageDialogService.success() : '',
+                response.code == 200 ? 'ok' : 'ok',
+                this.parentUrl,
+                true)
+        },
+        error: (errorFromInterceptor) => {
+            this.dialogService.open(this.messageDialogService.filterResponse(errorFromInterceptor), 'error', ['ok'])
+        }
+    })
+}
 
     private setLocale(): void {
-        this.dateAdapter.setLocale(this.localStorageService.getLanguage())
-    }
+    this.dateAdapter.setLocale(this.localStorageService.getLanguage())
+}
 
     private setRecordId(): void {
-        this.activatedRoute.params.subscribe(x => {
-            this.invoiceId = x.id
-        })
-    }
+    this.activatedRoute.params.subscribe(x => {
+        this.invoiceId = x.id
+    })
+}
 
     //#endregion
 
     //#region getters
 
     get date(): AbstractControl {
-        return this.form.get('date')
-    }
+    return this.form.get('date')
+}
 
     get documentType(): AbstractControl {
-        return this.form.get('documentType')
-    }
+    return this.form.get('documentType')
+}
 
     get documentNo(): AbstractControl {
-        return this.form.get('documentNo')
-    }
+    return this.form.get('documentNo')
+}
 
     get paymentMethod(): AbstractControl {
-        return this.form.get('paymentMethod')
-    }
+    return this.form.get('paymentMethod')
+}
 
     get company(): AbstractControl {
-        return this.form.get('company')
-    }
+    return this.form.get('company')
+}
 
     get supplier(): AbstractControl {
-        return this.form.get('supplier')
-    }
+    return this.form.get('supplier')
+}
 
     get amount(): AbstractControl {
-        return this.form.get('amount')
-    }
+    return this.form.get('amount')
+}
 
     get remarks(): AbstractControl {
-        return this.form.get('remarks')
-    }
+    return this.form.get('remarks')
+}
 
     get postAt(): AbstractControl {
-        return this.form.get('postAt')
-    }
+    return this.form.get('postAt')
+}
 
     get postUser(): AbstractControl {
-        return this.form.get('postUser')
-    }
+    return this.form.get('postUser')
+}
 
     get putAt(): AbstractControl {
-        return this.form.get('putAt')
-    }
+    return this.form.get('putAt')
+}
 
     get putUser(): AbstractControl {
-        return this.form.get('putUser')
-    }
+    return this.form.get('putUser')
+}
 
     //#endregion
 

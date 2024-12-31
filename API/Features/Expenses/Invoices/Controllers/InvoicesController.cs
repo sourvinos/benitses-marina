@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using API.Infrastructure.Extensions;
 using API.Infrastructure.Helpers;
@@ -120,6 +122,43 @@ namespace API.Features.Expenses.Invoices {
                     ResponseCode = 404
                 };
             }
+        }
+
+        [HttpPost("upload")]
+        [Authorize(Roles = "admin")]
+        public IActionResult Upload() {
+            try {
+                var file = Request.Form.Files[0];
+                var x = file.ContentDisposition;
+                var folderName = Path.Combine("Uploads");
+                var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                if (file.Length > 0) {
+                    var filename = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                    var fullPath = Path.Combine(pathToSave, filename);
+                    var dbPath = Path.Combine(folderName, filename);
+                    using (var stream = new FileStream(fullPath, FileMode.Create)) {
+                        file.CopyTo(stream);
+                    }
+                    return Ok(new {
+                        dbPath
+                    });
+                } else {
+                    return BadRequest();
+                }
+            }
+            catch (System.Exception) {
+                throw;
+            }
+        }
+
+        [HttpPost("renameFile")]
+        [Authorize(Roles = "admin")]
+        public IActionResult RenameFile([FromBody] RenameDocumentVM x) {
+            var folderName = Path.Combine("Uploads");
+            var source = Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), folderName) + Path.DirectorySeparatorChar, x.Old);
+            var target = Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), folderName) + Path.DirectorySeparatorChar, x.New);
+            Directory.Move(source, target);
+            return Ok();
         }
 
     }

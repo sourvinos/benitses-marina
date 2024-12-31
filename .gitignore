@@ -16,6 +16,7 @@ Obj/
 **/node_modules
 **/logs
 **/reports
+**/uploads
 **/ssl
 **/appsettings.json
 **/desktop.ini

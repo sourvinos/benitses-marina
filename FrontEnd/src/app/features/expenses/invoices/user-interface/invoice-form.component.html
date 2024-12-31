@@ -97,6 +97,18 @@
             </div>
         </form>
 
+        <input type="file" #file placeholder="Choose file" (change)="uploadFile(file.files)" style="display: none;">
+        <button (click)="file.click()">Select</button>
+        <button (click)="renameFile()">Rename</button>
+
+        <span *ngIf="progress > 0">
+            {{ progress }}%
+        </span>
+
+        <span *ngIf="message">
+            {{ message }}
+        </span>
+
     </div>
 
     <div id="footer">
