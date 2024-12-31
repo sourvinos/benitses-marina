@@ -2,21 +2,23 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { Component } from '@angular/core'
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms'
 // Custom
+import { CryptoService } from 'src/app/shared/services/crypto.service'
 import { DexieService } from 'src/app/shared/services/dexie.service'
 import { DialogService } from 'src/app/shared/services/modal-dialog.service'
 import { FormResolved } from 'src/app/shared/classes/form-resolved'
 import { HelperService } from 'src/app/shared/services/helper.service'
 import { InputTabStopDirective } from 'src/app/shared/directives/input-tabstop.directive'
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete'
 import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
 import { MessageInputHintService } from 'src/app/shared/services/message-input-hint.service'
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
+import { SessionStorageService } from 'src/app/shared/services/session-storage.service'
+import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 import { SupplierHttpService } from '../classes/services/supplier-http.service'
 import { SupplierReadDto } from '../classes/dtos/supplier-read-dto'
 import { SupplierWriteDto } from '../classes/dtos/supplier-write-dto'
 import { ValidationService } from 'src/app/shared/services/validation.service'
 import { map, Observable, startWith } from 'rxjs'
-import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
-import { MatAutocompleteTrigger } from '@angular/material/autocomplete'
 
 @Component({
     selector: 'supplier-form',
@@ -46,7 +48,7 @@ export class SupplierFormComponent {
 
     //#endregion
 
-    constructor(private activatedRoute: ActivatedRoute, private supplierHttpService: SupplierHttpService, private dexieService: DexieService, private dialogService: DialogService, private formBuilder: FormBuilder, private helperService: HelperService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private router: Router) { }
+    constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dexieService: DexieService, private dialogService: DialogService, private formBuilder: FormBuilder, private helperService: HelperService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService, private supplierHttpService: SupplierHttpService) { }
 
     //#region lifecycle hooks
 
@@ -78,7 +80,6 @@ export class SupplierFormComponent {
         this.isAutoCompleteDisabled = this.helperService.enableOrDisableAutoComplete(event)
     }
 
-
     public getHint(id: string, minmax = 0): string {
         return this.messageHintService.getDescription(id, minmax)
     }
@@ -89,6 +90,10 @@ export class SupplierFormComponent {
 
     public getRemarksLength(): any {
         return this.form.value.remarks != null ? this.form.value.remarks.length : 0
+    }
+
+    public isAdmin(): boolean {
+        return this.cryptoService.decrypt(this.sessionStorageService.getItem('isAdmin')) == 'true' ? true : false
     }
 
     public onDelete(): void {

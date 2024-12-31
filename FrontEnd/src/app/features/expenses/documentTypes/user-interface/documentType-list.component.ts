@@ -4,6 +4,7 @@ import { DateAdapter } from '@angular/material/core'
 import { MenuItem } from 'primeng/api'
 import { Table } from 'primeng/table'
 // Custom
+import { CryptoService } from 'src/app/shared/services/crypto.service'
 import { DialogService } from 'src/app/shared/services/modal-dialog.service'
 import { DocumentTypeListVM } from '../classes/view-models/documentType-list-vm'
 import { EmojiService } from 'src/app/shared/services/emoji.service'
@@ -53,7 +54,7 @@ export class DocumentTypeListComponent {
 
     //#endregion
 
-    constructor(private activatedRoute: ActivatedRoute, private dateAdapter: DateAdapter<any>, private dialogService: DialogService, private emojiService: EmojiService, private helperService: HelperService, private interactionService: InteractionService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService) { }
+    constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateAdapter: DateAdapter<any>, private dialogService: DialogService, private emojiService: EmojiService, private helperService: HelperService, private interactionService: InteractionService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService) { }
 
     //#region lifecycle hooks
 
@@ -81,6 +82,10 @@ export class DocumentTypeListComponent {
     //#endregion
 
     //#region public methods
+
+    public isAdmin(): boolean {
+        return this.cryptoService.decrypt(this.sessionStorageService.getItem('isAdmin')) == 'true' ? true : false
+    }
 
     public onEditRecord(id: number): void {
         this.storeScrollTop()

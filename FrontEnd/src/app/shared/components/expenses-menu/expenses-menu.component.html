@@ -1,4 +1,4 @@
-<div *ngIf=isAdmin() id="button-wrapper">
+<div id="button-wrapper">
     <button [matMenuTriggerFor]="menu" class="fab fab-with-no-background" mat-icon-button>
         <mat-icon class="material-icons-outlined">arrow_circle_up</mat-icon>
     </button>
@@ -8,9 +8,9 @@
         <mat-divider></mat-divider>
         <button (click)="doNavigation('ledgers',true)" mat-menu-item><span>{{ getLabel('ledger') }}</span></button>
         <button (click)="doNavigation('balanceSheet',true)" mat-menu-item><span>{{ getLabel('balanceSheet') }}</span></button>
-        <mat-divider></mat-divider>
-        <button (click)="doNavigation('banks',true)" mat-menu-item><span>{{ getLabel('banks') }}</span></button>
-        <button (click)="doNavigation('paymentMethods',true)" mat-menu-item><span>{{ getLabel('paymentMethods') }}</span></button>
-        <button (click)="doNavigation('documentTypes',true)" mat-menu-item><span>{{ getLabel('documentTypes') }}</span></button>
+        <mat-divider *ngIf="isAdmin()"></mat-divider>
+        <button *ngIf="isAdmin()" (click)="doNavigation('banks',true)" mat-menu-item><span>{{ getLabel('banks') }}</span></button>
+        <button *ngIf="isAdmin()" (click)="doNavigation('paymentMethods',true)" mat-menu-item><span>{{ getLabel('paymentMethods') }}</span></button>
+        <button *ngIf="isAdmin()" (click)="doNavigation('documentTypes',true)" mat-menu-item><span>{{ getLabel('documentTypes') }}</span></button>
     </mat-menu>
 </div>

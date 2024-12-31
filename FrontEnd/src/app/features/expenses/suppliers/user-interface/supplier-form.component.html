@@ -80,8 +80,8 @@
 
     <div id="footer">
         <div id="align-right">
-            <button (click)="onDelete()" *ngIf="form.value.id !== 0" class="delete" mat-flat-button>{{ getLabel("deleteButton") | uppercase }}</button>
-            <button (click)="onSave()" [disabled]="!form.valid" class="primary" mat-flat-button>
+            <button (click)="onDelete()" *ngIf="form.value.id !== 0" [disabled]="!isAdmin()" class="delete" mat-flat-button>{{ getLabel("deleteButton") | uppercase }}</button>
+            <button (click)="onSave()" [disabled]="!form.valid || !isAdmin()" class="primary" mat-flat-button>
                 <mat-icon *ngIf="!form.valid" class="material-icons-outlined">lock</mat-icon>
                 <span>{{ getLabel("saveButton") | uppercase }}</span>
             </button>

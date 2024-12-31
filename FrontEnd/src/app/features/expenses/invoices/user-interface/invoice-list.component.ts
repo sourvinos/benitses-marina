@@ -9,10 +9,12 @@ import { EmojiService } from 'src/app/shared/services/emoji.service'
 import { HelperService } from 'src/app/shared/services/helper.service'
 import { InvoiceListVM } from '../classes/view-models/invoice-list-vm'
 import { ListResolved } from 'src/app/shared/classes/list-resolved'
+import { LocalStorageService } from 'src/app/shared/services/local-storage.service'
 import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
 import { SessionStorageService } from 'src/app/shared/services/session-storage.service'
 import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
+import { formatNumber } from '@angular/common'
 
 @Component({
     selector: 'invoice-list',
@@ -49,14 +51,14 @@ export class InvoiceListComponent {
 
     //#endregion
 
-    constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateHelperService: DateHelperService, private dialogService: DialogService, private emojiService: EmojiService, private helperService: HelperService, private messageDialogService: MessageDialogService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService) { }
+    constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateHelperService: DateHelperService, private dialogService: DialogService, private emojiService: EmojiService, private helperService: HelperService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService) { }
 
     //#region lifecycle hooks
 
     ngOnInit(): void {
         this.loadRecords()
         this.populateDropdownFilters()
-        this.filterTableFromStoredFilters()
+        // this.filterTableFromStoredFilters()
         this.setTabTitle()
         this.doVirtualTableTasks()
         this.setSidebarsHeight()
@@ -77,6 +79,10 @@ export class InvoiceListComponent {
 
     public formatDateToLocale(date: string, showWeekday = false, showYear = false, returnEmptyString = false): string {
         return returnEmptyString && date == '2199-12-31' ? '' : this.dateHelperService.formatISODateToLocale(date, showWeekday, showYear)
+    }
+
+    public formatNumberToLocale(number: number, decimals = true): string {
+        return formatNumber(number, this.localStorageService.getItem('language'), decimals ? '1.2' : '1.0')
     }
 
     public getEmoji(anything: any): string {
@@ -155,14 +161,23 @@ export class InvoiceListComponent {
         this.records.length == 0 ? this.helperService.disableTableFilters() : this.helperService.enableTableFilters()
     }
 
+    private filterColumn(element: { value: any }, field: string, matchMode: string): void {
+        if (element != undefined && (element.value != null || element.value != undefined)) {
+            this.table.filter(element.value, field, matchMode)
+        }
+    }
+
     private filterTableFromStoredFilters(): void {
         const filters = this.sessionStorageService.getFilters(this.feature + '-' + 'filters')
         if (filters != undefined) {
             setTimeout(() => {
-                // this.filterColumn(filters.boatName, 'boatName', 'contains')
-                // this.filterColumn(filters.ownerName, 'ownerName', 'contains')
-                // this.filterColumn(filters.boatLoa, 'boatLoa', 'contains')
-                // this.filterColumn(filters.fromDate, 'fromDate', 'contains')
+                this.filterColumn(filters.date, 'date', 'contains')
+                this.filterColumn(filters.company, 'company', 'in')
+                this.filterColumn(filters.documentType, 'documentType', 'in')
+                this.filterColumn(filters.paymentMethod, 'paymentMethod', 'in')
+                this.filterColumn(filters.supplier, 'supplier', 'in')
+                this.filterColumn(filters.documentNo, 'documentNo', 'contains')
+                this.filterColumn(filters.amount, 'amount', 'contains')
             }, 1000)
         }
     }

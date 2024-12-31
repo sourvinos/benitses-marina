@@ -19,7 +19,7 @@ namespace API.Features.Expenses.Ledgers {
         }
 
         [HttpPost("buildLedger")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "user, admin")]
         public Task<List<LedgerVM>> BuildLedger([FromBody] LedgerCriteria criteria) {
             return ProcessLedger(criteria);
         }

@@ -22,7 +22,7 @@ namespace API.Features.Expenses.BalanceSheet {
         }
 
         [HttpPost("buildBalanceSheet")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "user, admin")]
         public Task<List<BalanceSheetSummaryVM>> BuildBalanceSheet([FromBody] BalanceSheetCriteria criteria) {
             return ProcessBalanceSheet(criteria);
         }

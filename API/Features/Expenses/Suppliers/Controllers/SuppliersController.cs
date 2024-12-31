@@ -28,7 +28,7 @@ namespace API.Features.Expenses.Suppliers {
         }
 
         [HttpGet]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "user, admin")]
         public async Task<IEnumerable<SupplierListVM>> GetAsync() {
             return await supplierRepo.GetAsync();
         }
@@ -46,7 +46,7 @@ namespace API.Features.Expenses.Suppliers {
         }
 
         [HttpGet("{id}")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "user, admin")]
         public async Task<ResponseWithBody> GetByIdAsync(int id) {
             var x = await supplierRepo.GetByIdAsync(id, true);
             if (x != null) {

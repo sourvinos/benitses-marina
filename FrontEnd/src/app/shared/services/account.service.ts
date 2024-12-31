@@ -51,6 +51,7 @@ export class AccountService extends HttpDataService {
         this.sessionStorageService.deleteItems([
             { 'item': 'displayName', 'when': 'always' },
             { 'item': 'expiration', 'when': 'always' },
+            { 'item': 'invoiceList-filters', 'when': 'always' },
             { 'item': 'invoiceList-id', 'when': 'always' },
             { 'item': 'invoiceList-scrollTop', 'when': 'always' },
             { 'item': 'isAdmin', 'when': 'always' },
