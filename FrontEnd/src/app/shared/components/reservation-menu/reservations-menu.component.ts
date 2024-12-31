@@ -47,6 +47,10 @@ export class ReservationsMenuComponent {
         return this.cryptoService.decrypt(this.sessionStorageService.getItem('isAdmin')) == 'true' ? true : false
     }
 
+    public isLoggedIn(): boolean {
+        return this.sessionStorageService.getItem('userId') ? true : false
+    }
+
     //#endregion
 
     //#region private methods
