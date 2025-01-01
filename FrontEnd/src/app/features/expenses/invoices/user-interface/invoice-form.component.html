@@ -2,8 +2,17 @@
 
     <div id="content">
 
+
         <div id="header">
             <home-button-and-title [feature]="feature" [featureIcon]="featureIcon" [header]="getNewOrEditHeader()" [icon]="icon" [parentUrl]="parentUrl"></home-button-and-title>
+            <div id="documents">
+                <div *ngFor="let document of showDocuments()" class="document">
+                    <img (click)="onOpenDocument(document)" (load)="loadImage()" [ngClass]="imageIsLoading()" [src]="getIcon('pdf')" style="height: 2.125rem; margin-left: 1rem; width: 2.125rem">
+                    <button (click)="onDeleteDocument(document)">
+                        <mat-icon class="input-suffix material-icons-outlined">close</mat-icon>
+                    </button>
+                </div>
+            </div>
         </div>
 
         <form [formGroup]="form" id="form">
@@ -141,6 +150,6 @@
 
 
 <ng-template #actionsMenu xPosition="after">
-    <input type="file" #file placeholder="Choose file" (change)="uploadAndRenameFile(file.files[0])" style="display: none;">
+    <input type="file" #file placeholder="Choose file" (change)="onUploadAndRenameFile(file.files[0])" style="display: none;">
     <button [disabled]="isNewRecord()" (click)="file.click()" mat-menu-item>Ανέβασμα εγγράφου</button>
 </ng-template>

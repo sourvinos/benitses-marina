@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -124,6 +125,22 @@ namespace API.Features.Expenses.Invoices {
             }
         }
 
+        [HttpGet("documents/{id}")]
+        [Authorize(Roles = "user, admin")]
+        public ResponseWithBody GetDocuments(string id) {
+            DirectoryInfo directoryInfo = new(Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), Path.Combine("Uploads"))));
+            ArrayList documents = new();
+            foreach (var file in directoryInfo.GetFiles(id + "*.pdf")) {
+                documents.Add(file.Name);
+            }
+            return new ResponseWithBody {
+                Code = 200,
+                Icon = Icons.Info.ToString(),
+                Message = ApiMessages.OK(),
+                Body = documents
+            };
+        }
+
         [HttpPost("upload")]
         [Authorize(Roles = "admin")]
         public Response Upload() {
@@ -153,7 +170,26 @@ namespace API.Features.Expenses.Invoices {
                 Id = objectVM.NewFilename,
                 Message = ApiMessages.OK(),
             };
+        }
 
+        [HttpDelete("deleteDocument/{filename}")]
+        [Authorize(Roles = "admin")]
+        public Response DeleteDocument(string filename) {
+            var folderName = Path.Combine("Uploads");
+            var source = Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), folderName) + Path.DirectorySeparatorChar, filename);
+            System.IO.File.Delete(source);
+            return new Response {
+                Code = 200,
+                Icon = Icons.Info.ToString(),
+                Id = "",
+                Message = ApiMessages.OK(),
+            };
+        }
+
+        [HttpGet("openDocument/{filename}")]
+        [Authorize(Roles = "admin")]
+        public FileStreamResult OpenDocument(string filename) {
+            return invoiceRepo.OpenDocument(filename);
         }
 
     }

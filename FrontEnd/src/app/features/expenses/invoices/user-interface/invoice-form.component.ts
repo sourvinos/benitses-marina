@@ -2,7 +2,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { Component } from '@angular/core'
 import { DateAdapter } from '@angular/material/core'
 import { FormBuilder, FormGroup, Validators, AbstractControl, FormArray } from '@angular/forms'
-import { HttpClient, HttpEventType } from '@angular/common/http'
+import { HttpEventType } from '@angular/common/http'
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete'
 import { map, Observable, startWith } from 'rxjs'
 // Custom
@@ -57,13 +57,14 @@ export class InvoiceFormComponent {
 
     //#endregion upload
 
-    //#region upload
+    //#region documents
 
-    public renameDocumentForm: FormGroup
+    private documents = []
+    private renameDocumentForm: FormGroup
 
     // #endregion
 
-    constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateAdapter: DateAdapter<any>, private dateHelperService: DateHelperService, private dexieService: DexieService, private dialogService: DialogService, private formBuilder: FormBuilder, private helperService: HelperService, private httpClient: HttpClient, private invoiceHttpService: InvoiceHttpService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService) { }
+    constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateAdapter: DateAdapter<any>, private dateHelperService: DateHelperService, private dexieService: DexieService, private dialogService: DialogService, private formBuilder: FormBuilder, private helperService: HelperService, private invoiceHttpService: InvoiceHttpService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService) { }
 
     //#region lifecycle hooks
 
@@ -75,6 +76,7 @@ export class InvoiceFormComponent {
         this.populateFields()
         this.populateDropdowns()
         this.setLocale()
+        this.getDocuments()
     }
 
     ngAfterViewInit(): void {
@@ -148,18 +150,46 @@ export class InvoiceFormComponent {
         })
     }
 
+    public onOpenDocument(filename: string): void {
+        this.invoiceHttpService.openDocument(filename).subscribe({
+            next: (response) => {
+                const blob = new Blob([response], { type: 'application/pdf' })
+                const fileURL = URL.createObjectURL(blob)
+                window.open(fileURL, '_blank')
+            },
+            error: (errorFromInterceptor) => {
+                this.dialogService.open(this.messageDialogService.filterResponse(errorFromInterceptor), 'error', ['ok'])
+            }
+        })
+    }
+
+    public onDeleteDocument = (filename: string): Promise<void> => {
+        return new Promise<void>((resolve) => {
+            this.invoiceHttpService.deleteDocument(filename).subscribe((x) => {
+                resolve(x)
+                this.getDocuments()
+            })
+        })
+    }
+
     public onSave(): void {
         this.saveRecord(this.flattenForm())
+    }
+
+    public onUploadAndRenameFile(file: File): void {
+        this.uploadFile(file).then((x) => {
+            this.renameFile(file).then(() => {
+                this.getDocuments()
+            })
+        })
     }
 
     public openOrCloseAutoComplete(trigger: MatAutocompleteTrigger, element: any): void {
         this.helperService.openOrCloseAutocomplete(this.form, element, trigger)
     }
 
-    public uploadAndRenameFile(file: File): void {
-        this.uploadFile(file).then(() => {
-            this.renameFile(file)
-        })
+    public showDocuments(): string[] {
+        return this.documents ? this.documents : []
     }
 
     //#endregion
@@ -191,6 +221,14 @@ export class InvoiceFormComponent {
 
     private focusOnField(): void {
         this.helperService.focusOnField()
+    }
+
+    private getDocuments(): void {
+        if (this.invoiceId != undefined) {
+            this.invoiceHttpService.getDocuments(this.invoiceId).subscribe((x) => {
+                this.documents = Array.from(x.body)
+            })
+        }
     }
 
     private getRecord(): Promise<any> {
@@ -274,17 +312,13 @@ export class InvoiceFormComponent {
     }
 
     private renameFile = (file: File): Promise<void> => {
-        return new Promise<void>(() => {
+        return new Promise<void>((resolve) => {
             this.renameDocumentForm.patchValue({
                 oldfilename: file.name,
                 newfilename: this.form.value.id + ' ' + file.name
             })
             this.invoiceHttpService.rename(this.renameDocumentForm.value).subscribe(x => {
-                this.helperService.doPostSaveFormTasks(
-                    x.code == 200 ? this.messageDialogService.success() : '',
-                    x.code == 200 ? 'ok' : 'ok',
-                    this.parentUrl,
-                    false)
+                resolve()
             })
         })
     }
@@ -319,13 +353,13 @@ export class InvoiceFormComponent {
     }
 
     private uploadFile = (file: File): Promise<void> => {
-        return new Promise<void>((resolve, reject) => {
+        return new Promise<void>((resolve) => {
             const fileToUpload = <File>file
             const formData = new FormData()
-            formData.append('boo', fileToUpload, fileToUpload.name)
-            this.httpClient.post('https://localhost:5001/api/invoices/upload', formData, { reportProgress: true, observe: 'events' }).subscribe((x) => {
+            formData.append('x', fileToUpload, fileToUpload.name)
+            this.invoiceHttpService.upload(formData, { reportProgress: true, observe: 'events' }).subscribe((x) => {
                 if (x.type == HttpEventType.Response) {
-                    resolve()
+                    resolve(x)
                 }
             })
         })

@@ -19,12 +19,24 @@ export class InvoiceHttpService extends HttpDataService {
             : this.http.put<any>(this.url, formData)
     }
 
-    public upload(formData: any): Observable<any> {
-        return this.http.post(this.url + '/upload', formData)
+    public getDocuments(id: string): Observable<any> {
+        return this.http.get(this.url + '/documents/' + id)
+    }
+
+    public upload(formData: any, options: any,): Observable<any> {
+        return this.http.post(this.url + '/upload', formData, options)
     }
 
     public rename(formData: any): Observable<any> {
         return this.http.post<any>(this.url + '/rename', formData)
+    }
+
+    public deleteDocument(filename: string): Observable<any> {
+        return this.http.delete<any>(this.url + '/deleteDocument/' + filename)
+    }
+
+    public openDocument(filename: string): Observable<any> {
+        return this.http.get(this.url + '/openDocument/' + filename, { responseType: 'arraybuffer' })
     }
 
 }

@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.AspNetCore.Mvc;
+using System.IO;
 
 namespace API.Features.Expenses.Invoices {
 
@@ -71,6 +73,13 @@ namespace API.Features.Expenses.Invoices {
 
         private void UpdateInvoice(Invoice invoice) {
             context.Invoices.Update(invoice);
+        }
+
+        public FileStreamResult OpenDocument(string filename) {
+            var fullpathname = Path.Combine("Uploads" + Path.DirectorySeparatorChar + filename);
+            byte[] byteArray = File.ReadAllBytes(fullpathname);
+            MemoryStream memoryStream = new(byteArray);
+            return new FileStreamResult(memoryStream, "application/pdf");
         }
 
     }
