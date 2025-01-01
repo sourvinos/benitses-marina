@@ -1,6 +1,7 @@
 import { ActivatedRoute, Router } from '@angular/router'
 import { Component, ViewChild } from '@angular/core'
 import { Table } from 'primeng/table'
+import { formatNumber } from '@angular/common'
 // Custom
 import { CryptoService } from 'src/app/shared/services/crypto.service'
 import { DateHelperService } from 'src/app/shared/services/date-helper.service'
@@ -14,7 +15,6 @@ import { MessageDialogService } from 'src/app/shared/services/message-dialog.ser
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
 import { SessionStorageService } from 'src/app/shared/services/session-storage.service'
 import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
-import { formatNumber } from '@angular/common'
 
 @Component({
     selector: 'invoice-list',
@@ -36,18 +36,12 @@ export class InvoiceListComponent {
     public parentUrl = '/home'
     public records: InvoiceListVM[] = []
     public recordsFilteredCount = 0
-    public filterDate = ''
 
     public selectedRecords: InvoiceListVM[] = []
     public distinctCompanies: SimpleEntity[] = []
     public distinctDocumentTypes: SimpleEntity[] = []
     public distinctPaymentMethods: SimpleEntity[] = []
     public distinctSuppliers: SimpleEntity[] = []
-
-    public occupied = 0
-    public dryDock = 0
-    public fishingBoats = 0
-    public athenian = 0
 
     //#endregion
 
@@ -58,7 +52,6 @@ export class InvoiceListComponent {
     ngOnInit(): void {
         this.loadRecords()
         this.populateDropdownFilters()
-        // this.filterTableFromStoredFilters()
         this.setTabTitle()
         this.doVirtualTableTasks()
         this.setSidebarsHeight()
@@ -91,27 +84,8 @@ export class InvoiceListComponent {
             : anything ? this.emojiService.getEmoji('green-box') : this.emojiService.getEmoji('red-box')
     }
 
-    public getWarningEmoji(isOverdue: boolean): string {
-        return isOverdue ? this.emojiService.getEmoji('warning') : ''
-    }
-
     public getLabel(id: string): string {
         return this.messageLabelService.getDescription(this.feature, id)
-    }
-
-    public getPaymentDescriptionColor(paymentStatusDescription: string): string {
-        switch (paymentStatusDescription) {
-            case 'NONE':
-                return 'red'
-            case 'PARTIAL':
-                return 'yellow'
-            case 'FULL':
-                return 'green'
-        }
-    }
-
-    public hasDateFilter(): string {
-        return this.filterDate == '' ? 'hidden' : ''
     }
 
     public isAdmin(): boolean {
@@ -129,7 +103,6 @@ export class InvoiceListComponent {
     }
 
     public onFilterRecords(event: any): void {
-        this.sessionStorageService.saveItem(this.feature + '-' + 'filters', JSON.stringify(this.table.filters))
         this.recordsFilteredCount = event.filteredValue.length
     }
 
@@ -159,27 +132,6 @@ export class InvoiceListComponent {
 
     private enableDisableFilters(): void {
         this.records.length == 0 ? this.helperService.disableTableFilters() : this.helperService.enableTableFilters()
-    }
-
-    private filterColumn(element: { value: any }, field: string, matchMode: string): void {
-        if (element != undefined && (element.value != null || element.value != undefined)) {
-            this.table.filter(element.value, field, matchMode)
-        }
-    }
-
-    private filterTableFromStoredFilters(): void {
-        const filters = this.sessionStorageService.getFilters(this.feature + '-' + 'filters')
-        if (filters != undefined) {
-            setTimeout(() => {
-                this.filterColumn(filters.date, 'date', 'contains')
-                this.filterColumn(filters.company, 'company', 'in')
-                this.filterColumn(filters.documentType, 'documentType', 'in')
-                this.filterColumn(filters.paymentMethod, 'paymentMethod', 'in')
-                this.filterColumn(filters.supplier, 'supplier', 'in')
-                this.filterColumn(filters.documentNo, 'documentNo', 'contains')
-                this.filterColumn(filters.amount, 'amount', 'contains')
-            }, 1000)
-        }
     }
 
     private getVirtualElement(): void {

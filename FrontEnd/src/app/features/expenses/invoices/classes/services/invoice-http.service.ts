@@ -19,12 +19,12 @@ export class InvoiceHttpService extends HttpDataService {
             : this.http.put<any>(this.url, formData)
     }
 
-    public uploadInvoice(formData: any): Observable<any> {
+    public upload(formData: any): Observable<any> {
         return this.http.post(this.url + '/upload', formData)
     }
 
-    public renameInvoice(formData: any): Observable<any> {
-        return this.http.post<any>(this.url + '/renameFile', formData)
+    public rename(formData: any): Observable<any> {
+        return this.http.post<any>(this.url + '/rename', formData)
     }
 
 }

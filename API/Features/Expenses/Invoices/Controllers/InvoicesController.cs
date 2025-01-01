@@ -126,39 +126,34 @@ namespace API.Features.Expenses.Invoices {
 
         [HttpPost("upload")]
         [Authorize(Roles = "admin")]
-        public IActionResult Upload() {
-            try {
-                var file = Request.Form.Files[0];
-                var x = file.ContentDisposition;
-                var folderName = Path.Combine("Uploads");
-                var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-                if (file.Length > 0) {
-                    var filename = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-                    var fullPath = Path.Combine(pathToSave, filename);
-                    var dbPath = Path.Combine(folderName, filename);
-                    using (var stream = new FileStream(fullPath, FileMode.Create)) {
-                        file.CopyTo(stream);
-                    }
-                    return Ok(new {
-                        dbPath
-                    });
-                } else {
-                    return BadRequest();
-                }
+        public Response Upload() {
+            var filename = Request.Form.Files[0];
+            var pathname = Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), Path.Combine("Uploads")), ContentDispositionHeaderValue.Parse(filename.ContentDisposition).FileName.Trim('"'));
+            using (var stream = new FileStream(pathname, FileMode.Create)) {
+                filename.CopyTo(stream);
             }
-            catch (System.Exception) {
-                throw;
-            }
+            return new Response {
+                Code = 200,
+                Icon = Icons.Info.ToString(),
+                Id = filename.Name,
+                Message = ApiMessages.OK(),
+            };
         }
 
-        [HttpPost("renameFile")]
+        [HttpPost("rename")]
         [Authorize(Roles = "admin")]
-        public IActionResult RenameFile([FromBody] RenameDocumentVM x) {
+        public Response Rename([FromBody] RenameDocumentVM objectVM) {
             var folderName = Path.Combine("Uploads");
-            var source = Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), folderName) + Path.DirectorySeparatorChar, x.Old);
-            var target = Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), folderName) + Path.DirectorySeparatorChar, x.New);
+            var source = Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), folderName) + Path.DirectorySeparatorChar, objectVM.OldFilename);
+            var target = Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), folderName) + Path.DirectorySeparatorChar, objectVM.NewFilename);
             Directory.Move(source, target);
-            return Ok();
+            return new Response {
+                Code = 200,
+                Icon = Icons.Info.ToString(),
+                Id = objectVM.NewFilename,
+                Message = ApiMessages.OK(),
+            };
+
         }
 
     }

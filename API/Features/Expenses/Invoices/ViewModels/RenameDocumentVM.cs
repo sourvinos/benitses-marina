@@ -2,8 +2,8 @@ namespace API.Features.Expenses.Invoices {
 
     public class RenameDocumentVM {
 
-        public string Old { get; set; }
-        public string New { get; set; }
+        public string OldFilename { get; set; }
+        public string NewFilename { get; set; }
 
     }
 

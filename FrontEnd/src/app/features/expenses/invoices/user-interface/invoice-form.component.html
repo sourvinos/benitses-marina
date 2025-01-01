@@ -4,10 +4,6 @@
 
         <div id="header">
             <home-button-and-title [feature]="feature" [featureIcon]="featureIcon" [header]="getNewOrEditHeader()" [icon]="icon" [parentUrl]="parentUrl"></home-button-and-title>
-            <div *ngIf="isNotNewRecord()" id="boat-name">
-                <span>{{ this.form.value.boatName }}</span>
-                <img (load)="loadImage()" [ngClass]="imageIsLoading()" [src]="getIcon('invoices')" style="height: 32px; margin-left: 1rem; width: 32px;">
-            </div>
         </div>
 
         <form [formGroup]="form" id="form">
@@ -97,21 +93,15 @@
             </div>
         </form>
 
-        <input type="file" #file placeholder="Choose file" (change)="uploadFile(file.files)" style="display: none;">
-        <button (click)="file.click()">Select</button>
-        <button (click)="renameFile()">Rename</button>
-
-        <span *ngIf="progress > 0">
-            {{ progress }}%
-        </span>
-
-        <span *ngIf="message">
-            {{ message }}
-        </span>
-
     </div>
 
     <div id="footer">
+        <button [matMenuTriggerFor]="menu" class="fab fab-with-no-background" mat-icon-button>
+            <mat-icon class="material-icons-outlined">more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu" class="primary" xPosition="before">
+            <ng-container *ngTemplateOutlet="actionsMenu"></ng-container>
+        </mat-menu>
         <div id="align-right">
             <button *ngIf="form.value.reservationId != ''" (click)="onDelete()" [disabled]="!isAdmin()" class="delete" mat-flat-button>
                 <span>{{ getLabel('deleteButton') | uppercase }}</span>
@@ -148,3 +138,9 @@
         {{ option.description }}
     </mat-option>
 </mat-autocomplete>
+
+
+<ng-template #actionsMenu xPosition="after">
+    <input type="file" #file placeholder="Choose file" (change)="uploadAndRenameFile(file.files[0])" style="display: none;">
+    <button [disabled]="isNewRecord()" (click)="file.click()" mat-menu-item>Ανέβασμα εγγράφου</button>
+</ng-template>
