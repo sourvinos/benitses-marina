@@ -12,18 +12,19 @@
                     <tr>
                         <th class="no-border-bottom width-3"></th>
                         <th class="no-border-bottom width-7" pSortableColumn="date">{{ getLabel("headerDate") }}</th>
-                        <th class="no-border-bottom width-10" pSortableColumn="company.description">{{ getLabel("headerCompany") }}</th>
-                        <th class="no-border-bottom width-10" pSortableColumn="supplier.description">{{ getLabel("headerSupplier") }}</th>
-                        <th class="no-border-bottom width-10" pSortableColumn="documentType.description">{{ getLabel("headerDocumentType") }}</th>
+                        <th class="no-border-bottom width-12" pSortableColumn="company.description">{{ getLabel("headerCompany") }}</th>
+                        <th class="no-border-bottom width-12" pSortableColumn="supplier.description">{{ getLabel("headerSupplier") }}</th>
+                        <th class="no-border-bottom width-12" pSortableColumn="documentType.description">{{ getLabel("headerDocumentType") }}</th>
                         <th class="no-border-bottom width-10" pSortableColumn="paymentMethod.description">{{ getLabel("headerPaymentMethod") }}</th>
                         <th class="no-border-bottom width-6" pSortableColumn="documentNo">{{ getLabel("headerDocumentNo") }}</th>
                         <th class="no-border-bottom width-6" pSortableColumn="amount">{{ getLabel("headerAmount") }}</th>
+                        <th class="no-border-bottom width-3" pSortableColumn="hasDocument">{{ getLabel("headerHasDocument") }}</th>
                         <th class="no-border-bottom width-3"></th>
                     </tr>
                     <tr>
                         <th class="no-border-top width-3"><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
                         <th class="no-border-top width-7"><p-columnFilter (input)="onFilter($event.target.value,'date','contains')" field="date"></p-columnFilter></th>
-                        <th class="no-border-top width-10">
+                        <th class="no-border-top width-12">
                             <p-columnFilter [showMenu]="false" field="company" matchMode="in">
                                 <ng-template let-filter="filterCallback" let-value pTemplate="filter">
                                     <p-multiSelect (onChange)="filter($event.value)" [ngModel]="value" [options]="distinctCompanies" [placeholder]="getEmoji('wildcard')" optionLabel="description">
@@ -36,7 +37,7 @@
                                 </ng-template>
                             </p-columnFilter>
                         </th>
-                        <th class="no-border-top width-10">
+                        <th class="no-border-top width-12">
                             <p-columnFilter [showMenu]="false" field="supplier" matchMode="in">
                                 <ng-template let-filter="filterCallback" let-value pTemplate="filter">
                                     <p-multiSelect (onChange)="filter($event.value)" [ngModel]="value" [options]="distinctSuppliers" [placeholder]="getEmoji('wildcard')" optionLabel="description">
@@ -49,7 +50,7 @@
                                 </ng-template>
                             </p-columnFilter>
                         </th>
-                        <th class="no-border-top width-10">
+                        <th class="no-border-top width-12">
                             <p-columnFilter [showMenu]="false" field="documentType" matchMode="in">
                                 <ng-template let-filter="filterCallback" let-value pTemplate="filter">
                                     <p-multiSelect (onChange)="filter($event.value)" [ngModel]="value" [options]="distinctDocumentTypes" [placeholder]="getEmoji('wildcard')" optionLabel="description">
@@ -75,8 +76,9 @@
                                 </ng-template>
                             </p-columnFilter>
                         </th>
-                        <th class="no-border-top width-7"><p-columnFilter (input)="onFilter($event.target.value,'documentNo','contains')" field="documentNo"></p-columnFilter></th>
+                        <th class="no-border-top width-6"><p-columnFilter (input)="onFilter($event.target.value,'documentNo','contains')" field="documentNo"></p-columnFilter></th>
                         <th class="no-border-top width-6"><p-columnFilter (input)="onFilter($event.target.value,'amount','contains')" field="amount"></p-columnFilter></th>
+                        <th class="no-border-top width-3"></th>
                         <th class="no-border-top width-3"></th>
                     </tr>
                 </ng-template>
@@ -84,12 +86,13 @@
                     <tr (click)="onHighlightRow(record.id)" (dblclick)="onEditRecord(record.id)" [attr.id]=record.id style="height: 32px;">
                         <td class="width-3"><span class="center no-overflow" style="padding-right: 0 !important; padding-top: 0.25rem !important;"><p-tableCheckbox [value]="record"></p-tableCheckbox></span></td>
                         <td class="width-7"><span class="center no-overflow">{{ formatDateToLocale(record.date,false,true) }}</span></td>
-                        <td class="width-10"><span>{{ record.company.description }}</span></td>
-                        <td class="width-10"><span>{{ record.supplier.description }}</span></td>
-                        <td class="width-10"><span>{{ record.documentType.description }}</span></td>
+                        <td class="width-12"><span>{{ record.company.description }}</span></td>
+                        <td class="width-12"><span>{{ record.supplier.description }}</span></td>
+                        <td class="width-12"><span>{{ record.documentType.description }}</span></td>
                         <td class="width-10"><span>{{ record.paymentMethod.description }}</span></td>
-                        <td class="width-10"><span class="center">{{ record.documentNo }}</span></td>
-                        <td class="width-5"><span class="right with-right-padding">{{ formatNumberToLocale(record.amount) }}</span></td>
+                        <td class="width-6"><span class="center">{{ record.documentNo }}</span></td>
+                        <td class="width-6"><span class="right with-right-padding">{{ formatNumberToLocale(record.amount) }}</span></td>
+                        <td class="width-3"><span class="center no-left-padding no-overflow" style="font-size: 0.5rem; padding-top: 0 !important;">{{ getEmoji(record.hasDocument) }}</span></td>
                         <td class="width-3">
                             <span (click)="onEditRecord(record.id)" class="center">
                                 <mat-icon class="material-icons-outlined small-icon">more_horiz</mat-icon>

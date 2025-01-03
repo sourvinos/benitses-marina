@@ -789,7 +789,7 @@
             },
             {
                 "id": "headerDocumentNo",
-                "description": "No παραστατικού"
+                "description": "No"
             },
             {
                 "id": "headerAmount",
@@ -798,6 +798,10 @@
             {
                 "id": "headerPaymentMethod",
                 "description": "Τρόπος πληρωμής"
+            },
+            {
+                "id": "headerHasDocument",
+                "description": "Pdf"
             },
             {
                 "id": "newRecord",

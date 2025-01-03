@@ -187,7 +187,7 @@ namespace API.Features.Expenses.Invoices {
         }
 
         [HttpGet("openDocument/{filename}")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "user, admin")]
         public FileStreamResult OpenDocument(string filename) {
             return invoiceRepo.OpenDocument(filename);
         }

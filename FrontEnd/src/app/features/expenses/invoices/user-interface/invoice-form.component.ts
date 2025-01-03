@@ -163,12 +163,16 @@ export class InvoiceFormComponent {
         })
     }
 
-    public onDeleteDocument = (filename: string): Promise<void> => {
-        return new Promise<void>((resolve) => {
-            this.invoiceHttpService.deleteDocument(filename).subscribe((x) => {
-                resolve(x)
-                this.getDocuments()
-            })
+    public onDeleteDocument = (filename: string): any => {
+        this.dialogService.open(this.messageDialogService.confirmDelete(), 'question', ['abort', 'ok']).subscribe(response => {
+            if (response) {
+                return new Promise<void>((resolve) => {
+                    this.invoiceHttpService.deleteDocument(filename).subscribe((x) => {
+                        resolve(x)
+                        this.getDocuments()
+                    })
+                })
+            }
         })
     }
 

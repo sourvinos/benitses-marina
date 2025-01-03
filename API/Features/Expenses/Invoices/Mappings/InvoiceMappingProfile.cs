@@ -26,7 +26,8 @@ namespace API.Features.Expenses.Invoices {
                 .ForMember(x => x.Supplier, x => x.MapFrom(x => new SimpleEntity {
                     Id = x.Supplier.Id,
                     Description = x.Supplier.Description
-                }));
+                }))
+                .ForMember(x => x.HasDocument, x => x.MapFrom(x => InvoiceHelpers.HasDocument(x)));
             // GetById
             CreateMap<Invoice, InvoiceReadDto>()
                 .ForMember(x => x.Date, x => x.MapFrom(x => DateHelpers.DateToISOString(x.Date)))

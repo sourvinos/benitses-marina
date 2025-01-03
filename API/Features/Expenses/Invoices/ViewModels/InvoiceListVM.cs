@@ -12,6 +12,7 @@ namespace API.Features.Expenses.Invoices {
         public SimpleEntity Supplier { get; set; }
         public string DocumentNo { get; set; }
         public decimal Amount { get; set; }
+        public bool HasDocument { get; set; }
 
     }
 
