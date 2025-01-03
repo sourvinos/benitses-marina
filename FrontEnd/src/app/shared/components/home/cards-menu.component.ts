@@ -1,8 +1,9 @@
 import { Component } from '@angular/core'
+import { MatTabChangeEvent } from '@angular/material/tabs'
+import { Router } from '@angular/router'
 // Custom
 import { CryptoService } from '../../services/crypto.service'
 import { MessageLabelService } from '../../services/message-label.service'
-import { Router } from '@angular/router'
 import { SessionStorageService } from '../../services/session-storage.service'
 import { environment } from 'src/environments/environment'
 
@@ -21,7 +22,15 @@ export class CardsMenuComponent {
 
     //#endregion
 
-    constructor(private router: Router, private cryptoService: CryptoService, private messageLabelService: MessageLabelService, private sessionStorageService: SessionStorageService) { }
+    constructor(private cryptoService: CryptoService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService) { }
+
+    //#region lifecycle hooks
+
+    ngOnInit(): void {
+
+    }
+
+    //#endregion
 
     //#region public methods
 
@@ -29,6 +38,10 @@ export class CardsMenuComponent {
         this.router.navigate(featureIsEnabled == false
             ? (['not-ready-yet'])
             : ([feature]))
+    }
+
+    public getActiveTab(): number {
+        return this.sessionStorageService.getItem('cards-active-tab') ? parseInt(this.sessionStorageService.getItem('cards-active-tab')) : 0
     }
 
     public getIcon(filename: string): string {
@@ -49,6 +62,10 @@ export class CardsMenuComponent {
 
     public loadImage(): void {
         this.imgIsLoaded = true
+    }
+
+    public onTabChange(tabChangeEvent: MatTabChangeEvent): void {
+        this.sessionStorageService.saveItem('cards-active-tab', tabChangeEvent.index.toString())
     }
 
     //#endregion

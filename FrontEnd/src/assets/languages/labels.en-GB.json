@@ -716,51 +716,67 @@
         "labels": [
             {
                 "id": "reservationsTitle",
-                "description": "Reservations"
+                "description": "Κρατήσεις"
             },
             {
                 "id": "reservationsSubTitle",
-                "description": "Manage your reservations."
-            },
-            {
-                "id": "arrivalsTitle",
-                "description": "Arrivals"
-            },
-            {
-                "id": "arrivalsSubTitle",
-                "description": "Show the arrivals for today."
-            },
-            {
-                "id": "departuresTitle",
-                "description": "Departures"
-            },
-            {
-                "id": "departuresSubTitle",
-                "description": "Show the departures for today."
+                "description": "Διαχειριστείτε τις κρατήσεις σας και καταχωρήστε νέες."
             },
             {
                 "id": "berthsTitle",
-                "description": "Current status"
+                "description": "Τρέχουσα εικόνα"
             },
             {
                 "id": "berthsSubTitle",
-                "description": "Show the current status of the marina."
+                "description": "Εμφανίστε τα ελλιμενισμένα σκάφη σας."
             },
             {
                 "id": "insurancePoliciesTitle",
-                "description": "Insurance policies"
+                "description": "Λήξεις ασφαλιστήριων"
             },
             {
                 "id": "insurancePoliciesSubTitle",
-                "description": "Show the insurance policies due to expire."
+                "description": "Εμφανίστε τις επερχόμενες λήξεις των ασφαλιστήριων συμβολαίων."
             },
             {
                 "id": "upcomingLeaseTerminationsTitle",
-                "description": "End-of-lease"
+                "description": "Λήξεις συμβάσεων"
             },
             {
                 "id": "upcomingLeaseTerminationsSubTitle",
-                "description": "Show the upcoming end-of-lease agreements."
+                "description": "Εμφανίστε τις επερχόμενες λήξεις των συμβάσεων ελλιμενισμού."
+            },
+            {
+                "id": "suppliersTitle",
+                "description": "Αρχείο προμηθευτών"
+            },
+            {
+                "id": "suppliersSubTitle",
+                "description": "Διαχειριστείτε τους προμηθευτές και τους πιστωτές σας."
+            },
+            {
+                "id": "expensesTitle",
+                "description": "Ημερολόγιο εξόδων"
+            },
+            {
+                "id": "expensesSubTitle",
+                "description": "Διαχειριστείτε τα παραστατικά των εξόδων και καταχωρήστε νέα."
+            },
+            {
+                "id": "ledgersTitle",
+                "description": "Καρτέλες προμηθευτών"
+            },
+            {
+                "id": "ledgersSubTitle",
+                "description": "Εμφανίστε τις λογιστικές καρτέλες των προμηθευτών σας."
+            },
+            {
+                "id": "balanceSheetTitle",
+                "description": "Ισοζύγιο προμηθευτών"
+            },
+            {
+                "id": "balanceSheetSubTitle",
+                "description": "Εμφανίστε γρήγορα τις οφειλές στους προμηθευτές σας."
             }
         ]
     },

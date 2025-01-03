@@ -61,7 +61,8 @@ export class AccountService extends HttpDataService {
             { 'item': 'now', 'when': 'always' },
             { 'item': 'refreshToken', 'when': 'always' },
             { 'item': 'returnUrl', 'when': 'always' },
-            { 'item': 'userId', 'when': 'always' }
+            { 'item': 'userId', 'when': 'always' },
+            { 'item': 'cards-active-tab', 'when': 'always' }
         ])
     }
 

@@ -19,7 +19,7 @@
 .mat-mdc-card-title {
     color: var(--color-text) !important;
     font-family: var(--font-family-asty) !important;
-    font-size: 1.25rem !important;
+    font-size: 1.10rem !important;
     font-weight: 300 !important;
     margin: 0 0 0 0.5rem !important;
     transition: color var(--theme-delay);

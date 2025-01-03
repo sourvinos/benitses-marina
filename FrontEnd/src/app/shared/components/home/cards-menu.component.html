@@ -1,26 +1,59 @@
-<div id="cards-menu">
-    <mat-card (click)="doNavigation('insurancePolicies',true)">
-        <img (load)="loadImage()" [ngClass]="imageIsLoading()" [src]="getIcon('insurance-policies')" style="height: 6.25rem; margin-left: 1rem; width: 6.25rem">
-        <mat-card-title>{{ getLabel("insurancePoliciesTitle") }}</mat-card-title>
-        <mat-divider inset></mat-divider>
-        <mat-card-subtitle>{{ getLabel("insurancePoliciesSubTitle") }}</mat-card-subtitle>
-    </mat-card>
-    <mat-card (click)="doNavigation('upcomingLeaseTerminations',true)">
-        <img (load)="loadImage()" [ngClass]="imageIsLoading()" [src]="getIcon('leases')" style="height: 6.25rem; margin-left: 1rem; width: 6.25rem">
-        <mat-card-title>{{ getLabel("upcomingLeaseTerminationsTitle") }}</mat-card-title>
-        <mat-divider inset></mat-divider>
-        <mat-card-subtitle>{{ getLabel("upcomingLeaseTerminationsSubTitle") }}</mat-card-subtitle>
-    </mat-card>
-    <mat-card (click)="doNavigation('reservations',true)">
-        <img (load)="loadImage()" [ngClass]="imageIsLoading()" [src]="getIcon('reservations')" style="height: 6.25rem; margin-left: 1rem; width: 6.25rem">
-        <mat-card-title>{{ getLabel("reservationsTitle") }}</mat-card-title>
-        <mat-divider inset></mat-divider>
-        <mat-card-subtitle>{{ getLabel("reservationsSubTitle") }}</mat-card-subtitle>
-    </mat-card>
-    <mat-card (click)="doNavigation('berths',true)">
-        <img (load)="loadImage()" [ngClass]="imageIsLoading()" [src]="getIcon('berths')" style="height: 6.25rem; margin-left: 1rem; width: 6.25rem">
-        <mat-card-title>{{ getLabel("berthsTitle") }}</mat-card-title>
-        <mat-divider inset></mat-divider>
-        <mat-card-subtitle>{{ getLabel("berthsSubTitle") }}</mat-card-subtitle>
-    </mat-card>
-</div>
+<mat-tab-group #tabGroup (selectedTabChange)="onTabChange($event)" [selectedIndex]="getActiveTab()" mat-stretch-tabs="false">
+    <mat-tab label="Σκάφη & Ελλιμενισμοί">
+        <div id="cards-menu">
+            <mat-card (click)="doNavigation('insurancePolicies',true)">
+                <img (load)="loadImage()" [ngClass]="imageIsLoading()" [src]="getIcon('insurance-policies')" style="height: 6.25rem; margin-left: 1rem; width: 6.25rem">
+                <mat-card-title>{{ getLabel("insurancePoliciesTitle") }}</mat-card-title>
+                <mat-divider inset></mat-divider>
+                <mat-card-subtitle>{{ getLabel("insurancePoliciesSubTitle") }}</mat-card-subtitle>
+            </mat-card>
+            <mat-card (click)="doNavigation('upcomingLeaseTerminations',true)">
+                <img (load)="loadImage()" [ngClass]="imageIsLoading()" [src]="getIcon('leases')" style="height: 6.25rem; margin-left: 1rem; width: 6.25rem">
+                <mat-card-title>{{ getLabel("upcomingLeaseTerminationsTitle") }}</mat-card-title>
+                <mat-divider inset></mat-divider>
+                <mat-card-subtitle>{{ getLabel("upcomingLeaseTerminationsSubTitle") }}</mat-card-subtitle>
+            </mat-card>
+            <mat-card (click)="doNavigation('reservations',true)">
+                <img (load)="loadImage()" [ngClass]="imageIsLoading()" [src]="getIcon('reservations')" style="height: 6.25rem; margin-left: 1rem; width: 6.25rem">
+                <mat-card-title>{{ getLabel("reservationsTitle") }}</mat-card-title>
+                <mat-divider inset></mat-divider>
+                <mat-card-subtitle>{{ getLabel("reservationsSubTitle") }}</mat-card-subtitle>
+            </mat-card>
+            <mat-card (click)="doNavigation('berths',true)">
+                <img (load)="loadImage()" [ngClass]="imageIsLoading()" [src]="getIcon('berths')" style="height: 6.25rem; margin-left: 1rem; width: 6.25rem">
+                <mat-card-title>{{ getLabel("berthsTitle") }}</mat-card-title>
+                <mat-divider inset></mat-divider>
+                <mat-card-subtitle>{{ getLabel("berthsSubTitle") }}</mat-card-subtitle>
+            </mat-card>
+        </div>
+    </mat-tab>
+    <mat-tab label="Προμηθευτές & Έξοδα">
+        <div id="cards-menu">
+            <mat-card (click)="doNavigation('suppliers',true)">
+                <img (load)="loadImage()" [ngClass]="imageIsLoading()" [src]="getIcon('suppliers')" style="height: 6.25rem; margin-left: 1rem; width: 6.25rem">
+                <mat-card-title>{{ getLabel("suppliersTitle") }}</mat-card-title>
+                <mat-divider inset></mat-divider>
+                <mat-card-subtitle>{{ getLabel("suppliersSubTitle") }}</mat-card-subtitle>
+            </mat-card>
+            <mat-card (click)="doNavigation('invoices',true)">
+                <img (load)="loadImage()" [ngClass]="imageIsLoading()" [src]="getIcon('invoices')" style="height: 6.25rem; margin-left: 1rem; width: 6.25rem">
+                <mat-card-title>{{ getLabel("expensesTitle") }}</mat-card-title>
+                <mat-divider inset></mat-divider>
+                <mat-card-subtitle>{{ getLabel("expensesSubTitle") }}</mat-card-subtitle>
+            </mat-card>
+            <mat-card (click)="doNavigation('ledgers',true)">
+                <img (load)="loadImage()" [ngClass]="imageIsLoading()" [src]="getIcon('ledgers')" style="height: 6.25rem; margin-left: 1rem; width: 6.25rem">
+                <mat-card-title>{{ getLabel("ledgersTitle") }}</mat-card-title>
+                <mat-divider inset></mat-divider>
+                <mat-card-subtitle>{{ getLabel("ledgersSubTitle") }}</mat-card-subtitle>
+            </mat-card>
+            <mat-card (click)="doNavigation('balanceSheet',true)">
+                <img (load)="loadImage()" [ngClass]="imageIsLoading()" [src]="getIcon('balanceSheet')" style="height: 6.25rem; margin-left: 1rem; width: 6.25rem">
+                <mat-card-title>{{ getLabel("balanceSheetTitle") }}</mat-card-title>
+                <mat-divider inset></mat-divider>
+                <mat-card-subtitle>{{ getLabel("balanceSheetSubTitle") }}</mat-card-subtitle>
+            </mat-card>
+        </div>
+
+    </mat-tab>
+</mat-tab-group>

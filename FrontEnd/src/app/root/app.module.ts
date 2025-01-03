@@ -8,7 +8,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { AppComponent } from './app.component'
 import { AppRoutingModule } from './app.routing.module'
 import { LoginModule } from '../shared/components/login/classes/modules/login.module'
-import { PrimeNgModule } from '../shared/modules/primeng.module'
 import { SharedModule } from 'src/app/shared/modules/shared.module'
 // Components
 import { CardsMenuComponent } from '../shared/components/home/cards-menu.component'
@@ -37,7 +36,6 @@ import { InterceptorService } from '../shared/services/interceptor.service'
         FormsModule,
         HttpClientModule,
         LoginModule,
-        PrimeNgModule,
         ReactiveFormsModule,
         SharedModule,
     ],

@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { NgModule } from '@angular/core'
 import { NgxCurrencyDirective, NgxCurrencyInputMode, provideEnvironmentNgxCurrency } from 'ngx-currency'
-import { PrimeNgModule } from './primeng.module'
 import { RouterModule } from '@angular/router'
 // Custom
 import { AbsPipe } from '../pipes/abs.pipe'
@@ -22,6 +21,7 @@ import { MetadataPanelComponent } from '../components/metadata-panel/metadata-pa
 import { ModalDialogComponent } from '../components/modal-dialog/modal-dialog.component'
 import { PadNumberPipe } from '../pipes/pad-number.pipe'
 import { PrettyPrintPipe } from '../pipes/json-pretty.pipe'
+import { PrimeNgModule } from './primeng.module'
 import { ReplaceZeroPipe } from '../pipes/replace-zero.pipe'
 import { SafeStylePipe } from '../pipes/safe-style.pipe'
 import { TableTotalFilteredRecordsComponent } from '../components/table-total-filtered-records/table-total-filtered-records.component'
@@ -84,7 +84,6 @@ import { TrimStringPipe } from './../pipes/string-trim.pipe'
         PrimeNgModule,
         ReactiveFormsModule,
         ReplaceZeroPipe,
-        RouterModule,
         RouterModule,
         TableTotalFilteredRecordsComponent,
         ThemeSelectorComponent,
