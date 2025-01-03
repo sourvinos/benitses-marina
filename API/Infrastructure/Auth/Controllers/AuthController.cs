@@ -43,8 +43,8 @@ namespace API.Infrastructure.Auth {
         [HttpPost("[action]")]
         public IActionResult Logout([FromBody] JObject z) {
             var tokens = context.Tokens.Where(x => x.UserId == z.First.FirstOrDefault().ToString()).ToList();
-            context.Tokens.RemoveRange(tokens);
-            context.SaveChanges();
+            // context.Tokens.RemoveRange(tokens);
+            // context.SaveChanges();
             return StatusCode(200, new {
                 response = ApiMessages.OK()
             });
