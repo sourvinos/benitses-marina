@@ -18,6 +18,7 @@ export class EmojiService {
             case 'warning': return '🆘'
             case 'active': return '🟢 '
             case 'ok': return '✔️'
+            case 'empty': return ''
         }
 
     }

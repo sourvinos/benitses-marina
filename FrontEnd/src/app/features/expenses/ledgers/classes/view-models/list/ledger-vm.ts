@@ -6,6 +6,8 @@ export interface LedgerVM {
     formattedDate: string
     supplier: SimpleEntity
     documentType: SimpleEntity
+    hasDocument: boolean
+    documentName: boolean
     invoiceNo: string
     debit: number
     credit: number

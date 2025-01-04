@@ -42,7 +42,7 @@ export class LedgerParentBillingComponent {
     }
 
     ngOnDestroy(): void {
-        this.sessionStorageService.deleteItems([{ 'item': 'ledgerCriteria', 'when': 'always' }])
+        this.sessionStorageService.deleteItems([{ 'item': 'ledgerCriteria', 'when': 'production' }])
     }
 
     //#endregion

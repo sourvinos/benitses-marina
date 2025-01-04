@@ -28,7 +28,9 @@ namespace API.Features.Expenses.Ledgers {
                 }))
                 .ForMember(x => x.InvoiceNo, x => x.MapFrom(x => x.DocumentNo.ToString()))
                 .ForMember(x => x.Debit, x => x.MapFrom(x => x.DocumentType.Suppliers == "-" || (x.DocumentType.Suppliers == "+" && x.DocumentType.DiscriminatorId == 1 && x.PaymentMethod.IsCredit == false) ? x.Amount : 0))
-                .ForMember(x => x.Credit, x => x.MapFrom(x => x.DocumentType.Suppliers == "+" || (x.DocumentType.Suppliers == "-" && x.DocumentType.DiscriminatorId == 1 && x.PaymentMethod.IsCredit == false) ? x.Amount : 0));
+                .ForMember(x => x.Credit, x => x.MapFrom(x => x.DocumentType.Suppliers == "+" || (x.DocumentType.Suppliers == "-" && x.DocumentType.DiscriminatorId == 1 && x.PaymentMethod.IsCredit == false) ? x.Amount : 0))
+                .ForMember(x => x.HasDocument, x => x.MapFrom(x => InvoiceHelpers.HasDocument(x)))
+                .ForMember(x => x.DocumentName, x => x.MapFrom(x => InvoiceHelpers.DocumentName(x) ?? ""));
         }
 
     }

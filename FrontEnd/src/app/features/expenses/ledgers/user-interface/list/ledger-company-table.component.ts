@@ -1,9 +1,14 @@
-import { formatNumber } from '@angular/common'
 import { Component, Input } from '@angular/core'
+import { HelperService } from 'src/app/shared/services/helper.service'
+import { formatNumber } from '@angular/common'
 // Custom
+import { DialogService } from 'src/app/shared/services/modal-dialog.service'
+import { EmojiService } from 'src/app/shared/services/emoji.service'
+import { InvoiceHttpService } from '../../../invoices/classes/services/invoice-http.service'
 import { LedgerCriteriaVM } from '../../classes/view-models/criteria/ledger-criteria-vm'
 import { LedgerVM } from '../../classes/view-models/list/ledger-vm'
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service'
+import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
 
 @Component({
@@ -23,7 +28,7 @@ export class LedgerCompanyTableComponent {
 
     //#endregion
 
-    constructor(private localStorageService: LocalStorageService, private messageLabelService: MessageLabelService) { }
+    constructor(private dialogService: DialogService, private emojiService: EmojiService, private helperService: HelperService, private invoiceHttpService: InvoiceHttpService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageLabelService: MessageLabelService) { }
 
     //#region lifecycle hooks
 
@@ -39,8 +44,33 @@ export class LedgerCompanyTableComponent {
         return formatNumber(number, this.localStorageService.getItem('language'), decimals ? '1.2' : '1.0')
     }
 
+    public getEmoji(anything: any): string {
+        return typeof anything == 'string'
+            ? this.emojiService.getEmoji(anything)
+            : anything ? this.emojiService.getEmoji('green-box') : this.emojiService.getEmoji('empty')
+    }
+
     public getLabel(id: string): string {
         return this.messageLabelService.getDescription(this.feature, id)
+    }
+
+    public onHighlightRow(id: any): void {
+        this.helperService.highlightRow(id)
+    }
+
+    public onOpenDocument(filename: string): void {
+        if (filename) {
+            this.invoiceHttpService.openDocument(filename).subscribe({
+                next: (response) => {
+                    const blob = new Blob([response], { type: 'application/pdf' })
+                    const fileURL = URL.createObjectURL(blob)
+                    window.open(fileURL, '_blank')
+                },
+                error: (errorFromInterceptor) => {
+                    this.dialogService.open(this.messageDialogService.filterResponse(errorFromInterceptor), 'error', ['ok'])
+                }
+            })
+        }
     }
 
     //#endregion

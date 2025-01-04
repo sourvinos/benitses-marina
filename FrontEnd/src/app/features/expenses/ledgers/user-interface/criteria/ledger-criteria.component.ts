@@ -1,5 +1,3 @@
-import { LedgerCriteriaVM } from './../../classes/view-models/criteria/ledger-criteria-vm';
-import { LedgerFormCriteriaVM } from './../../classes/view-models/criteria/ledger-form-criteria-vm';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Component, EventEmitter, Inject, NgZone, Output } from '@angular/core'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
@@ -11,6 +9,8 @@ import { DexieService } from 'src/app/shared/services/dexie.service'
 import { HelperService } from 'src/app/shared/services/helper.service'
 import { InputTabStopDirective } from 'src/app/shared/directives/input-tabstop.directive'
 import { InteractionService } from 'src/app/shared/services/interaction.service'
+import { LedgerCriteriaVM } from './../../classes/view-models/criteria/ledger-criteria-vm'
+import { LedgerFormCriteriaVM } from './../../classes/view-models/criteria/ledger-form-criteria-vm'
 import { MessageInputHintService } from './../../../../../shared/services/message-input-hint.service'
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
 import { SessionStorageService } from 'src/app/shared/services/session-storage.service'
