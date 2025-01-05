@@ -17,6 +17,7 @@ using API.Features.Expenses.Ledgers;
 using API.Features.Expenses.Companies;
 using API.Features.Expenses.BalanceSheet;
 using API.Features.Expenses.BalanceFilters;
+using API.Features.Sales.Prices;
 
 namespace API.Infrastructure.Extensions {
 
@@ -59,6 +60,10 @@ namespace API.Infrastructure.Extensions {
             services.AddTransient<IBoatTypeValidation, BoatTypeValidation>();
             services.AddTransient<IBoatUsageValidation, BoatUsageValidation>();
             services.AddTransient<IReservationValidation, ReservationValidation>();
+            #endregion
+            #region sales
+            services.AddTransient<IPriceRepository, PriceRepository>();
+            services.AddTransient<IPriceValidation, PriceValidation>();
             #endregion
             #region shared
             services.AddScoped<Token>();
