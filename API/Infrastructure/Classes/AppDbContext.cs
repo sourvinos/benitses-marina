@@ -17,6 +17,9 @@ using API.Features.Invoices.Invoices;
 using API.Features.Expenses.Companies;
 using API.Features.Expenses.Transactions;
 using API.Features.Expenses.BalanceFilters;
+using API.Features.Sales.Customers;
+using API.Features.Sales.TaxOffices;
+using API.Features.Sales.Nationalities;
 
 namespace API.Infrastructure.Classes {
 
@@ -50,6 +53,14 @@ namespace API.Infrastructure.Classes {
         public DbSet<ReservationInsurance> ReservationInsuranceDetails { get; set; }
         public DbSet<ReservationOwner> ReservationOwnerDetails { get; set; }
         public DbSet<Token> Tokens { get; set; }
+
+        #endregion
+
+        #region Sales
+
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Nationality> Nationalities { get; set; }
+        public DbSet<TaxOffice> TaxOffices { get; set; }
 
         #endregion
 

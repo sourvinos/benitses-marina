@@ -12,15 +12,18 @@ import { BoatUsageHttpService } from 'src/app/features/reservations/boatUsages/c
 import { ChangePasswordViewModel } from 'src/app/features/users/classes/view-models/change-password-view-model'
 import { CompanyHttpService } from 'src/app/features/expenses/companies/classes/services/company-http.service'
 import { CryptoService } from './crypto.service'
+import { CustomerHttpService } from 'src/app/features/sales/customers/classes/services/customer-http.service'
 import { DexieService } from './dexie.service'
 import { DocumentTypeHttpService } from 'src/app/features/expenses/documentTypes/classes/services/documentType-http.service'
 import { DotNetVersion } from '../classes/dotnet-version'
 import { HttpDataService } from './http-data.service'
+import { NationalityHttpService } from 'src/app/features/sales/nationalities/classes/services/nationality-http.service'
 import { PaymentMethodHttpService } from 'src/app/features/expenses/paymentMethods/classes/services/paymentMethod-http.service'
 import { PaymentStatusHttpService } from 'src/app/features/reservations/paymentStatuses/classes/services/paymentStatus-http.service'
 import { ResetPasswordViewModel } from 'src/app/features/users/classes/view-models/reset-password-view-model'
 import { SessionStorageService } from './session-storage.service'
 import { SupplierHttpService } from 'src/app/features/expenses/suppliers/classes/services/supplier-http.service'
+import { TaxOfficeService } from 'src/app/features/sales/taxOffices/classes/services/taxOffice.service'
 import { TokenRequest } from '../classes/token-request'
 import { environment } from '../../../environments/environment'
 
@@ -37,7 +40,7 @@ export class AccountService extends HttpDataService {
 
     //#endregion
 
-    constructor(httpClient: HttpClient, private balanceFilterHttpService: BalanceFilterHttpService, private bankHttpService: BankHttpService, private berthHttpService: BerthHttpService, private boatTypeHttpService: BoatTypeHttpService, private boatUsageHttpService: BoatUsageHttpService, private companyHttpService: CompanyHttpService, private cryptoService: CryptoService, private dexieService: DexieService, private documentTypeHttpService: DocumentTypeHttpService, private ngZone: NgZone, private paymentMethodHttpService: PaymentMethodHttpService, private paymentStatusHttpService: PaymentStatusHttpService, private router: Router, private sessionStorageService: SessionStorageService, private supplierHttpService: SupplierHttpService) {
+    constructor(httpClient: HttpClient, private balanceFilterHttpService: BalanceFilterHttpService, private bankHttpService: BankHttpService, private berthHttpService: BerthHttpService, private boatTypeHttpService: BoatTypeHttpService, private boatUsageHttpService: BoatUsageHttpService, private companyHttpService: CompanyHttpService, private cryptoService: CryptoService, private customerHttpService: CustomerHttpService, private dexieService: DexieService, private documentTypeHttpService: DocumentTypeHttpService, private nationalityHttpService: NationalityHttpService, private ngZone: NgZone, private paymentMethodHttpService: PaymentMethodHttpService, private paymentStatusHttpService: PaymentStatusHttpService, private router: Router, private sessionStorageService: SessionStorageService, private supplierHttpService: SupplierHttpService, private taxOfficeService: TaxOfficeService) {
         super(httpClient, environment.apiUrl)
     }
 
@@ -152,6 +155,10 @@ export class AccountService extends HttpDataService {
         this.dexieService.populateTable('boatTypes', this.boatTypeHttpService)
         this.dexieService.populateTable('boatUsages', this.boatUsageHttpService)
         this.dexieService.populateTable('paymentStatuses', this.paymentStatusHttpService)
+        // Sales
+        this.dexieService.populateTable('customers', this.customerHttpService)
+        this.dexieService.populateTable('nationalities', this.nationalityHttpService)
+        this.dexieService.populateTable('taxOffices', this.taxOfficeService)
     }
 
     private setDotNetVersion(response: any): void {

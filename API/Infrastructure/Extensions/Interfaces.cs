@@ -17,6 +17,9 @@ using API.Features.Expenses.Ledgers;
 using API.Features.Expenses.Companies;
 using API.Features.Expenses.BalanceSheet;
 using API.Features.Expenses.BalanceFilters;
+using API.Features.Sales.Customers;
+using API.Features.Sales.Nationalities;
+using API.Features.Sales.TaxOffices;
 
 namespace API.Infrastructure.Extensions {
 
@@ -44,6 +47,14 @@ namespace API.Infrastructure.Extensions {
             services.AddTransient<IPaymentStatusRepository, PaymentStatusRepository>();
             services.AddTransient<IReservationRepository, ReservationRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
+            #endregion
+            #region Sales
+            services.AddTransient<ICustomerAadeRepository, CustomerAadeRepository>();
+            services.AddTransient<ICustomerRepository, CustomerRepository>();
+            services.AddTransient<ICustomerValidation, CustomerValidation>();
+            services.AddTransient<INationalityRepository, NationalityRepository>();
+            services.AddTransient<ITaxOfficeRepository, TaxOfficeRepository>();
+            services.AddTransient<ITaxOfficeValidation, TaxOfficeValidation>();
             #endregion
             #region validations
             services.AddTransient<IBankValidation, BankValidation>();

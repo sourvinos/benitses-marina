@@ -34,9 +34,9 @@
 #tab-content .label {
     color: var(--color-button-primary);
     display: flex;
-    font-family: var(--font-family-fahkwang);
+    font-family: var(--font-family-asty);
     font-size: 0.875rem;
-    font-weight: 600;
+    font-weight: 300;
     padding: 0 0 1rem 1rem;
 }
 
@@ -52,7 +52,7 @@
 #copy-owner-to-billing {
     color: var(--color-button-secondary) !important;
     margin-top: -0.6875rem;
-    padding: 0.5rem 1rem 0.5rem 1rem !important;
+    padding: 0.6875rem 1rem 0.5rem 1rem !important;
 }
 
 #copy-owner-to-billing:hover {
@@ -63,9 +63,9 @@
     align-items: center;
     color: #466dab;
     display: flex;
-    font-family: var(--font-family-fahkwang);
+    font-family: var(--font-family-asty);
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 300;
     margin-left: auto;
     margin-right: 1rem;
     margin-top: 0.25rem;

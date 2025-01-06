@@ -205,7 +205,7 @@
                     <div id="tab-content">
                         <div id="ownwer-tab">
                             <div id="owner-tab-header">
-                                <span class="label">Owner details</span>
+                                <span class="label">{{ getLabel("ownerDetails") }}</span>
                             </div>
                             <mat-form-field>
                                 <mat-label>{{ getLabel('owner') }}</mat-label>
@@ -242,8 +242,8 @@
                         </div>
                         <div id="billing-tab">
                             <div id="billing-tab-header">
-                                <span class="label">Invoice details</span>
-                                <span (click)="copyOwnerToBilling()" class="label" id="copy-owner-to-billing">Copy from owner</span>
+                                <span class="label">{{ getLabel("invoiceDetails") }}</span>
+                                <span (click)="copyOwnerToBilling()" class="label" id="copy-owner-to-billing">{{ getLabel("copyOwnerToInvoice") }}</span>
                             </div>
                             <mat-form-field>
                                 <mat-label>{{ getLabel('owner') }}</mat-label>

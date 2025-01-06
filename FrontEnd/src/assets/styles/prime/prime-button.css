@@ -16,9 +16,9 @@
 .p-selectbutton .p-button .p-button-label {
     background-color: transparent;
     color: var(--color-text) !important;
-    font-family: var(--font-family-fahkwang);
+    font-family: var(--font-family-asty);
     font-size: 1rem;
-    font-weight: 400;
+    font-weight: 300;
     padding: 0.25rem 0.5rem 0.25rem 0.5rem;
     transition: all var(--theme-delay);
 }

@@ -25,10 +25,12 @@
 
 .knob .label {
     color: var(--color-text);
-    font-family: var(--font-family-fahkwang);
+    font-family: var(--font-family-asty);
     font-size: 0.75rem;
+    font-weight: 300;
     text-align: center;
     transition: all var(--theme-delay);
+    width: 6.25rem;
 }
 
 .blue {

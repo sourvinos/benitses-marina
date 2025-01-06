@@ -17,11 +17,14 @@ export class DexieService extends Dexie {
             boatUsages: 'id, description',
             companies: 'id, description',
             companiesCriteria: 'id, description',
+            customers: 'id, description',
             documentTypes: 'id, description',
+            nationalities: 'id, description',
             paymentMethods: 'id, description',
             paymentStatuses: 'id, description',
             suppliers: 'id, description',
             suppliersCriteria: 'id, description',
+            taxOffices: 'id, description'
         })
         this.open()
     }

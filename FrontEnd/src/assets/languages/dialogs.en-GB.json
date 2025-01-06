@@ -73,6 +73,14 @@
             {
                 "id": "passwordCanBeChangedOnlyByAccountOwner",
                 "message": "The password can be changed only by the owner of the account."
+            },
+            {
+                "id": "customerAadeDoesNotExist",
+                "message": "Η εγγραφή δεν βρέθηκε. Βεβαιωθείτε ότι ο ΑΦΜ είναι σωστός και ότι έχει έδρα την Ελλάδα."
+            },
+            {
+                "id": "customerVatNumberIsDuplicate",
+                "message": "Όλα εντάξει, αλλά ο ΑΦΜ υπάρχει ήδη. Ισως θα πρέπει να ελέγξετε το αρχείο σας."
             }
         ]
     }

@@ -61,7 +61,8 @@ export class MessageDialogService {
     public confirmLogout(): string { return this.getDescription(this.feature, 'confirmLogout') }
     public helpDialog(): string { return this.getDescription(this.feature, 'helpDialog') }
     public supplierVatNumberIsDuplicate(): string { return this.getDescription(this.feature, 'supplierVatNumberIsDuplicate') }
-
+    public customerAadeDoesNotExist(): string { return this.getDescription(this.feature, 'customerAadeDoesNotExist') }
+    public customerVatNumberIsDuplicate(): string { return this.getDescription(this.feature, 'customerVatNumberIsDuplicate') }
 
     public filterResponse(error: any, feature = 'snackbarMessages'): string {
         let returnValue = ''

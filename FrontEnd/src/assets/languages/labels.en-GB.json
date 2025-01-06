@@ -4,27 +4,27 @@
         "labels": [
             {
                 "id": "header",
-                "description": "Login"
+                "description": "Είσοδος"
             },
             {
                 "id": "username",
-                "description": "Username"
+                "description": "Χρήστης"
             },
             {
                 "id": "password",
-                "description": "Password"
+                "description": "Κωδικός"
             },
             {
                 "id": "noRobotCheckbox",
-                "description": "I am not a robot"
+                "description": "Δεν είμαι ρομπότ"
             },
             {
                 "id": "forgotPasswordButton",
-                "description": "I forgot my password"
+                "description": "Ξέχασα τον κωδικό μου"
             },
             {
                 "id": "loginButton",
-                "description": "Login"
+                "description": "Εισοδος"
             }
         ]
     },
@@ -33,35 +33,35 @@
         "labels": [
             {
                 "id": "header",
-                "description": "Reservations"
+                "description": "Κρατήσεις"
             },
             {
                 "id": "headerBoatName",
-                "description": "Boat name"
+                "description": "Σκάφος"
             },
             {
                 "id": "headerCustomer",
-                "description": "Customer"
+                "description": "Πελάτης"
             },
             {
                 "id": "headerLength",
-                "description": "Length"
+                "description": "Μήκος"
             },
             {
                 "id": "headerFromDate",
-                "description": "From"
+                "description": "Από"
             },
             {
                 "id": "headerToDate",
-                "description": "To"
+                "description": "Εως"
             },
             {
                 "id": "headerBerths",
-                "description": "Berth(s)"
+                "description": "Θέση"
             },
             {
                 "id": "headerPaymentStatus",
-                "description": "Payment"
+                "description": "Πληρωμή"
             },
             {
                 "id": "headerIsAthenian",
@@ -69,11 +69,11 @@
             },
             {
                 "id": "headerIsOverdue",
-                "description": "Overdue"
+                "description": "Εκπρόθεσμο"
             },
             {
                 "id": "headerIsDocked",
-                "description": "Docked"
+                "description": "Ελλιμενισμένο"
             },
             {
                 "id": "headerIsDryDock",
@@ -81,15 +81,31 @@
             },
             {
                 "id": "headerIsFishingBoat",
-                "description": "Fishing boat"
+                "description": "Αλιευτικό"
             },
             {
                 "id": "newRecord",
-                "description": "New record"
+                "description": "Νεα εγγραφη"
             },
             {
                 "id": "contextMenuEdit",
-                "description": "Edit"
+                "description": "Μεταβολή"
+            },
+            {
+                "id": "occupied",
+                "description": "Κατειλημμένες θέσεις"
+            },
+            {
+                "id": "dryDock",
+                "description": "Dry dock"
+            },
+            {
+                "id": "fishingBoats",
+                "description": "Αλιευτικά"
+            },
+            {
+                "id": "athenian",
+                "description": "Athenian"
             }
         ]
     },
@@ -98,63 +114,63 @@
         "labels": [
             {
                 "id": "headerNew",
-                "description": "New reservation"
+                "description": "Νέα κράτηση"
             },
             {
                 "id": "headerEdit",
-                "description": "Edit reservation"
+                "description": "Μεταβολή κράτησης"
             },
             {
                 "id": "tab1",
-                "description": "Overview"
+                "description": "Σύνοψη"
             },
             {
                 "id": "tab2",
-                "description": "Financial"
+                "description": "Οικονομικά"
             },
             {
                 "id": "tab3",
-                "description": "Insurance"
+                "description": "Ασφάλεια"
             },
             {
                 "id": "tab4",
-                "description": "Ownership"
+                "description": "Ιδιοκτησία"
             },
             {
                 "id": "tab5",
-                "description": "Remarks"
+                "description": "Παρατηρήσεις"
             },
             {
                 "id": "boatName",
-                "description": "Boat name"
+                "description": "Σκάφος"
             },
             {
                 "id": "customer",
-                "description": "Customer"
+                "description": "Πελάτης"
             },
             {
                 "id": "length",
-                "description": "Length"
+                "description": "Μήκος"
             },
             {
                 "id": "beam",
-                "description": "Beam"
+                "description": "Πλάτος"
             },
             {
                 "id": "draft",
-                "description": "Draft"
+                "description": "Βύθισμα"
             },
             {
                 "id": "fromDate",
-                "description": "From"
+                "description": "Από"
             },
             {
                 "id": "toDate",
-                "description": "To"
+                "description": "Εως"
             },
             {
                 "id": "berth",
-                "description": "Berth"
+                "description": "Θέση"
             },
             {
                 "id": "email",
@@ -162,11 +178,11 @@
             },
             {
                 "id": "remarks",
-                "description": "Remarks"
+                "description": "Παρατηρήσεις"
             },
             {
                 "id": "isDocked",
-                "description": "Docked"
+                "description": "Ελλιμενισμένο"
             },
             {
                 "id": "isAthenian",
@@ -174,127 +190,127 @@
             },
             {
                 "id": "isFishingBoat",
-                "description": "Fishing boat"
+                "description": "Αλιευτικό"
             },
             {
                 "id": "paymentStatus",
-                "description": "Payment status"
-            },
-            {
-                "id": "isFullyPaid",
-                "description": "Fully paid"
+                "description": "Πληρωμή"
             },
             {
                 "id": "isDryDock",
                 "description": "Dry dock"
             },
             {
-                "id": "contractDateEnd",
-                "description": "Valid through"
-            },
-            {
-                "id": "addBerthButton",
-                "description": "Add berth"
-            },
-            {
                 "id": "deleteButton",
-                "description": "Delete"
+                "description": "Διαγραφη"
             },
             {
                 "id": "saveButton",
-                "description": "Save"
+                "description": "Αποθηκευση"
             },
             {
                 "id": "printLeaseButton",
-                "description": "Print lease agreement"
+                "description": "Εκτύπωση σύμβασης ελλιμενισμού"
             },
             {
                 "id": "post",
-                "description": "Initial entry"
+                "description": "Αρχική καταχώρηση"
             },
             {
                 "id": "put",
-                "description": "Last update"
+                "description": "Τελευταία ενημέρωση"
             },
             {
                 "id": "flag",
-                "description": "Flag"
+                "description": "Σημαία"
             },
             {
                 "id": "insuranceCompany",
-                "description": "Ιnsurance company"
+                "description": "Ασφαλιστική εταιρία"
             },
             {
                 "id": "policyNo",
-                "description": "Policy No"
+                "description": "Νο συμβολαίου"
             },
             {
                 "id": "policyEnds",
-                "description": "Termination date"
+                "description": "Ημερομηνία λήξης"
             },
             {
                 "id": "registryPort",
-                "description": "Registry port"
+                "description": "Λιμάνι νηολόγησης"
             },
             {
                 "id": "registryNo",
-                "description": "Registry no"
+                "description": "Νο νηολογίου"
             },
             {
                 "id": "boatUsage",
-                "description": "Boat usage"
+                "description": "Χρήση"
             },
             {
                 "id": "boatType",
-                "description": "Boat type"
+                "description": "Τύπος"
             },
             {
                 "id": "netAmount",
-                "description": "Net amount"
+                "description": "Καθαρή αξία"
             },
             {
                 "id": "vatAmount",
-                "description": "Vat amount"
+                "description": "Ποσό ΦΠΑ"
             },
             {
                 "id": "vatPercent",
-                "description": "Vat percent"
+                "description": "Ποσοστό ΦΠΑ"
             },
             {
                 "id": "grossAmount",
-                "description": "Gross amount"
+                "description": "Συνολική αξία"
             },
             {
                 "id": "isCash",
-                "description": "Cash"
+                "description": "Μετρητά"
             },
             {
                 "id": "owner",
-                "description": "Owner"
+                "description": "Ιδιοκτήτης"
             },
             {
                 "id": "address",
-                "description": "Address"
+                "description": "Διεύθυνση"
             },
             {
                 "id": "taxNo",
-                "description": "Tax no"
+                "description": "ΑΦΜ"
             },
             {
                 "id": "taxOffice",
-                "description": "Tax office"
+                "description": "ΔΟΥ"
             },
             {
                 "id": "passportNo",
-                "description": "PassportNo"
+                "description": "Νο διαβατηρίου"
             },
             {
                 "id": "phones",
-                "description": "Phones"
+                "description": "Τηλέφωνα"
             },
             {
                 "id": "email",
                 "description": "Email"
+            },
+            {
+                "id": "ownerDetails",
+                "description": "Στοιχεία ιδιοκτήτη"
+            },
+            {
+                "id": "invoiceDetails",
+                "description": "Στοιχεία ιδιοκτήτη"
+            },
+            {
+                "id": "copyOwnerToInvoice",
+                "description": "Αντιγραφή από στοιχεία ιδιοκτήτη"
             }
         ]
     },
@@ -303,15 +319,15 @@
         "labels": [
             {
                 "id": "header",
-                "description": "Current status"
+                "description": "Τρέχουσα εικόνα"
             },
             {
                 "id": "headerDescription",
-                "description": "Berth"
+                "description": "Θέση"
             },
             {
                 "id": "headerBoatName",
-                "description": "Boat name"
+                "description": "Ονομα"
             },
             {
                 "id": "headerIsDryDock",
@@ -323,15 +339,35 @@
             },
             {
                 "id": "headerIsFishingBoat",
-                "description": "Fishing boat"
+                "description": "Αλιευτικό"
             },
             {
                 "id": "headerToDate",
-                "description": "Lease ends"
+                "description": "Λήξη σύμβασης"
             },
             {
                 "id": "newRecord",
-                "description": "New record"
+                "description": "Νεα εγγραφη"
+            },
+            {
+                "id": "occupied",
+                "description": "Κατειλημμένες θέσεις"
+            },
+            {
+                "id": "dryDock",
+                "description": "Dry dock"
+            },
+            {
+                "id": "fishingBoats",
+                "description": "Αλιευτικά"
+            },
+            {
+                "id": "athenian",
+                "description": "Athenian"
+            },
+            {
+                "id": "available",
+                "description": "Διαθέσιμες θέσεις"
             }
         ]
     },
@@ -409,11 +445,11 @@
             },
             {
                 "id": "post",
-                "description": "Initial entry"
+                "description": "Αρχική καταχώρηση"
             },
             {
                 "id": "put",
-                "description": "Last update"
+                "description": "Τελευταία ενημέρωση"
             },
             {
                 "id": "changePasswordButton",
@@ -580,15 +616,15 @@
         "labels": [
             {
                 "id": "header",
-                "description": "Insurance terminations"
+                "description": "Επερχόμενες λήξεις ασφαλιστηρίων"
             },
             {
                 "id": "headerBoatName",
-                "description": "Boat name"
+                "description": "Ονομα"
             },
             {
                 "id": "headerInsuranceEnds",
-                "description": "Expires"
+                "description": "Λήξη"
             }
         ]
     },
@@ -597,15 +633,15 @@
         "labels": [
             {
                 "id": "header",
-                "description": "Lease terminations"
+                "description": "Επερχόμενες λήξεις συμβάσεων"
             },
             {
                 "id": "headerBoatName",
-                "description": "Boat name"
+                "description": "Ονομα"
             },
             {
                 "id": "headerLeaseEnds",
-                "description": "Expires"
+                "description": "Λήξη"
             }
         ]
     },
@@ -777,6 +813,22 @@
             {
                 "id": "balanceSheetSubTitle",
                 "description": "Εμφανίστε γρήγορα τις οφειλές στους προμηθευτές σας."
+            },
+            {
+                "id": "customersTitle",
+                "description": "Αρχείο πελατών"
+            },
+            {
+                "id": "customersSubTitle",
+                "description": "Διαχειριστείτε τους πελάτες και τους χρεώστες σας."
+            },
+            {
+                "id": "salesTitle",
+                "description": "Πωλήσεις υπηρεσιών"
+            },
+            {
+                "id": "salesSubTitle",
+                "description": "Διαχειριστείτε τα παραστατικά των πωλήσεων και καταχωρήστε νέα."
             }
         ]
     },
@@ -1041,6 +1093,160 @@
             {
                 "id": "headerActualBalance",
                 "description": "Υπόλοιπο"
+            }
+        ]
+    },
+    {
+        "feature": "customerList",
+        "labels": [
+            {
+                "id": "header",
+                "description": "Πελάτες"
+            },
+            {
+                "id": "headerIsActive",
+                "description": "Ενεργός"
+            },
+            {
+                "id": "headerDescription",
+                "description": "Συντ."
+            },
+            {
+                "id": "headerVatNumber",
+                "description": "ΑΦΜ"
+            },
+            {
+                "id": "headerPhones",
+                "description": "Τηλέφωνα"
+            },
+            {
+                "id": "headerEmail",
+                "description": "Email"
+            },
+            {
+                "id": "newRecord",
+                "description": "Νεα εγγραφη"
+            },
+            {
+                "id": "contextMenuEdit",
+                "description": "Επεξεργασία"
+            }
+        ]
+    },
+    {
+        "feature": "customerForm",
+        "labels": [
+            {
+                "id": "header",
+                "description": "Πελάτης"
+            },
+            {
+                "id": "tab1",
+                "description": "Γενικά"
+            },
+            {
+                "id": "tab2",
+                "description": "Επικοινωνία"
+            },
+            {
+                "id": "description",
+                "description": "Συντ."
+            },
+            {
+                "id": "fullDescription",
+                "description": "Επωνυμία"
+            },
+            {
+                "id": "vatNumber",
+                "description": "ΑΦΜ"
+            },
+            {
+                "id": "taxOffice",
+                "description": "ΔΟΥ"
+            },
+            {
+                "id": "vatPercent",
+                "description": "Ποσοστό ΦΠΑ"
+            },
+            {
+                "id": "vatPercentId",
+                "description": "Κατηγορία ΦΠΑ - Πίνακας 8.2"
+            },
+            {
+                "id": "vatExemptionId",
+                "description": "Κατηγορία Αιτίας Εξαίρεσης ΦΠΑ - Πίνακας 8.3"
+            },
+            {
+                "id": "branch",
+                "description": "Αρ. εγκατάστασης"
+            },
+            {
+                "id": "profession",
+                "description": "Δραστηριότητα"
+            },
+            {
+                "id": "street",
+                "description": "Οδός"
+            },
+            {
+                "id": "number",
+                "description": "Αριθμός"
+            },
+            {
+                "id": "postalCode",
+                "description": "ΤΚ"
+            },
+            {
+                "id": "city",
+                "description": "Πόλη"
+            },
+            {
+                "id": "nationality",
+                "description": "Χώρα"
+            },
+            {
+                "id": "personInCharge",
+                "description": "Υπεύθυνος επικοινωνίας"
+            },
+            {
+                "id": "phones",
+                "description": "Τηλέφωνα"
+            },
+            {
+                "id": "email",
+                "description": "Email"
+            },
+            {
+                "id": "balanceLimit",
+                "description": "Οριο οφειλής"
+            },
+            {
+                "id": "remarks",
+                "description": "Σχόλια"
+            },
+            {
+                "id": "isActive",
+                "description": "Ενεργός"
+            },
+            {
+                "id": "post",
+                "description": "Αρχική καταχώριση"
+            },
+            {
+                "id": "put",
+                "description": "Τελευταία ενημέρωση"
+            },
+            {
+                "id": "searchAadeRegistry",
+                "description": "Αναζήτηση στοιχείων στο μητρώο επιχειρήσεων"
+            },
+            {
+                "id": "deleteButton",
+                "description": "Διαγραφη"
+            },
+            {
+                "id": "saveButton",
+                "description": "Αποθηκευση"
             }
         ]
     }

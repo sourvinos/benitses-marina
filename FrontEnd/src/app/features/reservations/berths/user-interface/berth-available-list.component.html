@@ -13,24 +13,24 @@
 
             <div id="knobs">
                 <div class="knob">
-                    <span class="label">Occupied</span>
+                    <span class="label">{{ getLabel("occupied") }}</span>
                     <p-knob [(ngModel)]="isOccupied" [disabled]="true" [rangeColor]="getKnobBackgroundColor()" [size]="80" [strokeWidth]="10" textColor=var(--color-text) valueColor="#e3283a" />
                 </div>
                 <div class="knob">
-                    <span class="label">Available</span>
-                    <p-knob [(ngModel)]="isAvailable" [disabled]="true" [rangeColor]="getKnobBackgroundColor()" [size]="80" [strokeWidth]="10" textColor=var(--color-text) valueColor="#28e3d1" />
-                </div>
-                <div class="knob">
-                    <span class="label">DryDock</span>
+                    <span class="label">{{ getLabel("dryDock") }}</span>
                     <p-knob [(ngModel)]="isDryDock" [disabled]="true" [rangeColor]="getKnobBackgroundColor()" [size]="80" [strokeWidth]="10" textColor=var(--color-text) valueColor="#f3bf08" />
                 </div>
                 <div class="knob">
-                    <span class="label">Fishing boats</span>
+                    <span class="label">{{ getLabel("fishingBoats") }}</span>
                     <p-knob [(ngModel)]="isFishingBoat" [disabled]="true" [rangeColor]="getKnobBackgroundColor()" [size]="80" [strokeWidth]="10" textColor=var(--color-text) valueColor="#00ff80" />
                 </div>
                 <div class="knob">
-                    <span class="label">Athenian</span>
+                    <span class="label">{{ getLabel("athenian") }}</span>
                     <p-knob [(ngModel)]="isAthenian" [disabled]="true" [rangeColor]="getKnobBackgroundColor()" [size]="80" [strokeWidth]="10" textColor=var(--color-text) valueColor="#80c9ff" />
+                </div>
+                <div class="knob">
+                    <span class="label">{{ getLabel("available") }}</span>
+                    <p-knob [(ngModel)]="isAvailable" [disabled]="true" [rangeColor]="getKnobBackgroundColor()" [size]="80" [strokeWidth]="10" textColor=var(--color-text) valueColor="#28e3d1" />
                 </div>
             </div>
 
