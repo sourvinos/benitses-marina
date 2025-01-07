@@ -1273,5 +1273,91 @@
                 "description": "Αποθηκευση"
             }
         ]
+    },
+    {
+        "feature": "priceList",
+        "labels": [
+            {
+                "id": "header",
+                "description": "Υπηρεσίες & χρεώσεις"
+            },
+            {
+                "id": "headerDescription",
+                "description": "Περιγραφή"
+            },
+            {
+                "id": "headerEnglishDescription",
+                "description": "Περιγραφή"
+            },
+            {
+                "id": "headerNetAmount",
+                "description": "Καθαρή αξία"
+            },
+            {
+                "id": "headerVatAmount",
+                "description": "Αξία ΦΠΑ"
+            },
+            {
+                "id": "headerGrossAmount",
+                "description": "Συνολική αξία"
+            },
+            {
+                "id": "newRecord",
+                "description": "Νεα εγγραφη"
+            }
+        ]
+    },
+    {
+        "feature": "priceForm",
+        "labels": [
+            {
+                "id": "header",
+                "description": "Υπηρεσίες & χρεώσεις"
+            },
+            {
+                "id": "code",
+                "description": "Κωδικός"
+            },
+            {
+                "id": "description",
+                "description": "Περιγραφή"
+            },
+            {
+                "id": "englishDescription",
+                "description": "Περιγραφή στην Αγγλική γλώσσα"
+            },
+            {
+                "id": "netAmount",
+                "description": "Καθαρή αξία"
+            },
+            {
+                "id": "vatPercent",
+                "description": "Ποσοστό ΦΠΑ"
+            },
+            {
+                "id": "vatAmount",
+                "description": "Αξία ΦΠΑ"
+            },
+            {
+                "id": "grossAmount",
+                "description": "Συνολική αξία"
+            },
+            {
+                "id": "post",
+                "description": "Αρχική καταχώριση"
+            },
+            {
+                "id": "put",
+                "description": "Τελευταία ενημέρωση"
+            },
+            {
+                "id": "deleteButton",
+                "description": "Διαγραφη"
+            },
+            {
+                "id": "saveButton",
+                "description": "Αποθηκευση"
+            }
+        ]
     }
 ]

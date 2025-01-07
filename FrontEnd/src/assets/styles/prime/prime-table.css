@@ -152,7 +152,7 @@
     align-items: center;
     display: flex;
     height: 1.6875rem;
-    overflow: scroll;
+    overflow: hidden;
     padding: 0.0625rem 0.3125rem 0 0.3125rem;
     transition: color var(--theme-delay);
     white-space: nowrap !important;

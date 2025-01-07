@@ -1,6 +1,8 @@
+using API.Infrastructure.Interfaces;
+
 namespace API.Features.Sales.Prices {
 
-    public class PriceListVM {
+    public class Price : IMetadata {
 
         public int Id { get; set; }
         public string Code { get; set; }
@@ -8,8 +10,10 @@ namespace API.Features.Sales.Prices {
         public string EnglishDescription { get; set; }
         public decimal NetAmount { get; set; }
         public decimal VatPercent { get; set; }
-        public decimal VatAmount { get; set; }
-        public decimal GrossAmount { get; set; }
+        public string PostAt { get; set; }
+        public string PostUser { get; set; }
+        public string PutAt { get; set; }
+        public string PutUser { get; set; }
 
     }
 

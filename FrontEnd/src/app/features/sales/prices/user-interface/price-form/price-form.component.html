@@ -1,0 +1,81 @@
+<div id="form-wrapper">
+
+    <div id="content">
+
+        <div id="header">
+            <home-button-and-title [feature]="feature" [featureIcon]="featureIcon" [icon]="icon" [parentUrl]="parentUrl"></home-button-and-title>
+        </div>
+
+        <form [formGroup]="form" id="form">
+            <div id="two-sides">
+                <div id="left-side">
+                    <!-- Code -->
+                    <mat-form-field>
+                        <mat-label>{{ getLabel('code') }}</mat-label>
+                        <input [inputTabStop]="input" dataTabIndex="1" formControlName="code" matInput>
+                        <mat-error *ngIf="description.hasError('code')">{{ getHint("code") }}</mat-error>
+                    </mat-form-field>
+                    <!-- Description -->
+                    <mat-form-field>
+                        <mat-label>{{ getLabel('description') }}</mat-label>
+                        <input [inputTabStop]="input" dataTabIndex="2" formControlName="description" matInput>
+                        <mat-error *ngIf="description.hasError('required')">{{ getHint("required") }}</mat-error>
+                    </mat-form-field>
+                    <!-- English description -->
+                    <mat-form-field>
+                        <mat-label>{{ getLabel('englishDescription') }}</mat-label>
+                        <input [inputTabStop]="input" dataTabIndex="3" formControlName="englishDescription" matInput>
+                        <mat-error *ngIf="englishDescription.hasError('required')">{{ getHint("required") }}</mat-error>
+                    </mat-form-field>
+                </div>
+                <div id="right-side">
+                    <!-- Net amount -->
+                    <mat-form-field>
+                        <mat-label>{{ getLabel('netAmount') }}</mat-label>
+                        <input (blur)="calculateGrossAmountBasedOnNetAmount('netAmount',2)" [inputTabStop]="input" currencyMask dataTabIndex="4" formControlName="netAmount" matInput>
+                        <mat-error *ngIf="netAmount.hasError('required')">{{ getHint("required") }}</mat-error>
+                        <mat-error *ngIf="!netAmount.hasError('required') && netAmount.hasError('min') || netAmount.hasError('max')">{{ getHint("invalidRange") }}</mat-error>
+                    </mat-form-field>
+                    <div class="group-input-field">
+                        <!-- VAT percent -->
+                        <mat-form-field>
+                            <mat-label>{{ getLabel('vatPercent') }}</mat-label>
+                            <input (blur)="calculateNetAndGrossAmountBasedOnVatPercent('vatPercent',0)" [inputTabStop]="input" currencyMask dataTabIndex="5" formControlName="vatPercent" matInput>
+                            <mat-error *ngIf="vatPercent.hasError('required')">{{ getHint("required") }}</mat-error>
+                            <mat-error *ngIf="!vatPercent.hasError('required') && vatPercent.hasError('min') || vatPercent.hasError('max')">{{ getHint("invalidRange") }}</mat-error>
+                        </mat-form-field>
+                        <!-- VAT amount -->
+                        <mat-form-field>
+                            <mat-label>{{ getLabel('vatAmount') }}</mat-label>
+                            <input [inputTabStop]="input" currencyMask formControlName="vatAmount" matInput readonly>
+                            <mat-error *ngIf="vatAmount.hasError('required')">{{ getHint("required") }}</mat-error>
+                            <mat-error *ngIf="!vatAmount.hasError('required') && vatAmount.hasError('min') || vatAmount.hasError('max')">{{ getHint("invalidRange") }}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <!-- Gross amount -->
+                    <mat-form-field>
+                        <mat-label>{{ getLabel('grossAmount') }}</mat-label>
+                        <input [inputTabStop]="input" currencyMask formControlName="grossAmount" matInput readonly>
+                        <mat-error *ngIf="grossAmount.hasError('required')">{{ getHint("required") }}</mat-error>
+                        <mat-error *ngIf="!grossAmount.hasError('required') && grossAmount.hasError('min') || grossAmount.hasError('max')">{{ getHint("invalidRange") }}</mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="align-bottom">
+                <!-- Metadata -->
+                <metadata-panel [feature]="feature" [postAt]="form.value.postAt" [postUser]="form.value.postUser" [putAt]="form.value.putAt" [putUser]="form.value.putUser"></metadata-panel>
+            </div>
+        </form>
+    </div>
+
+    <div id="footer">
+        <div id="align-right">
+            <button (click)="onDelete()" *ngIf="form.value.id !== 0" class="delete" mat-flat-button>{{ getLabel("deleteButton") | uppercase }}</button>
+            <button (click)="onSave()" [disabled]="!form.valid" class="primary" mat-flat-button>
+                <mat-icon *ngIf="!form.valid" class="material-icons-outlined">lock</mat-icon>
+                <span>{{ getLabel("saveButton") | uppercase }}</span>
+            </button>
+        </div>
+    </div>
+
+</div>
