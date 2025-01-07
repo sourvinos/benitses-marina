@@ -20,6 +20,7 @@ using API.Features.Expenses.BalanceFilters;
 using API.Features.Sales.Customers;
 using API.Features.Sales.Nationalities;
 using API.Features.Sales.TaxOffices;
+using API.Features.Sales.Prices;
 
 namespace API.Infrastructure.Extensions {
 
@@ -70,6 +71,10 @@ namespace API.Infrastructure.Extensions {
             services.AddTransient<IBoatTypeValidation, BoatTypeValidation>();
             services.AddTransient<IBoatUsageValidation, BoatUsageValidation>();
             services.AddTransient<IReservationValidation, ReservationValidation>();
+            #endregion
+            #region sales
+            services.AddTransient<IPriceRepository, PriceRepository>();
+            services.AddTransient<IPriceValidation, PriceValidation>();
             #endregion
             #region shared
             services.AddScoped<Token>();

@@ -20,6 +20,7 @@ using API.Features.Expenses.BalanceFilters;
 using API.Features.Sales.Customers;
 using API.Features.Sales.TaxOffices;
 using API.Features.Sales.Nationalities;
+using API.Features.Sales.Prices;
 
 namespace API.Infrastructure.Classes {
 
@@ -41,6 +42,7 @@ namespace API.Infrastructure.Classes {
         #endregion
 
         #region Reservations
+
         public DbSet<Berth> Berths { get; set; }
         public DbSet<BoatType> BoatTypes { get; set; }
         public DbSet<BoatUsage> BoatUsages { get; set; }
@@ -61,6 +63,7 @@ namespace API.Infrastructure.Classes {
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Nationality> Nationalities { get; set; }
         public DbSet<TaxOffice> TaxOffices { get; set; }
+        public DbSet<Price> Prices { get; set; }
 
         #endregion
 

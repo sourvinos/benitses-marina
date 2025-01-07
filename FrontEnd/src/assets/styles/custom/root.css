@@ -35,6 +35,11 @@
     src: url("/assets/fonts/Consolas.ttf");
 }
 
+@font-face {
+    font-family: Input;
+    src: url("/assets/fonts/Input.ttf");
+}
+
 * {
     box-sizing: border-box !important;
 }

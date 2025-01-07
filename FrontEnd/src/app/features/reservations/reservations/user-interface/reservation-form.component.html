@@ -300,7 +300,7 @@
         <button [matMenuTriggerFor]="menu" class="fab fab-with-no-background" mat-icon-button>
             <mat-icon class="material-icons-outlined">more_vert</mat-icon>
         </button>
-        <mat-menu #menu="matMenu" class="primary" xPosition="before">
+        <mat-menu #menu="matMenu" class="primary" xPosition="after">
             <ng-container *ngTemplateOutlet="actionsMenu"></ng-container>
         </mat-menu>
         <div id="align-right">
@@ -334,7 +334,7 @@
     </mat-option>
 </mat-autocomplete>
 
-<ng-template #actionsMenu xPosition="before">
+<ng-template #actionsMenu>
     <button (click)="onCreateLeaseAndOpen()" mat-menu-item>
         <span>{{ getLabel("printLeaseButton") }}</span>
     </button>

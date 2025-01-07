@@ -55,9 +55,9 @@ export class BerthAvailableListComponent {
     public isDryDock = 0
 
     public berthAvailabilityOptions: any[] = [
-        { label: 'All', value: 'all' },
-        { label: 'Occupied', value: 'occupied' },
-        { label: 'Available', value: 'available' }
+        { label: this.getLabel("allFilter"), value: 'all' },
+        { label: this.getLabel("occupiedFilter"), value: 'occupied' },
+        { label: this.getLabel("availableFilter"), value: 'available' }
     ]
 
     //#endregion

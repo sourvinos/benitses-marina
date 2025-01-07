@@ -368,6 +368,18 @@
             {
                 "id": "available",
                 "description": "Διαθέσιμες θέσεις"
+            },
+            {
+                "id": "allFilter",
+                "description": "ΟΛΕΣ"
+            },
+            {
+                "id": "occupiedFilter",
+                "description": "ΚΑΤΕΙΛΗΜΜΕΝΕΣ"
+            },
+            {
+                "id": "availableFilter",
+                "description": "ΔΙΑΘΕΣΙΜΕΣ"
             }
         ]
     },
@@ -376,11 +388,11 @@
         "labels": [
             {
                 "id": "header",
-                "description": "Users"
+                "description": "Χειριστές"
             },
             {
                 "id": "headerIsActive",
-                "description": "Active"
+                "description": "Ενεργός"
             },
             {
                 "id": "headerIsAdmin",
@@ -388,11 +400,11 @@
             },
             {
                 "id": "headerUsername",
-                "description": "Username"
+                "description": "Ονομα"
             },
             {
                 "id": "headerDisplayname",
-                "description": "Displayed name"
+                "description": "Εμφανιζόμενο όνομα"
             },
             {
                 "id": "headerEmail",
@@ -400,11 +412,11 @@
             },
             {
                 "id": "newRecord",
-                "description": "New record"
+                "description": "Νεα εγγραφη"
             },
             {
                 "id": "contextMenuEdit",
-                "description": "Edit record"
+                "description": "Μεταβολή εγγραφής"
             }
         ]
     },
@@ -413,19 +425,15 @@
         "labels": [
             {
                 "id": "header",
-                "description": "User"
+                "description": "Χειριστής"
             },
             {
                 "id": "username",
-                "description": "Username"
+                "description": "Ονομα"
             },
             {
                 "id": "displayname",
-                "description": "Displayed name"
-            },
-            {
-                "id": "customer",
-                "description": "Connected customer"
+                "description": "Εμφανιζόμενο όνομα"
             },
             {
                 "id": "email",
@@ -433,7 +441,7 @@
             },
             {
                 "id": "isFirstFieldFocused",
-                "description": "Automatic focus on the first field of the form"
+                "description": "Αυτόματη εστίαση"
             },
             {
                 "id": "isAdmin",
@@ -441,7 +449,7 @@
             },
             {
                 "id": "isActive",
-                "description": "Active"
+                "description": "Ενεργός"
             },
             {
                 "id": "post",
@@ -453,19 +461,19 @@
             },
             {
                 "id": "changePasswordButton",
-                "description": "Change password"
+                "description": "Αλλαγη κωδικου"
             },
             {
                 "id": "emailUserDetails",
-                "description": "Send data to email"
+                "description": "Αποστολη στοιχείων στο email"
             },
             {
                 "id": "deleteDexieDB",
-                "description": "Refresh browser tables"
+                "description": "Ανανέωση των πινάκων του browser"
             },
             {
                 "id": "saveButton",
-                "description": "Save"
+                "description": "Αποθηκευση"
             }
         ]
     },
@@ -474,15 +482,15 @@
         "labels": [
             {
                 "id": "header",
-                "description": "User"
+                "description": "Νέος χειριστής"
             },
             {
                 "id": "username",
-                "description": "Username"
+                "description": "Ονομα"
             },
             {
                 "id": "displayname",
-                "description": "Displayed name"
+                "description": "Εμφανιζόμενο όνομα"
             },
             {
                 "id": "email",
@@ -490,19 +498,15 @@
             },
             {
                 "id": "password",
-                "description": "Password"
+                "description": "Κωδικός"
             },
             {
                 "id": "confirmPassword",
-                "description": "Confirm password"
-            },
-            {
-                "id": "customer",
-                "description": "Linked Customer"
+                "description": "Επιβεβαίωση κωδικού"
             },
             {
                 "id": "isFirstFieldFocused",
-                "description": "Automatic focus on the first field of the form"
+                "description": "Αυτόματη εστίαση"
             },
             {
                 "id": "isAdmin",
@@ -510,11 +514,11 @@
             },
             {
                 "id": "isActive",
-                "description": "Active"
+                "description": "Ενεργός"
             },
             {
                 "id": "saveButton",
-                "description": "Save"
+                "description": "Αποθηκευση"
             }
         ]
     },
@@ -523,23 +527,23 @@
         "labels": [
             {
                 "id": "header",
-                "description": "Change password"
+                "description": "Αλλαγή κωδικού"
             },
             {
                 "id": "currentPassword",
-                "description": "Current password"
+                "description": "Τρέχον κωδικός"
             },
             {
                 "id": "newPassword",
-                "description": "New password"
+                "description": "Νέος κωδικός"
             },
             {
                 "id": "confirmPassword",
-                "description": "Confirm new password"
+                "description": "Επιβεβαίωση νέου κωδικού"
             },
             {
                 "id": "saveButton",
-                "description": "Save"
+                "description": "Αποθηκευση"
             }
         ]
     },
@@ -548,7 +552,7 @@
         "labels": [
             {
                 "id": "header",
-                "description": "I forgot my password"
+                "description": "Ξέχασα τον κωδικό μου"
             },
             {
                 "id": "email",
@@ -556,11 +560,11 @@
             },
             {
                 "id": "submitButton",
-                "description": "Continue"
+                "description": "Συνεχεια"
             },
             {
                 "id": "message",
-                "description": "Give us your email and if it exists in our database, we'll send you instructions on how to set a new password."
+                "description": "Δώστε μας το email σας και αν το έχουμε καταχωρημένο θα σας στείλουμε οδηγίες για να καταχωρήσετε έναν νέο κωδικό."
             }
         ]
     },
@@ -569,19 +573,19 @@
         "labels": [
             {
                 "id": "header",
-                "description": "Create new password"
+                "description": "Δημιουργία νέου κωδικού"
             },
             {
                 "id": "password",
-                "description": "New password"
+                "description": "Νέος κωδικός"
             },
             {
                 "id": "confirmPassword",
-                "description": "Confirm new password"
+                "description": "Επιβεβαίωση νέου κωδικού"
             },
             {
                 "id": "saveButton",
-                "description": "Save"
+                "description": "Αποθηκευση"
             }
         ]
     },
@@ -594,7 +598,7 @@
             },
             {
                 "id": "cancelButton",
-                "description": "Cancel"
+                "description": "Ακυρο"
             }
         ]
     },
@@ -764,7 +768,7 @@
             },
             {
                 "id": "berthsSubTitle",
-                "description": "Εμφανίστε τα ελλιμενισμένα σκάφη σας."
+                "description": "Εμφανίστε τα ελλιμενισμένα σκάφη και τις δείτε τις διαθέσιμες θέσεις."
             },
             {
                 "id": "insurancePoliciesTitle",
@@ -829,6 +833,22 @@
             {
                 "id": "salesSubTitle",
                 "description": "Διαχειριστείτε τα παραστατικά των πωλήσεων και καταχωρήστε νέα."
+            },
+            {
+                "id": "pricesTitle",
+                "description": "Υπηρεσίες & χρεώσεις"
+            },
+            {
+                "id": "pricesSubTitle",
+                "description": "Διαχειριστείτε τις υπηρεσίες και τους τιμοκαταλόγους σας."
+            },
+            {
+                "id": "revenuesTitle",
+                "description": "Στατιστικά πωλήσεων"
+            },
+            {
+                "id": "revenuesSubTitle",
+                "description": "Εμφανίστε την πορεία των εσόδων και κάντε συγκρίσεις μεταξύ περιόδων."
             }
         ]
     },
@@ -931,6 +951,10 @@
             {
                 "id": "deleteButton",
                 "description": "Διαγραφη"
+            },
+            {
+                "id": "uploadButton",
+                "description": "Ανέβασμα παραστατικού"
             },
             {
                 "id": "post",

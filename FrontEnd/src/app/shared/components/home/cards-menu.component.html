@@ -27,6 +27,34 @@
             </mat-card>
         </div>
     </mat-tab>
+    <mat-tab label="Πωλήσεις υπηρεσιών">
+        <div id="cards-menu">
+            <mat-card (click)="doNavigation('customers',true)">
+                <img (load)="loadImage()" [ngClass]="imageIsLoading()" [src]="getIcon('customers')" style="height: 6.25rem; margin-left: 1rem; width: 6.25rem">
+                <mat-card-title>{{ getLabel("customersTitle") }}</mat-card-title>
+                <mat-divider inset></mat-divider>
+                <mat-card-subtitle>{{ getLabel("customersSubTitle") }}</mat-card-subtitle>
+            </mat-card>
+            <mat-card (click)="doNavigation('prices',false)">
+                <img (load)="loadImage()" [ngClass]="imageIsLoading()" [src]="getIcon('prices')" style="height: 6.25rem; margin-left: 1rem; width: 6.25rem">
+                <mat-card-title>{{ getLabel("pricesTitle") }}</mat-card-title>
+                <mat-divider inset></mat-divider>
+                <mat-card-subtitle>{{ getLabel("pricesSubTitle") }}</mat-card-subtitle>
+            </mat-card>
+            <mat-card (click)="doNavigation('sales',false)">
+                <img (load)="loadImage()" [ngClass]="imageIsLoading()" [src]="getIcon('sales')" style="height: 6.25rem; margin-left: 1rem; width: 6.25rem">
+                <mat-card-title>{{ getLabel("salesTitle") }}</mat-card-title>
+                <mat-divider inset></mat-divider>
+                <mat-card-subtitle>{{ getLabel("salesSubTitle") }}</mat-card-subtitle>
+            </mat-card>
+            <mat-card (click)="doNavigation('revenues',false)">
+                <img (load)="loadImage()" [ngClass]="imageIsLoading()" [src]="getIcon('revenues')" style="height: 6.25rem; margin-left: 1rem; width: 6.25rem">
+                <mat-card-title>{{ getLabel("revenuesTitle") }}</mat-card-title>
+                <mat-divider inset></mat-divider>
+                <mat-card-subtitle>{{ getLabel("revenuesSubTitle") }}</mat-card-subtitle>
+            </mat-card>
+        </div>
+    </mat-tab>
     <mat-tab label="Προμηθευτές & Έξοδα">
         <div id="cards-menu">
             <mat-card (click)="doNavigation('suppliers',true)">
@@ -55,21 +83,4 @@
             </mat-card>
         </div>
     </mat-tab>
-    <mat-tab label="Πωλήσεις υπηρεσιών">
-        <div id="cards-menu">
-            <mat-card (click)="doNavigation('customers',true)">
-                <img (load)="loadImage()" [ngClass]="imageIsLoading()" [src]="getIcon('customers')" style="height: 6.25rem; margin-left: 1rem; width: 6.25rem">
-                <mat-card-title>{{ getLabel("customersTitle") }}</mat-card-title>
-                <mat-divider inset></mat-divider>
-                <mat-card-subtitle>{{ getLabel("customersSubTitle") }}</mat-card-subtitle>
-            </mat-card>
-            <mat-card (click)="doNavigation('sales',false)">
-                <img (load)="loadImage()" [ngClass]="imageIsLoading()" [src]="getIcon('sales')" style="height: 6.25rem; margin-left: 1rem; width: 6.25rem">
-                <mat-card-title>{{ getLabel("salesTitle") }}</mat-card-title>
-                <mat-divider inset></mat-divider>
-                <mat-card-subtitle>{{ getLabel("salesSubTitle") }}</mat-card-subtitle>
-            </mat-card>
-        </div>
-    </mat-tab>
-
 </mat-tab-group>

@@ -108,7 +108,7 @@
         <button [matMenuTriggerFor]="menu" class="fab fab-with-no-background" mat-icon-button>
             <mat-icon class="material-icons-outlined">more_vert</mat-icon>
         </button>
-        <mat-menu #menu="matMenu" class="primary" xPosition="before">
+        <mat-menu #menu="matMenu" class="primary" xPosition="after">
             <ng-container *ngTemplateOutlet="actionsMenu"></ng-container>
         </mat-menu>
         <div id="align-right">
@@ -149,7 +149,7 @@
 </mat-autocomplete>
 
 
-<ng-template #actionsMenu xPosition="after">
+<ng-template #actionsMenu>
     <input type="file" #file placeholder="Choose file" (change)="onUploadAndRenameFile(file.files[0])" style="display: none;">
-    <button [disabled]="isNewRecord()" (click)="file.click()" mat-menu-item>Ανέβασμα εγγράφου</button>
+    <button [disabled]="isNewRecord()" (click)="file.click()" mat-menu-item>{{ getLabel("uploadButton") }}</button>
 </ng-template>
