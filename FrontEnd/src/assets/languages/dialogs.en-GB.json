@@ -71,6 +71,10 @@
                 "message": "Please confirm you want to logout!"
             },
             {
+                "id": "confirmDeleteDexieDB",
+                "message": "Θέλετε να συνεχίσετε με την ανανέωση; Εάν η διαδικασία ολοκληρωθεί χωρίς σφάλματα, θα πρέπει να συνδεθείτε ξανά."
+            },
+            {
                 "id": "passwordCanBeChangedOnlyByAccountOwner",
                 "message": "The password can be changed only by the owner of the account."
             },

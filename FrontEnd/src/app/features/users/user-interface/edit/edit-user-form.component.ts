@@ -27,7 +27,7 @@ import { ValidationService } from '../../../../shared/services/validation.servic
 
 export class EditUserFormComponent {
 
-    //#region common #7
+    //#region common
 
     private record: UserReadDto
     public feature = 'editUserForm'
@@ -39,14 +39,14 @@ export class EditUserFormComponent {
 
     //#endregion
 
-    //#region specific #2
+    //#region specific
 
     private mirrorRecord: UserReadDto
     private mustGoBackAfterSave = true
 
     //#endregion
 
-    //#region autocompletes #2
+    //#region autocompletes
 
     public isAutoCompleteDisabled = true
 
@@ -108,6 +108,16 @@ export class EditUserFormComponent {
                 this.dialogService.open(this.messageDialogService.formIsDirty(), 'error', ['ok'])
             }
         }
+    }
+
+    public onDeleteDexieDB(): void {
+        this.dialogService.open(this.messageDialogService.confirmDeleteDexieDB(), 'question', ['abort', 'ok']).subscribe(response => {
+            if (response) {
+                this.dexieService.delete().then(() => {
+                    window.location.reload()
+                })
+            }
+        })
     }
 
     public onSave(): void {
