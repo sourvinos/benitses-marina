@@ -28,7 +28,7 @@ namespace API.Features.Sales.Customers {
         }
 
         [HttpGet]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "user, admin")]
         public async Task<IEnumerable<CustomerListVM>> GetAsync() {
             return await customerRepo.GetAsync();
         }
@@ -46,7 +46,7 @@ namespace API.Features.Sales.Customers {
         }
 
         [HttpGet("{id}")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "user, admin")]
         public async Task<ResponseWithBody> GetByIdAsync(int id) {
             var x = await customerRepo.GetByIdAsync(id, true);
             if (x != null) {

@@ -48,7 +48,7 @@ namespace API.Features.Leases {
         }
 
         [HttpGet("[action]/{filename}")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "user, admin")]
         public IActionResult OpenLeasePdf([FromRoute] string filename) {
             return leasePdfRepo.OpenPdf(filename);
         }
