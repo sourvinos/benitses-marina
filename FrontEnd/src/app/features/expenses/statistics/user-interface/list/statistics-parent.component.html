@@ -1,0 +1,46 @@
+<div id="list-wrapper">
+
+    <div id="content">
+
+        <div id="header">
+            <home-button-and-title [featureIcon]="featureIcon" [feature]="feature" [icon]="featureIcon" [parentUrl]="parentUrl"></home-button-and-title>
+            <div id="header-right">
+                <span id="criteria-caption">{{ getCriteria() }}</span>
+                <button (click)="onShowCriteriaDialog()" class="fab fab-with-no-background" mat-icon-button>
+                    <mat-icon class="material-icons-outlined">filter_alt</mat-icon>
+                </button>
+            </div>
+        </div>
+
+        <ng-template [ngIf]="filteredRecords.length > 0" [ngIfElse]="noData">
+            <div id="table-wrapper">
+                <statistics-company-table [records]="filteredRecords" [criteria]="criteria"></statistics-company-table>
+            </div>
+        </ng-template>
+
+    </div>
+
+    <div id="footer">
+        <div id="align-left">
+            <button [matMenuTriggerFor]="menu" class="fab fab-with-no-background" mat-icon-button>
+                <mat-icon class="material-icons-outlined">more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu" class="primary">
+                <ng-container *ngTemplateOutlet="utilityMenu"></ng-container>
+            </mat-menu>
+        </div>
+    </div>
+
+</div>
+
+<ng-template #utilityMenu>
+    <button [disabled]="records.length==0" (click)="onToggleZeroBalanceRows()" mat-menu-item>
+        <mat-checkbox [(ngModel)]="showZeroBalanceRow">
+            <span>{{ getLabel('zeroBalanceRowVisibility') }}</span>
+        </mat-checkbox>
+    </button>
+</ng-template>
+
+<ng-template #noData>
+    <cat-page icon="face" [header]="getLabel('noDataHeader')" [subHeader]="getLabel('noDataSubHeader')"></cat-page>
+</ng-template>

@@ -3,27 +3,35 @@
         <div id="cards-menu">
             <mat-card (click)="doNavigation('insurancePolicies',true)">
                 <img (load)="loadImage()" [ngClass]="imageIsLoading()" [src]="getIcon('insurance-policies')" style="height: 6.25rem; margin-left: 1rem; width: 6.25rem">
-                <mat-card-title>{{ getLabel("insurancePoliciesTitle") }}</mat-card-title>
-                <mat-divider inset></mat-divider>
-                <mat-card-subtitle>{{ getLabel("insurancePoliciesSubTitle") }}</mat-card-subtitle>
+                <div class="inner-content">
+                    <mat-card-title>{{ getLabel("insurancePoliciesTitle") }}</mat-card-title>
+                    <mat-divider inset></mat-divider>
+                    <mat-card-subtitle>{{ getLabel("insurancePoliciesSubTitle") }}</mat-card-subtitle>
+                </div>
             </mat-card>
             <mat-card (click)="doNavigation('upcomingLeaseTerminations',true)">
                 <img (load)="loadImage()" [ngClass]="imageIsLoading()" [src]="getIcon('leases')" style="height: 6.25rem; margin-left: 1rem; width: 6.25rem">
-                <mat-card-title>{{ getLabel("upcomingLeaseTerminationsTitle") }}</mat-card-title>
-                <mat-divider inset></mat-divider>
-                <mat-card-subtitle>{{ getLabel("upcomingLeaseTerminationsSubTitle") }}</mat-card-subtitle>
+                <div class="inner-content">
+                    <mat-card-title>{{ getLabel("upcomingLeaseTerminationsTitle") }}</mat-card-title>
+                    <mat-divider inset></mat-divider>
+                    <mat-card-subtitle>{{ getLabel("upcomingLeaseTerminationsSubTitle") }}</mat-card-subtitle>
+                </div>
             </mat-card>
             <mat-card (click)="doNavigation('reservations',true)">
                 <img (load)="loadImage()" [ngClass]="imageIsLoading()" [src]="getIcon('reservations')" style="height: 6.25rem; margin-left: 1rem; width: 6.25rem">
-                <mat-card-title>{{ getLabel("reservationsTitle") }}</mat-card-title>
-                <mat-divider inset></mat-divider>
-                <mat-card-subtitle>{{ getLabel("reservationsSubTitle") }}</mat-card-subtitle>
+                <div class="inner-content">
+                    <mat-card-title>{{ getLabel("reservationsTitle") }}</mat-card-title>
+                    <mat-divider inset></mat-divider>
+                    <mat-card-subtitle>{{ getLabel("reservationsSubTitle") }}</mat-card-subtitle>
+                </div>
             </mat-card>
             <mat-card (click)="doNavigation('berths',true)">
                 <img (load)="loadImage()" [ngClass]="imageIsLoading()" [src]="getIcon('berths')" style="height: 6.25rem; margin-left: 1rem; width: 6.25rem">
-                <mat-card-title>{{ getLabel("berthsTitle") }}</mat-card-title>
-                <mat-divider inset></mat-divider>
-                <mat-card-subtitle>{{ getLabel("berthsSubTitle") }}</mat-card-subtitle>
+                <div class="inner-content">
+                    <mat-card-title>{{ getLabel("berthsTitle") }}</mat-card-title>
+                    <mat-divider inset></mat-divider>
+                    <mat-card-subtitle>{{ getLabel("berthsSubTitle") }}</mat-card-subtitle>
+                </div>
             </mat-card>
         </div>
     </mat-tab>
@@ -80,6 +88,12 @@
                 <mat-card-title>{{ getLabel("balanceSheetTitle") }}</mat-card-title>
                 <mat-divider inset></mat-divider>
                 <mat-card-subtitle>{{ getLabel("balanceSheetSubTitle") }}</mat-card-subtitle>
+            </mat-card>
+            <mat-card (click)="doNavigation('statistics',true)">
+                <img (load)="loadImage()" [ngClass]="imageIsLoading()" [src]="getIcon('statistics')" style="height: 6.25rem; margin-left: 1rem; width: 6.25rem">
+                <mat-card-title>{{ getLabel("statisticsTitle") }}</mat-card-title>
+                <mat-divider inset></mat-divider>
+                <mat-card-subtitle>{{ getLabel("statisticsSubTitle") }}</mat-card-subtitle>
             </mat-card>
         </div>
     </mat-tab>

@@ -21,6 +21,7 @@ using API.Features.Sales.Customers;
 using API.Features.Sales.Nationalities;
 using API.Features.Sales.TaxOffices;
 using API.Features.Sales.Prices;
+using API.Features.Expenses.Statistics;
 
 namespace API.Infrastructure.Extensions {
 
@@ -36,6 +37,7 @@ namespace API.Infrastructure.Extensions {
             services.AddTransient<IInvoiceRepository, InvoiceRepository>();
             services.AddTransient<ILedgerRepository, LedgerRepository>();
             services.AddTransient<IPaymentMethodRepository, PaymentMethodRepository>();
+            services.AddTransient<IStatisticsRepository, StatisticsRepository>();
             services.AddTransient<ISupplierRepository, SupplierRepository>();
             #endregion
             #region reservations

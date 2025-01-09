@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.Infrastructure.Classes;
-using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +15,7 @@ namespace API.Features.Expenses.BalanceFilters {
 
         #endregion
 
-        public BalanceFiltersController(IMapper mapper, IBalanceFilterRepository balanceFilterRepo) {
+        public BalanceFiltersController(IBalanceFilterRepository balanceFilterRepo) {
             this.balanceFilterRepo = balanceFilterRepo;
         }
 

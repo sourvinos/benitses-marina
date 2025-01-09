@@ -30,6 +30,7 @@ const appRoutes: Routes = [
     { path: 'invoices', loadChildren: () => import('../features/expenses/invoices/classes/modules/invoice.module').then(m => m.InvoiceModule) },
     { path: 'ledgers', loadChildren: () => import('../features/expenses/ledgers/classes/modules/ledger.module').then(m => m.LedgerModule) },
     { path: 'suppliers', loadChildren: () => import('../features/expenses/suppliers/classes/modules/supplier.module').then(m => m.SupplierModule) },
+    { path: 'statistics', loadChildren: () => import('../features/expenses/statistics/classes/modules/statistics.module').then(m => m.StatisticsModule) },
     // Sales
     { path: 'prices', loadChildren: () => import('../features/sales/prices/classes/modules/price.module').then(m => m.PriceModule) },
     { path: 'customers', loadChildren: () => import('../features/sales/customers/classes/modules/customer.module').then(m => m.CustomerModule) },

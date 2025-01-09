@@ -9,6 +9,7 @@ namespace API.Features.Expenses.Ledgers {
 
         public LedgerMappingProfile() {
             CreateMap<Invoice, LedgerVM>()
+                .ForMember(x => x.Id, x => x.MapFrom(x => x.Id.ToString()))
                 .ForMember(x => x.Date, x => x.MapFrom(x => DateHelpers.DateToISOString(x.Date)))
                 .ForMember(x => x.Supplier, x => x.MapFrom(x => new SimpleEntity {
                     Id = x.Supplier.Id,

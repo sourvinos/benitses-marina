@@ -13,6 +13,7 @@ namespace API.Features.Expenses.Suppliers {
         Task<SupplierBrowserVM> GetByIdForBrowserAsync(int id);
         Task<Supplier> GetByIdAsync(int id, bool includeTables);
         Task<IList<SupplierListVM>> GetForBalanceSheetAsync();
+        Task<IList<SupplierListVM>> GetForStatisticsAsync();
 
     }
 

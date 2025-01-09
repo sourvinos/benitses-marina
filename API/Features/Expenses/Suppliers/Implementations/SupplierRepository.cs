@@ -71,6 +71,14 @@ namespace API.Features.Expenses.Suppliers {
             return mapper.Map<IEnumerable<Supplier>, IList<SupplierListVM>>(Suppliers);
         }
 
+        public async Task<IList<SupplierListVM>> GetForStatisticsAsync() {
+            var Suppliers = await context.Suppliers
+                .AsNoTracking()
+                .OrderBy(x => x.Description)
+                .ToListAsync();
+            return mapper.Map<IEnumerable<Supplier>, IList<SupplierListVM>>(Suppliers);
+        }
+
     }
 
 }

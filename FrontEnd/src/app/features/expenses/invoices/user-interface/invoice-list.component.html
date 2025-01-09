@@ -7,7 +7,7 @@
         </div>
 
         <div id="table-wrapper">
-            <p-table #table (onFilter)="onFilterRecords($event)" [(selection)]="selectedRecords" [scrollable]="true" [value]="records" [virtualScrollItemSize]="32" [virtualScroll]="true" dataKey="id" scrollHeight="flex" selectionMode="multiple" sortMode="multiple" stateKey="invoiceList-filters" stateStorage="session">
+            <p-table #table (onFilter)="onFilterRecords($event)" [(selection)]="selectedRecords" [scrollable]="true" [value]="records" [virtualScrollItemSize]="32" [virtualScroll]="true" dataKey="record" scrollHeight="flex" selectionMode="multiple" sortMode="multiple" stateKey="invoiceList-filters" stateStorage="session">
                 <ng-template pTemplate="header">
                     <tr>
                         <th class="no-border-bottom width-3"></th>

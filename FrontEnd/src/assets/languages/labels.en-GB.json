@@ -760,7 +760,7 @@
             },
             {
                 "id": "reservationsSubTitle",
-                "description": "Διαχειριστείτε τις κρατήσεις σας και καταχωρήστε νέες."
+                "description": "Διαχειριστείτε τις κρατήσεις σας, καταχωρήστε νέες και κάντε αλλαγές."
             },
             {
                 "id": "berthsTitle",
@@ -772,7 +772,7 @@
             },
             {
                 "id": "insurancePoliciesTitle",
-                "description": "Λήξεις ασφαλιστήριων"
+                "description": "Ασφαλιστήρια"
             },
             {
                 "id": "insurancePoliciesSubTitle",
@@ -788,7 +788,7 @@
             },
             {
                 "id": "suppliersTitle",
-                "description": "Αρχείο προμηθευτών"
+                "description": "Προμηθευτές"
             },
             {
                 "id": "suppliersSubTitle",
@@ -796,7 +796,7 @@
             },
             {
                 "id": "expensesTitle",
-                "description": "Ημερολόγιο εξόδων"
+                "description": "Ημερολόγιο"
             },
             {
                 "id": "expensesSubTitle",
@@ -804,7 +804,7 @@
             },
             {
                 "id": "ledgersTitle",
-                "description": "Καρτέλες προμηθευτών"
+                "description": "Καρτέλες"
             },
             {
                 "id": "ledgersSubTitle",
@@ -812,15 +812,23 @@
             },
             {
                 "id": "balanceSheetTitle",
-                "description": "Ισοζύγιο προμηθευτών"
+                "description": "Ισοζύγιο"
             },
             {
                 "id": "balanceSheetSubTitle",
                 "description": "Εμφανίστε γρήγορα τις οφειλές στους προμηθευτές σας."
             },
             {
+                "id": "statisticsTitle",
+                "description": "Τζίροι"
+            },
+            {
+                "id": "statisticsSubTitle",
+                "description": "Εμφανίστε τα έξοδα ανά προμηθευτή."
+            },
+            {
                 "id": "customersTitle",
-                "description": "Αρχείο πελατών"
+                "description": "Πελάτες"
             },
             {
                 "id": "customersSubTitle",
@@ -828,7 +836,7 @@
             },
             {
                 "id": "salesTitle",
-                "description": "Πωλήσεις υπηρεσιών"
+                "description": "Πωλήσεις"
             },
             {
                 "id": "salesSubTitle",
@@ -836,7 +844,7 @@
             },
             {
                 "id": "pricesTitle",
-                "description": "Υπηρεσίες & χρεώσεις"
+                "description": "Χρεώσεις"
             },
             {
                 "id": "pricesSubTitle",
@@ -844,7 +852,7 @@
             },
             {
                 "id": "revenuesTitle",
-                "description": "Στατιστικά πωλήσεων"
+                "description": "Στατιστικά"
             },
             {
                 "id": "revenuesSubTitle",
@@ -1357,6 +1365,77 @@
             {
                 "id": "saveButton",
                 "description": "Αποθηκευση"
+            }
+        ]
+    },
+    {
+        "feature": "statisticsCriteria",
+        "labels": [
+            {
+                "id": "header",
+                "description": "Τζίροι προμηθευτών"
+            },
+            {
+                "id": "subHeader",
+                "description": "Δώστε τα κριτήρια με τα οποία θα γίνει η αναζήτηση"
+            },
+            {
+                "id": "company",
+                "description": "Εταιρία"
+            },
+            {
+                "id": "records",
+                "description": "Εγγραφές"
+            },
+            {
+                "id": "cancelButton",
+                "description": "Ακυρο"
+            },
+            {
+                "id": "okButton",
+                "description": "Συνεχεια"
+            }
+        ]
+    },
+    {
+        "feature": "statisticsParent",
+        "labels": [
+            {
+                "id": "header",
+                "description": "Τζίροι προμηθευτών"
+            },
+            {
+                "id": "noDataHeader",
+                "description": "Δεν βρήκαμε εγγραφές για να εμφανίσουμε."
+            },
+            {
+                "id": "noDataSubHeader",
+                "description": "Ισως πρέπει να δώσετε διαφορετικά κριτήρια."
+            },
+            {
+                "id": "zeroBalanceRowVisibility",
+                "description": "Εμφάνιση μηδενικών υπολοίπων"
+            }
+        ]
+    },
+    {
+        "feature": "statistics",
+        "labels": [
+            {
+                "id": "headerSupplier",
+                "description": "Επωνυμία"
+            },
+            {
+                "id": "headerPreviousBalance",
+                "description": "Προηγ. περίοδος"
+            },
+            {
+                "id": "headerPeriodBalance",
+                "description": "Ζητούμενη περίοδος"
+            },
+            {
+                "id": "headerActualBalance",
+                "description": "Σύνολο"
             }
         ]
     }
