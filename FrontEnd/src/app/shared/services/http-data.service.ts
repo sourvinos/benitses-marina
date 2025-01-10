@@ -20,6 +20,10 @@ export class HttpDataService {
             : this.http.put<any>(this.url, formData)
     }
 
+    public softDelete(formData: any): Observable<any> {
+        return this.http.put<any>(this.url, formData)
+    }
+
     public delete(id: string | number): Observable<any> {
         if (id != undefined)
             return this.http.delete<any>(this.url + '/' + id)

@@ -15,6 +15,7 @@ namespace API.Features.Expenses.Invoices {
         public string DocumentNo { get; set; }
         public decimal Amount { get; set; }
         public string Remarks { get; set; }
+        public bool IsDeleted { get; set; }
         public SimpleEntity Company { get; set; }
         public SimpleEntity DocumentType { get; set; }
         public SimpleEntity PaymentMethod { get; set; }

@@ -30,6 +30,7 @@ namespace API.Features.Expenses.Invoices {
             var invoices = await context.Invoices
                 .AsNoTracking()
                 .Where(x => x.DiscriminatorId != 1 || companyId == null || x.CompanyId == companyId)
+                .Where(x => x.IsDeleted == false)
                 .Include(x => x.Company)
                 .Include(x => x.DocumentType)
                 .Include(x => x.PaymentMethod)

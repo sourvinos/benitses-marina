@@ -31,7 +31,8 @@ namespace API.Features.Expenses.BalanceSheet {
                 .Include(x => x.PaymentMethod)
                 .Where(x => x.Date <= Convert.ToDateTime(toDate)
                     && (x.Company.Id == companyId)
-                    && (x.SupplierId == supplierId))
+                    && (x.SupplierId == supplierId)
+                    && (x.IsDeleted == false))
                 .OrderBy(x => x.Date)
                 .ToListAsync();
             return mapper.Map<IEnumerable<TransactionsBase>, IEnumerable<BalanceSheetVM>>(records);

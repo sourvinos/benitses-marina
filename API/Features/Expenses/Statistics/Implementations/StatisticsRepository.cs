@@ -31,7 +31,8 @@ namespace API.Features.Expenses.Statistics {
                 .Where(x => x.Date <= Convert.ToDateTime(toDate)
                     && (x.Company.Id == companyId)
                     && (x.SupplierId == supplierId)
-                    && (x.DocumentType.DiscriminatorId == 1))
+                    && (x.DocumentType.DiscriminatorId == 1)
+                    && (x.IsDeleted == false))
                 .OrderBy(x => x.Date)
                 .ToListAsync();
             return mapper.Map<IEnumerable<TransactionsBase>, IEnumerable<StatisticVM>>(records);

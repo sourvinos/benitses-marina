@@ -23,6 +23,7 @@ namespace API.Features.Expenses.Transactions {
         public PaymentMethod PaymentMethod { get; set; }
         public Supplier Supplier { get; set; }
         public string Remarks { get; set; }
+        public bool IsDeleted { get; set; }
         public string PostAt { get; set; }
         public string PostUser { get; set; }
         public string PutAt { get; set; }

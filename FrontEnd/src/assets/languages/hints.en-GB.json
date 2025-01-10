@@ -2,67 +2,67 @@
     "labels": [
         {
             "id": "beginsOrEndsWithSpace",
-            "description": "This field can't begin or end with a space"
+            "description": "Αυτό το πεδίο δεν μπορεί να αρχίζει ή να τελειώνει με κενό"
         },
         {
             "id": "containsIllegalCharacters",
-            "description": "This field allows only alphanumeric characters or underscores"
+            "description": "Αυτό το πεδίο επιτρέπει μόνο αλφαριθμητικούς χαρακτήρες ή υπογράμμιση (κάτω παύλα)"
         },
         {
             "id": "doesNotContainDigits",
-            "description": "This field must have at least one digit"
+            "description": "Το πεδίο πρέπει να έχει ένα τουλάχιστον ψηφίο"
         },
         {
             "id": "doesNotContainLowerCase",
-            "description": "This field must have at least one lowercase character"
+            "description": "Το πεδίο πρέπει να έχει τουλάχιστον ένα πεζό χαρακτήρα"
         },
         {
             "id": "doesNotContainSymbol",
-            "description": "This field must have at least one symbol i.e. % or #"
+            "description": "Το πεδίο πρέπει να έχει τουλάχιστον ένα σύμβολο π.χ. % ή #"
         },
         {
             "id": "doesNotContainUpperCase",
-            "description": "This field must have at least one uppercase character"
+            "description": "Το πεδίο πρέπει να έχει τουλάχιστον έναν κεφαλαίο χαρακτήρα"
         },
         {
             "id": "invalid",
-            "description": "This field is invalid"
+            "description": "Αυτό το πεδίο είναι άκυρο"
+        },
+        {
+            "id": "invalidDateRange",
+            "description": "Το διάστημα δεν είναι σωστό"
         },
         {
             "id": "invalidRange",
-            "description": "This field is outside the permitted range"
-        },
-        {
-            "id": "invalidShort",
-            "description": "Invalid"
+            "description": "Το πεδίο είναι εκτός του επιτρεπόμενου εύρους"
         },
         {
             "id": "maxLength",
-            "description": "This field can be up to xx characters long"
+            "description": "Αυτό το πεδίο μπορεί να έχει μήκος έως xx χαρακτήρες"
         },
         {
             "id": "minLength",
-            "description": "This field must be at least xx characters long"
-        },
-        {
-            "id": "otherErrors",
-            "description": "This field has errors"
+            "description": "Αυτό το πεδίο πρέπει να έχει μήκος τουλάχιστον xx χαρακτήρες"
         },
         {
             "id": "passwordsNoMatch",
-            "description": "New password and confirm new password do not match"
-        },
-        {
-            "id": "required",
-            "description": "This field is required"
-        },
-        {
-            "id": "spacesNotAllowed",
-            "description": "This field can't contain spaces"
+            "description": "Ο νέος κωδικός και η επιβεβαίωση νέου κωδικού δεν συμφωνούν"
         },
         {
             "id": "remainingCharacters",
-            "description": "You can give up to xx more characters"
+            "description": "Μπορείτε να δώσετε ακόμα έως και xx χαρακτήρες"
+        },
+        {
+            "id": "required",
+            "description": "Αυτό το πεδίο είναι υποχρεωτικό"
+        },
+        {
+            "id": "shouldBeEmptyPlusOrMinus",
+            "description": "Αυτό το πεδίο επιτρέπεται να είναι κενό ή να έχει το σύμβολο + ή -"
+        },
+        {
+            "id": "spacesNotAllowed",
+            "description": "Αυτό το πεδίο δεν μπορεί να περιέχει κενά"
         }
     ]
 }

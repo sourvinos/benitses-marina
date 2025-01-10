@@ -150,6 +150,21 @@ export class InvoiceFormComponent {
         })
     }
 
+    public onSoftDelete(): void {
+        this.dialogService.open(this.messageDialogService.confirmDelete(), 'question', ['abort', 'ok']).subscribe(response => {
+            if (response) {
+                this.invoiceHttpService.softDelete(this.patchFormWithSoftDelete(this.flattenForm())).subscribe({
+                    complete: () => {
+                        this.helperService.doPostSaveFormTasks(this.messageDialogService.success(), 'ok', this.parentUrl, true)
+                    },
+                    error: (errorFromInterceptor) => {
+                        this.dialogService.open(this.messageDialogService.filterResponse(errorFromInterceptor), 'error', ['ok'])
+                    }
+                })
+            }
+        })
+    }
+
     public onOpenDocument(filename: string): void {
         this.invoiceHttpService.openDocument(filename).subscribe({
             next: (response) => {
@@ -219,6 +234,7 @@ export class InvoiceFormComponent {
             documentNo: this.form.value.documentNo,
             amount: this.form.value.amount,
             remarks: this.form.value.remarks,
+            isDeleted: this.form.value.isDeleted,
             putAt: this.form.value.putAt
         }
     }
@@ -267,6 +283,7 @@ export class InvoiceFormComponent {
             documentNo: ['', [Validators.required]],
             amount: ['', [Validators.required, Validators.min(0), Validators.max(99999)]],
             remarks: ['', [Validators.maxLength(2048)]],
+            isDeleted: '',
             postAt: [''],
             postUser: [''],
             putAt: [''],
@@ -279,6 +296,11 @@ export class InvoiceFormComponent {
             oldfilename: '',
             newfilename: ''
         })
+    }
+
+    private patchFormWithSoftDelete(flattenForm: InvoiceWriteDto): InvoiceWriteDto {
+        flattenForm.isDeleted = true
+        return flattenForm
     }
 
     private populateDropdownFromDexieDB(dexieTable: string, filteredTable: string, formField: string, modelProperty: string, orderBy: string): void {
@@ -307,6 +329,7 @@ export class InvoiceFormComponent {
                 documentNo: this.invoice.documentNo,
                 amount: this.invoice.amount,
                 remarks: this.invoice.remarks,
+                isDeleted: this.invoice.isDeleted,
                 postAt: this.invoice.postAt,
                 postUser: this.invoice.postUser,
                 putAt: this.invoice.putAt,

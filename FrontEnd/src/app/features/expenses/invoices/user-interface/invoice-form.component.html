@@ -112,7 +112,7 @@
             <ng-container *ngTemplateOutlet="actionsMenu"></ng-container>
         </mat-menu>
         <div id="align-right">
-            <button *ngIf="form.value.reservationId != ''" (click)="onDelete()" [disabled]="!isAdmin()" class="delete" mat-flat-button>
+            <button *ngIf="form.value.reservationId != ''" (click)="onSoftDelete()" [disabled]="!isAdmin()" class="delete" mat-flat-button>
                 <span>{{ getLabel('deleteButton') | uppercase }}</span>
             </button>
             <button (click)="onSave()" [disabled]="!form.valid || !isAdmin()" class="primary" mat-flat-button>
