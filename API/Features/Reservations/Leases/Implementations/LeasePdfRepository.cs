@@ -65,7 +65,6 @@ namespace API.Features.Leases {
             Spacer(section);
             InsuranceHeaders(section);
             InsuranceDetails(lease.Insurance, section);
-            // PolicyNoAndExpireDate(lease.Insurance, section);
             Spacer(section);
             PersonHeaders(section);
             PersonNames(lease.Owner, lease.Billing, section);
@@ -312,51 +311,7 @@ namespace API.Features.Leases {
             return row;
         }
 
-        // private static Row InsuranceCompany(LeasePdfInsuranceVM insurance, Section section) {
-        //     var table = section.AddTable();
-        //     table.Borders.Width = 0.1;
-        //     table.Borders.Color = new Color(153, 162, 165);
-        //     table.Format.Font.Size = Unit.FromCentimeter(0.25);
-        //     table.AddColumn("3.5cm");
-        //     table.AddColumn("15.5cm");
-        //     Row row = table.AddRow();
-        //     row.Shading.Color = new Color(255, 255, 255);
-        //     row.TopPadding = 2;
-        //     row.BottomPadding = 2;
-        //     row.VerticalAlignment = VerticalAlignment.Center;
-        //     row.Cells[0].AddParagraph("Ασφαλιστική εταιρία");
-        //     row.Cells[0].AddParagraph("Insurance company");
-        //     row.Cells[0].Borders.Right.Clear();
-        //     row.Cells[1].AddParagraph(insurance.InsuranceCompany);
-        //     return row;
-        // }
-
-        // private static Row PolicyNoAndExpireDate(LeasePdfInsuranceVM insurance, Section section) {
-        //     var table = section.AddTable();
-        //     table.Borders.Width = 0.1;
-        //     table.Borders.Color = new Color(153, 162, 165);
-        //     table.Format.Font.Size = Unit.FromCentimeter(0.25);
-        //     table.AddColumn("3.5cm");
-        //     table.AddColumn("6cm");
-        //     table.AddColumn("3.5cm");
-        //     table.AddColumn("6cm");
-        //     Row row = table.AddRow();
-        //     row.Shading.Color = new Color(218, 238, 243);
-        //     row.TopPadding = 2;
-        //     row.BottomPadding = 2;
-        //     row.VerticalAlignment = VerticalAlignment.Center;
-        //     row.Cells[0].AddParagraph("Αρ. ασφαλιστηρίου");
-        //     row.Cells[0].AddParagraph("Policy No");
-        //     row.Cells[0].Borders.Right.Clear();
-        //     row.Cells[1].AddParagraph(insurance.PolicyNo);
-        //     row.Cells[2].AddParagraph("Ημερ/νία λήξης");
-        //     row.Cells[2].AddParagraph("Valid until");
-        //     row.Cells[2].Borders.Right.Clear();
-        //     row.Cells[3].AddParagraph(DateHelpers.FormatDateStringToLocaleString(insurance.PolicyEnds));
-        //     return row;
-        // }
-
-        private static Row PersonHeaders(Section section) {
+         private static Row PersonHeaders(Section section) {
             var table = section.AddTable();
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);

@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.AspNetCore.Mvc;
+using System.IO;
 
 namespace API.Features.Reservations {
 
@@ -98,6 +100,13 @@ namespace API.Features.Reservations {
             return reservation;
         }
 
+         public FileStreamResult OpenDocument(string filename) {
+            var fullpathname = Path.Combine("Uploaded Lease Agreements" + Path.DirectorySeparatorChar + filename);
+            byte[] byteArray = File.ReadAllBytes(fullpathname);
+            MemoryStream memoryStream = new(byteArray);
+            return new FileStreamResult(memoryStream, "application/pdf");
+        }
+ 
         private void DisposeOrCommit(IDbContextTransaction transaction) {
             if (testingEnvironment.IsTesting) {
                 transaction.Dispose();

@@ -2,6 +2,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { Component } from '@angular/core'
 import { DateAdapter } from '@angular/material/core'
 import { FormBuilder, FormGroup, Validators, AbstractControl, FormArray } from '@angular/forms'
+import { HttpEventType } from '@angular/common/http'
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete'
 import { map, Observable, startWith } from 'rxjs'
 // Custom
@@ -67,18 +68,27 @@ export class ReservationFormComponent {
 
     //#endregion
 
+    //#region documents
+
+    private documents = []
+    private renameDocumentForm: FormGroup
+
+    // #endregion
+
     constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateAdapter: DateAdapter<any>, private dateHelperService: DateHelperService, private dexieService: DexieService, private dialogService: DialogService, private emojiService: EmojiService, private formBuilder: FormBuilder, private helperService: HelperService, private leasePdfHttpService: LeasePdfHttpService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private reservationHttpService: ReservationHttpService, private router: Router, private sessionStorageService: SessionStorageService) { }
 
     //#region lifecycle hooks
 
     ngOnInit(): void {
         this.initForm()
+        this.initRenameFileForm()
         this.setRecordId()
         this.getRecord()
         this.populateFields()
         this.populateDropdowns()
         this.populateBerths()
         this.setLocale()
+        this.getDocuments()
     }
 
     ngAfterViewInit(): void {
@@ -209,6 +219,10 @@ export class ReservationFormComponent {
         return this.form.value.reservationId
     }
 
+    public isNewRecord(): boolean {
+        return this.form.value.reservationId == ''
+    }
+
     public loadImage(): void {
         this.imgIsLoaded = true
     }
@@ -237,6 +251,32 @@ export class ReservationFormComponent {
         })
     }
 
+    public onDeleteDocument = (filename: string): any => {
+        this.dialogService.open(this.messageDialogService.confirmDelete(), 'question', ['abort', 'ok']).subscribe(response => {
+            if (response) {
+                return new Promise<void>((resolve) => {
+                    this.reservationHttpService.deleteDocument(filename).subscribe((x) => {
+                        resolve(x)
+                        this.getDocuments()
+                    })
+                })
+            }
+        })
+    }
+
+    public onOpenDocument(filename: string): void {
+        this.reservationHttpService.openDocument(filename).subscribe({
+            next: (response) => {
+                const blob = new Blob([response], { type: 'application/pdf' })
+                const fileURL = URL.createObjectURL(blob)
+                window.open(fileURL, '_blank')
+            },
+            error: (errorFromInterceptor) => {
+                this.dialogService.open(this.messageDialogService.filterResponse(errorFromInterceptor), 'error', ['ok'])
+            }
+        })
+    }
+
     public onRemoveBerth(berthIndex: number): void {
         const berths = <FormArray>this.form.get('berths')
         berths.removeAt(berthIndex)
@@ -247,8 +287,20 @@ export class ReservationFormComponent {
         this.saveRecord(this.flattenForm())
     }
 
+    public onUploadAndRenameFile(file: File): void {
+        this.uploadFile(file).then((x) => {
+            this.renameFile(file).then(() => {
+                this.getDocuments()
+            })
+        })
+    }
+
     public openOrCloseAutoComplete(trigger: MatAutocompleteTrigger, element: any): void {
         this.helperService.openOrCloseAutocomplete(this.form, element, trigger)
+    }
+
+    public showDocuments(): string[] {
+        return this.documents ? this.documents : []
     }
 
     //#endregion
@@ -286,6 +338,14 @@ export class ReservationFormComponent {
 
     private focusOnField(): void {
         this.helperService.focusOnField()
+    }
+
+    private getDocuments(): void {
+        if (this.reservationId != undefined) {
+            this.reservationHttpService.getDocuments(this.reservationId).subscribe((x) => {
+                this.documents = Array.from(x.body)
+            })
+        }
     }
 
     private getRecord(): Promise<any> {
@@ -357,6 +417,13 @@ export class ReservationFormComponent {
             postUser: [''],
             putAt: [''],
             putUser: ['']
+        })
+    }
+
+    private initRenameFileForm(): void {
+        this.renameDocumentForm = this.formBuilder.group({
+            oldfilename: '',
+            newfilename: ''
         })
     }
 
@@ -523,6 +590,18 @@ export class ReservationFormComponent {
         }
     }
 
+    private renameFile = (file: File): Promise<void> => {
+        return new Promise<void>((resolve) => {
+            this.renameDocumentForm.patchValue({
+                oldfilename: file.name,
+                newfilename: this.form.value.reservationId + ' ' + file.name
+            })
+            this.reservationHttpService.rename(this.renameDocumentForm.value).subscribe(x => {
+                resolve()
+            })
+        })
+    }
+
     private resetForm(): void {
         this.form.reset()
     }
@@ -549,6 +628,19 @@ export class ReservationFormComponent {
     private setRecordId(): void {
         this.activatedRoute.params.subscribe(x => {
             this.reservationId = x.id
+        })
+    }
+
+    private uploadFile = (file: File): Promise<void> => {
+        return new Promise<void>((resolve) => {
+            const fileToUpload = <File>file
+            const formData = new FormData()
+            formData.append('x', fileToUpload, fileToUpload.name)
+            this.reservationHttpService.upload(formData, { reportProgress: true, observe: 'events' }).subscribe((x) => {
+                if (x.type == HttpEventType.Response) {
+                    resolve(x)
+                }
+            })
         })
     }
 

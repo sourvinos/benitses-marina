@@ -16,7 +16,8 @@ Obj/
 **/node_modules
 **/logs
 **/reports
-**/uploads
+**/uploaded expenses
+**/uploaded lease agreements
 **/ssl
 **/appsettings.json
 **/desktop.ini

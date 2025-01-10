@@ -286,6 +286,14 @@
                         <textarea #input formControlName="remarks" id="textarea" matInput></textarea>
                         <mat-hint class="right">{{ getHint("remainingCharacters", +input.getAttribute('maxlength') - getRemarksLength()) }}</mat-hint>
                     </mat-form-field>
+                    <div id="documents">
+                        <div *ngFor="let document of showDocuments()" class="document">
+                            <img (click)="onOpenDocument(document)" (load)="loadImage()" [ngClass]="imageIsLoading()" [src]="getIcon('pdf')" style="height: 2.125rem; margin-left: 1rem; width: 2.125rem">
+                            <button (click)="onDeleteDocument(document)">
+                                <mat-icon class="input-suffix material-icons-outlined">close</mat-icon>
+                            </button>
+                        </div>
+                    </div>
                 </mat-tab>
             </mat-tab-group>
             <div class="align-bottom">
@@ -335,7 +343,7 @@
 </mat-autocomplete>
 
 <ng-template #actionsMenu>
-    <button (click)="onCreateLeaseAndOpen()" mat-menu-item>
-        <span>{{ getLabel("printLeaseButton") }}</span>
-    </button>
+    <input type="file" #file placeholder="Choose file" (change)="onUploadAndRenameFile(file.files[0])" style="display: none;">
+    <button [disabled]="isNewRecord()" (click)="file.click()" mat-menu-item>{{ getLabel("uploadButton") }}</button>
+    <button (click)="onCreateLeaseAndOpen()" mat-menu-item><span>{{ getLabel("printLeaseButton") }}</span></button>
 </ng-template>

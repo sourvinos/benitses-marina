@@ -138,7 +138,7 @@
             },
             {
                 "id": "tab5",
-                "description": "Παρατηρήσεις"
+                "description": "Εγγραφα & παρατηρήσεις"
             },
             {
                 "id": "boatName",
@@ -311,6 +311,10 @@
             {
                 "id": "copyOwnerToInvoice",
                 "description": "Αντιγραφή από στοιχεία ιδιοκτήτη"
+            },
+            {
+                "id": "uploadButton",
+                "description": "Ανέβασμα εγγράφου"
             }
         ]
     },
