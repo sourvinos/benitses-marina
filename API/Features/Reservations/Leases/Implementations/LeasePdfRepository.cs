@@ -683,7 +683,7 @@ namespace API.Features.Leases {
             row.Cells[1].Format.Alignment = ParagraphAlignment.Center;
             row.Cells[1].VerticalAlignment = VerticalAlignment.Center;
             var x = GetConnectedUsername();
-            var z = "TermsAndConditions" + Path.DirectorySeparatorChar + x + ".jpg";
+            var z = "Terms and Conditions" + Path.DirectorySeparatorChar + x + ".jpg";
             if (File.Exists(z)) {
                 row.Cells[1].AddParagraph().AddImage(z).Width = "4cm";
             } else {
@@ -746,7 +746,7 @@ namespace API.Features.Leases {
 
         private static string OpenTermsFile(string language) {
             try {
-                using StreamReader reader = new("TermsAndConditions" + Path.DirectorySeparatorChar + "TermsAndConditions" + language + ".txt");
+                using StreamReader reader = new("Terms and Conditions" + Path.DirectorySeparatorChar + "Terms and Conditions " + language + ".txt");
                 string text = reader.ReadToEndAsync().Result;
                 return text;
             }

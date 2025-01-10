@@ -128,7 +128,7 @@ namespace API.Features.Expenses.Invoices {
         [HttpGet("documents/{id}")]
         [Authorize(Roles = "user, admin")]
         public ResponseWithBody GetDocuments(string id) {
-            DirectoryInfo directoryInfo = new(Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), Path.Combine("Uploads"))));
+            DirectoryInfo directoryInfo = new(Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), Path.Combine("Uploaded Expenses"))));
             ArrayList documents = new();
             foreach (var file in directoryInfo.GetFiles(id + "*.pdf")) {
                 documents.Add(file.Name);
@@ -145,7 +145,7 @@ namespace API.Features.Expenses.Invoices {
         [Authorize(Roles = "admin")]
         public Response Upload() {
             var filename = Request.Form.Files[0];
-            var pathname = Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), Path.Combine("Uploads")), ContentDispositionHeaderValue.Parse(filename.ContentDisposition).FileName.Trim('"'));
+            var pathname = Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), Path.Combine("Uploaded Expenses")), ContentDispositionHeaderValue.Parse(filename.ContentDisposition).FileName.Trim('"'));
             using (var stream = new FileStream(pathname, FileMode.Create)) {
                 filename.CopyTo(stream);
             }
@@ -160,7 +160,7 @@ namespace API.Features.Expenses.Invoices {
         [HttpPost("rename")]
         [Authorize(Roles = "admin")]
         public Response Rename([FromBody] RenameDocumentVM objectVM) {
-            var folderName = Path.Combine("Uploads");
+            var folderName = Path.Combine("Uploaded Expenses");
             var source = Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), folderName) + Path.DirectorySeparatorChar, objectVM.OldFilename);
             var target = Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), folderName) + Path.DirectorySeparatorChar, objectVM.NewFilename);
             Directory.Move(source, target);
@@ -175,7 +175,7 @@ namespace API.Features.Expenses.Invoices {
         [HttpDelete("deleteDocument/{filename}")]
         [Authorize(Roles = "admin")]
         public Response DeleteDocument(string filename) {
-            var folderName = Path.Combine("Uploads");
+            var folderName = Path.Combine("Uploaded Expenses");
             var source = Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), folderName) + Path.DirectorySeparatorChar, filename);
             System.IO.File.Delete(source);
             return new Response {

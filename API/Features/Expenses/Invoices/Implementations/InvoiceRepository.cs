@@ -77,7 +77,7 @@ namespace API.Features.Expenses.Invoices {
         }
 
         public FileStreamResult OpenDocument(string filename) {
-            var fullpathname = Path.Combine("Uploads" + Path.DirectorySeparatorChar + filename);
+            var fullpathname = Path.Combine("Uploaded Expenses" + Path.DirectorySeparatorChar + filename);
             byte[] byteArray = File.ReadAllBytes(fullpathname);
             MemoryStream memoryStream = new(byteArray);
             return new FileStreamResult(memoryStream, "application/pdf");
