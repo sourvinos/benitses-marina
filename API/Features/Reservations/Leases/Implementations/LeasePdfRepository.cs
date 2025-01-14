@@ -292,7 +292,7 @@ namespace API.Features.Leases {
             table.AddColumn("3.17cm");
             table.AddColumn("3.17cm");
             Row row = table.AddRow();
-            row.Shading.Color = new Color(255,255,255);
+            row.Shading.Color = new Color(255, 255, 255);
             row.TopPadding = 2;
             row.BottomPadding = 2;
             row.VerticalAlignment = VerticalAlignment.Center;
@@ -311,7 +311,7 @@ namespace API.Features.Leases {
             return row;
         }
 
-         private static Row PersonHeaders(Section section) {
+        private static Row PersonHeaders(Section section) {
             var table = section.AddTable();
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
@@ -719,7 +719,8 @@ namespace API.Features.Leases {
         }
 
         private string GetConnectedUsername() {
-            return Identity.GetConnectedUserDetails(userManager, Identity.GetConnectedUserId(httpContextAccessor)).UserName;
+            var username = Identity.GetConnectedUserDetails(userManager, Identity.GetConnectedUserId(httpContextAccessor)).UserName;
+            return username[0].ToString().ToUpper() + username[1..];
         }
 
     }
