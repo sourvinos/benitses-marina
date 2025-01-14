@@ -18,7 +18,6 @@ namespace API.Features.Sales.Customers {
             return true switch {
                 var x when x == !await IsValidNationality(customer) => 456,
                 var x when x == !await IsValidTaxOffice(customer) => 458,
-                var x when x == !BalanceLimitMustBeZeroOrGreater(customer) => 461,
                 var x when x == IsAlreadyUpdated(z, customer) => 415,
                 _ => 200,
             };
@@ -58,10 +57,6 @@ namespace API.Features.Sales.Customers {
             return await context.TaxOffices
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Id == customer.TaxOfficeId) != null;
-        }
-
-        private static bool BalanceLimitMustBeZeroOrGreater(CustomerWriteDto customer) {
-            return customer.BalanceLimit >= 0;
         }
 
         private static bool IsAlreadyUpdated(Customer z, CustomerWriteDto customer) {

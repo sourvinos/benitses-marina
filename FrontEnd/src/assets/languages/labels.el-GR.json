@@ -1253,10 +1253,6 @@
                 "description": "Email"
             },
             {
-                "id": "balanceLimit",
-                "description": "Οριο οφειλής"
-            },
-            {
                 "id": "remarks",
                 "description": "Σχόλια"
             },

@@ -202,7 +202,6 @@ export class CustomerFormComponent {
             phones: this.form.value.phones,
             personInCharge: this.form.value.personInCharge,
             email: this.form.value.email,
-            balanceLimit: this.form.value.balanceLimit,
             remarks: this.form.value.remarks,
             isActive: this.form.value.isActive,
             putAt: this.form.value.putAt
@@ -254,7 +253,6 @@ export class CustomerFormComponent {
             phones: ['', [Validators.maxLength(128)]],
             personInCharge: ['', [Validators.maxLength(128)]],
             email: ['', [Validators.maxLength(128)]],
-            balanceLimit: [0, [Validators.required, Validators.min(0), Validators.max(99999.99)]],
             remarks: ['', Validators.maxLength(2048)],
             isActive: true,
             postAt: [''],
@@ -303,7 +301,6 @@ export class CustomerFormComponent {
                 personInCharge: this.record.personInCharge,
                 phones: this.record.phones,
                 email: this.record.email,
-                balanceLimit: this.record.balanceLimit,
                 remarks: this.record.remarks,
                 isActive: this.record.isActive,
                 postAt: this.record.postAt,
@@ -416,10 +413,6 @@ export class CustomerFormComponent {
 
     get email(): AbstractControl {
         return this.form.get('email')
-    }
-
-    get balanceLimit(): AbstractControl {
-        return this.form.get('balanceLimit')
     }
 
     get remarks(): AbstractControl {

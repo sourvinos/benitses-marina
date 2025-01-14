@@ -24,7 +24,6 @@ namespace API.Features.Sales.Customers {
             RuleFor(x => x.PersonInCharge).MaximumLength(128);
             RuleFor(x => x.Phones).MaximumLength(128);
             RuleFor(x => x.Email).MaximumLength(128);
-            RuleFor(x => x.BalanceLimit).InclusiveBetween(0, 99999);
             RuleFor(x => x.Remarks).MaximumLength(2048);
         }
 

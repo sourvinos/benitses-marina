@@ -116,13 +116,6 @@
                                 <mat-error *ngIf="!nationality.hasError('required') && nationality.hasError('incorrect')">{{ getHint("invalid") }}</mat-error>
                             </mat-form-field>
                         </div>
-                        <!-- Balance limit -->
-                        <mat-form-field>
-                            <mat-label>{{ getLabel('balanceLimit') }}</mat-label>
-                            <input [inputTabStop]="input" currencyMask dataTabIndex="15" formControlName="balanceLimit" matInput>
-                            <mat-error *ngIf="balanceLimit.hasError('required')">{{ getHint("required") }}</mat-error>
-                            <mat-error *ngIf="balanceLimit.hasError('min') || balanceLimit.hasError('max')">{{ getHint("invalidRange") }}</mat-error>
-                        </mat-form-field>
                         <div class="stacked-checkboxes">
                             <!-- Active -->
                             <mat-checkbox formControlName="isActive">
