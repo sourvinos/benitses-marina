@@ -5,7 +5,7 @@ export const environment = {
     url: 'https://appsourvinos.com',
     appName: 'Benitses Marina',
     clientUrl: 'https://appsourvinos.com',
-    defaultLanguage: 'en-GB',
+    defaultLanguage: 'el-GR',
     featuresIconDirectory: 'assets/images/features/',
     cssUserSelect: 'auto',
     minWidth: 1280,

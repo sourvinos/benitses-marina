@@ -280,7 +280,7 @@ export class InvoiceFormComponent {
             supplier: ['', [Validators.required, ValidationService.RequireAutocomplete]],
             documentType: ['', [Validators.required, ValidationService.RequireAutocomplete]],
             paymentMethod: ['', [Validators.required, ValidationService.RequireAutocomplete]],
-            documentNo: ['', [Validators.required]],
+            documentNo: ['', [Validators.required, Validators.maxLength(128)]],
             amount: ['', [Validators.required, Validators.min(0), Validators.max(99999)]],
             remarks: ['', [Validators.maxLength(2048)]],
             isDeleted: '',

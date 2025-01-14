@@ -5,7 +5,7 @@ export const environment = {
     url: 'https://localhost:5001',
     appName: 'Benitses Marina',
     clientUrl: 'https://localhost:4200',
-    defaultLanguage: 'en-GB',
+    defaultLanguage: 'el-GR',
     featuresIconDirectory: 'assets/images/features/',
     cssUserSelect: 'none',
     minWidth: 1280,

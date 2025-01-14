@@ -26,10 +26,11 @@ namespace API.Features.InsurancePolicies {
             var today = DateHelpers.GetLocalDateTime();
             var daysToAdd = 30;
             var reservations = await context.Reservations
+                .AsNoTracking()
                 .Include(x => x.Boat)
                 .Include(x => x.Insurance)
-                .AsNoTracking()
                 .Where(x => x.Insurance.PolicyEnds <= today.AddDays(daysToAdd) && x.IsDocked)
+                .OrderBy(x => x.Insurance.PolicyEnds)
                 .ToListAsync();
             return mapper.Map<IEnumerable<Reservation>, IEnumerable<InsurancePolicyListVM>>(reservations);
         }

@@ -155,7 +155,7 @@ export class DateHelperService {
      */
     private getDateLocaleSeperator(): string {
         switch (this.localStorageService.getLanguage()) {
-            case 'en-GB': return '/'
+            case 'el-GR': return '/'
         }
     }
 

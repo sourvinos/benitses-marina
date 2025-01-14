@@ -306,7 +306,7 @@
             },
             {
                 "id": "invoiceDetails",
-                "description": "Στοιχεία ιδιοκτήτη"
+                "description": "Στοιχεία τιμολόγησης"
             },
             {
                 "id": "copyOwnerToInvoice",
