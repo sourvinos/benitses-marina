@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using API.Features.Expenses.BalanceSheet;
 using API.Infrastructure.Classes;
 using API.Infrastructure.Interfaces;
 
@@ -12,7 +13,7 @@ namespace API.Features.Expenses.Suppliers {
         Task<IEnumerable<SimpleEntity>> GetForCriteriaAsync();
         Task<SupplierBrowserVM> GetByIdForBrowserAsync(int id);
         Task<Supplier> GetByIdAsync(int id, bool includeTables);
-        Task<IList<SupplierListVM>> GetForBalanceSheetAsync();
+        Task<IList<BalanceSheetSupplierVM>> GetForBalanceSheetAsync();
         Task<IList<SupplierListVM>> GetForStatisticsAsync();
 
     }

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using API.Features.Expenses.BalanceSheet;
 
 namespace API.Features.Expenses.Suppliers {
 
@@ -63,12 +64,13 @@ namespace API.Features.Expenses.Suppliers {
                     .SingleOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<IList<SupplierListVM>> GetForBalanceSheetAsync() {
-            var Suppliers = await context.Suppliers
+        public async Task<IList<BalanceSheetSupplierVM>> GetForBalanceSheetAsync() {
+            var suppliers = await context.Suppliers
                 .AsNoTracking()
+                .Include(x => x.Bank)
                 .OrderBy(x => x.Description)
                 .ToListAsync();
-            return mapper.Map<IEnumerable<Supplier>, IList<SupplierListVM>>(Suppliers);
+            return mapper.Map<IEnumerable<Supplier>, IList<BalanceSheetSupplierVM>>(suppliers);
         }
 
         public async Task<IList<SupplierListVM>> GetForStatisticsAsync() {

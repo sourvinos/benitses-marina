@@ -11,7 +11,6 @@ using Microsoft.Extensions.Options;
 using AutoMapper;
 using System.Threading.Tasks;
 using API.Features.Expenses.Transactions;
-using API.Features.Expenses.Suppliers;
 
 namespace API.Features.Expenses.BalanceSheet {
 
@@ -26,7 +25,7 @@ namespace API.Features.Expenses.BalanceSheet {
         public async Task<IEnumerable<BalanceSheetVM>> GetForBalanceSheet(string fromDate, string toDate, int supplierId, int companyId) {
             var records = await context.Transactions
                 .AsNoTracking()
-                .Include(x => x.Supplier)
+                .Include(x => x.Supplier).ThenInclude(x => x.Bank)
                 .Include(x => x.DocumentType)
                 .Include(x => x.PaymentMethod)
                 .Where(x => x.Date <= Convert.ToDateTime(toDate)
@@ -47,7 +46,7 @@ namespace API.Features.Expenses.BalanceSheet {
             return records;
         }
 
-        public BalanceSheetVM BuildPrevious(SupplierListVM supplier, IEnumerable<BalanceSheetVM> records, string fromDate) {
+        public BalanceSheetVM BuildPrevious(BalanceSheetSupplierVM supplier, IEnumerable<BalanceSheetVM> records, string fromDate) {
             decimal debit = 0;
             decimal credit = 0;
             decimal balance = 0;
@@ -62,7 +61,7 @@ namespace API.Features.Expenses.BalanceSheet {
             return total;
         }
 
-        public List<BalanceSheetVM> BuildRequested(SupplierListVM supplier, IEnumerable<BalanceSheetVM> records, string fromDate) {
+        public List<BalanceSheetVM> BuildRequested(BalanceSheetSupplierVM supplier, IEnumerable<BalanceSheetVM> records, string fromDate) {
             decimal debit = 0;
             decimal credit = 0;
             decimal balance = 0;
@@ -80,7 +79,7 @@ namespace API.Features.Expenses.BalanceSheet {
             return requestedPeriod;
         }
 
-        public BalanceSheetVM BuildTotal(SupplierListVM supplier, IEnumerable<BalanceSheetVM> records) {
+        public BalanceSheetVM BuildTotal(BalanceSheetSupplierVM supplier, IEnumerable<BalanceSheetVM> records) {
             decimal debit = 0;
             decimal credit = 0;
             decimal balance = 0;
@@ -104,16 +103,18 @@ namespace API.Features.Expenses.BalanceSheet {
             return final;
         }
 
-        public BalanceSheetSummaryVM Summarize(SupplierListVM supplier, IEnumerable<BalanceSheetVM> records) {
+        public BalanceSheetSummaryVM Summarize(BalanceSheetSupplierVM supplier, IEnumerable<BalanceSheetVM> records) {
             var previousBalance = records.First().Balance;
             var requestedDebit = records.SkipLast(1).Last().Debit;
             var requestedCredit = records.SkipLast(1).Last().Credit;
             var requestedBalance = records.SkipLast(1).Last().Balance;
             var actualBalance = previousBalance + requestedBalance;
             var summary = new BalanceSheetSummaryVM {
-                Supplier = new SimpleEntity {
+                Supplier = new BalanceSheetSupplierVM {
                     Id = supplier.Id,
-                    Description = supplier.Description
+                    Description = supplier.Description,
+                    Bank = supplier.Bank,
+                    Iban = supplier.Iban
                 },
                 PreviousBalance = previousBalance,
                 Debit = requestedDebit,
@@ -134,12 +135,14 @@ namespace API.Features.Expenses.BalanceSheet {
             return mapper.Map<IEnumerable<TransactionsBase>, IEnumerable<BalanceSheetVM>>(records);
         }
 
-        private static BalanceSheetVM BuildTotalLine(SupplierListVM supplier, decimal debit, decimal credit, decimal balance, string label) {
+        private static BalanceSheetVM BuildTotalLine(BalanceSheetSupplierVM supplier, decimal debit, decimal credit, decimal balance, string label) {
             var total = new BalanceSheetVM {
                 Date = "",
-                Supplier = new SimpleEntity {
+                Supplier = new BalanceSheetSupplierVM {
                     Id = supplier.Id,
-                    Description = supplier.Description
+                    Description = supplier.Description,
+                    Bank = supplier.Bank,
+                    Iban = supplier.Iban
                 },
                 Debit = debit,
                 Credit = credit,
