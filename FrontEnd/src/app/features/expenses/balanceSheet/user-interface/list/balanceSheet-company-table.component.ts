@@ -4,9 +4,13 @@ import { formatNumber } from '@angular/common'
 // Custom
 import { BalanceSheetCriteriaVM } from '../../classes/view-models/criteria/balanceSheet-criteria-vm'
 import { BalanceSheetVM } from '../../classes/view-models/list/balanceSheet-vm'
+import { DialogService } from 'src/app/shared/services/modal-dialog.service'
 import { HelperService } from 'src/app/shared/services/helper.service'
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service'
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
+import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
+import { LedgerDialogService } from '../../classes/services/ledger-dialog.service'
+import { LedgerCriteriaVM } from '../../../ledgers/classes/view-models/criteria/ledger-criteria-vm'
 
 @Component({
     selector: 'balanceSheetCompanyTable',
@@ -28,7 +32,7 @@ export class BalanceSheetCompanyTableComponent {
 
     //#endregion
 
-    constructor(private helperService: HelperService, private localStorageService: LocalStorageService, private messageLabelService: MessageLabelService) { }
+    constructor(private ledgerDialogService: LedgerDialogService, private dialogService: DialogService, private helperService: HelperService, private localStorageService: LocalStorageService, private messageLabelService: MessageLabelService) { }
 
     //#region lifecycle hooks
 
@@ -77,6 +81,18 @@ export class BalanceSheetCompanyTableComponent {
 
     public onHighlightRow(id: any): void {
         this.helperService.highlightRow(id)
+    }
+
+    public onShowLedger(id: number, criteria: BalanceSheetCriteriaVM): void {
+        const x: LedgerCriteriaVM = {
+            companyId: criteria.companyId,
+            supplierId: id,
+            fromDate: criteria.fromDate,
+            toDate: criteria.toDate
+        }
+        this.ledgerDialogService.open(x, '', ['ok']).subscribe(() => {
+            // 
+        })
     }
 
     //#endregion

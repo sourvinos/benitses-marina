@@ -1438,5 +1438,14 @@
                 "description": "Σύνολο"
             }
         ]
+    },
+    {
+        "feature": "ledger-modal-dialog",
+        "labels": [
+            {
+                "id": "okButton",
+                "description": "OK"
+            }
+        ]
     }
 ]

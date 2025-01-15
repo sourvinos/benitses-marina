@@ -1,0 +1,13 @@
+<div id="dialog">
+
+    <div id="dialog-content">
+        <ledger-table [records]="content"></ledger-table>
+    </div>
+
+    <div id="dialog-footer">
+        <mat-dialog-actions *ngIf="data.actions.length == 1">
+            <button class="primary" id="ok" mat-dialog-close="true" mat-flat-button tabindex="-1">{{ getLabel('okButton') | uppercase }}</button>
+        </mat-dialog-actions>
+    </div>
+
+</div>

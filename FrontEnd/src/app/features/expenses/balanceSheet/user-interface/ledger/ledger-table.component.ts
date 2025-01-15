@@ -5,19 +5,19 @@ import { formatNumber } from '@angular/common'
 import { DialogService } from 'src/app/shared/services/modal-dialog.service'
 import { EmojiService } from 'src/app/shared/services/emoji.service'
 import { InvoiceHttpService } from '../../../invoices/classes/services/invoice-http.service'
-import { LedgerCriteriaVM } from '../../classes/view-models/criteria/ledger-criteria-vm'
-import { LedgerVM } from '../../classes/view-models/list/ledger-vm'
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service'
 import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
+import { LedgerVM } from '../../../ledgers/classes/view-models/list/ledger-vm'
+import { LedgerCriteriaVM } from '../../../ledgers/classes/view-models/criteria/ledger-criteria-vm'
 
 @Component({
-    selector: 'ledger-company-table',
-    templateUrl: 'ledger-company-table.component.html',
-    styleUrls: ['../../../../../../assets/styles/custom/lists.css', './ledger-parent.component.css']
+    selector: 'ledger-table',
+    templateUrl: 'ledger-table.component.html',
+    styleUrls: ['../../../../../../assets/styles/custom/lists.css', './ledger-table.component.css']
 })
 
-export class LedgerCompanyTableComponent {
+export class LedgerFromBalanceSheetComponent {
 
     //#region variables
 
