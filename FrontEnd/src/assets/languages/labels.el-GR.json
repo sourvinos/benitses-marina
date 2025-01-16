@@ -1111,6 +1111,14 @@
                 "description": "Επωνυμία"
             },
             {
+                "id": "headerBank",
+                "description": "Τράπεζα"
+            },
+            {
+                "id": "headerIban",
+                "description": "Iban"
+            },
+            {
                 "id": "headerPreviousBalance",
                 "description": "Προηγ. υπόλοιπο"
             },

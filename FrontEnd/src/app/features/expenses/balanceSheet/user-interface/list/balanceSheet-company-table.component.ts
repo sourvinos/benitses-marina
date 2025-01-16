@@ -6,16 +6,15 @@ import { BalanceSheetCriteriaVM } from '../../classes/view-models/criteria/balan
 import { BalanceSheetVM } from '../../classes/view-models/list/balanceSheet-vm'
 import { DialogService } from 'src/app/shared/services/modal-dialog.service'
 import { HelperService } from 'src/app/shared/services/helper.service'
+import { LedgerCriteriaVM } from '../../../ledgers/classes/view-models/criteria/ledger-criteria-vm'
+import { LedgerDialogService } from '../../classes/services/ledger-dialog.service'
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service'
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
-import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
-import { LedgerDialogService } from '../../classes/services/ledger-dialog.service'
-import { LedgerCriteriaVM } from '../../../ledgers/classes/view-models/criteria/ledger-criteria-vm'
 
 @Component({
     selector: 'balanceSheetCompanyTable',
     templateUrl: './balanceSheet-company-table.component.html',
-    styleUrls: ['../../../../../../assets/styles/custom/lists.css']
+    styleUrls: ['../../../../../../assets/styles/custom/lists.css', './balanceSheet-company-table.component.css']
 })
 
 export class BalanceSheetCompanyTableComponent {
@@ -59,7 +58,7 @@ export class BalanceSheetCompanyTableComponent {
 
     private calculateTotals(): void {
         this.totals = {
-            supplier: { id: 0, description: '', isActive: true },
+            supplier: { id: 0, description: '', bank: '', iban: '' },
             previousBalance: this.records.reduce((sum: number, array: { previousBalance: number }) => sum + array.previousBalance, 0),
             debit: this.records.reduce((sum: number, array: { debit: number }) => sum + array.debit, 0),
             credit: this.records.reduce((sum: number, array: { credit: number }) => sum + array.credit, 0),

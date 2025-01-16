@@ -1,8 +1,8 @@
-import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
+import { BalanceSheetSupplierVM } from './balanceSheetSupplier-vm'
 
 export interface BalanceSheetVM {
 
-    supplier: SimpleEntity
+    supplier: BalanceSheetSupplierVM
     previousBalance: number
     debit: number
     credit: number
