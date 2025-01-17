@@ -10,6 +10,7 @@ namespace API.Features.Expenses.DocumentTypes {
             entity.Property(x => x.Id).ValueGeneratedOnAdd();
             // Fields
             entity.Property(x => x.Description).HasMaxLength(128).IsRequired(true);
+            entity.Property(x => x.IsStatistic);
             entity.Property(x => x.IsActive);
             // Metadata
             entity.Property(x => x.PostAt).HasMaxLength(19).IsRequired(true);

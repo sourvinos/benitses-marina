@@ -9,6 +9,7 @@ namespace API.Features.Expenses.DocumentTypes {
         public string Description { get; set; }
         public string Customers { get; set; }
         public string Suppliers { get; set; }
+        public bool IsStatistic { get; set; }
         public bool IsActive { get; set; }
         public string PostAt { get; set; }
         public string PostUser { get; set; }

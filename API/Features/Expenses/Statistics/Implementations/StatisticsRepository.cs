@@ -29,10 +29,10 @@ namespace API.Features.Expenses.Statistics {
                 .Include(x => x.Supplier)
                 .Include(x => x.DocumentType)
                 .Where(x => x.Date <= Convert.ToDateTime(toDate)
-                    && (x.Company.Id == companyId)
-                    && (x.SupplierId == supplierId)
-                    && (x.DocumentType.DiscriminatorId == 1)
-                    && (x.IsDeleted == false))
+                    && x.Company.Id == companyId
+                    && x.SupplierId == supplierId
+                    && x.DocumentType.IsStatistic
+                    && x.IsDeleted == false)
                 .OrderBy(x => x.Date)
                 .ToListAsync();
             return mapper.Map<IEnumerable<TransactionsBase>, IEnumerable<StatisticVM>>(records);
