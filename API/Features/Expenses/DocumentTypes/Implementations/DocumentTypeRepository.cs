@@ -23,7 +23,7 @@ namespace API.Features.Expenses.DocumentTypes {
         public async Task<IEnumerable<DocumentTypeListVM>> GetAsync() {
             var DocumentTypes = await context.DocumentTypes
                 .AsNoTracking()
-                .OrderBy(x => x.Id)
+                .OrderBy(x => x.Description)
                 .ToListAsync();
             return mapper.Map<IEnumerable<DocumentType>, IEnumerable<DocumentTypeListVM>>(DocumentTypes);
         }

@@ -9,6 +9,7 @@ import { CatPageComponent } from '../components/cat-page/cat-page.component'
 import { DateRangePickerComponent } from '../components/date-range-picker/date-range-picker.component'
 import { EmojiDirective } from '../directives/emoji.directive'
 import { EmptyPageComponent } from '../components/empty-page/empty-page.component'
+import { ExpensesMenuComponent } from 'src/app/features/expenses/expenses-menu/expenses-menu.component'
 import { HomeButtonAndTitleComponent } from '../components/home-button-and-title/home-button-and-title.component'
 import { InputMaxLengthDirective } from '../directives/input-maxLength.directive'
 import { InputTabStopDirective } from 'src/app/shared/directives/input-tabstop.directive'
@@ -35,6 +36,7 @@ import { TrimStringPipe } from './../pipes/string-trim.pipe'
         DateRangePickerComponent,
         EmojiDirective,
         EmptyPageComponent,
+        ExpensesMenuComponent,
         HomeButtonAndTitleComponent,
         InputMaxLengthDirective,
         InputTabStopDirective,
@@ -68,6 +70,7 @@ import { TrimStringPipe } from './../pipes/string-trim.pipe'
         DateRangePickerComponent,
         EmojiDirective,
         EmptyPageComponent,
+        ExpensesMenuComponent,
         FormsModule,
         HomeButtonAndTitleComponent,
         InputMaxLengthDirective,

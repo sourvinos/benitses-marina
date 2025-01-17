@@ -35,6 +35,7 @@
 }
 
 .mat-mdc-radio-button > .mdc-form-field > .mdc-label {
+    margin: 0 0 0 1rem;
     transition: color var(--theme-delay) !important;
 }
 

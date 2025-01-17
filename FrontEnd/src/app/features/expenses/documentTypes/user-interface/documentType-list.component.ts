@@ -1,6 +1,5 @@
 import { ActivatedRoute, Router } from '@angular/router'
 import { Component, ViewChild } from '@angular/core'
-import { DateAdapter } from '@angular/material/core'
 import { MenuItem } from 'primeng/api'
 import { Table } from 'primeng/table'
 // Custom
@@ -11,7 +10,6 @@ import { EmojiService } from 'src/app/shared/services/emoji.service'
 import { HelperService } from 'src/app/shared/services/helper.service'
 import { InteractionService } from 'src/app/shared/services/interaction.service'
 import { ListResolved } from '../../../../shared/classes/list-resolved'
-import { LocalStorageService } from 'src/app/shared/services/local-storage.service'
 import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
 import { SessionStorageService } from 'src/app/shared/services/session-storage.service'
@@ -54,17 +52,15 @@ export class DocumentTypeListComponent {
 
     //#endregion
 
-    constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateAdapter: DateAdapter<any>, private dialogService: DialogService, private emojiService: EmojiService, private helperService: HelperService, private interactionService: InteractionService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService) { }
+    constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dialogService: DialogService, private emojiService: EmojiService, private helperService: HelperService, private interactionService: InteractionService, private messageDialogService: MessageDialogService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService) { }
 
     //#region lifecycle hooks
 
     ngOnInit(): void {
         this.loadRecords().then(() => {
-            this.populateDropdownFilters()
             this.filterTableFromStoredFilters()
             this.subscribeToInteractionService()
             this.setTabTitle()
-            this.setLocale()
             this.setSidebarsHeight()
             this.initContextMenu()
         })
@@ -139,13 +135,7 @@ export class DocumentTypeListComponent {
         if (filters != undefined) {
             setTimeout(() => {
                 this.filterColumn(filters.isActive, 'isActive', 'contains')
-                this.filterColumn(filters.shipOwner, 'shipOwner', 'contains')
-                this.filterColumn(filters.ship, 'ship', 'contains')
                 this.filterColumn(filters.description, 'description', 'contains')
-                this.filterColumn(filters.batch, 'batch', 'contains')
-                this.filterColumn(filters.table8_1, 'table8_1', 'contains')
-                this.filterColumn(filters.table8_8, 'table8_8', 'contains')
-                this.filterColumn(filters.table8_9, 'table8_9', 'contains')
             }, 500)
         }
     }
@@ -211,19 +201,6 @@ export class DocumentTypeListComponent {
         this.interactionService.refreshTabTitle.subscribe(() => {
             this.setTabTitle()
         })
-    }
-
-    //#endregion
-
-    //#region specific methods
-
-    private populateDropdownFilters(): void {
-        this.distinctShips = this.helperService.getDistinctRecords(this.records, 'ship', 'description')
-        this.distinctShipOwners = this.helperService.getDistinctRecords(this.records, 'shipOwner', 'description')
-    }
-
-    private setLocale(): void {
-        this.dateAdapter.setLocale(this.localStorageService.getLanguage())
     }
 
     //#endregion

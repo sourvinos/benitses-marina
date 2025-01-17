@@ -1,5 +1,5 @@
 .mdc-checkbox {
-    margin: 0 !important;
+    margin: 0 0 0 0.125rem !important;
     padding: 0 !important;
 }
 
@@ -40,7 +40,7 @@
 .mat-mdc-checkbox label {
     align-items: center;
     display: flex;
-    padding-left: 0.5rem !important;
+    padding-left: 22px !important;
 }
 
 .mat-mdc-checkbox label span {

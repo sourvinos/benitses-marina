@@ -4,7 +4,6 @@ import { formatNumber } from '@angular/common'
 // Custom
 import { BalanceSheetCriteriaVM } from '../../classes/view-models/criteria/balanceSheet-criteria-vm'
 import { BalanceSheetVM } from '../../classes/view-models/list/balanceSheet-vm'
-import { DialogService } from 'src/app/shared/services/modal-dialog.service'
 import { HelperService } from 'src/app/shared/services/helper.service'
 import { LedgerCriteriaVM } from '../../../ledgers/classes/view-models/criteria/ledger-criteria-vm'
 import { LedgerDialogService } from '../../classes/services/ledger-dialog.service'
@@ -31,7 +30,7 @@ export class BalanceSheetCompanyTableComponent {
 
     //#endregion
 
-    constructor(private ledgerDialogService: LedgerDialogService, private dialogService: DialogService, private helperService: HelperService, private localStorageService: LocalStorageService, private messageLabelService: MessageLabelService) { }
+    constructor(private helperService: HelperService, private ledgerDialogService: LedgerDialogService, private localStorageService: LocalStorageService, private messageLabelService: MessageLabelService) { }
 
     //#region lifecycle hooks
 
@@ -51,7 +50,7 @@ export class BalanceSheetCompanyTableComponent {
         setTimeout(() => {
             const x = document.getElementsByClassName('table-wrapper') as HTMLCollectionOf<HTMLInputElement>
             for (let i = 0; i < x.length; i++) {
-                x[i].style.height = document.getElementById('content').offsetHeight - 150 + 'px'
+                x[i].style.height = document.getElementById('content').offsetHeight - 100 + 'px'
             }
         }, 100)
     }
@@ -90,7 +89,7 @@ export class BalanceSheetCompanyTableComponent {
             toDate: criteria.toDate
         }
         this.ledgerDialogService.open(x, '', ['ok']).subscribe(() => {
-            // 
+            // Nothing here
         })
     }
 

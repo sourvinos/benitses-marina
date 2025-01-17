@@ -27,7 +27,7 @@ import { environment } from 'src/environments/environment'
 @Component({
     selector: 'documentType-form',
     templateUrl: './documentType-form.component.html',
-    styleUrls: ['../../../../../assets/styles/custom/forms.css', './documentType-form.component.css']
+    styleUrls: ['../../../../../assets/styles/custom/forms.css']
 })
 
 export class DocumentTypeFormComponent {
@@ -63,7 +63,6 @@ export class DocumentTypeFormComponent {
         this.setRecordId()
         this.getRecord()
         this.populateFields()
-        this.populateDropdowns()
         this.subscribeToInteractionService()
         this.setLocale()
     }
@@ -92,10 +91,6 @@ export class DocumentTypeFormComponent {
         return this.emojiService.getEmoji(isActive ? 'active' : 'notActive')
     }
 
-    public getFlag(language: string): string {
-        return environment.nationalitiesIconDirectory + language + '.png'
-    }
-
     public getHint(id: string, minmax = 0): string {
         return this.messageHintService.getDescription(id, minmax)
     }
@@ -109,7 +104,7 @@ export class DocumentTypeFormComponent {
             if (response) {
                 this.documentTypeHttpService.delete(this.form.value.id).subscribe({
                     complete: () => {
-                        this.dexieService.remove(this.getDiscriminatorDescription(), this.form.value.id)
+                        this.dexieService.remove('documentTypes', this.form.value.id)
                         this.helperService.doPostSaveFormTasks(this.messageDialogService.success(), 'ok', this.parentUrl, true)
                     },
                     error: (errorFromInterceptor) => {
@@ -143,21 +138,11 @@ export class DocumentTypeFormComponent {
     private flattenForm(): DocumentTypeWriteDto {
         return {
             id: this.form.value.id != '' ? this.form.value.id : null,
-            shipId: this.form.value.ship.id == 0 ? null : this.form.value.ship.id,
-            shipOwnerId: this.form.value.shipOwner.id,
-            abbreviation: this.form.value.abbreviation,
-            abbreviationEn: this.form.value.abbreviationEn,
+            discriminatorId: parseInt(this.form.value.discriminatorId),
             description: this.form.value.description,
-            batch: this.form.value.batch,
-            batchEn: this.form.value.batchEn,
             customers: this.form.value.customers,
             suppliers: this.form.value.suppliers,
-            discriminatorId: parseInt(this.form.value.discriminatorId),
-            table8_1: this.form.value.table8_1,
-            table8_8: this.form.value.table8_8,
-            table8_9: this.form.value.table8_9,
-            isMyData: this.form.value.isMyData,
-            isDefault: this.form.value.isDefault,
+            isStatistic: this.form.value.isActive,
             isActive: this.form.value.isActive,
             putAt: this.form.value.putAt
         }
@@ -171,7 +156,6 @@ export class DocumentTypeFormComponent {
         switch (parseInt(this.form.value.discriminatorId)) {
             case 1: return 'documentTypesInvoice'
             case 2: return 'documentTypesReceipt'
-            case 3: return 'documentTypesRetail'
         }
     }
 
@@ -199,22 +183,12 @@ export class DocumentTypeFormComponent {
     private initForm(): void {
         this.form = this.formBuilder.group({
             id: '',
-            ship: ['', [Validators.required, ValidationService.RequireAutocomplete]],
-            shipOwner: ['', [Validators.required, ValidationService.RequireAutocomplete]],
-            abbreviation: ['', [Validators.required, Validators.maxLength(5)]],
-            abbreviationEn: ['', [Validators.required, Validators.maxLength(5)]],
+            discriminatorId: ['', [Validators.required]],
             description: ['', [Validators.required, Validators.maxLength(128)]],
-            batch: ['', [Validators.required, Validators.maxLength(5)]],
-            batchEn: ['', [Validators.required, Validators.maxLength(5)]],
             customers: ['', [Validators.maxLength(1), ValidationService.shouldBeEmptyPlusOrMinus]],
             suppliers: ['', [Validators.maxLength(1), ValidationService.shouldBeEmptyPlusOrMinus]],
-            discriminatorId: ['', [Validators.required]],
-            isDefault: true,
+            isStatistic: false,
             isActive: true,
-            isMyData: true,
-            table8_1: ['', [Validators.maxLength(32)]],
-            table8_8: ['', [Validators.maxLength(32)]],
-            table8_9: ['', [Validators.maxLength(32)]],
             postAt: [''],
             postUser: [''],
             putAt: [''],
@@ -222,39 +196,16 @@ export class DocumentTypeFormComponent {
         })
     }
 
-    private populateDropdowns(): void {
-        this.populateDropdownFromDexieDB('ships', 'dropdownShips', 'ship', 'description', 'description', true)
-        this.populateDropdownFromDexieDB('shipOwners', 'dropdownShipOwners', 'shipOwner', 'description', 'description', false)
-    }
-
-    private populateDropdownFromDexieDB(dexieTable: string, filteredTable: string, formField: string, modelProperty: string, orderBy: string, includeWildCard: boolean): void {
-        this.dexieService.table(dexieTable).orderBy(orderBy).toArray().then((response) => {
-            this[dexieTable] = this.recordId == undefined ? response.filter(x => x.isActive) : response
-            includeWildCard ? this[dexieTable].unshift({ 'id': '0', 'description': '[' + this.emojiService.getEmoji('wildcard') + ']', 'isActive': true }) : null
-            this[filteredTable] = this.form.get(formField).valueChanges.pipe(startWith(''), map(value => this.filterAutocomplete(dexieTable, modelProperty, value)))
-        })
-    }
-
     private populateFields(): void {
         if (this.record != undefined) {
             this.form.setValue({
                 id: this.record.id,
-                ship: { 'id': this.record.ship.id, 'description': this.record.ship.id == 0 ? this.emojiService.getEmoji('wildcard') : this.record.ship.description },
-                shipOwner: { 'id': this.record.shipOwner.id, 'description': this.record.shipOwner.description },
-                abbreviation: this.record.abbreviation,
-                abbreviationEn: this.record.abbreviationEn,
+                discriminatorId: this.record.discriminatorId.toString(),
                 description: this.record.description,
-                batch: this.record.batch,
-                batchEn: this.record.batchEn,
                 customers: this.record.customers,
                 suppliers: this.record.suppliers,
-                discriminatorId: this.record.discriminatorId.toString(),
-                isDefault: this.record.isDefault,
+                isStatistic: this.record.isStatistic,
                 isActive: this.record.isActive,
-                isMyData: this.record.isMyData,
-                table8_1: this.record.table8_1,
-                table8_8: this.record.table8_8,
-                table8_9: this.record.table8_9,
                 postAt: this.record.postAt,
                 postUser: this.record.postUser,
                 putAt: this.record.putAt,
@@ -270,7 +221,7 @@ export class DocumentTypeFormComponent {
     private saveRecord(documentType: DocumentTypeWriteDto): void {
         this.documentTypeHttpService.save(documentType).subscribe({
             next: (response) => {
-                this.documentTypeHelperService.updateBrowserStorageAfterApiUpdate(this.getDiscriminatorDescription(), response.body)
+                this.documentTypeHelperService.updateBrowserStorageAfterApiUpdate('documentTypes', response.body)
                 this.helperService.doPostSaveFormTasks(this.messageDialogService.success(), 'ok', this.parentUrl, true)
             },
             error: (errorFromInterceptor) => {
@@ -299,32 +250,8 @@ export class DocumentTypeFormComponent {
 
     //#region getters
 
-    get ship(): AbstractControl {
-        return this.form.get('ship')
-    }
-
-    get shipOwner(): AbstractControl {
-        return this.form.get('shipOwner')
-    }
-
-    get abbreviation(): AbstractControl {
-        return this.form.get('abbreviation')
-    }
-
-    get abbreviationEn(): AbstractControl {
-        return this.form.get('abbreviationEn')
-    }
-
     get description(): AbstractControl {
         return this.form.get('description')
-    }
-
-    get batch(): AbstractControl {
-        return this.form.get('batch')
-    }
-
-    get batchEn(): AbstractControl {
-        return this.form.get('batchEn')
     }
 
     get customers(): AbstractControl {
@@ -333,18 +260,6 @@ export class DocumentTypeFormComponent {
 
     get suppliers(): AbstractControl {
         return this.form.get('suppliers')
-    }
-
-    get table8_1(): AbstractControl {
-        return this.form.get('table8_1')
-    }
-
-    get table8_8(): AbstractControl {
-        return this.form.get('table8_8')
-    }
-
-    get table8_9(): AbstractControl {
-        return this.form.get('table8_9')
     }
 
     get postAt(): AbstractControl {

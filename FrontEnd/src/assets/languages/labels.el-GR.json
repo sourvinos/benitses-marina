@@ -1455,5 +1455,79 @@
                 "description": "OK"
             }
         ]
+    },
+    {
+        "feature": "documentTypeList",
+        "labels": [
+            {
+                "id": "header",
+                "description": "Τύποι παραστατικών"
+            },
+            {
+                "id": "headerIsActive",
+                "description": "Ενεργό"
+            },
+            {
+                "id": "headerDescription",
+                "description": "Περιγραφή"
+            },
+            {
+                "id": "newRecord",
+                "description": "Νεα εγγραφη"
+            }
+        ]
+    },
+    {
+        "feature": "documentTypeForm",
+        "labels": [
+            {
+                "id": "header",
+                "description": "Τύπος παραστατικού"
+            },
+            {
+                "id": "description",
+                "description": "Περιγραφή"
+            },
+            {
+                "id": "customers",
+                "description": "Πελάτες"
+            },
+            {
+                "id": "suppliers",
+                "description": "Προμηθευτές"
+            },
+            {
+                "id": "refersToInvoice",
+                "description": "Χρεωστική ή πιστωτική τιμολόγηση"
+            },
+            {
+                "id": "refersToReceipt",
+                "description": "Είσπραξη ή πληρωμή"
+            },
+            {
+                "id": "isStatistic",
+                "description": "Ενημερώνει τζίρους πελατών ή προμηθευτών"
+            },
+            {
+                "id": "isActive",
+                "description": "Ενεργό"
+            },
+            {
+                "id": "post",
+                "description": "Αρχική καταχώριση"
+            },
+            {
+                "id": "put",
+                "description": "Τελευταία ενημέρωση"
+            },
+            {
+                "id": "deleteButton",
+                "description": "Διαγραφη"
+            },
+            {
+                "id": "saveButton",
+                "description": "Αποθηκευση"
+            }
+        ]
     }
 ]
