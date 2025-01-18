@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using API.Features.Reservations;
 using System.Linq;
 using API.Infrastructure.Helpers;
+using API.Features.Reservations.Transactions;
 
 namespace API.Features.InsurancePolicies {
 

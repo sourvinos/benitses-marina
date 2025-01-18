@@ -1,4 +1,3 @@
-using API.Features.Reservations;
 using API.Features.Reservations.Berths;
 using API.Infrastructure.Auth;
 using API.Infrastructure.Users;
@@ -22,6 +21,7 @@ using API.Features.Sales.TaxOffices;
 using API.Features.Sales.Prices;
 using API.Features.Expenses.Statistics;
 using API.Features.Expenses.Transactions;
+using API.Features.Reservations.Transactions;
 
 namespace API.Infrastructure.Extensions {
 

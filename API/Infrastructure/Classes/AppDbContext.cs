@@ -2,7 +2,6 @@
 using API.Features.BoatUsages;
 using API.Features.Reservations.Berths;
 using API.Features.Reservations.PaymentStatuses;
-using API.Features.Reservations;
 using API.Features.Sales.Customers;
 using API.Features.Sales.Nationalities;
 using API.Features.Sales.Prices;
@@ -19,6 +18,7 @@ using API.Features.Expenses.Banks;
 using API.Features.Expenses.BalanceFilters;
 using API.Features.Expenses.PaymentMethods;
 using API.Features.Expenses.Suppliers;
+using API.Features.Reservations.Transactions;
 
 namespace API.Infrastructure.Classes {
 

@@ -1,4 +1,4 @@
-using API.Features.Reservations;
+using API.Features.Reservations.Transactions;
 using API.Infrastructure.Helpers;
 using AutoMapper;
 
