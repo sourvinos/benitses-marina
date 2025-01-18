@@ -2,7 +2,7 @@ import { Guid } from 'guid-typescript'
 
 export interface InvoiceWriteDto {
 
-    id: Guid
+    expenseId: Guid
     companyId: number
     supplierId: number
     documentTypeId: number

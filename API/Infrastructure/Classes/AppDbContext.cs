@@ -1,26 +1,24 @@
-﻿using API.Features.Reservations.Berths;
+﻿using API.Features.BoatTypes;
+using API.Features.BoatUsages;
+using API.Features.Reservations.Berths;
+using API.Features.Reservations.PaymentStatuses;
+using API.Features.Reservations;
+using API.Features.Sales.Customers;
+using API.Features.Sales.Nationalities;
+using API.Features.Sales.Prices;
+using API.Features.Sales.TaxOffices;
 using API.Infrastructure.Auth;
 using API.Infrastructure.Users;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using API.Features.Reservations;
-using API.Features.BoatTypes;
-using API.Features.BoatUsages;
+using API.Features.Expenses.Transactions;
+using API.Features.Expenses.DocumentTypes;
+using API.Features.Expenses.Companies;
 using API.Features.Expenses.Banks;
+using API.Features.Expenses.BalanceFilters;
 using API.Features.Expenses.PaymentMethods;
 using API.Features.Expenses.Suppliers;
-using API.Features.Reservations.PaymentStatuses;
-using API.Features.Expenses.DocumentTypes;
-using API.Features.Expenses.Invoices;
-using API.Features.Invoices.Invoices;
-using API.Features.Expenses.Companies;
-using API.Features.Expenses.Transactions;
-using API.Features.Expenses.BalanceFilters;
-using API.Features.Sales.Customers;
-using API.Features.Sales.TaxOffices;
-using API.Features.Sales.Nationalities;
-using API.Features.Sales.Prices;
 
 namespace API.Infrastructure.Classes {
 
@@ -34,10 +32,9 @@ namespace API.Infrastructure.Classes {
         public DbSet<Bank> Banks { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<DocumentType> DocumentTypes { get; set; }
-        public DbSet<Invoice> Invoices { get; set; }
+        public DbSet<Expense> Expenses { get; set; }
         public DbSet<PaymentMethod> PaymentMethods { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
-        public DbSet<TransactionsBase> Transactions { get; set; }
 
         #endregion
 
@@ -78,10 +75,9 @@ namespace API.Infrastructure.Classes {
             #region Expenses
             modelBuilder.ApplyConfiguration(new BanksConfig());
             modelBuilder.ApplyConfiguration(new DocumentTypesConfig());
-            modelBuilder.ApplyConfiguration(new InvoicesConfig());
+            modelBuilder.ApplyConfiguration(new ExpenseConfig());
             modelBuilder.ApplyConfiguration(new PaymentMethodsConfig());
             modelBuilder.ApplyConfiguration(new SuppliersConfig());
-            modelBuilder.ApplyConfiguration(new TransactionConfig());
             #endregion
             #region Reservations
             modelBuilder.ApplyConfiguration(new BerthsConfig());

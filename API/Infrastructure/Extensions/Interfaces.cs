@@ -12,7 +12,6 @@ using API.Features.Expenses.PaymentMethods;
 using API.Features.Expenses.Suppliers;
 using API.Features.Reservations.PaymentStatuses;
 using API.Features.Expenses.DocumentTypes;
-using API.Features.Expenses.Invoices;
 using API.Features.Expenses.Ledgers;
 using API.Features.Expenses.Companies;
 using API.Features.Expenses.BalanceSheet;
@@ -22,6 +21,7 @@ using API.Features.Sales.Nationalities;
 using API.Features.Sales.TaxOffices;
 using API.Features.Sales.Prices;
 using API.Features.Expenses.Statistics;
+using API.Features.Expenses.Transactions;
 
 namespace API.Infrastructure.Extensions {
 
@@ -32,13 +32,20 @@ namespace API.Infrastructure.Extensions {
             services.AddTransient<IBalanceFilterRepository, BalanceFilterRepository>();
             services.AddTransient<IBalanceSheetRepository, BalanceSheetRepository>();
             services.AddTransient<IBankRepository, BankRepository>();
+            services.AddTransient<IBankValidation, BankValidation>();
             services.AddTransient<ICompanyRepository, CompanyRepository>();
+            services.AddTransient<ICompanyValidation, CompanyValidation>();
             services.AddTransient<IDocumentTypeRepository, DocumentTypeRepository>();
-            services.AddTransient<IInvoiceRepository, InvoiceRepository>();
+            services.AddTransient<IDocumentTypeValidation, DocumentTypeValidation>();
+            services.AddTransient<IExpenseRepository, ExpenseRepository>();
+            services.AddTransient<IExpenseValidation, ExpenseValidation>();
             services.AddTransient<ILedgerRepository, LedgerRepository>();
             services.AddTransient<IPaymentMethodRepository, PaymentMethodRepository>();
+            services.AddTransient<IPaymentMethodValidation, PaymentMethodValidation>();
+            services.AddTransient<IPaymentStatusValidation, PaymentStatusValidation>();
             services.AddTransient<IStatisticsRepository, StatisticsRepository>();
             services.AddTransient<ISupplierRepository, SupplierRepository>();
+            services.AddTransient<ISupplierValidation, SupplierValidation>();
             #endregion
             #region reservations
             services.AddTransient<IBerthRepository, BerthRepository>();
@@ -58,15 +65,6 @@ namespace API.Infrastructure.Extensions {
             services.AddTransient<INationalityRepository, NationalityRepository>();
             services.AddTransient<ITaxOfficeRepository, TaxOfficeRepository>();
             services.AddTransient<ITaxOfficeValidation, TaxOfficeValidation>();
-            #endregion
-            #region validations
-            services.AddTransient<IBankValidation, BankValidation>();
-            services.AddTransient<ICompanyValidation, CompanyValidation>();
-            services.AddTransient<IDocumentTypeValidation, DocumentTypeValidation>();
-            services.AddTransient<IInvoiceValidation, InvoiceValidation>();
-            services.AddTransient<IPaymentMethodValidation, PaymentMethodValidation>();
-            services.AddTransient<IPaymentStatusValidation, PaymentStatusValidation>();
-            services.AddTransient<ISupplierValidation, SupplierValidation>();
             #endregion
             #region validations
             services.AddTransient<IBerthValidation, BerthValidation>();

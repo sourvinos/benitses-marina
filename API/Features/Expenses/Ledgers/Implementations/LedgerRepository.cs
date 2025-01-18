@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using AutoMapper;
 using System.Threading.Tasks;
-using API.Features.Expenses.Invoices;
+using API.Features.Expenses.Transactions;
 
 namespace API.Features.Expenses.Ledgers {
 
@@ -23,7 +23,7 @@ namespace API.Features.Expenses.Ledgers {
         }
 
         public async Task<IEnumerable<LedgerVM>> GetForLedger(int companyId, int supplierId, string fromDate, string toDate) {
-            var records = await context.Invoices
+            var records = await context.Expenses
                 .AsNoTracking()
                 .Include(x => x.Supplier)
                 .Include(x => x.DocumentType)
@@ -32,7 +32,7 @@ namespace API.Features.Expenses.Ledgers {
                 .Where(x => x.IsDeleted == false)
                 .OrderBy(x => x.Date)
                 .ToListAsync();
-            return mapper.Map<IEnumerable<Invoice>, IEnumerable<LedgerVM>>(records);
+            return mapper.Map<IEnumerable<Expense>, IEnumerable<LedgerVM>>(records);
         }
 
         public IEnumerable<LedgerVM> BuildBalanceForLedger(IEnumerable<LedgerVM> records) {
@@ -102,13 +102,13 @@ namespace API.Features.Expenses.Ledgers {
         }
 
         public async Task<IEnumerable<LedgerVM>> GetForBalanceAsync(int supplierId) {
-            var records = await context.Invoices
+            var records = await context.Expenses
                 .AsNoTracking()
                 .Include(x => x.Supplier)
                 .Include(x => x.DocumentType)
                 .Where(x => x.SupplierId == supplierId)
                 .ToListAsync();
-            return mapper.Map<IEnumerable<Invoice>, IEnumerable<LedgerVM>>(records);
+            return mapper.Map<IEnumerable<Expense>, IEnumerable<LedgerVM>>(records);
         }
 
         private static LedgerVM BuildTotalLine(decimal debit, decimal credit, decimal balance, string label) {

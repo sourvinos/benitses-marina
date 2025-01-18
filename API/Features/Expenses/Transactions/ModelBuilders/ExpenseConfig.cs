@@ -1,14 +1,13 @@
-using API.Features.Expenses.Invoices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace API.Features.Invoices.Invoices {
+namespace API.Features.Expenses.Transactions {
 
-    internal class InvoicesConfig : IEntityTypeConfiguration<Invoice> {
+    internal class ExpenseConfig : IEntityTypeConfiguration<Expense> {
 
-        public void Configure(EntityTypeBuilder<Invoice> entity) {
+        public void Configure(EntityTypeBuilder<Expense> entity) {
             // PK
-            entity.Property(x => x.Id).IsFixedLength().HasMaxLength(36).IsRequired(true);
+            entity.Property(x => x.ExpenseId).IsFixedLength().HasMaxLength(36).IsRequired(true);
             // Fields
             entity.Property(x => x.Date).HasColumnType("date").IsRequired(true);
             entity.Property(x => x.DocumentNo).HasMaxLength(16).IsRequired(true);

@@ -7,7 +7,7 @@ namespace API.Features.Expenses.BalanceSheet {
     public class BalanceSheetMappingProfile : Profile {
 
         public BalanceSheetMappingProfile() {
-            CreateMap<TransactionsBase, BalanceSheetVM>()
+            CreateMap<Expense, BalanceSheetVM>()
                 .ForMember(x => x.Date, x => x.MapFrom(x => DateHelpers.DateToISOString(x.Date)))
                 .ForMember(x => x.Supplier, x => x.MapFrom(x => new BalanceSheetSupplierVM {
                     Id = x.Supplier.Id,

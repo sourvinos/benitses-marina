@@ -83,7 +83,7 @@
                     </tr>
                 </ng-template>
                 <ng-template let-record pTemplate="body">
-                    <tr (click)="onHighlightRow(record.id)" (dblclick)="onEditRecord(record.id)" [attr.id]=record.id style="height: 32px;">
+                    <tr (click)="onHighlightRow(record.expenseId)" (dblclick)="onEditRecord(record.expenseId)" [attr.id]=record.expenseId style="height: 32px;">
                         <td class="width-3"><span class="center no-overflow" style="padding-right: 0 !important; padding-top: 0.25rem !important;"><p-tableCheckbox [value]="record"></p-tableCheckbox></span></td>
                         <td class="width-7"><span class="center no-overflow">{{ formatDateToLocale(record.date,false,true) }}</span></td>
                         <td class="width-12"><span>{{ record.company.description }}</span></td>
@@ -94,7 +94,7 @@
                         <td class="width-6"><span class="right with-right-padding">{{ formatNumberToLocale(record.amount) }}</span></td>
                         <td class="width-3"><span class="center no-left-padding no-overflow" style="font-size: 0.5rem; padding-top: 0 !important;">{{ getEmoji(record.hasDocument) }}</span></td>
                         <td class="width-3">
-                            <span (click)="onEditRecord(record.id)" class="center">
+                            <span (click)="onEditRecord(record.expenseId)" class="center">
                                 <mat-icon class="material-icons-outlined small-icon">more_horiz</mat-icon>
                             </span>
                         </td>

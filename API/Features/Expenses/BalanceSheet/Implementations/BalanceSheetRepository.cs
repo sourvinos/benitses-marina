@@ -23,7 +23,7 @@ namespace API.Features.Expenses.BalanceSheet {
         }
 
         public async Task<IEnumerable<BalanceSheetVM>> GetForBalanceSheet(string fromDate, string toDate, int supplierId, int companyId) {
-            var records = await context.Transactions
+            var records = await context.Expenses
                 .AsNoTracking()
                 .Include(x => x.Supplier).ThenInclude(x => x.Bank)
                 .Include(x => x.DocumentType)
@@ -34,7 +34,7 @@ namespace API.Features.Expenses.BalanceSheet {
                     && (x.IsDeleted == false))
                 .OrderBy(x => x.Date)
                 .ToListAsync();
-            return mapper.Map<IEnumerable<TransactionsBase>, IEnumerable<BalanceSheetVM>>(records);
+            return mapper.Map<IEnumerable<Expense>, IEnumerable<BalanceSheetVM>>(records);
         }
 
         public IEnumerable<BalanceSheetVM> BuildBalanceForBalanceSheet(IEnumerable<BalanceSheetVM> records) {
@@ -126,13 +126,13 @@ namespace API.Features.Expenses.BalanceSheet {
         }
 
         public async Task<IEnumerable<BalanceSheetVM>> GetForBalanceAsync(int supplierId) {
-            var records = await context.Transactions
+            var records = await context.Expenses
                 .AsNoTracking()
                 .Include(x => x.Supplier)
                 .Include(x => x.DocumentType)
                 .Where(x => x.SupplierId == supplierId)
                 .ToListAsync();
-            return mapper.Map<IEnumerable<TransactionsBase>, IEnumerable<BalanceSheetVM>>(records);
+            return mapper.Map<IEnumerable<Expense>, IEnumerable<BalanceSheetVM>>(records);
         }
 
         private static BalanceSheetVM BuildTotalLine(BalanceSheetSupplierVM supplier, decimal debit, decimal credit, decimal balance, string label) {

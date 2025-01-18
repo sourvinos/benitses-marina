@@ -5,7 +5,7 @@ import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 
 export interface InvoiceReadDto extends Metadata {
 
-    id: Guid
+    expenseId: Guid
     date: string
     company: SimpleEntity
     documentType: SimpleEntity

@@ -8,7 +8,7 @@ namespace API.Features.Expenses.Statistics {
     public class StatisticsMappingProfile : Profile {
 
         public StatisticsMappingProfile() {
-            CreateMap<TransactionsBase, StatisticVM>()
+            CreateMap<Expense, StatisticVM>()
                 .ForMember(x => x.Date, x => x.MapFrom(x => DateHelpers.DateToISOString(x.Date)))
                 .ForMember(x => x.Supplier, x => x.MapFrom(x => new SimpleEntity {
                     Id = x.Supplier.Id,

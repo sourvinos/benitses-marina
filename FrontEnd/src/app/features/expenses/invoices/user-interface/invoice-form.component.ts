@@ -112,7 +112,7 @@ export class InvoiceFormComponent {
     }
 
     public getNewOrEditHeader(): string {
-        return this.form.value.id == '' ? 'headerNew' : 'headerEdit'
+        return this.form.value.expenseId == '' ? 'headerNew' : 'headerEdit'
     }
 
     public getRemarksLength(): any {
@@ -128,7 +128,7 @@ export class InvoiceFormComponent {
     }
 
     public isNewRecord(): boolean {
-        return this.form.value.id == ''
+        return this.form.value.expenseId == ''
     }
 
     public loadImage(): void {
@@ -138,7 +138,7 @@ export class InvoiceFormComponent {
     public onDelete(): void {
         this.dialogService.open(this.messageDialogService.confirmDelete(), 'question', ['abort', 'ok']).subscribe(response => {
             if (response) {
-                this.invoiceHttpService.delete(this.form.value.id).subscribe({
+                this.invoiceHttpService.delete(this.form.value.expenseId).subscribe({
                     complete: () => {
                         this.helperService.doPostSaveFormTasks(this.messageDialogService.success(), 'ok', this.parentUrl, true)
                     },
@@ -225,7 +225,7 @@ export class InvoiceFormComponent {
 
     private flattenForm(): InvoiceWriteDto {
         return {
-            id: this.form.value.id != '' ? this.form.value.id : null,
+            expenseId: this.form.value.expenseId != '' ? this.form.value.expenseId : null,
             companyId: this.form.value.company.id,
             supplierId: this.form.value.supplier.id,
             documentTypeId: this.form.value.documentType.id,
@@ -274,7 +274,7 @@ export class InvoiceFormComponent {
 
     private initForm(): void {
         this.form = this.formBuilder.group({
-            id: '',
+            expenseId: '',
             date: ['', [Validators.required]],
             company: ['', [Validators.required, ValidationService.RequireAutocomplete]],
             supplier: ['', [Validators.required, ValidationService.RequireAutocomplete]],
@@ -320,7 +320,7 @@ export class InvoiceFormComponent {
     private populateFields(): void {
         if (this.invoice != undefined) {
             this.form.setValue({
-                id: this.invoice.id,
+                expenseId: this.invoice.expenseId,
                 date: this.invoice.date,
                 company: { 'id': this.invoice.company.id, 'description': this.invoice.company.description },
                 supplier: { 'id': this.invoice.supplier.id, 'description': this.invoice.supplier.description },
@@ -342,7 +342,7 @@ export class InvoiceFormComponent {
         return new Promise<void>((resolve) => {
             this.renameDocumentForm.patchValue({
                 oldfilename: file.name,
-                newfilename: this.form.value.id + ' ' + file.name
+                newfilename: this.form.value.expenseId + ' ' + file.name
             })
             this.invoiceHttpService.rename(this.renameDocumentForm.value).subscribe(x => {
                 resolve()
@@ -355,7 +355,7 @@ export class InvoiceFormComponent {
     }
 
     private saveRecord(invoice: InvoiceWriteDto): void {
-        this.invoiceHttpService.saveInvoice(invoice).subscribe({
+        this.invoiceHttpService.saveExpense(invoice).subscribe({
             next: (response) => {
                 this.helperService.doPostSaveFormTasks(
                     response.code == 200 ? this.messageDialogService.success() : '',

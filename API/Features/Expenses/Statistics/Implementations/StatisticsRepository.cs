@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using AutoMapper;
 using System.Threading.Tasks;
-using API.Features.Expenses.Transactions;
 using API.Features.Expenses.Suppliers;
+using API.Features.Expenses.Transactions;
 
 namespace API.Features.Expenses.Statistics {
 
@@ -24,7 +24,7 @@ namespace API.Features.Expenses.Statistics {
         }
 
         public async Task<IEnumerable<StatisticVM>> GetForStatisticsAsync(string fromDate, string toDate, int supplierId, int companyId) {
-            var records = await context.Transactions
+            var records = await context.Expenses
                 .AsNoTracking()
                 .Include(x => x.Supplier)
                 .Include(x => x.DocumentType)
@@ -35,7 +35,7 @@ namespace API.Features.Expenses.Statistics {
                     && x.IsDeleted == false)
                 .OrderBy(x => x.Date)
                 .ToListAsync();
-            return mapper.Map<IEnumerable<TransactionsBase>, IEnumerable<StatisticVM>>(records);
+            return mapper.Map<IEnumerable<Expense>, IEnumerable<StatisticVM>>(records);
         }
 
         public IEnumerable<StatisticVM> BuildBalanceForStatistics(IEnumerable<StatisticVM> records) {
@@ -125,13 +125,13 @@ namespace API.Features.Expenses.Statistics {
         }
 
         public async Task<IEnumerable<StatisticVM>> GetForBalanceAsync(int supplierId) {
-            var records = await context.Transactions
+            var records = await context.Expenses
                 .AsNoTracking()
                 .Include(x => x.Supplier)
                 .Include(x => x.DocumentType)
                 .Where(x => x.SupplierId == supplierId)
                 .ToListAsync();
-            return mapper.Map<IEnumerable<TransactionsBase>, IEnumerable<StatisticVM>>(records);
+            return mapper.Map<IEnumerable<Expense>, IEnumerable<StatisticVM>>(records);
         }
 
         private static StatisticVM BuildTotalLine(SupplierListVM supplier, decimal debit, decimal credit, decimal balance, string label) {

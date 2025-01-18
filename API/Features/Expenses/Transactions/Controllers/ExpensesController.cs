@@ -10,47 +10,47 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Features.Expenses.Invoices {
+namespace API.Features.Expenses.Transactions {
 
     [Route("api/[controller]")]
-    public class InvoicesController : ControllerBase {
+    public class ExpensesController : ControllerBase {
 
         #region variables
 
-        private readonly IInvoiceRepository invoiceRepo;
-        private readonly IInvoiceValidation invoiceValidation;
+        private readonly IExpenseRepository expenseRepo;
+        private readonly IExpenseValidation expenseValidation;
         private readonly IMapper mapper;
 
         #endregion
 
-        public InvoicesController(IInvoiceRepository invoiceRepo, IInvoiceValidation invoiceValidation, IMapper mapper) {
-            this.invoiceRepo = invoiceRepo;
-            this.invoiceValidation = invoiceValidation;
+        public ExpensesController(IExpenseRepository expenseRepo, IExpenseValidation expenseValidation, IMapper mapper) {
+            this.expenseRepo = expenseRepo;
+            this.expenseValidation = expenseValidation;
             this.mapper = mapper;
         }
 
         [HttpGet()]
         [Authorize(Roles = "user, admin")]
-        public async Task<IEnumerable<InvoiceListVM>> GetAsync() {
-            return await invoiceRepo.GetAsync(null);
+        public async Task<IEnumerable<ExpenseListVM>> GetAsync() {
+            return await expenseRepo.GetAsync(null);
         }
 
         [HttpGet("company/{companyId}")]
         [Authorize(Roles = "user, admin")]
-        public async Task<IEnumerable<InvoiceListVM>> GetByCompanyAsync(int companyId) {
-            return await invoiceRepo.GetAsync(companyId);
+        public async Task<IEnumerable<ExpenseListVM>> GetByCompanyAsync(int companyId) {
+            return await expenseRepo.GetAsync(companyId);
         }
 
-        [HttpGet("{invoiceId}")]
+        [HttpGet("{expenseId}")]
         [Authorize(Roles = "user, admin")]
-        public async Task<ResponseWithBody> GetByIdAsync(string invoiceId) {
-            var x = await invoiceRepo.GetByIdAsync(invoiceId, true);
+        public async Task<ResponseWithBody> GetByIdAsync(string expenseId) {
+            var x = await expenseRepo.GetByIdAsync(expenseId, true);
             if (x != null) {
                 return new ResponseWithBody {
                     Code = 200,
                     Icon = Icons.Info.ToString(),
                     Message = ApiMessages.OK(),
-                    Body = mapper.Map<Invoice, InvoiceReadDto>(x)
+                    Body = mapper.Map<Expense, ExpenseReadDto>(x)
                 };
             } else {
                 throw new CustomException() {
@@ -62,14 +62,14 @@ namespace API.Features.Expenses.Invoices {
         [HttpPost]
         [Authorize(Roles = "admin")]
         [ServiceFilter(typeof(ModelValidationAttribute))]
-        public async Task<Response> PostAsync([FromBody] InvoiceWriteDto invoice) {
-            var z = invoiceValidation.IsValidAsync(null, invoice);
+        public async Task<Response> PostAsync([FromBody] ExpenseWriteDto expense) {
+            var z = expenseValidation.IsValidAsync(null, expense);
             if (await z == 200) {
-                var x = invoiceRepo.Create(mapper.Map<InvoiceWriteDto, Invoice>((InvoiceWriteDto)invoiceRepo.AttachMetadataToPostDto(invoice)));
+                var x = expenseRepo.Create(mapper.Map<ExpenseWriteDto, Expense>((ExpenseWriteDto)expenseRepo.AttachMetadataToPostDto(expense)));
                 return new Response {
                     Code = 200,
                     Icon = Icons.Success.ToString(),
-                    Id = x.Id.ToString(),
+                    Id = x.ExpenseId.ToString(),
                     Message = ApiMessages.OK()
                 };
             } else {
@@ -82,16 +82,16 @@ namespace API.Features.Expenses.Invoices {
         [HttpPut]
         [Authorize(Roles = "admin")]
         [ServiceFilter(typeof(ModelValidationAttribute))]
-        public async Task<Response> PutAsync([FromBody] InvoiceWriteDto invoice) {
-            var x = await invoiceRepo.GetByIdAsync(invoice.Id.ToString(), false);
+        public async Task<Response> PutAsync([FromBody] ExpenseWriteDto expense) {
+            var x = await expenseRepo.GetByIdAsync(expense.ExpenseId.ToString(), false);
             if (x != null) {
-                var z = invoiceValidation.IsValidAsync(x, invoice);
+                var z = expenseValidation.IsValidAsync(x, expense);
                 if (await z == 200) {
-                    invoiceRepo.Update(invoice.Id, mapper.Map<InvoiceWriteDto, Invoice>((InvoiceWriteDto)invoiceRepo.AttachMetadataToPutDto(x, invoice)));
+                    expenseRepo.Update(expense.ExpenseId, mapper.Map<ExpenseWriteDto, Expense>((ExpenseWriteDto)expenseRepo.AttachMetadataToPutDto(x, expense)));
                     return new Response {
                         Code = 200,
                         Icon = Icons.Success.ToString(),
-                        Id = x.Id.ToString(),
+                        Id = x.ExpenseId.ToString(),
                         Message = ApiMessages.OK()
                     };
                 } else {
@@ -106,16 +106,16 @@ namespace API.Features.Expenses.Invoices {
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{expenseId}")]
         [Authorize(Roles = "admin")]
-        public async Task<Response> Delete([FromRoute] string id) {
-            var x = await invoiceRepo.GetByIdAsync(id, false);
+        public async Task<Response> Delete([FromRoute] string expenseId) {
+            var x = await expenseRepo.GetByIdAsync(expenseId, false);
             if (x != null) {
-                invoiceRepo.Delete(x);
+                expenseRepo.Delete(x);
                 return new Response {
                     Code = 200,
                     Icon = Icons.Success.ToString(),
-                    Id = x.Id.ToString(),
+                    Id = x.ExpenseId.ToString(),
                     Message = ApiMessages.OK()
                 };
             } else {
@@ -125,12 +125,12 @@ namespace API.Features.Expenses.Invoices {
             }
         }
 
-        [HttpGet("documents/{id}")]
+        [HttpGet("documents/{expenseId}")]
         [Authorize(Roles = "user, admin")]
-        public ResponseWithBody GetDocuments(string id) {
+        public ResponseWithBody GetDocuments(string expenseId) {
             DirectoryInfo directoryInfo = new(Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), Path.Combine("Uploaded Expenses"))));
             ArrayList documents = new();
-            foreach (var file in directoryInfo.GetFiles(id + "*.pdf")) {
+            foreach (var file in directoryInfo.GetFiles(expenseId + "*.pdf")) {
                 documents.Add(file.Name);
             }
             return new ResponseWithBody {
@@ -159,7 +159,7 @@ namespace API.Features.Expenses.Invoices {
 
         [HttpPost("rename")]
         [Authorize(Roles = "admin")]
-        public Response Rename([FromBody] RenameDocumentVM objectVM) {
+        public Response Rename([FromBody] ExpenseRenameDocumentVM objectVM) {
             var folderName = Path.Combine("Uploaded Expenses");
             var source = Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), folderName) + Path.DirectorySeparatorChar, objectVM.OldFilename);
             var target = Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), folderName) + Path.DirectorySeparatorChar, objectVM.NewFilename);
@@ -189,7 +189,7 @@ namespace API.Features.Expenses.Invoices {
         [HttpGet("openDocument/{filename}")]
         [Authorize(Roles = "user, admin")]
         public FileStreamResult OpenDocument(string filename) {
-            return invoiceRepo.OpenDocument(filename);
+            return expenseRepo.OpenDocument(filename);
         }
 
     }

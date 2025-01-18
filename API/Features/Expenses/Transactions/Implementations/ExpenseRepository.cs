@@ -14,22 +14,22 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.AspNetCore.Mvc;
 using System.IO;
 
-namespace API.Features.Expenses.Invoices {
+namespace API.Features.Expenses.Transactions {
 
-    public class InvoiceRepository : Repository<Invoice>, IInvoiceRepository {
+    public class ExpenseRepository : Repository<Expense>, IExpenseRepository {
 
         private readonly IMapper mapper;
         private readonly TestingEnvironment testingEnvironment;
 
-        public InvoiceRepository(AppDbContext context, IHttpContextAccessor httpContext, IMapper mapper, IOptions<TestingEnvironment> testingEnvironment, UserManager<UserExtended> userManager) : base(context, httpContext, testingEnvironment, userManager) {
+        public ExpenseRepository(AppDbContext context, IHttpContextAccessor httpContext, IMapper mapper, IOptions<TestingEnvironment> testingEnvironment, UserManager<UserExtended> userManager) : base(context, httpContext, testingEnvironment, userManager) {
             this.mapper = mapper;
             this.testingEnvironment = testingEnvironment.Value;
         }
 
-        public async Task<IEnumerable<InvoiceListVM>> GetAsync(int? companyId) {
-            var invoices = await context.Invoices
+        public async Task<IEnumerable<ExpenseListVM>> GetAsync(int? companyId) {
+            var expenses = await context.Expenses
                 .AsNoTracking()
-                .Where(x => x.DiscriminatorId != 1 || companyId == null || x.CompanyId == companyId)
+                .Where(x => companyId == null || x.CompanyId == companyId)
                 .Where(x => x.IsDeleted == false)
                 .Include(x => x.Company)
                 .Include(x => x.DocumentType)
@@ -37,26 +37,26 @@ namespace API.Features.Expenses.Invoices {
                 .Include(x => x.Supplier)
                 .OrderBy(x => x.Date)
                 .ToListAsync();
-            return mapper.Map<IEnumerable<Invoice>, IEnumerable<InvoiceListVM>>(invoices);
+            return mapper.Map<IEnumerable<Expense>, IEnumerable<ExpenseListVM>>(expenses);
         }
 
-        public async Task<Invoice> GetByIdAsync(string invoiceId, bool includeTables) {
+        public async Task<Expense> GetByIdAsync(string invoiceId, bool includeTables) {
             return includeTables
-                ? await context.Invoices
+                ? await context.Expenses
                     .AsNoTracking()
                     .Include(x => x.Company)
                     .Include(x => x.DocumentType)
                     .Include(x => x.PaymentMethod)
                     .Include(x => x.Supplier)
-                    .Where(x => x.Id.ToString() == invoiceId)
+                    .Where(x => x.ExpenseId.ToString() == invoiceId)
                     .SingleOrDefaultAsync()
-               : await context.Invoices
+               : await context.Expenses
                   .AsNoTracking()
-                  .Where(x => x.Id.ToString() == invoiceId)
+                  .Where(x => x.ExpenseId.ToString() == invoiceId)
                   .SingleOrDefaultAsync();
         }
 
-        public Invoice Update(Guid invoiceId, Invoice invoice) {
+        public Expense Update(Guid invoiceId, Expense invoice) {
             using var transaction = context.Database.BeginTransaction();
             UpdateInvoice(invoice);
             context.SaveChanges();
@@ -72,8 +72,8 @@ namespace API.Features.Expenses.Invoices {
             }
         }
 
-        private void UpdateInvoice(Invoice invoice) {
-            context.Invoices.Update(invoice);
+        private void UpdateInvoice(Expense expense) {
+            context.Expenses.Update(expense);
         }
 
         public FileStreamResult OpenDocument(string filename) {

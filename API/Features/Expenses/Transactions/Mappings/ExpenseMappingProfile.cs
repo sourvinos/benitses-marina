@@ -2,14 +2,14 @@ using API.Infrastructure.Classes;
 using API.Infrastructure.Helpers;
 using AutoMapper;
 
-namespace API.Features.Expenses.Invoices {
+namespace API.Features.Expenses.Transactions {
 
-    public class InvoiceMappingProfile : Profile {
+    public class ExpenseMappingProfile : Profile {
 
-        public InvoiceMappingProfile() {
+        public ExpenseMappingProfile() {
             // List
-            CreateMap<Invoice, InvoiceListVM>()
-                .ForMember(x => x.Id, x => x.MapFrom(x => x.Id.ToString()))
+            CreateMap<Expense, ExpenseListVM>()
+                .ForMember(x => x.ExpenseId, x => x.MapFrom(x => x.ExpenseId.ToString()))
                 .ForMember(x => x.Date, x => x.MapFrom(x => DateHelpers.DateToISOString(x.Date)))
                 .ForMember(x => x.Company, x => x.MapFrom(x => new SimpleEntity {
                     Id = x.Company.Id,
@@ -27,9 +27,9 @@ namespace API.Features.Expenses.Invoices {
                     Id = x.Supplier.Id,
                     Description = x.Supplier.Description
                 }))
-                .ForMember(x => x.HasDocument, x => x.MapFrom(x => InvoiceHelpers.HasDocument(x)));
+                .ForMember(x => x.HasDocument, x => x.MapFrom(x => ExpenseHelpers.HasDocument(x)));
             // GetById
-            CreateMap<Invoice, InvoiceReadDto>()
+            CreateMap<Expense, ExpenseReadDto>()
                 .ForMember(x => x.Date, x => x.MapFrom(x => DateHelpers.DateToISOString(x.Date)))
                 .ForMember(x => x.Company, x => x.MapFrom(x => new SimpleEntity {
                     Id = x.Company.Id,
@@ -48,8 +48,7 @@ namespace API.Features.Expenses.Invoices {
                     Description = x.PaymentMethod.Description
                 }));
             // Write reservation
-            CreateMap<InvoiceWriteDto, Invoice>()
-                .ForMember(x => x.DiscriminatorId, x => x.MapFrom(x => 1));
+            CreateMap<ExpenseWriteDto, Expense>();
         }
 
     }

@@ -10,11 +10,11 @@ import { environment } from 'src/environments/environment'
 export class InvoiceHttpService extends HttpDataService {
 
     constructor(httpClient: HttpClient) {
-        super(httpClient, environment.apiUrl + '/invoices')
+        super(httpClient, environment.apiUrl + '/expenses')
     }
 
-    public saveInvoice(formData: any): Observable<any> {
-        return formData.id == null
+    public saveExpense(formData: any): Observable<any> {
+        return formData.expenseId == null
             ? this.http.post<any>(this.url, formData)
             : this.http.put<any>(this.url, formData)
     }
