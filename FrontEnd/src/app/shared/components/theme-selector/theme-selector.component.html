@@ -1,5 +1,5 @@
 <div id="button-wrapper">
-    <button [style.color]="getIconColor()" (click)="onChangeTheme()" class="fab fab-with-no-background" mat-icon-button>
+    <button (click)="onChangeTheme()"class="fab fab-with-no-background" mat-icon-button [matTooltip]="getLabel('theme-menu-tooltip')" matTooltipPosition="right">
         <mat-icon class="input-suffix material-icons-outlined">{{ getThemeThumbnail() == "light" ? "dark_mode" : "light_mode" }}</mat-icon>
     </button>
 </div>

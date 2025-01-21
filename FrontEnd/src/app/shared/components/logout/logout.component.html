@@ -1,5 +1,5 @@
 <div *ngIf=isLoggedIn() id="button-wrapper">
-    <button [style.color]="getIconColor()" (click)="onLogoutRequest()" class="fab fab-with-no-background" mat-icon-button>
+    <button (click)="onLogoutRequest()" class="fab fab-with-no-background" mat-icon-button [matTooltip]="getLabel('logout-menu-tooltip')" matTooltipPosition="left">
         <mat-icon class="input-suffix material-icons-outlined">power_settings_new</mat-icon>
     </button>
 </div>

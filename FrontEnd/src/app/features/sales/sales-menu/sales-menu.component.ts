@@ -1,18 +1,19 @@
 import { Component } from '@angular/core'
 import { Router } from '@angular/router'
 // Custom
-import { CryptoService } from '../../services/crypto.service'
+import { CryptoService } from 'src/app/shared/services/crypto.service'
+import { InteractionService } from 'src/app/shared/services/interaction.service'
 import { Menu } from 'src/app/shared/classes/menu'
 import { MessageMenuService } from 'src/app/shared/services/message-menu.service'
 import { SessionStorageService } from 'src/app/shared/services/session-storage.service'
 
 @Component({
-    selector: 'main-menu',
-    templateUrl: './main-menu.component.html',
-    styleUrls: ['./main-menu.component.css']
+    selector: 'sales-menu',
+    templateUrl: './sales-menu.component.html',
+    styleUrls: ['./sales-menu.component.css']
 })
 
-export class MainMenuComponent {
+export class SalesMenuComponent {
 
     //#region variables
 
@@ -20,7 +21,7 @@ export class MainMenuComponent {
 
     //#endregion
 
-    constructor(private cryptoService: CryptoService, private messageMenuService: MessageMenuService, private router: Router, private sessionStorageService: SessionStorageService) { }
+    constructor(private cryptoService: CryptoService, private interactionService: InteractionService, private messageMenuService: MessageMenuService, private router: Router, private sessionStorageService: SessionStorageService) { }
 
     //#region lifecycle hooks
 
@@ -46,6 +47,10 @@ export class MainMenuComponent {
         return this.cryptoService.decrypt(this.sessionStorageService.getItem('isAdmin')) == 'true' ? true : false
     }
 
+    public isLoggedIn(): boolean {
+        return this.sessionStorageService.getItem('userId') ? true : false
+    }
+
     //#endregion
 
     //#region private methods
@@ -53,6 +58,7 @@ export class MainMenuComponent {
     private buildMenu(): void {
         this.messageMenuService.getMessages().then((response) => {
             this.createMenu(response)
+            this.subscribeToMenuLanguageChanges()
         })
     }
 
@@ -60,6 +66,12 @@ export class MainMenuComponent {
         this.menuItems = []
         items.forEach(item => {
             this.menuItems.push(item)
+        })
+    }
+
+    private subscribeToMenuLanguageChanges(): void {
+        this.interactionService.refreshMenus.subscribe(() => {
+            this.buildMenu()
         })
     }
 

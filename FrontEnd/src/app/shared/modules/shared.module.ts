@@ -16,7 +16,6 @@ import { InputTabStopDirective } from 'src/app/shared/directives/input-tabstop.d
 import { LoadingSpinnerComponent } from '../components/loading-spinner/loading-spinner.component'
 import { LogoComponent } from '../components/logo/logo.component'
 import { MainFooterComponent } from '../components/home/main-footer.component'
-import { MainMenuComponent } from '../components/main-menu/main-menu.component'
 import { MaterialModule } from './material.module'
 import { MetadataPanelComponent } from '../components/metadata-panel/metadata-panel.component'
 import { ModalDialogComponent } from '../components/modal-dialog/modal-dialog.component'
@@ -24,7 +23,9 @@ import { PadNumberPipe } from '../pipes/pad-number.pipe'
 import { PrettyPrintPipe } from '../pipes/json-pretty.pipe'
 import { PrimeNgModule } from './primeng.module'
 import { ReplaceZeroPipe } from '../pipes/replace-zero.pipe'
+import { ReservationsMenuComponent } from 'src/app/features/reservations/reservations-menu/reservations-menu.component'
 import { SafeStylePipe } from '../pipes/safe-style.pipe'
+import { SalesMenuComponent } from 'src/app/features/sales/sales-menu/sales-menu.component'
 import { TableTotalFilteredRecordsComponent } from '../components/table-total-filtered-records/table-total-filtered-records.component'
 import { ThemeSelectorComponent } from '../components/theme-selector/theme-selector.component'
 import { TrimStringPipe } from './../pipes/string-trim.pipe'
@@ -43,13 +44,14 @@ import { TrimStringPipe } from './../pipes/string-trim.pipe'
         LoadingSpinnerComponent,
         LogoComponent,
         MainFooterComponent,
-        MainMenuComponent,
         MetadataPanelComponent,
         ModalDialogComponent,
         PadNumberPipe,
         PrettyPrintPipe,
         ReplaceZeroPipe,
+        ReservationsMenuComponent,
         SafeStylePipe,
+        SalesMenuComponent,
         TableTotalFilteredRecordsComponent,
         ThemeSelectorComponent,
         TrimStringPipe
@@ -78,7 +80,6 @@ import { TrimStringPipe } from './../pipes/string-trim.pipe'
         LoadingSpinnerComponent,
         LogoComponent,
         MainFooterComponent,
-        MainMenuComponent,
         MaterialModule,
         MetadataPanelComponent,
         NgxCurrencyDirective,
@@ -87,7 +88,9 @@ import { TrimStringPipe } from './../pipes/string-trim.pipe'
         PrimeNgModule,
         ReactiveFormsModule,
         ReplaceZeroPipe,
+        ReservationsMenuComponent,
         RouterModule,
+        SalesMenuComponent,
         TableTotalFilteredRecordsComponent,
         ThemeSelectorComponent,
         TrimStringPipe

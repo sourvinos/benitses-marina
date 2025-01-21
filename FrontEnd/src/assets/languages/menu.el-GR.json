@@ -1,58 +1,58 @@
 [
     {
+        "id": "expenses-menu-tooltip",
+        "description": "Προμηθευτές & έξοδα"
+    },
+    {
         "id": "suppliers",
         "description": "Προμηθευτές"
     },
     {
         "id": "expenses",
-        "description": "Εξοδα & πληρωμές"
+        "description": "Ημερολόγιο εξόδων"
     },
     {
         "id": "ledger",
-        "description": "Καρτέλα προμηθευτή"
+        "description": "Καρτέλες προμηθευτών"
     },
     {
         "id": "balanceSheet",
         "description": "Ισοζύγιο προμηθευτών"
     },
     {
-        "id": "payments",
-        "description": "Πληρωμές"
+        "id": "statistics",
+        "description": "Τζίροι προμηθευτών"
     },
     {
-        "id": "ledger",
-        "description": "Καρτέλα προμηθευτή"
-    },
-    {
-        "id": "balanceSheet",
-        "description": "Ισοζύγιο προμηθευτών"
-    },
-    {
-        "id": "banks",
-        "description": "Τράπεζες"
-    },
-    {
-        "id": "documentTypes",
-        "description": "Τύποι παραστατικών"
-    },
-    {
-        "id": "paymentMethods",
-        "description": "Τρόποι πληρωμής"
+        "id": "reservations-menu-tooltip",
+        "description": "Σκάφη και ελλιμενισμοί"
     },
     {
         "id": "insurance-policies",
-        "description": "Insurance terminations"
+        "description": "Ασφαλιστήρια"
     },
     {
         "id": "lease-terminations",
-        "description": "Lease terminations"
+        "description": "Λήξεις συμβάσεων"
     },
     {
         "id": "reservations",
-        "description": "Reservations"
+        "description": "Κρατήσεις"
     },
     {
         "id": "current-status",
-        "description": "Current status"
+        "description": "Τρέχουσα εικόνα"
+    },
+    {
+        "id": "theme-menu-tooltip",
+        "description": "Αλλαγή χρώματος φόντου"
+    },
+    {
+        "id": "logout-menu-tooltip",
+        "description": "Αποσύνδεση χρήστη"
+    },
+    {
+        "id": "user-menu-tooltip",
+        "description": "Στοιχεία χρήστη"
     }
 ]

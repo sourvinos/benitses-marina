@@ -13,7 +13,3 @@
     font-weight: 300;
     transition: color var(--theme-delay);
 }
-
-#connected-user:hover {
-    cursor: pointer;
-}

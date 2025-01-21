@@ -1,6 +1,8 @@
-<div *ngIf=isLoggedIn()>
-    <div (click)="onEditConnectedUser()" class="transparent" id="connected-user" mat-flat-button>
-        <mat-icon class="material-symbols-outlined">account_circle</mat-icon>
+<div *ngIf=isLoggedIn() id="button-wrapper">
+    <div id="connected-user">
+        <button (click)="onEditConnectedUser()" class="fab fab-with-no-background" mat-icon-button [matTooltip]="getLabel('user-menu-tooltip')" matTooltipPosition="left">
+            <mat-icon class="input-suffix material-icons-outlined">account_circle</mat-icon>
+        </button>
         <span>{{ getDisplayName() }}</span>
     </div>
 </div>

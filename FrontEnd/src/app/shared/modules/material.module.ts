@@ -18,6 +18,7 @@ import { MatSelectModule } from '@angular/material/select'
 import { MatSidenavModule } from '@angular/material/sidenav'
 import { MatSliderModule } from '@angular/material/slider'
 import { MatTabsModule } from '@angular/material/tabs'
+import { MatTooltipModule } from '@angular/material/tooltip'
 // Custom
 import { CustomDateAdapter } from '../adapters/custom-date-adapter'
 
@@ -40,7 +41,8 @@ import { CustomDateAdapter } from '../adapters/custom-date-adapter'
         MatSelectModule,
         MatSidenavModule,
         MatSliderModule,
-        MatTabsModule
+        MatTabsModule,
+        MatTooltipModule
     ],
     providers: [
         { provide: DateAdapter, useClass: CustomDateAdapter },
