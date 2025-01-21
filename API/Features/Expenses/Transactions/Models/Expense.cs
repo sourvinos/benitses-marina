@@ -1,7 +1,7 @@
 using System;
+using API.Features.Common.PaymentMethods;
 using API.Features.Expenses.Companies;
 using API.Features.Expenses.DocumentTypes;
-using API.Features.Expenses.PaymentMethods;
 using API.Features.Expenses.Suppliers;
 using API.Infrastructure.Interfaces;
 

@@ -54,5 +54,17 @@
     {
         "id": "user-menu-tooltip",
         "description": "Στοιχεία χρήστη"
+    },
+    {
+        "id": "sales-menu-tooltip",
+        "description": "Πωλήσεις υπηρεσιών"
+    },
+    {
+        "id": "customers",
+        "description": "Πελάτες"
+    },
+    {
+        "id": "prices",
+        "description": "Τιμοκατάλογοι"
     }
 ]

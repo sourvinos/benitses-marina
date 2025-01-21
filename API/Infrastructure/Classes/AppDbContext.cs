@@ -16,9 +16,11 @@ using API.Features.Expenses.DocumentTypes;
 using API.Features.Expenses.Companies;
 using API.Features.Expenses.Banks;
 using API.Features.Expenses.BalanceFilters;
-using API.Features.Expenses.PaymentMethods;
 using API.Features.Expenses.Suppliers;
 using API.Features.Reservations.Transactions;
+using API.Features.Sales.Transactions;
+using API.Features.Sales.DocumentTypes;
+using API.Features.Common.PaymentMethods;
 
 namespace API.Infrastructure.Classes {
 
@@ -26,20 +28,16 @@ namespace API.Infrastructure.Classes {
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        #region Expenses
-
+        #region expenses
         public DbSet<BalanceFilter> BalanceFilters { get; set; }
         public DbSet<Bank> Banks { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<DocumentType> DocumentTypes { get; set; }
         public DbSet<Expense> Expenses { get; set; }
-        public DbSet<PaymentMethod> PaymentMethods { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
-
         #endregion
 
-        #region Reservations
-
+        #region reservations
         public DbSet<Berth> Berths { get; set; }
         public DbSet<BoatType> BoatTypes { get; set; }
         public DbSet<BoatUsage> BoatUsages { get; set; }
@@ -51,17 +49,21 @@ namespace API.Infrastructure.Classes {
         public DbSet<ReservationFee> ReservationFeeDetails { get; set; }
         public DbSet<ReservationInsurance> ReservationInsuranceDetails { get; set; }
         public DbSet<ReservationOwner> ReservationOwnerDetails { get; set; }
-        public DbSet<Token> Tokens { get; set; }
-
         #endregion
 
-        #region Sales
-
+        #region sales
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<SaleDocumentType> SaleDocumentTypes { get; set; }
         public DbSet<Nationality> Nationalities { get; set; }
-        public DbSet<TaxOffice> TaxOffices { get; set; }
         public DbSet<Price> Prices { get; set; }
+        public DbSet<Sale> Sales { get; set; }
+        public DbSet<SaleAade> SalesAade { get; set; }
+        public DbSet<TaxOffice> TaxOffices { get; set; }
+        #endregion
 
+        #region common
+        public DbSet<Token> Tokens { get; set; }
+        public DbSet<PaymentMethod> PaymentMethods { get; set; }
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
@@ -72,22 +74,23 @@ namespace API.Infrastructure.Classes {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
 
         private static void ApplyConfigurations(ModelBuilder modelBuilder) {
-            #region Expenses
+            #region expenses
             modelBuilder.ApplyConfiguration(new BanksConfig());
             modelBuilder.ApplyConfiguration(new DocumentTypesConfig());
             modelBuilder.ApplyConfiguration(new ExpenseConfig());
-            modelBuilder.ApplyConfiguration(new PaymentMethodsConfig());
             modelBuilder.ApplyConfiguration(new SuppliersConfig());
             #endregion
-            #region Reservations
+            #region reservations
             modelBuilder.ApplyConfiguration(new BerthsConfig());
             modelBuilder.ApplyConfiguration(new BoatTypesConfig());
             modelBuilder.ApplyConfiguration(new BoatUsagesConfig());
             modelBuilder.ApplyConfiguration(new ReservationBerthsConfig());
             modelBuilder.ApplyConfiguration(new ReservationsConfig());
+            #endregion
+            #region common
+            modelBuilder.ApplyConfiguration(new PaymentMethodsConfig());
             modelBuilder.ApplyConfiguration(new UsersConfig());
             #endregion
-
         }
 
     }

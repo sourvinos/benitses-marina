@@ -7,7 +7,6 @@ using API.Features.BoatTypes;
 using API.Features.BoatUsages;
 using API.Features.Leases;
 using API.Features.Expenses.Banks;
-using API.Features.Expenses.PaymentMethods;
 using API.Features.Expenses.Suppliers;
 using API.Features.Reservations.PaymentStatuses;
 using API.Features.Expenses.DocumentTypes;
@@ -22,6 +21,8 @@ using API.Features.Sales.Prices;
 using API.Features.Expenses.Statistics;
 using API.Features.Expenses.Transactions;
 using API.Features.Reservations.Transactions;
+using API.Features.Sales.Transactions;
+using API.Features.Common.PaymentMethods;
 
 namespace API.Infrastructure.Extensions {
 
@@ -40,8 +41,6 @@ namespace API.Infrastructure.Extensions {
             services.AddTransient<IExpenseRepository, ExpenseRepository>();
             services.AddTransient<IExpenseValidation, ExpenseValidation>();
             services.AddTransient<ILedgerRepository, LedgerRepository>();
-            services.AddTransient<IPaymentMethodRepository, PaymentMethodRepository>();
-            services.AddTransient<IPaymentMethodValidation, PaymentMethodValidation>();
             services.AddTransient<IPaymentStatusValidation, PaymentStatusValidation>();
             services.AddTransient<IStatisticsRepository, StatisticsRepository>();
             services.AddTransient<ISupplierRepository, SupplierRepository>();
@@ -49,36 +48,41 @@ namespace API.Infrastructure.Extensions {
             #endregion
             #region reservations
             services.AddTransient<IBerthRepository, BerthRepository>();
+            services.AddTransient<IBerthValidation, BerthValidation>();
             services.AddTransient<IBoatTypeRepository, BoatTypeRepository>();
+            services.AddTransient<IBoatTypeValidation, BoatTypeValidation>();
             services.AddTransient<IBoatUsageRepository, BoatUsageRepository>();
+            services.AddTransient<IBoatUsageValidation, BoatUsageValidation>();
             services.AddTransient<IInsurancePolicyRepository, InsurancePolicyRepository>();
             services.AddTransient<ILeasePdfRepository, LeasePdfRepository>();
             services.AddTransient<ILeaseRepository, LeaseRepository>();
             services.AddTransient<IPaymentStatusRepository, PaymentStatusRepository>();
             services.AddTransient<IReservationRepository, ReservationRepository>();
-            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IReservationValidation, ReservationValidation>();
             #endregion
-            #region Sales
+            #region sales
             services.AddTransient<ICustomerAadeRepository, CustomerAadeRepository>();
             services.AddTransient<ICustomerRepository, CustomerRepository>();
             services.AddTransient<ICustomerValidation, CustomerValidation>();
             services.AddTransient<INationalityRepository, NationalityRepository>();
             services.AddTransient<ITaxOfficeRepository, TaxOfficeRepository>();
             services.AddTransient<ITaxOfficeValidation, TaxOfficeValidation>();
-            #endregion
-            #region validations
-            services.AddTransient<IBerthValidation, BerthValidation>();
-            services.AddTransient<IBoatTypeValidation, BoatTypeValidation>();
-            services.AddTransient<IBoatUsageValidation, BoatUsageValidation>();
-            services.AddTransient<IReservationValidation, ReservationValidation>();
-            #endregion
-            #region sales
+            services.AddTransient<ISaleCalculateBalanceRepo, InvoiceCalculateBalanceRepo>();
+            services.AddTransient<ISaleEmailSender, InvoiceEmailSender>();
+            services.AddTransient<ISalePdfRepository, InvoicePdfRepository>();
+            services.AddTransient<ISaleReadRepository, InvoiceReadRepository>();
+            services.AddTransient<ISaleUpdateRepository, InvoiceUpdateRepository>();
+            services.AddTransient<ISaleValidation, InvoiceValidation>();
+            services.AddTransient<ISaleXmlRepository, InvoiceXmlRepository>();
             services.AddTransient<IPriceRepository, PriceRepository>();
             services.AddTransient<IPriceValidation, PriceValidation>();
             #endregion
-            #region shared
+            #region common
             services.AddScoped<Token>();
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<IPaymentMethodRepository, PaymentMethodRepository>();
+            services.AddTransient<IPaymentMethodValidation, PaymentMethodValidation>();
+            services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IUserValidation<IUser>, UserValidation>();
             #endregion
         }
