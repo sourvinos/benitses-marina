@@ -7,9 +7,9 @@ using Microsoft.Extensions.Options;
 
 namespace API.Features.Sales.DocumentTypes {
 
-    public class DocumentTypeValidation : Repository<SaleDocumentType>, ISaleDocumentTypeValidation {
+    public class SaleDocumentTypeValidation : Repository<SaleDocumentType>, ISaleDocumentTypeValidation {
 
-        public DocumentTypeValidation(AppDbContext appDbContext, IHttpContextAccessor httpContext, IOptions<TestingEnvironment> settings, UserManager<UserExtended> userManager) : base(appDbContext, httpContext, settings, userManager) { }
+        public SaleDocumentTypeValidation(AppDbContext appDbContext, IHttpContextAccessor httpContext, IOptions<TestingEnvironment> settings, UserManager<UserExtended> userManager) : base(appDbContext, httpContext, settings, userManager) { }
 
         public int IsValid(SaleDocumentType z, SaleDocumentTypeWriteDto documentType) {
             return true switch {

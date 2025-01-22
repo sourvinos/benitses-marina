@@ -21,17 +21,15 @@ namespace API.Infrastructure.Users {
         private readonly IHttpContextAccessor httpContext;
         private readonly IMapper mapper;
         private readonly IUserRepository userRepo;
-        private readonly IUserValidation<IUser> userValidation;
 
         #endregion
 
-        public UsersController(IEmailSender emailSender, IHttpContextAccessor httpContext, IMapper mapper, IOptions<EnvironmentSettings> environmentSettings, IUserRepository userRepo, IUserValidation<IUser> userValidation) {
+        public UsersController(IEmailSender emailSender, IHttpContextAccessor httpContext, IMapper mapper, IOptions<EnvironmentSettings> environmentSettings, IUserRepository userRepo) {
             this.emailSender = emailSender;
             this.environmentSettings = environmentSettings.Value;
             this.httpContext = httpContext;
             this.mapper = mapper;
             this.userRepo = userRepo;
-            this.userValidation = userValidation;
         }
 
         [HttpGet]
@@ -45,7 +43,7 @@ namespace API.Infrastructure.Users {
         public async Task<ResponseWithBody> GetByIdAsync(string id) {
             var x = await userRepo.GetByIdAsync(id);
             if (x != null) {
-                if (Identity.IsUserAdmin(httpContext) || userValidation.IsUserOwner(x.Id)) {
+                if (Identity.IsUserAdmin(httpContext)) {
                     return new ResponseWithBody {
                         Code = 200,
                         Icon = Icons.Info.ToString(),
@@ -56,7 +54,8 @@ namespace API.Infrastructure.Users {
                     throw new CustomException() {
                         ResponseCode = 490
                     };
-                };
+                }
+                ;
             } else {
                 throw new CustomException() {
                     ResponseCode = 404
@@ -86,13 +85,9 @@ namespace API.Infrastructure.Users {
                 if (Identity.IsUserAdmin(httpContext)) {
                     return await UpdateAdmin(user, userToUpdate);
                 } else {
-                    if (userValidation.IsUserOwner(user.Id)) {
-                        return await UpdateSimpleUser(user, userToUpdate);
-                    } else {
-                        throw new CustomException() {
-                            ResponseCode = 490
-                        };
-                    }
+                    throw new CustomException() {
+                        ResponseCode = 490
+                    };
                 }
             } else {
                 throw new CustomException() {
@@ -158,7 +153,8 @@ namespace API.Infrastructure.Users {
                 throw new CustomException() {
                     ResponseCode = 492
                 };
-            };
+            }
+            ;
         }
 
         private static string SetLogoTextAsBackground() {

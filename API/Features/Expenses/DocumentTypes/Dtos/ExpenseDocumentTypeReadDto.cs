@@ -2,7 +2,7 @@ using API.Infrastructure.Interfaces;
 
 namespace API.Features.Expenses.DocumentTypes {
 
-    public class DocumentTypeReadDto : IBaseEntity, IMetadata {
+    public class ExpenseDocumentTypeReadDto : IBaseEntity, IMetadata {
 
         // PK
         public int Id { get; set; }

@@ -12,35 +12,35 @@ using Microsoft.Extensions.Options;
 
 namespace API.Features.Expenses.DocumentTypes {
 
-    public class DocumentTypeRepository : Repository<DocumentType>, IDocumentTypeRepository {
+    public class ExpenseDocumentTypeRepository : Repository<ExpenseDocumentType>, IExpenseDocumentTypeRepository {
 
         private readonly IMapper mapper;
 
-        public DocumentTypeRepository(AppDbContext appDbContext, IHttpContextAccessor httpContext, IMapper mapper, IOptions<TestingEnvironment> settings, UserManager<UserExtended> userManager) : base(appDbContext, httpContext, settings, userManager) {
+        public ExpenseDocumentTypeRepository(AppDbContext appDbContext, IHttpContextAccessor httpContext, IMapper mapper, IOptions<TestingEnvironment> settings, UserManager<UserExtended> userManager) : base(appDbContext, httpContext, settings, userManager) {
             this.mapper = mapper;
         }
 
-        public async Task<IEnumerable<DocumentTypeListVM>> GetAsync() {
+        public async Task<IEnumerable<ExpenseDocumentTypeListVM>> GetAsync() {
             var DocumentTypes = await context.DocumentTypes
                 .AsNoTracking()
                 .OrderBy(x => x.Description)
                 .ToListAsync();
-            return mapper.Map<IEnumerable<DocumentType>, IEnumerable<DocumentTypeListVM>>(DocumentTypes);
+            return mapper.Map<IEnumerable<ExpenseDocumentType>, IEnumerable<ExpenseDocumentTypeListVM>>(DocumentTypes);
         }
 
-        public async Task<IEnumerable<DocumentTypeBrowserVM>> GetForBrowserAsync() {
+        public async Task<IEnumerable<ExpenseDocumentTypeBrowserVM>> GetForBrowserAsync() {
             var DocumentTypes = await context.DocumentTypes
                 .AsNoTracking()
                 .OrderBy(x => x.Id)
                 .ToListAsync();
-            return mapper.Map<IEnumerable<DocumentType>, IEnumerable<DocumentTypeBrowserVM>>(DocumentTypes);
+            return mapper.Map<IEnumerable<ExpenseDocumentType>, IEnumerable<ExpenseDocumentTypeBrowserVM>>(DocumentTypes);
         }
 
-        public async Task<DocumentTypeBrowserVM> GetByIdForBrowserAsync(int id) {
+        public async Task<ExpenseDocumentTypeBrowserVM> GetByIdForBrowserAsync(int id) {
             var record = await context.DocumentTypes
                 .AsNoTracking()
                 .SingleOrDefaultAsync(x => x.Id == id);
-            return mapper.Map<DocumentType, DocumentTypeBrowserVM>(record);
+            return mapper.Map<ExpenseDocumentType, ExpenseDocumentTypeBrowserVM>(record);
         }
 
         public async Task<IEnumerable<SimpleEntity>> GetForCriteriaAsync() {
@@ -48,10 +48,10 @@ namespace API.Features.Expenses.DocumentTypes {
                 .AsNoTracking()
                 .OrderBy(x => x.Description)
                 .ToListAsync();
-            return mapper.Map<IEnumerable<DocumentType>, IEnumerable<SimpleEntity>>(DocumentTypes);
+            return mapper.Map<IEnumerable<ExpenseDocumentType>, IEnumerable<SimpleEntity>>(DocumentTypes);
         }
 
-        public async Task<DocumentType> GetByIdAsync(int id, bool includeTables) {
+        public async Task<ExpenseDocumentType> GetByIdAsync(int id, bool includeTables) {
             return includeTables
                 ? await context.DocumentTypes
                     .AsNoTracking()

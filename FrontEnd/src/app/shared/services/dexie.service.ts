@@ -18,7 +18,7 @@ export class DexieService extends Dexie {
             companies: 'id, description',
             companiesCriteria: 'id, description',
             customers: 'id, description',
-            documentTypes: 'id, description',
+            expensesDocumentTypes: 'id, description',
             nationalities: 'id, description',
             paymentMethods: 'id, description',
             paymentStatuses: 'id, description',

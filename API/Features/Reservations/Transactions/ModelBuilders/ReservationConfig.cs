@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace API.Features.Reservations.Transactions {
 
-    internal class ReservationsConfig : IEntityTypeConfiguration<Reservation> {
+    internal class ReservationConfig : IEntityTypeConfiguration<Reservation> {
 
         public void Configure(EntityTypeBuilder<Reservation> entity) {
             // PK

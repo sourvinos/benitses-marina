@@ -2,10 +2,12 @@ using FluentValidation;
 
 namespace API.Features.Sales.DocumentTypes {
 
-    public class DocumentTypeValidator : AbstractValidator<SaleDocumentTypeWriteDto> {
+    public class SaleDocumentTypeValidator : AbstractValidator<SaleDocumentTypeWriteDto> {
 
-        public DocumentTypeValidator() {
+        public SaleDocumentTypeValidator() {
+            // PK
             RuleFor(x => x.ShipOwnerId).NotEmpty();
+            // Fields
             RuleFor(x => x.Abbreviation).NotEmpty().MaximumLength(5);
             RuleFor(x => x.AbbreviationEn).NotEmpty().MaximumLength(5);
             RuleFor(x => x.Description).NotEmpty().MaximumLength(128);

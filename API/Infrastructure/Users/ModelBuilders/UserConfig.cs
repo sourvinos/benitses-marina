@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace API.Infrastructure.Users {
 
-    internal class UsersConfig : IEntityTypeConfiguration<UserExtended> {
+    internal class UserConfig : IEntityTypeConfiguration<UserExtended> {
 
         public void Configure(EntityTypeBuilder<UserExtended> entity) {
             // PK

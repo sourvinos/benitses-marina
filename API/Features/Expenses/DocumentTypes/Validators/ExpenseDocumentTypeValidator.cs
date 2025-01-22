@@ -2,9 +2,9 @@ using FluentValidation;
 
 namespace API.Features.Expenses.DocumentTypes {
 
-    public class DocumentTypeValidator : AbstractValidator<DocumentTypeWriteDto> {
+    public class ExpenseDocumentTypeValidator : AbstractValidator<ExpenseDocumentTypeWriteDto> {
 
-        public DocumentTypeValidator() {
+        public ExpenseDocumentTypeValidator() {
             RuleFor(x => x.Description).NotEmpty().MaximumLength(128);
         }
 

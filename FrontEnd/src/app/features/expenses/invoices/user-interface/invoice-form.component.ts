@@ -312,7 +312,7 @@ export class InvoiceFormComponent {
 
     private populateDropdowns(): void {
         this.populateDropdownFromDexieDB('companies', 'dropdownCompanies', 'company', 'description', 'description')
-        this.populateDropdownFromDexieDB('documentTypes', 'dropdownDocumentTypes', 'documentType', 'description', 'description')
+        this.populateDropdownFromDexieDB('expensesDocumentTypes', 'dropdownDocumentTypes', 'documentType', 'description', 'description')
         this.populateDropdownFromDexieDB('paymentMethods', 'dropdownPaymentMethods', 'paymentMethod', 'description', 'description')
         this.populateDropdownFromDexieDB('suppliers', 'dropdownSuppliers', 'supplier', 'description', 'description')
     }

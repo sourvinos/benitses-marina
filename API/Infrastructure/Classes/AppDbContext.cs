@@ -31,7 +31,7 @@ namespace API.Infrastructure.Classes {
         public DbSet<BalanceFilter> BalanceFilters { get; set; }
         public DbSet<Bank> Banks { get; set; }
         public DbSet<Company> Companies { get; set; }
-        public DbSet<DocumentType> DocumentTypes { get; set; }
+        public DbSet<ExpenseDocumentType> DocumentTypes { get; set; }
         public DbSet<Expense> Expenses { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
         #endregion
@@ -72,25 +72,25 @@ namespace API.Infrastructure.Classes {
 
         private static void ApplyConfigurations(ModelBuilder modelBuilder) {
             #region expenses
-            modelBuilder.ApplyConfiguration(new BanksConfig());
-            modelBuilder.ApplyConfiguration(new DocumentTypesConfig());
+            modelBuilder.ApplyConfiguration(new BankConfig());
+            modelBuilder.ApplyConfiguration(new ExpenseDocumentTypeConfig());
             modelBuilder.ApplyConfiguration(new ExpenseConfig());
-            modelBuilder.ApplyConfiguration(new SuppliersConfig());
+            modelBuilder.ApplyConfiguration(new SupplierConfig());
             #endregion
             #region reservations
-            modelBuilder.ApplyConfiguration(new BerthsConfig());
-            modelBuilder.ApplyConfiguration(new BoatTypesConfig());
-            modelBuilder.ApplyConfiguration(new BoatUsagesConfig());
-            modelBuilder.ApplyConfiguration(new ReservationBerthsConfig());
-            modelBuilder.ApplyConfiguration(new ReservationsConfig());
+            modelBuilder.ApplyConfiguration(new BerthConfig());
+            modelBuilder.ApplyConfiguration(new BoatTypeConfig());
+            modelBuilder.ApplyConfiguration(new BoatUsageConfig());
+            modelBuilder.ApplyConfiguration(new ReservationBerthConfig());
+            modelBuilder.ApplyConfiguration(new ReservationConfig());
             #endregion
             #region common
-            modelBuilder.ApplyConfiguration(new PaymentMethodsConfig());
-            modelBuilder.ApplyConfiguration(new UsersConfig());
+            modelBuilder.ApplyConfiguration(new PaymentMethodConfig());
+            modelBuilder.ApplyConfiguration(new UserConfig());
             #endregion
             #region sales
             modelBuilder.ApplyConfiguration(new CustomerConfig());
-            modelBuilder.ApplyConfiguration(new PricesConfig());
+            modelBuilder.ApplyConfiguration(new PriceConfig());
             modelBuilder.ApplyConfiguration(new SaleDocumentTypeConfig());
             modelBuilder.ApplyConfiguration(new TaxOfficeConfig());
             #endregion

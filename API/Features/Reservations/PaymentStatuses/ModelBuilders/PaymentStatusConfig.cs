@@ -1,11 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace API.Features.Reservations.Berths {
+namespace API.Features.Reservations.PaymentStatuses {
 
-    internal class BerthsConfig : IEntityTypeConfiguration<Berth> {
+    internal class PaymentStatusConfig : IEntityTypeConfiguration<PaymentStatus> {
 
-        public void Configure(EntityTypeBuilder<Berth> entity) {
+        public void Configure(EntityTypeBuilder<PaymentStatus> entity) {
             // PK
             entity.Property(x => x.Id).ValueGeneratedOnAdd();
             // Fields

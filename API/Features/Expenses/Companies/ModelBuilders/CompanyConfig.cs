@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace API.Features.Expenses.Companies {
 
-    internal class CompaniesConfig : IEntityTypeConfiguration<Company> {
+    internal class CompanyConfig : IEntityTypeConfiguration<Company> {
 
         public void Configure(EntityTypeBuilder<Company> entity) {
             // PK

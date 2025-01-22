@@ -4,7 +4,9 @@ namespace API.Features.Sales.DocumentTypes {
 
     public class SaleDocumentType : IMetadata {
 
+        // PK
         public int Id { get; set; }
+        // Fields
         public string Abbreviation { get; set; }
         public string AbbreviationEn { get; set; }
         public string Description { get; set; }
@@ -19,6 +21,7 @@ namespace API.Features.Sales.DocumentTypes {
         public string Table8_1 { get; set; }
         public string Table8_8 { get; set; }
         public string Table8_9 { get; set; }
+        // Metadata
         public string PostAt { get; set; }
         public string PostUser { get; set; }
         public string PutAt { get; set; }

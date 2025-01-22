@@ -4,7 +4,7 @@ namespace API.Features.Sales.DocumentTypes {
 
     public interface ISaleDocumentTypeValidation : IRepository<SaleDocumentType> {
 
-        int IsValid(SaleDocumentType x, SaleDocumentTypeWriteDto DocumentType);
+        int IsValid(SaleDocumentType x, SaleDocumentTypeWriteDto documentType);
 
     }
 

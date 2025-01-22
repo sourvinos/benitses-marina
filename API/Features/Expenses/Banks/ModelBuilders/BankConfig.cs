@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace API.Features.Expenses.Banks {
 
-    internal class BanksConfig : IEntityTypeConfiguration<Bank> {
+    internal class BankConfig : IEntityTypeConfiguration<Bank> {
 
         public void Configure(EntityTypeBuilder<Bank> entity) {
             // PK

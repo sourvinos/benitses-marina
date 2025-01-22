@@ -1,15 +1,16 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace API.Features.Reservations.PaymentStatuses {
+namespace API.Features.Expenses.DocumentTypes {
 
-    internal class PaymentStatusesConfig : IEntityTypeConfiguration<PaymentStatus> {
+    internal class ExpenseDocumentTypeConfig : IEntityTypeConfiguration<ExpenseDocumentType> {
 
-        public void Configure(EntityTypeBuilder<PaymentStatus> entity) {
+        public void Configure(EntityTypeBuilder<ExpenseDocumentType> entity) {
             // PK
             entity.Property(x => x.Id).ValueGeneratedOnAdd();
             // Fields
             entity.Property(x => x.Description).HasMaxLength(128).IsRequired(true);
+            entity.Property(x => x.IsStatistic);
             entity.Property(x => x.IsActive);
             // Metadata
             entity.Property(x => x.PostAt).HasMaxLength(19).IsRequired(true);

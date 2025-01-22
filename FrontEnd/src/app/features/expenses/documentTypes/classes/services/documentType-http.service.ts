@@ -8,14 +8,14 @@ import { environment } from 'src/environments/environment'
 
 @Injectable({ providedIn: 'root' })
 
-export class DocumentTypeHttpService extends HttpDataService {
+export class ExpensesDocumentTypeHttpService extends HttpDataService {
 
     constructor(httpClient: HttpClient) {
-        super(httpClient, environment.apiUrl + '/documentTypes')
+        super(httpClient, environment.apiUrl + '/expenseDocumentTypes')
     }
 
     public getForBrowser(): Observable<DocumentTypeBrowserStorageVM[]> {
-        return this.http.get<DocumentTypeBrowserStorageVM[]>(environment.apiUrl + '/documentTypes/getForBrowser')
+        return this.http.get<DocumentTypeBrowserStorageVM[]>(environment.apiUrl + '/expenseDocumentTypes/getForBrowser')
     }
 
 }

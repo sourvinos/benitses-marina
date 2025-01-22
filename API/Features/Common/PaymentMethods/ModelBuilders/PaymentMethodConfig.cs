@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace API.Features.Common.PaymentMethods {
 
-    internal class PaymentMethodsConfig : IEntityTypeConfiguration<PaymentMethod> {
+    internal class PaymentMethodConfig : IEntityTypeConfiguration<PaymentMethod> {
 
         public void Configure(EntityTypeBuilder<PaymentMethod> entity) {
             // PK

@@ -7,9 +7,9 @@ using Microsoft.Extensions.Options;
 
 namespace API.Features.Sales.TaxOffices {
 
-    public class TaxOfficeValidation : Repository<TaxOffice>, ITaxOfficeValidation {
+    public class TaxOfficeValidator : Repository<TaxOffice>, ITaxOfficeValidation {
 
-        public TaxOfficeValidation(AppDbContext appDbContext, IHttpContextAccessor httpContext, IOptions<TestingEnvironment> settings, UserManager<UserExtended> userManager) : base(appDbContext, httpContext, settings, userManager) { }
+        public TaxOfficeValidator(AppDbContext appDbContext, IHttpContextAccessor httpContext, IOptions<TestingEnvironment> settings, UserManager<UserExtended> userManager) : base(appDbContext, httpContext, settings, userManager) { }
 
         public int IsValid(TaxOffice z, TaxOfficeWriteDto taxOffice) {
             return true switch {

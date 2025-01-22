@@ -3,15 +3,15 @@ import { Component } from '@angular/core'
 import { DateAdapter } from '@angular/material/core'
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms'
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete'
-import { Observable, map, startWith } from 'rxjs'
+import { Observable } from 'rxjs'
 // Custom
 import { DexieService } from 'src/app/shared/services/dexie.service'
 import { DialogService } from 'src/app/shared/services/modal-dialog.service'
 import { DocumentTypeHelperService } from '../classes/services/docymentType-helper.service'
-import { DocumentTypeHttpService } from '../classes/services/documentType-http.service'
 import { DocumentTypeReadDto } from '../classes/dtos/documentType-read-dto'
 import { DocumentTypeWriteDto } from '../classes/dtos/documentType-write-dto'
 import { EmojiService } from 'src/app/shared/services/emoji.service'
+import { ExpensesDocumentTypeHttpService } from '../classes/services/documentType-http.service'
 import { FormResolved } from 'src/app/shared/classes/form-resolved'
 import { HelperService } from 'src/app/shared/services/helper.service'
 import { InputTabStopDirective } from 'src/app/shared/directives/input-tabstop.directive'
@@ -22,7 +22,6 @@ import { MessageInputHintService } from 'src/app/shared/services/message-input-h
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
 import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 import { ValidationService } from 'src/app/shared/services/validation.service'
-import { environment } from 'src/environments/environment'
 
 @Component({
     selector: 'documentType-form',
@@ -54,7 +53,7 @@ export class DocumentTypeFormComponent {
     //#endregion
 
 
-    constructor(private activatedRoute: ActivatedRoute, private documentTypeHelperService: DocumentTypeHelperService, private documentTypeHttpService: DocumentTypeHttpService, private dateAdapter: DateAdapter<any>, private dexieService: DexieService, private dialogService: DialogService, private emojiService: EmojiService, private formBuilder: FormBuilder, private helperService: HelperService, private interactionService: InteractionService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private router: Router) { }
+    constructor(private activatedRoute: ActivatedRoute, private documentTypeHelperService: DocumentTypeHelperService, private documentTypeHttpService: ExpensesDocumentTypeHttpService, private dateAdapter: DateAdapter<any>, private dexieService: DexieService, private dialogService: DialogService, private emojiService: EmojiService, private formBuilder: FormBuilder, private helperService: HelperService, private interactionService: InteractionService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private router: Router) { }
 
     //#region lifecycle hooks
 
@@ -150,13 +149,6 @@ export class DocumentTypeFormComponent {
 
     private focusOnField(): void {
         this.helperService.focusOnField()
-    }
-
-    private getDiscriminatorDescription(): string {
-        switch (parseInt(this.form.value.discriminatorId)) {
-            case 1: return 'documentTypesInvoice'
-            case 2: return 'documentTypesReceipt'
-        }
     }
 
     private getRecord(): Promise<any> {

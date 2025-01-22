@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace API.Features.BoatUsages {
 
-    internal class BoatUsagesConfig : IEntityTypeConfiguration<BoatUsage> {
+    internal class BoatUsageConfig : IEntityTypeConfiguration<BoatUsage> {
 
         public void Configure(EntityTypeBuilder<BoatUsage> entity) {
             // PK

@@ -14,8 +14,8 @@ import { CompanyHttpService } from 'src/app/features/expenses/companies/classes/
 import { CryptoService } from './crypto.service'
 import { CustomerHttpService } from 'src/app/features/sales/customers/classes/services/customer-http.service'
 import { DexieService } from './dexie.service'
-import { DocumentTypeHttpService } from 'src/app/features/expenses/documentTypes/classes/services/documentType-http.service'
 import { DotNetVersion } from '../classes/dotnet-version'
+import { ExpensesDocumentTypeHttpService } from 'src/app/features/expenses/documentTypes/classes/services/documentType-http.service'
 import { HttpDataService } from './http-data.service'
 import { NationalityHttpService } from 'src/app/features/sales/nationalities/classes/services/nationality-http.service'
 import { PaymentMethodHttpService } from 'src/app/features/expenses/paymentMethods/classes/services/paymentMethod-http.service'
@@ -40,7 +40,27 @@ export class AccountService extends HttpDataService {
 
     //#endregion
 
-    constructor(httpClient: HttpClient, private balanceFilterHttpService: BalanceFilterHttpService, private bankHttpService: BankHttpService, private berthHttpService: BerthHttpService, private boatTypeHttpService: BoatTypeHttpService, private boatUsageHttpService: BoatUsageHttpService, private companyHttpService: CompanyHttpService, private cryptoService: CryptoService, private customerHttpService: CustomerHttpService, private dexieService: DexieService, private documentTypeHttpService: DocumentTypeHttpService, private nationalityHttpService: NationalityHttpService, private ngZone: NgZone, private paymentMethodHttpService: PaymentMethodHttpService, private paymentStatusHttpService: PaymentStatusHttpService, private router: Router, private sessionStorageService: SessionStorageService, private supplierHttpService: SupplierHttpService, private taxOfficeService: TaxOfficeHttpService) {
+    constructor(
+        httpClient: HttpClient,
+        private balanceFilterHttpService: BalanceFilterHttpService,
+        private bankHttpService: BankHttpService,
+        private berthHttpService: BerthHttpService,
+        private boatTypeHttpService: BoatTypeHttpService,
+        private boatUsageHttpService: BoatUsageHttpService,
+        private companyHttpService: CompanyHttpService,
+        private cryptoService: CryptoService,
+        private customerHttpService: CustomerHttpService,
+        private dexieService: DexieService,
+        private expensesDocumentTypeHttpService: ExpensesDocumentTypeHttpService,
+        private nationalityHttpService: NationalityHttpService,
+        private ngZone: NgZone,
+        private paymentMethodHttpService: PaymentMethodHttpService,
+        private paymentStatusHttpService: PaymentStatusHttpService,
+        private router: Router,
+        private sessionStorageService: SessionStorageService,
+        private supplierHttpService: SupplierHttpService,
+        private taxOfficeService: TaxOfficeHttpService
+    ) {
         super(httpClient, environment.apiUrl)
     }
 
@@ -65,7 +85,13 @@ export class AccountService extends HttpDataService {
             { 'item': 'refreshToken', 'when': 'always' },
             { 'item': 'returnUrl', 'when': 'always' },
             { 'item': 'userId', 'when': 'always' },
-            { 'item': 'cards-active-tab', 'when': 'always' }
+            { 'item': 'cards-active-tab', 'when': 'always' },
+            { 'item': 'customerList-id', 'when': 'always' },
+            { 'item': 'customerList-scrollTop', 'when': 'always' },
+            { 'item': 'priceList-id', 'when': 'always' },
+            { 'item': 'priceList-scrollTop', 'when': 'always' },
+            { 'item': 'supplierList-id', 'when': 'always' },
+            { 'item': 'supplierList-scrollTop', 'when': 'always' },
         ])
     }
 
@@ -145,7 +171,7 @@ export class AccountService extends HttpDataService {
         this.dexieService.populateTable('balanceFiltersCriteria', this.balanceFilterHttpService)
         this.dexieService.populateTable('banks', this.bankHttpService)
         this.dexieService.populateTable('companies', this.companyHttpService)
-        this.dexieService.populateTable('documentTypes', this.documentTypeHttpService)
+        this.dexieService.populateTable('expensesDocumentTypes', this.expensesDocumentTypeHttpService)
         this.dexieService.populateTable('paymentMethods', this.paymentMethodHttpService)
         this.dexieService.populateTable('suppliers', this.supplierHttpService)
         this.dexieService.populateCriteria('companiesCriteria', this.companyHttpService)

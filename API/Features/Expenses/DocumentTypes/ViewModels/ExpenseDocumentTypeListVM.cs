@@ -1,6 +1,6 @@
 namespace API.Features.Expenses.DocumentTypes {
 
-    public class DocumentTypeListVM {
+    public class ExpenseDocumentTypeListVM {
 
         public int Id { get; set; }
         public string Description { get; set; }

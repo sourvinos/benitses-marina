@@ -9,16 +9,15 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using API.Infrastructure.Helpers;
 
 namespace API.Features.Sales.DocumentTypes {
 
-    public class DocumentTypeRepository : Repository<SaleDocumentType>, ISaleDocumentTypeRepository {
+    public class SaleDocumentTypeRepository : Repository<SaleDocumentType>, ISaleDocumentTypeRepository {
 
         private readonly IMapper mapper;
         private readonly TestingEnvironment testingEnvironment;
 
-        public DocumentTypeRepository(AppDbContext appDbContext, IHttpContextAccessor httpContext, IMapper mapper, IOptions<TestingEnvironment> testingEnvironment, UserManager<UserExtended> userManager) : base(appDbContext, httpContext, testingEnvironment, userManager) {
+        public SaleDocumentTypeRepository(AppDbContext appDbContext, IHttpContextAccessor httpContext, IMapper mapper, IOptions<TestingEnvironment> testingEnvironment, UserManager<UserExtended> userManager) : base(appDbContext, httpContext, testingEnvironment, userManager) {
             this.mapper = mapper;
             this.testingEnvironment = testingEnvironment.Value;
         }

@@ -22,6 +22,7 @@ using API.Features.Common.PaymentMethods;
 using API.Features.Sales.Customers;
 using API.Features.Sales.TaxOffices;
 using API.Features.Sales.Nationalities;
+using API.Features.Sales.DocumentTypes;
 
 namespace API.Infrastructure.Extensions {
 
@@ -35,8 +36,8 @@ namespace API.Infrastructure.Extensions {
             services.AddTransient<IBankValidation, BankValidation>();
             services.AddTransient<ICompanyRepository, CompanyRepository>();
             services.AddTransient<ICompanyValidation, CompanyValidation>();
-            services.AddTransient<IDocumentTypeRepository, DocumentTypeRepository>();
-            services.AddTransient<IDocumentTypeValidation, DocumentTypeValidation>();
+            services.AddTransient<IExpenseDocumentTypeRepository, ExpenseDocumentTypeRepository>();
+            services.AddTransient<IExpenseDocumentTypeValidation, ExpenseDocumentTypeValidation>();
             services.AddTransient<IExpenseRepository, ExpenseRepository>();
             services.AddTransient<IExpenseValidation, ExpenseValidation>();
             services.AddTransient<ILedgerRepository, LedgerRepository>();
@@ -65,8 +66,10 @@ namespace API.Infrastructure.Extensions {
             services.AddTransient<INationalityRepository, NationalityRepository>();
             services.AddTransient<IPriceRepository, PriceRepository>();
             services.AddTransient<IPriceValidation, PriceValidation>();
+            services.AddTransient<ISaleDocumentTypeRepository, SaleDocumentTypeRepository>();
+            services.AddTransient<ISaleDocumentTypeValidation, SaleDocumentTypeValidation>();
             services.AddTransient<ITaxOfficeRepository, TaxOfficeRepository>();
-            services.AddTransient<ITaxOfficeValidation, TaxOfficeValidation>();
+            services.AddTransient<ITaxOfficeValidation, TaxOfficeValidator>();
             #endregion
             #region common
             services.AddScoped<Token>();
@@ -74,7 +77,6 @@ namespace API.Infrastructure.Extensions {
             services.AddTransient<IPaymentMethodRepository, PaymentMethodRepository>();
             services.AddTransient<IPaymentMethodValidation, PaymentMethodValidation>();
             services.AddTransient<IUserRepository, UserRepository>();
-            services.AddTransient<IUserValidation<IUser>, UserValidation>();
             #endregion
 
         }

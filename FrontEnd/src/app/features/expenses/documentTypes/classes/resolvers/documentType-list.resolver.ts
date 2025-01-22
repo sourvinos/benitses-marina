@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core'
 import { Observable, of } from 'rxjs'
 import { catchError, map } from 'rxjs/operators'
 // Custom
-import { DocumentTypeHttpService } from '../services/documentType-http.service'
+import { ExpensesDocumentTypeHttpService } from '../services/documentType-http.service'
 import { ListResolved } from '../../../../../shared/classes/list-resolved'
 
 @Injectable({ providedIn: 'root' })
 
 export class DocumentTypeListResolver {
 
-    constructor(private documentTypeHttpService: DocumentTypeHttpService) { }
+    constructor(private documentTypeHttpService: ExpensesDocumentTypeHttpService) { }
 
     resolve(): Observable<ListResolved> {
         return this.documentTypeHttpService.getAll().pipe(
