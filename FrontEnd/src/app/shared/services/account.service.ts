@@ -23,7 +23,7 @@ import { PaymentStatusHttpService } from 'src/app/features/reservations/paymentS
 import { ResetPasswordViewModel } from 'src/app/features/users/classes/view-models/reset-password-view-model'
 import { SessionStorageService } from './session-storage.service'
 import { SupplierHttpService } from 'src/app/features/expenses/suppliers/classes/services/supplier-http.service'
-import { TaxOfficeService } from 'src/app/features/sales/taxOffices/classes/services/taxOffice.service'
+import { TaxOfficeHttpService } from 'src/app/features/sales/taxOffices/classes/services/taxOffice-http.service'
 import { TokenRequest } from '../classes/token-request'
 import { environment } from '../../../environments/environment'
 
@@ -40,7 +40,7 @@ export class AccountService extends HttpDataService {
 
     //#endregion
 
-    constructor(httpClient: HttpClient, private balanceFilterHttpService: BalanceFilterHttpService, private bankHttpService: BankHttpService, private berthHttpService: BerthHttpService, private boatTypeHttpService: BoatTypeHttpService, private boatUsageHttpService: BoatUsageHttpService, private companyHttpService: CompanyHttpService, private cryptoService: CryptoService, private customerHttpService: CustomerHttpService, private dexieService: DexieService, private documentTypeHttpService: DocumentTypeHttpService, private nationalityHttpService: NationalityHttpService, private ngZone: NgZone, private paymentMethodHttpService: PaymentMethodHttpService, private paymentStatusHttpService: PaymentStatusHttpService, private router: Router, private sessionStorageService: SessionStorageService, private supplierHttpService: SupplierHttpService, private taxOfficeService: TaxOfficeService) {
+    constructor(httpClient: HttpClient, private balanceFilterHttpService: BalanceFilterHttpService, private bankHttpService: BankHttpService, private berthHttpService: BerthHttpService, private boatTypeHttpService: BoatTypeHttpService, private boatUsageHttpService: BoatUsageHttpService, private companyHttpService: CompanyHttpService, private cryptoService: CryptoService, private customerHttpService: CustomerHttpService, private dexieService: DexieService, private documentTypeHttpService: DocumentTypeHttpService, private nationalityHttpService: NationalityHttpService, private ngZone: NgZone, private paymentMethodHttpService: PaymentMethodHttpService, private paymentStatusHttpService: PaymentStatusHttpService, private router: Router, private sessionStorageService: SessionStorageService, private supplierHttpService: SupplierHttpService, private taxOfficeService: TaxOfficeHttpService) {
         super(httpClient, environment.apiUrl)
     }
 

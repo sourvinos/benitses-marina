@@ -5,12 +5,14 @@ namespace API.Infrastructure.Users {
 
     public class UserReadDto : IMetadata {
 
-        // Fields
+        // PK
         public string Id { get; set; }
+        // Navigation
+        public SimpleEntity Customer { get; set; }
+        // Fields
         public string Username { get; set; }
         public string Displayname { get; set; }
         public bool IsFirstFieldFocused { get; set; }
-        public SimpleEntity Customer { get; set; }
         public string Email { get; set; }
         public bool IsAdmin { get; set; }
         public bool IsActive { get; set; }

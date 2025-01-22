@@ -11,7 +11,7 @@ import { MessageDialogService } from 'src/app/shared/services/message-dialog.ser
 import { MessageInputHintService } from 'src/app/shared/services/message-input-hint.service'
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
 import { TaxOfficeReadDto } from '../classes/dtos/taxOffice-read-dto'
-import { TaxOfficeService } from '../classes/services/taxOffice.service'
+import { TaxOfficeHttpService } from '../classes/services/taxOffice-http.service'
 import { TaxOfficeWriteDto } from '../classes/dtos/taxOffice-write-dto'
 
 @Component({
@@ -35,7 +35,7 @@ export class TaxOfficeFormComponent {
 
     //#endregion
 
-    constructor(private activatedRoute: ActivatedRoute, private taxOfficeService: TaxOfficeService, private dexieService: DexieService, private dialogService: DialogService, private formBuilder: FormBuilder, private helperService: HelperService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private router: Router) { }
+    constructor(private activatedRoute: ActivatedRoute, private taxOfficeService: TaxOfficeHttpService, private dexieService: DexieService, private dialogService: DialogService, private formBuilder: FormBuilder, private helperService: HelperService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private router: Router) { }
 
     //#region lifecycle hooks
 

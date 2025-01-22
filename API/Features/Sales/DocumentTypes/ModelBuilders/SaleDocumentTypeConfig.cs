@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace API.Features.Sales.DocumentTypes {
 
-    internal class DocumentTypeConfig : IEntityTypeConfiguration<SaleDocumentType> {
+    internal class SaleDocumentTypeConfig : IEntityTypeConfiguration<SaleDocumentType> {
 
         public void Configure(EntityTypeBuilder<SaleDocumentType> entity) {
+            // PK
             entity.Property(x => x.Id).ValueGeneratedOnAdd();
+            // Fields
             entity.Property(x => x.Abbreviation).HasMaxLength(5).IsRequired(true);
             entity.Property(x => x.AbbreviationEn).HasMaxLength(5).IsRequired(true);
             entity.Property(x => x.Description).HasMaxLength(128).IsRequired(true);
@@ -20,6 +22,7 @@ namespace API.Features.Sales.DocumentTypes {
             entity.Property(x => x.Table8_1).HasMaxLength(32);
             entity.Property(x => x.Table8_8).HasMaxLength(32);
             entity.Property(x => x.Table8_9).HasMaxLength(32);
+            // Metadata
             entity.Property(x => x.PostAt).HasMaxLength(19).IsRequired(true);
             entity.Property(x => x.PostUser).HasMaxLength(255).IsRequired(true);
             entity.Property(x => x.PutAt).HasMaxLength(19);

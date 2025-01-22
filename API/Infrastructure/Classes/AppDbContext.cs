@@ -2,10 +2,7 @@
 using API.Features.BoatUsages;
 using API.Features.Reservations.Berths;
 using API.Features.Reservations.PaymentStatuses;
-using API.Features.Sales.Customers;
-using API.Features.Sales.Nationalities;
 using API.Features.Sales.Prices;
-using API.Features.Sales.TaxOffices;
 using API.Infrastructure.Auth;
 using API.Infrastructure.Users;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -18,9 +15,11 @@ using API.Features.Expenses.Banks;
 using API.Features.Expenses.BalanceFilters;
 using API.Features.Expenses.Suppliers;
 using API.Features.Reservations.Transactions;
-using API.Features.Sales.Transactions;
-using API.Features.Sales.DocumentTypes;
 using API.Features.Common.PaymentMethods;
+using API.Features.Sales.Customers;
+using API.Features.Sales.Nationalities;
+using API.Features.Sales.TaxOffices;
+using API.Features.Sales.DocumentTypes;
 
 namespace API.Infrastructure.Classes {
 
@@ -51,19 +50,17 @@ namespace API.Infrastructure.Classes {
         public DbSet<ReservationOwner> ReservationOwnerDetails { get; set; }
         #endregion
 
-        #region sales
-        public DbSet<Customer> Customers { get; set; }
-        public DbSet<SaleDocumentType> SaleDocumentTypes { get; set; }
-        public DbSet<Nationality> Nationalities { get; set; }
-        public DbSet<Price> Prices { get; set; }
-        public DbSet<Sale> Sales { get; set; }
-        public DbSet<SaleAade> SalesAade { get; set; }
-        public DbSet<TaxOffice> TaxOffices { get; set; }
-        #endregion
-
         #region common
         public DbSet<Token> Tokens { get; set; }
         public DbSet<PaymentMethod> PaymentMethods { get; set; }
+        #endregion
+
+        #region sales
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Nationality> Nationalities { get; set; }
+        public DbSet<Price> Prices { get; set; }
+        public DbSet<SaleDocumentType> SaleDocumentTypes { get; set; }
+        public DbSet<TaxOffice> TaxOffices { get; set; }
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
@@ -90,6 +87,12 @@ namespace API.Infrastructure.Classes {
             #region common
             modelBuilder.ApplyConfiguration(new PaymentMethodsConfig());
             modelBuilder.ApplyConfiguration(new UsersConfig());
+            #endregion
+            #region sales
+            modelBuilder.ApplyConfiguration(new CustomerConfig());
+            modelBuilder.ApplyConfiguration(new PricesConfig());
+            modelBuilder.ApplyConfiguration(new SaleDocumentTypeConfig());
+            modelBuilder.ApplyConfiguration(new TaxOfficeConfig());
             #endregion
         }
 

@@ -7,7 +7,7 @@ namespace API.Features.Sales.Customers {
 
         // PK
         public int Id { get; set; }
-        // FKs, Navigation
+        // Navigation
         public SimpleEntity Nationality { get; set; }
         public SimpleEntity TaxOffice { get; set; }
         // Fields

@@ -52,15 +52,15 @@ namespace API.Features.Sales.DocumentTypes {
                 .SingleOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<int> GetLastDocumentTypeNoAsync(int documentTypeId) {
-            var lastInvoiceNo = await context.Sales
-                .AsNoTracking()
-                .Where(x => x.Date.Year == DateHelpers.GetLocalDateTime().Year && x.DocumentTypeId == documentTypeId)
-                .OrderBy(x => x.InvoiceNo)
-                .Select(x => x.InvoiceNo)
-                .LastOrDefaultAsync();
-            return lastInvoiceNo;
-        }
+        // public async Task<int> GetLastDocumentTypeNoAsync(int documentTypeId) {
+        //     var lastInvoiceNo = await context.Sales
+        //         .AsNoTracking()
+        //         .Where(x => x.Date.Year == DateHelpers.GetLocalDateTime().Year && x.DocumentTypeId == documentTypeId)
+        //         .OrderBy(x => x.InvoiceNo)
+        //         .Select(x => x.InvoiceNo)
+        //         .LastOrDefaultAsync();
+        //     return lastInvoiceNo;
+        // }
 
     }
 

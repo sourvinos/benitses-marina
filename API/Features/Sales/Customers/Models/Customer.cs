@@ -6,9 +6,15 @@ namespace API.Features.Sales.Customers {
 
     public class Customer : IPartyType {
 
+        // PK
         public int Id { get; set; }
+        // FKs
         public int NationalityId { get; set; }
         public int TaxOfficeId { get; set; }
+        // Navigation
+        public Nationality Nationality { get; set; }
+        public TaxOffice TaxOffice { get; set; }
+        // Fields
         public decimal VatPercent { get; set; }
         public int VatPercentId { get; set; }
         public int VatExemptionId { get; set; }
@@ -26,8 +32,7 @@ namespace API.Features.Sales.Customers {
         public string Email { get; set; }
         public string Remarks { get; set; }
         public bool IsActive { get; set; }
-        public Nationality Nationality { get; set; }
-        public TaxOffice TaxOffice { get; set; }
+        // Metadata
         public string PostAt { get; set; }
         public string PostUser { get; set; }
         public string PutAt { get; set; }

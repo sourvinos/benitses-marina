@@ -35,6 +35,7 @@ const appRoutes: Routes = [
     // Sales
     { path: 'prices', loadChildren: () => import('../features/sales/prices/classes/modules/price.module').then(m => m.PriceModule) },
     { path: 'customers', loadChildren: () => import('../features/sales/customers/classes/modules/customer.module').then(m => m.CustomerModule) },
+    { path: 'saleDocumentTypes', loadChildren: () => import('../features/sales/documentTypes/classes/modules/documentType.module').then(m => m.DocumentTypeModule) },
     // Common
     { path: 'users', loadChildren: () => import('../features/users/classes/modules/user.module').then(m => m.UserModule) },
     // Empty

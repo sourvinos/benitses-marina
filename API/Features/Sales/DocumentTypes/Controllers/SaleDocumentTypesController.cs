@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Features.Sales.DocumentTypes {
 
     [Route("api/[controller]")]
-    public class DocumentTypesController : ControllerBase {
+    public class SaleDocumentTypesController : ControllerBase {
 
         #region variables
 
@@ -20,7 +20,7 @@ namespace API.Features.Sales.DocumentTypes {
 
         #endregion
 
-        public DocumentTypesController(ISaleDocumentTypeRepository DocumentTypeRepo, ISaleDocumentTypeValidation DocumentTypeValidation, IMapper mapper) {
+        public SaleDocumentTypesController(ISaleDocumentTypeRepository DocumentTypeRepo, ISaleDocumentTypeValidation DocumentTypeValidation, IMapper mapper) {
             documentTypeRepo = DocumentTypeRepo;
             documentTypeValidation = DocumentTypeValidation;
             this.mapper = mapper;
@@ -36,18 +36,6 @@ namespace API.Features.Sales.DocumentTypes {
         [Authorize(Roles = "user, admin")]
         public async Task<IEnumerable<SaleDocumentTypeBrowserVM>> GetForBrowserInvoiceAsync() {
             return await documentTypeRepo.GetForBrowserAsync(1);
-        }
-
-        [HttpGet("[action]")]
-        [Authorize(Roles = "user, admin")]
-        public async Task<IEnumerable<SaleDocumentTypeBrowserVM>> GetForBrowserRetailAsync() {
-            return await documentTypeRepo.GetForBrowserAsync(3);
-        }
-
-        [HttpGet("[action]")]
-        [Authorize(Roles = "user, admin")]
-        public async Task<IEnumerable<SaleDocumentTypeBrowserVM>> GetForBrowserReceiptAsync() {
-            return await documentTypeRepo.GetForBrowserAsync(2);
         }
 
         [HttpGet("{id}")]
@@ -134,16 +122,16 @@ namespace API.Features.Sales.DocumentTypes {
             }
         }
 
-        [HttpGet("[action]/{id}")]
-        [Authorize(Roles = "admin")]
-        public async Task<ResponseWithBody> GetLastDocumentTypeNoAsync(int id) {
-            return new ResponseWithBody {
-                Code = 200,
-                Icon = Icons.Success.ToString(),
-                Body = await documentTypeRepo.GetLastDocumentTypeNoAsync(id),
-                Message = ApiMessages.OK()
-            };
-        }
+        // [HttpGet("[action]/{id}")]
+        // [Authorize(Roles = "admin")]
+        // public async Task<ResponseWithBody> GetLastDocumentTypeNoAsync(int id) {
+        //     return new ResponseWithBody {
+        //         Code = 200,
+        //         Icon = Icons.Success.ToString(),
+        //         Body = await documentTypeRepo.GetLastDocumentTypeNoAsync(id),
+        //         Message = ApiMessages.OK()
+        //     };
+        // }
 
     }
 

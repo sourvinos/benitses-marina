@@ -10,7 +10,7 @@ namespace API.Features.Sales.DocumentTypes {
         Task<IEnumerable<SaleDocumentTypeBrowserVM>> GetForBrowserAsync(int discriminatorId);
         Task<SaleDocumentTypeBrowserVM> GetByIdForBrowserAsync(int id);
         Task<SaleDocumentType> GetByIdAsync(int id);
-        Task<int> GetLastDocumentTypeNoAsync(int documentTypeId);
+        // Task<int> GetLastDocumentTypeNoAsync(int documentTypeId);
 
     }
 

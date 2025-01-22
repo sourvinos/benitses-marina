@@ -66,5 +66,9 @@
     {
         "id": "prices",
         "description": "Τιμοκατάλογοι"
+    },
+    {
+        "id": "documentTypes",
+        "description": "Τύποι παραστατικών"
     }
 ]

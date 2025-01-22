@@ -14,15 +14,14 @@ using API.Features.Expenses.Ledgers;
 using API.Features.Expenses.Companies;
 using API.Features.Expenses.BalanceSheet;
 using API.Features.Expenses.BalanceFilters;
-using API.Features.Sales.Customers;
-using API.Features.Sales.Nationalities;
-using API.Features.Sales.TaxOffices;
 using API.Features.Sales.Prices;
 using API.Features.Expenses.Statistics;
 using API.Features.Expenses.Transactions;
 using API.Features.Reservations.Transactions;
-using API.Features.Sales.Transactions;
 using API.Features.Common.PaymentMethods;
+using API.Features.Sales.Customers;
+using API.Features.Sales.TaxOffices;
+using API.Features.Sales.Nationalities;
 
 namespace API.Infrastructure.Extensions {
 
@@ -61,21 +60,13 @@ namespace API.Infrastructure.Extensions {
             services.AddTransient<IReservationValidation, ReservationValidation>();
             #endregion
             #region sales
-            services.AddTransient<ICustomerAadeRepository, CustomerAadeRepository>();
             services.AddTransient<ICustomerRepository, CustomerRepository>();
             services.AddTransient<ICustomerValidation, CustomerValidation>();
             services.AddTransient<INationalityRepository, NationalityRepository>();
-            services.AddTransient<ITaxOfficeRepository, TaxOfficeRepository>();
-            services.AddTransient<ITaxOfficeValidation, TaxOfficeValidation>();
-            services.AddTransient<ISaleCalculateBalanceRepo, InvoiceCalculateBalanceRepo>();
-            services.AddTransient<ISaleEmailSender, InvoiceEmailSender>();
-            services.AddTransient<ISalePdfRepository, InvoicePdfRepository>();
-            services.AddTransient<ISaleReadRepository, InvoiceReadRepository>();
-            services.AddTransient<ISaleUpdateRepository, InvoiceUpdateRepository>();
-            services.AddTransient<ISaleValidation, InvoiceValidation>();
-            services.AddTransient<ISaleXmlRepository, InvoiceXmlRepository>();
             services.AddTransient<IPriceRepository, PriceRepository>();
             services.AddTransient<IPriceValidation, PriceValidation>();
+            services.AddTransient<ITaxOfficeRepository, TaxOfficeRepository>();
+            services.AddTransient<ITaxOfficeValidation, TaxOfficeValidation>();
             #endregion
             #region common
             services.AddScoped<Token>();
@@ -85,8 +76,8 @@ namespace API.Infrastructure.Extensions {
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IUserValidation<IUser>, UserValidation>();
             #endregion
-        }
 
+        }
     }
 
 }

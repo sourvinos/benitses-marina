@@ -1,11 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace API.Features.Common.PaymentMethods {
+namespace API.Features.Sales.TaxOffices {
 
-    internal class PaymentMethodsConfig : IEntityTypeConfiguration<PaymentMethod> {
+    internal class TaxOfficeConfig : IEntityTypeConfiguration<TaxOffice> {
 
-        public void Configure(EntityTypeBuilder<PaymentMethod> entity) {
+        public void Configure(EntityTypeBuilder<TaxOffice> entity) {
             // PK
             entity.Property(x => x.Id).ValueGeneratedOnAdd();
             // Fields

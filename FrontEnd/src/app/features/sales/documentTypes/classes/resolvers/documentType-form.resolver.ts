@@ -2,18 +2,18 @@ import { ActivatedRouteSnapshot } from '@angular/router'
 import { Injectable } from '@angular/core'
 import { catchError, map, of } from 'rxjs'
 // Custom
-import { TaxOfficeHttpService } from '../services/taxOffice-http.service'
+import { DocumentTypeHttpService } from '../services/documentType-http.service'
 import { FormResolved } from 'src/app/shared/classes/form-resolved'
 
 @Injectable({ providedIn: 'root' })
 
-export class TaxOfficeFormResolver {
+export class DocumentTypeFormResolver {
 
-    constructor(private taxOfficeService: TaxOfficeHttpService) { }
+    constructor(private documentTypeHttpService: DocumentTypeHttpService) { }
 
     resolve(route: ActivatedRouteSnapshot): any {
-        return this.taxOfficeService.getSingle(route.params.id).pipe(
-            map((taxOfficeForm) => new FormResolved(taxOfficeForm)),
+        return this.documentTypeHttpService.getSingle(route.params.id).pipe(
+            map((documentTypeForm) => new FormResolved(documentTypeForm)),
             catchError((err: any) => of(new FormResolved(null, err)))
         )
     }

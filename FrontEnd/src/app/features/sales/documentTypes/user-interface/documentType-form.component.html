@@ -1,0 +1,65 @@
+<div id="form-wrapper">
+
+    <div id="content">
+
+        <div id="header">
+            <home-button-and-title [feature]="feature" [featureIcon]="featureIcon" [icon]="icon" [parentUrl]="parentUrl"></home-button-and-title>
+        </div>
+
+        <form [formGroup]="form" id="form">
+            <!-- Description -->
+            <mat-form-field>
+                <mat-label>{{ getLabel('description') }}</mat-label>
+                <input [inputTabStop]="input" dataTabIndex="1" formControlName="description" matInput>
+                <mat-error *ngIf="description.hasError('required')">{{ getHint("required") }}</mat-error>
+            </mat-form-field>
+            <!-- Customers -->
+            <mat-form-field>
+                <mat-label>{{ getLabel('customers') }}</mat-label>
+                <input [inputTabStop]="input" dataTabIndex="2" formControlName="customers" matInput>
+                <mat-error *ngIf="customers.hasError('shouldBeEmptyPlusOrMinus')">{{ getHint("shouldBeEmptyPlusOrMinus") }}</mat-error>
+            </mat-form-field>
+            <!-- Suppliers -->
+            <mat-form-field>
+                <mat-label>{{ getLabel('suppliers') }}</mat-label>
+                <input [inputTabStop]="input" dataTabIndex="3" formControlName="suppliers" matInput>
+                <mat-error *ngIf="suppliers.hasError('shouldBeEmptyPlusOrMinus')">{{ getHint("shouldBeEmptyPlusOrMinus") }}</mat-error>
+            </mat-form-field>
+            <div class="stacked-checkboxes">
+                <div class="stacked-checkboxes">
+                    <!-- Discriminator -->
+                    <mat-radio-group formControlName="discriminatorId">
+                        <mat-radio-button value=1>{{ getLabel("refersToInvoice") }}</mat-radio-button>
+                        <mat-radio-button value=2>{{ getLabel("refersToReceipt") }}</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+                <div class="stacked-checkboxes">
+                    <!-- isStatistic -->
+                    <mat-checkbox formControlName="isStatistic">
+                        <span>{{ getLabel("isStatistic") }}</span>
+                    </mat-checkbox>
+                    <!-- Active -->
+                    <mat-checkbox formControlName="isActive">
+                        <span>{{ getLabel("isActive") }}</span>
+                    </mat-checkbox>
+                </div>
+            </div>
+            <div class="align-bottom">
+                <!-- Metadata -->
+                <metadata-panel [feature]="feature" [postAt]="form.value.postAt" [postUser]="form.value.postUser" [putAt]="form.value.putAt" [putUser]="form.value.putUser"></metadata-panel>
+            </div>
+        </form>
+
+    </div>
+
+    <div id="footer">
+        <div id="align-right">
+            <button (click)="onDelete()" *ngIf="form.value.id !== 0" class="delete" mat-flat-button>{{ getLabel("deleteButton") | uppercase }}</button>
+            <button (click)="onSave()" [disabled]="!form.valid" class="primary" mat-flat-button>
+                <mat-icon *ngIf="!form.valid" class="material-icons-outlined">lock</mat-icon>
+                <span>{{ getLabel("saveButton") | uppercase }}</span>
+            </button>
+        </div>
+    </div>
+
+</div>
