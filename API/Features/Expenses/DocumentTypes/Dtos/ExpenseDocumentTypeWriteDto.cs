@@ -7,9 +7,9 @@ namespace API.Features.Expenses.DocumentTypes {
         // PK
         public int Id { get; set; }
         // Fields
-        public int DiscriminatorId { get; set; }
+        public string Abbreviation { get; set; }
         public string Description { get; set; }
-        public string Customers { get; set; }
+        public int DiscriminatorId { get; set; }
         public string Suppliers { get; set; }
         public bool IsStatistic { get; set; }
         public bool IsActive { get; set; }

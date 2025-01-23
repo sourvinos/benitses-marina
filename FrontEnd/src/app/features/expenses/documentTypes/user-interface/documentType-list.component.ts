@@ -27,7 +27,7 @@ export class DocumentTypeListComponent {
 
     @ViewChild('table') table: Table
 
-    private url = 'documentTypes'
+    private url = 'expenseDocumentTypes'
     private virtualElement: any
     public feature = 'expenseDocumentTypeList'
     public featureIcon = 'documentTypes'

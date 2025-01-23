@@ -35,12 +35,12 @@ export class DocumentTypeFormComponent {
 
     private record: DocumentTypeReadDto
     private recordId: string
-    public feature = 'documentTypeForm'
+    public feature = 'expenseDocumentTypeForm'
     public featureIcon = 'documentTypes'
     public form: FormGroup
     public icon = 'arrow_back'
     public input: InputTabStopDirective
-    public parentUrl = '/documentTypes'
+    public parentUrl = '/expenseDocumentTypes'
 
     //#endregion
 
@@ -51,7 +51,6 @@ export class DocumentTypeFormComponent {
     public dropdownShipOwners: Observable<SimpleEntity[]>
 
     //#endregion
-
 
     constructor(private activatedRoute: ActivatedRoute, private documentTypeHelperService: DocumentTypeHelperService, private documentTypeHttpService: ExpensesDocumentTypeHttpService, private dateAdapter: DateAdapter<any>, private dexieService: DexieService, private dialogService: DialogService, private emojiService: EmojiService, private formBuilder: FormBuilder, private helperService: HelperService, private interactionService: InteractionService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private router: Router) { }
 
@@ -126,20 +125,12 @@ export class DocumentTypeFormComponent {
 
     //#region private methods
 
-    private filterAutocomplete(array: string, field: string, value: any): any[] {
-        if (typeof value !== 'object') {
-            const filtervalue = value.toLowerCase()
-            return this[array].filter((element: { [x: string]: string }) =>
-                element[field].toLowerCase().startsWith(filtervalue))
-        }
-    }
-
     private flattenForm(): DocumentTypeWriteDto {
         return {
             id: this.form.value.id != '' ? this.form.value.id : null,
             discriminatorId: parseInt(this.form.value.discriminatorId),
+            abbreviation: this.form.value.abbreviation,
             description: this.form.value.description,
-            customers: this.form.value.customers,
             suppliers: this.form.value.suppliers,
             isStatistic: this.form.value.isActive,
             isActive: this.form.value.isActive,
@@ -154,7 +145,7 @@ export class DocumentTypeFormComponent {
     private getRecord(): Promise<any> {
         if (this.recordId != undefined) {
             return new Promise((resolve) => {
-                const formResolved: FormResolved = this.activatedRoute.snapshot.data['documentTypeForm']
+                const formResolved: FormResolved = this.activatedRoute.snapshot.data['expenseDocumentTypeForm']
                 if (formResolved.error == null) {
                     this.record = formResolved.record.body
                     resolve(this.record)
@@ -176,8 +167,8 @@ export class DocumentTypeFormComponent {
         this.form = this.formBuilder.group({
             id: '',
             discriminatorId: ['', [Validators.required]],
+            abbreviation: ['', [Validators.required, Validators.maxLength(128)]],
             description: ['', [Validators.required, Validators.maxLength(128)]],
-            customers: ['', [Validators.maxLength(1), ValidationService.shouldBeEmptyPlusOrMinus]],
             suppliers: ['', [Validators.maxLength(1), ValidationService.shouldBeEmptyPlusOrMinus]],
             isStatistic: false,
             isActive: true,
@@ -193,8 +184,8 @@ export class DocumentTypeFormComponent {
             this.form.setValue({
                 id: this.record.id,
                 discriminatorId: this.record.discriminatorId.toString(),
+                abbreviation: this.record.abbreviation,
                 description: this.record.description,
-                customers: this.record.customers,
                 suppliers: this.record.suppliers,
                 isStatistic: this.record.isStatistic,
                 isActive: this.record.isActive,
@@ -213,7 +204,7 @@ export class DocumentTypeFormComponent {
     private saveRecord(documentType: DocumentTypeWriteDto): void {
         this.documentTypeHttpService.save(documentType).subscribe({
             next: (response) => {
-                this.documentTypeHelperService.updateBrowserStorageAfterApiUpdate('documentTypes', response.body)
+                this.documentTypeHelperService.updateBrowserStorageAfterApiUpdate('expenseDocumentTypes', response.body)
                 this.helperService.doPostSaveFormTasks(this.messageDialogService.success(), 'ok', this.parentUrl, true)
             },
             error: (errorFromInterceptor) => {
@@ -242,12 +233,12 @@ export class DocumentTypeFormComponent {
 
     //#region getters
 
-    get description(): AbstractControl {
-        return this.form.get('description')
+    get abbreviation(): AbstractControl {
+        return this.form.get('abbreviation')
     }
 
-    get customers(): AbstractControl {
-        return this.form.get('customers')
+    get description(): AbstractControl {
+        return this.form.get('description')
     }
 
     get suppliers(): AbstractControl {

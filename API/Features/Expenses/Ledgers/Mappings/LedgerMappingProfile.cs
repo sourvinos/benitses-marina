@@ -19,7 +19,6 @@ namespace API.Features.Expenses.Ledgers {
                     Id = x.DocumentType.Id,
                     DiscriminatorId = x.DocumentType.DiscriminatorId,
                     Description = x.DocumentType.Description,
-                    Customers = x.DocumentType.Customers,
                     Suppliers = x.DocumentType.Suppliers
                 }))
                 .ForMember(x => x.PaymentMethod, x => x.MapFrom(x => new PaymentMethodVM {

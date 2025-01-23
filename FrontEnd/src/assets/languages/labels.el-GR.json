@@ -1602,5 +1602,58 @@
                 "description": "Αποθηκευση"
             }
         ]
+    },
+    {
+        "feature": "expenseDocumentTypeForm",
+        "labels": [
+            {
+                "id": "header",
+                "description": "Τύπος παραστατικού εξόδων"
+            },
+            {
+                "id": "abbreviation",
+                "description": "Συντ."
+            },
+            {
+                "id": "description",
+                "description": "Περιγραφή"
+            },
+            {
+                "id": "suppliers",
+                "description": "Προμηθευτές"
+            },
+            {
+                "id": "refersToInvoice",
+                "description": "Χρεωστική ή πιστωτική τιμολόγηση"
+            },
+            {
+                "id": "refersToReceipt",
+                "description": "Είσπραξη ή πληρωμή"
+            },
+            {
+                "id": "isStatistic",
+                "description": "Ενημερώνει τζίρους πελατών ή προμηθευτών"
+            },
+            {
+                "id": "isActive",
+                "description": "Ενεργό"
+            },
+            {
+                "id": "post",
+                "description": "Αρχική καταχώριση"
+            },
+            {
+                "id": "put",
+                "description": "Τελευταία ενημέρωση"
+            },
+            {
+                "id": "deleteButton",
+                "description": "Διαγραφη"
+            },
+            {
+                "id": "saveButton",
+                "description": "Αποθηκευση"
+            }
+        ]
     }
 ]

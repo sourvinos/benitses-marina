@@ -31,7 +31,7 @@ namespace API.Infrastructure.Classes {
         public DbSet<BalanceFilter> BalanceFilters { get; set; }
         public DbSet<Bank> Banks { get; set; }
         public DbSet<Company> Companies { get; set; }
-        public DbSet<ExpenseDocumentType> DocumentTypes { get; set; }
+        public DbSet<ExpenseDocumentType> ExpenseDocumentTypes { get; set; }
         public DbSet<Expense> Expenses { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
         #endregion

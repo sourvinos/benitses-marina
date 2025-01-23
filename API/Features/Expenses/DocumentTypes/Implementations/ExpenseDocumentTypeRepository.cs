@@ -21,7 +21,7 @@ namespace API.Features.Expenses.DocumentTypes {
         }
 
         public async Task<IEnumerable<ExpenseDocumentTypeListVM>> GetAsync() {
-            var DocumentTypes = await context.DocumentTypes
+            var DocumentTypes = await context.ExpenseDocumentTypes
                 .AsNoTracking()
                 .OrderBy(x => x.Description)
                 .ToListAsync();
@@ -29,7 +29,7 @@ namespace API.Features.Expenses.DocumentTypes {
         }
 
         public async Task<IEnumerable<ExpenseDocumentTypeBrowserVM>> GetForBrowserAsync() {
-            var DocumentTypes = await context.DocumentTypes
+            var DocumentTypes = await context.ExpenseDocumentTypes
                 .AsNoTracking()
                 .OrderBy(x => x.Id)
                 .ToListAsync();
@@ -37,14 +37,14 @@ namespace API.Features.Expenses.DocumentTypes {
         }
 
         public async Task<ExpenseDocumentTypeBrowserVM> GetByIdForBrowserAsync(int id) {
-            var record = await context.DocumentTypes
+            var record = await context.ExpenseDocumentTypes
                 .AsNoTracking()
                 .SingleOrDefaultAsync(x => x.Id == id);
             return mapper.Map<ExpenseDocumentType, ExpenseDocumentTypeBrowserVM>(record);
         }
 
         public async Task<IEnumerable<SimpleEntity>> GetForCriteriaAsync() {
-            var DocumentTypes = await context.DocumentTypes
+            var DocumentTypes = await context.ExpenseDocumentTypes
                 .AsNoTracking()
                 .OrderBy(x => x.Description)
                 .ToListAsync();
@@ -53,10 +53,10 @@ namespace API.Features.Expenses.DocumentTypes {
 
         public async Task<ExpenseDocumentType> GetByIdAsync(int id, bool includeTables) {
             return includeTables
-                ? await context.DocumentTypes
+                ? await context.ExpenseDocumentTypes
                     .AsNoTracking()
                     .SingleOrDefaultAsync(x => x.Id == id)
-                : await context.DocumentTypes
+                : await context.ExpenseDocumentTypes
                     .AsNoTracking()
                     .SingleOrDefaultAsync(x => x.Id == id);
         }

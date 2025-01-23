@@ -4,9 +4,12 @@
     </button>
     <mat-menu #menu="matMenu" class="primary">
         <button (click)="doNavigation('suppliers',true)" mat-menu-item><span>{{ getLabel('suppliers') }}</span></button>
+        <mat-divider></mat-divider>
         <button (click)="doNavigation('invoices',true)" mat-menu-item><span>{{ getLabel('expenses') }}</span></button>
         <button (click)="doNavigation('ledgers',true)" mat-menu-item><span>{{ getLabel('ledger') }}</span></button>
         <button (click)="doNavigation('balanceSheet',true)" mat-menu-item><span>{{ getLabel('balanceSheet') }}</span></button>
-        <button (click)="doNavigation('statistics',true)" mat-menu-item><span>{{ getLabel('statistics') }}</span></button>
+        <button (click)="doNavigation('statistics',true)" mat-menu-item><span>{{ getLabel('expenseStatistics') }}</span></button>
+        <mat-divider></mat-divider>
+        <button (click)="doNavigation('expenseDocumentTypes',true)" mat-menu-item><span>{{ getLabel('documentTypes') }}</span></button>
     </mat-menu>
 </div>

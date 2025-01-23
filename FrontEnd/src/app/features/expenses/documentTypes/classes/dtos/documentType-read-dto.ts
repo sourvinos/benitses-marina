@@ -4,8 +4,8 @@ export interface DocumentTypeReadDto extends Metadata {
 
     id: number
     discriminatorId: number
+    abbreviation: string
     description: string
-    customers: string
     suppliers: string
     isStatistic: boolean
     isActive: boolean

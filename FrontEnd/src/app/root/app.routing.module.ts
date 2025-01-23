@@ -32,6 +32,7 @@ const appRoutes: Routes = [
     { path: 'ledgers', loadChildren: () => import('../features/expenses/ledgers/classes/modules/ledger.module').then(m => m.LedgerModule) },
     { path: 'suppliers', loadChildren: () => import('../features/expenses/suppliers/classes/modules/supplier.module').then(m => m.SupplierModule) },
     { path: 'statistics', loadChildren: () => import('../features/expenses/statistics/classes/modules/statistics.module').then(m => m.StatisticsModule) },
+    { path: 'expenseDocumentTypes', loadChildren: () => import('../features/expenses/documentTypes/classes/modules/documentType.module').then(m => m.DocumentTypeModule) },
     // Sales
     { path: 'prices', loadChildren: () => import('../features/sales/prices/classes/modules/price.module').then(m => m.PriceModule) },
     { path: 'customers', loadChildren: () => import('../features/sales/customers/classes/modules/customer.module').then(m => m.CustomerModule) },

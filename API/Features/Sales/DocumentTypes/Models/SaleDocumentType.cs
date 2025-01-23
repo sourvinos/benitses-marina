@@ -7,11 +7,11 @@ namespace API.Features.Sales.DocumentTypes {
         // PK
         public int Id { get; set; }
         // Fields
+        public int DiscriminatorId { get; set; }
         public string Abbreviation { get; set; }
         public string Description { get; set; }
         public string Batch { get; set; }
         public string Customers { get; set; }
-        public int DiscriminatorId { get; set; }
         public bool IsDefault { get; set; }
         public bool IsActive { get; set; }
         public bool IsMyData { get; set; }

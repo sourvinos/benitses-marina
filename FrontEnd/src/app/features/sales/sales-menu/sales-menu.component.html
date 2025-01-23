@@ -4,6 +4,10 @@
     </button>
     <mat-menu #menu="matMenu" class="primary">
         <button (click)="doNavigation('customers',true)" mat-menu-item><span>{{ getLabel('customers') }}</span></button>
+        <mat-divider></mat-divider>
+        <button (click)="doNavigation('sales',true)" mat-menu-item><span>{{ getLabel('sales') }}</span></button>
+        <button (click)="doNavigation('statistics',true)" mat-menu-item><span>{{ getLabel('saleStatistics') }}</span></button>
+        <mat-divider></mat-divider>
         <button (click)="doNavigation('prices',true)" mat-menu-item><span>{{ getLabel('prices') }}</span></button>
         <button (click)="doNavigation('saleDocumentTypes',true)" mat-menu-item><span>{{ getLabel('documentTypes') }}</span></button>
     </mat-menu>

@@ -20,7 +20,7 @@
         "description": "Ισοζύγιο προμηθευτών"
     },
     {
-        "id": "statistics",
+        "id": "expenseStatistics",
         "description": "Τζίροι προμηθευτών"
     },
     {
@@ -68,7 +68,15 @@
         "description": "Τιμοκατάλογοι"
     },
     {
+        "id": "sales",
+        "description": "Πωλήσεις"
+    },
+    {
         "id": "documentTypes",
         "description": "Τύποι παραστατικών"
+    },
+    {
+        "id": "saleStatistics",
+        "description": "Τζίροι πελατών"
     }
 ]
