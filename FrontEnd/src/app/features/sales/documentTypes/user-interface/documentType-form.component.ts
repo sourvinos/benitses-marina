@@ -1,9 +1,6 @@
 import { ActivatedRoute, Router } from '@angular/router'
 import { Component } from '@angular/core'
-import { DateAdapter } from '@angular/material/core'
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms'
-import { MatAutocompleteTrigger } from '@angular/material/autocomplete'
-import { Observable, map, startWith } from 'rxjs'
 // Custom
 import { DexieService } from 'src/app/shared/services/dexie.service'
 import { DialogService } from 'src/app/shared/services/modal-dialog.service'
@@ -11,18 +8,13 @@ import { DocumentTypeHelperService } from '../classes/services/documentType-help
 import { DocumentTypeHttpService } from '../classes/services/documentType-http.service'
 import { DocumentTypeReadDto } from '../classes/dtos/documentType-read-dto'
 import { DocumentTypeWriteDto } from '../classes/dtos/documentType-write-dto'
-import { EmojiService } from 'src/app/shared/services/emoji.service'
 import { FormResolved } from 'src/app/shared/classes/form-resolved'
 import { HelperService } from 'src/app/shared/services/helper.service'
 import { InputTabStopDirective } from 'src/app/shared/directives/input-tabstop.directive'
-import { InteractionService } from 'src/app/shared/services/interaction.service'
-import { LocalStorageService } from 'src/app/shared/services/local-storage.service'
 import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
 import { MessageInputHintService } from 'src/app/shared/services/message-input-hint.service'
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
-import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 import { ValidationService } from 'src/app/shared/services/validation.service'
-import { environment } from 'src/environments/environment'
 
 @Component({
     selector: 'documentType-form',
@@ -36,25 +28,16 @@ export class DocumentTypeFormComponent {
 
     private record: DocumentTypeReadDto
     private recordId: string
-    public feature = 'documentTypeForm'
+    public feature = 'saleDocumentTypeForm'
     public featureIcon = 'documentTypes'
     public form: FormGroup
     public icon = 'arrow_back'
     public input: InputTabStopDirective
-    public parentUrl = '/documentTypes'
+    public parentUrl = '/saleDocumentTypes'
 
     //#endregion
 
-    //#region autocompletes
-
-    public isAutoCompleteDisabled = true
-    public dropdownShips: Observable<SimpleEntity[]>
-    public dropdownShipOwners: Observable<SimpleEntity[]>
-
-    //#endregion
-
-
-    constructor(private activatedRoute: ActivatedRoute, private documentTypeHelperService: DocumentTypeHelperService, private documentTypeHttpService: DocumentTypeHttpService, private dateAdapter: DateAdapter<any>, private dexieService: DexieService, private dialogService: DialogService, private emojiService: EmojiService, private formBuilder: FormBuilder, private helperService: HelperService, private interactionService: InteractionService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private router: Router) { }
+    constructor(private activatedRoute: ActivatedRoute, private documentTypeHelperService: DocumentTypeHelperService, private documentTypeHttpService: DocumentTypeHttpService, private dexieService: DexieService, private dialogService: DialogService, private formBuilder: FormBuilder, private helperService: HelperService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private router: Router) { }
 
     //#region lifecycle hooks
 
@@ -63,8 +46,6 @@ export class DocumentTypeFormComponent {
         this.setRecordId()
         this.getRecord()
         this.populateFields()
-        this.subscribeToInteractionService()
-        this.setLocale()
     }
 
     ngAfterViewInit(): void {
@@ -77,18 +58,6 @@ export class DocumentTypeFormComponent {
 
     public autocompleteFields(fieldName: any, object: any): any {
         return object ? object[fieldName] : undefined
-    }
-
-    public checkForEmptyAutoComplete(event: { target: { value: any } }): void {
-        if (event.target.value == '') this.isAutoCompleteDisabled = true
-    }
-
-    public enableOrDisableAutoComplete(event: any): void {
-        this.isAutoCompleteDisabled = this.helperService.enableOrDisableAutoComplete(event)
-    }
-
-    public getEmojiForActiveRecord(isActive: boolean): string {
-        return this.emojiService.getEmoji(isActive ? 'active' : 'notActive')
     }
 
     public getHint(id: string, minmax = 0): string {
@@ -119,31 +88,25 @@ export class DocumentTypeFormComponent {
         this.saveRecord(this.flattenForm())
     }
 
-    public openOrCloseAutoComplete(trigger: MatAutocompleteTrigger, element: any): void {
-        this.helperService.openOrCloseAutocomplete(this.form, element, trigger)
-    }
-
     //#endregion
 
     //#region private methods
-
-    private filterAutocomplete(array: string, field: string, value: any): any[] {
-        if (typeof value !== 'object') {
-            const filtervalue = value.toLowerCase()
-            return this[array].filter((element: { [x: string]: string }) =>
-                element[field].toLowerCase().startsWith(filtervalue))
-        }
-    }
 
     private flattenForm(): DocumentTypeWriteDto {
         return {
             id: this.form.value.id != '' ? this.form.value.id : null,
             discriminatorId: parseInt(this.form.value.discriminatorId),
+            abbreviation: this.form.value.abbreviation,
             description: this.form.value.description,
+            batch: this.form.value.batch,
             customers: this.form.value.customers,
-            suppliers: this.form.value.suppliers,
-            isStatistic: this.form.value.isActive,
+            isDefault: this.form.value.isDefault,
+            isMyData: this.form.value.isMyData,
+            isStatistic: this.form.value.isStatistic,
             isActive: this.form.value.isActive,
+            table8_1: this.form.value.table8_1,
+            table8_8: this.form.value.table8_8,
+            table8_9: this.form.value.table8_9,
             putAt: this.form.value.putAt
         }
     }
@@ -152,17 +115,10 @@ export class DocumentTypeFormComponent {
         this.helperService.focusOnField()
     }
 
-    private getDiscriminatorDescription(): string {
-        switch (parseInt(this.form.value.discriminatorId)) {
-            case 1: return 'documentTypesInvoice'
-            case 2: return 'documentTypesReceipt'
-        }
-    }
-
     private getRecord(): Promise<any> {
         if (this.recordId != undefined) {
             return new Promise((resolve) => {
-                const formResolved: FormResolved = this.activatedRoute.snapshot.data['documentTypeForm']
+                const formResolved: FormResolved = this.activatedRoute.snapshot.data['saleDocumentTypeForm']
                 if (formResolved.error == null) {
                     this.record = formResolved.record.body
                     resolve(this.record)
@@ -184,11 +140,17 @@ export class DocumentTypeFormComponent {
         this.form = this.formBuilder.group({
             id: '',
             discriminatorId: ['', [Validators.required]],
+            abbreviation: ['', [Validators.required, Validators.maxLength(5)]],
             description: ['', [Validators.required, Validators.maxLength(128)]],
+            batch: ['', [Validators.required, Validators.maxLength(5)]],
             customers: ['', [Validators.maxLength(1), ValidationService.shouldBeEmptyPlusOrMinus]],
-            suppliers: ['', [Validators.maxLength(1), ValidationService.shouldBeEmptyPlusOrMinus]],
             isStatistic: false,
+            isMyData: true,
+            isDefault: true,
             isActive: true,
+            table8_1: ['', [Validators.maxLength(32)]],
+            table8_8: ['', [Validators.maxLength(32)]],
+            table8_9: ['', [Validators.maxLength(32)]],
             postAt: [''],
             postUser: [''],
             putAt: [''],
@@ -199,13 +161,19 @@ export class DocumentTypeFormComponent {
     private populateFields(): void {
         if (this.record != undefined) {
             this.form.setValue({
-                id: this.record.id,
-                discriminatorId: this.record.discriminatorId.toString(),
-                description: this.record.description,
+                abbreviation: this.record.abbreviation,
+                batch: this.record.batch,
                 customers: this.record.customers,
-                suppliers: this.record.suppliers,
-                isStatistic: this.record.isStatistic,
+                description: this.record.description,
+                discriminatorId: this.record.discriminatorId.toString(),
+                id: this.record.id,
                 isActive: this.record.isActive,
+                isDefault: this.record.isDefault,
+                isMyData: this.record.isMyData,
+                isStatistic: this.record.isStatistic,
+                table8_1: this.record.table8_1,
+                table8_8: this.record.table8_8,
+                table8_9: this.record.table8_9,
                 postAt: this.record.postAt,
                 postUser: this.record.postUser,
                 putAt: this.record.putAt,
@@ -221,22 +189,12 @@ export class DocumentTypeFormComponent {
     private saveRecord(documentType: DocumentTypeWriteDto): void {
         this.documentTypeHttpService.save(documentType).subscribe({
             next: (response) => {
-                this.documentTypeHelperService.updateBrowserStorageAfterApiUpdate('documentTypes', response.body)
+                this.documentTypeHelperService.updateBrowserStorageAfterApiUpdate('saleDocumentTypes', response.body)
                 this.helperService.doPostSaveFormTasks(this.messageDialogService.success(), 'ok', this.parentUrl, true)
             },
             error: (errorFromInterceptor) => {
                 this.dialogService.open(this.messageDialogService.filterResponse(errorFromInterceptor), 'error', ['ok'])
             }
-        })
-    }
-
-    private setLocale(): void {
-        this.dateAdapter.setLocale(this.localStorageService.getLanguage())
-    }
-
-    private subscribeToInteractionService(): void {
-        this.interactionService.refreshDateAdapter.subscribe(() => {
-            this.setLocale()
         })
     }
 
@@ -250,16 +208,32 @@ export class DocumentTypeFormComponent {
 
     //#region getters
 
+    get abbreviation(): AbstractControl {
+        return this.form.get('abbreviation')
+    }
+
     get description(): AbstractControl {
         return this.form.get('description')
+    }
+
+    get batch(): AbstractControl {
+        return this.form.get('batch')
     }
 
     get customers(): AbstractControl {
         return this.form.get('customers')
     }
 
-    get suppliers(): AbstractControl {
-        return this.form.get('suppliers')
+    get table8_1(): AbstractControl {
+        return this.form.get('table8_1')
+    }
+
+    get table8_8(): AbstractControl {
+        return this.form.get('table8_8')
+    }
+
+    get table8_9(): AbstractControl {
+        return this.form.get('table8_9')
     }
 
     get postAt(): AbstractControl {

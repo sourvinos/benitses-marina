@@ -167,8 +167,8 @@ export class CustomerFormComponent {
 
     private buildCustomerAadeRequesrtVM(vatNumber: string): CustomerAadeRequestVM {
         const x: CustomerAadeRequestVM = {
-            username: 'KEP997346439',
-            password: 'PKE997346439',
+            username: 'user3645906815',
+            password: 'PM801515394',
             vatNumber: vatNumber
         }
         return x

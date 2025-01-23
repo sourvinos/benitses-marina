@@ -34,7 +34,7 @@ namespace API.Features.Sales.DocumentTypes {
 
         [HttpGet("[action]")]
         [Authorize(Roles = "user, admin")]
-        public async Task<IEnumerable<SaleDocumentTypeBrowserVM>> GetForBrowserInvoiceAsync() {
+        public async Task<IEnumerable<SaleDocumentTypeBrowserVM>> GetForBrowserAsync() {
             return await documentTypeRepo.GetForBrowserAsync(1);
         }
 
@@ -59,10 +59,10 @@ namespace API.Features.Sales.DocumentTypes {
         [HttpPost]
         [Authorize(Roles = "admin")]
         [ServiceFilter(typeof(ModelValidationAttribute))]
-        public ResponseWithBody Post([FromBody] SaleDocumentTypeWriteDto DocumentType) {
-            var x = documentTypeValidation.IsValid(null, DocumentType);
+        public ResponseWithBody Post([FromBody] SaleDocumentTypeWriteDto documentType) {
+            var x = documentTypeValidation.IsValid(null, documentType);
             if (x == 200) {
-                var z = documentTypeRepo.Create(mapper.Map<SaleDocumentTypeWriteDto, SaleDocumentType>((SaleDocumentTypeWriteDto)documentTypeRepo.AttachMetadataToPostDto(DocumentType)));
+                var z = documentTypeRepo.Create(mapper.Map<SaleDocumentTypeWriteDto, SaleDocumentType>((SaleDocumentTypeWriteDto)documentTypeRepo.AttachMetadataToPostDto(documentType)));
                 return new ResponseWithBody {
                     Code = 200,
                     Icon = Icons.Success.ToString(),

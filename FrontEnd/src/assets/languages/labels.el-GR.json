@@ -1457,11 +1457,11 @@
         ]
     },
     {
-        "feature": "documentTypeList",
+        "feature": "expenseDocumentTypeList",
         "labels": [
             {
                 "id": "header",
-                "description": "Τύποι παραστατικών"
+                "description": "Τύποι παραστατικών εξόδων"
             },
             {
                 "id": "headerIsActive",
@@ -1478,15 +1478,68 @@
         ]
     },
     {
-        "feature": "documentTypeForm",
+        "feature": "saleDocumentTypeList",
         "labels": [
             {
                 "id": "header",
-                "description": "Τύπος παραστατικού"
+                "description": "Τύποι παραστατικών πωλήσεων"
+            },
+            {
+                "id": "headerIsActive",
+                "description": "Ενεργό"
+            },
+            {
+                "id": "headerDescription",
+                "description": "Περιγραφή"
+            },
+            {
+                "id": "headerBatch",
+                "description": "Σειρά"
+            },
+            {
+                "id": "headerTable8_1",
+                "description": "Πίνακας 8.1"
+            },
+            {
+                "id": "headerTable8_8",
+                "description": "Πίνακας 8.8"
+            },
+            {
+                "id": "headerTable8_9",
+                "description": "Πίνακας 8.9"
+            },
+            {
+                "id": "newRecord",
+                "description": "Νεα εγγραφη"
+            }
+        ]
+    },
+    {
+        "feature": "saleDocumentTypeForm",
+        "labels": [
+            {
+                "id": "tab1",
+                "description": "Γενικά"
+            },
+            {
+                "id": "tab2",
+                "description": "myData"
+            },
+            {
+                "id": "header",
+                "description": "Τύπος παραστατικού πώλησης"
+            },
+            {
+                "id": "abbreviation",
+                "description": "Συντ."
             },
             {
                 "id": "description",
                 "description": "Περιγραφή"
+            },
+            {
+                "id": "batch",
+                "description": "Σειρά"
             },
             {
                 "id": "customers",
@@ -1511,6 +1564,26 @@
             {
                 "id": "isActive",
                 "description": "Ενεργό"
+            },
+            {
+                "id": "isMyData",
+                "description": "Ενημερώνει myDATA"
+            },
+            {
+                "id": "table8_1",
+                "description": "Πίνακας 8.1"
+            },
+            {
+                "id": "table8_8",
+                "description": "Πίνακας 8.8"
+            },
+            {
+                "id": "table8_9",
+                "description": "Πίνακας 8.9"
+            },
+            {
+                "id": "isDefault",
+                "description": "Εξ' ορισμού προεπιλογή"
             },
             {
                 "id": "post",

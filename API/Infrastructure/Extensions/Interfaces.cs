@@ -61,6 +61,7 @@ namespace API.Infrastructure.Extensions {
             services.AddTransient<IReservationValidation, ReservationValidation>();
             #endregion
             #region sales
+            services.AddTransient<ICustomerAadeRepository, CustomerAadeRepository>();
             services.AddTransient<ICustomerRepository, CustomerRepository>();
             services.AddTransient<ICustomerValidation, CustomerValidation>();
             services.AddTransient<INationalityRepository, NationalityRepository>();

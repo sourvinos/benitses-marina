@@ -14,6 +14,7 @@ import { CompanyHttpService } from 'src/app/features/expenses/companies/classes/
 import { CryptoService } from './crypto.service'
 import { CustomerHttpService } from 'src/app/features/sales/customers/classes/services/customer-http.service'
 import { DexieService } from './dexie.service'
+import { DocumentTypeHttpService } from 'src/app/features/sales/documentTypes/classes/services/documentType-http.service'
 import { DotNetVersion } from '../classes/dotnet-version'
 import { ExpensesDocumentTypeHttpService } from 'src/app/features/expenses/documentTypes/classes/services/documentType-http.service'
 import { HttpDataService } from './http-data.service'
@@ -57,6 +58,7 @@ export class AccountService extends HttpDataService {
         private paymentMethodHttpService: PaymentMethodHttpService,
         private paymentStatusHttpService: PaymentStatusHttpService,
         private router: Router,
+        private saleDocumentHttpService: DocumentTypeHttpService,
         private sessionStorageService: SessionStorageService,
         private supplierHttpService: SupplierHttpService,
         private taxOfficeService: TaxOfficeHttpService
@@ -171,7 +173,7 @@ export class AccountService extends HttpDataService {
         this.dexieService.populateTable('balanceFiltersCriteria', this.balanceFilterHttpService)
         this.dexieService.populateTable('banks', this.bankHttpService)
         this.dexieService.populateTable('companies', this.companyHttpService)
-        this.dexieService.populateTable('expensesDocumentTypes', this.expensesDocumentTypeHttpService)
+        this.dexieService.populateTable('expenseDocumentTypes', this.expensesDocumentTypeHttpService)
         this.dexieService.populateTable('paymentMethods', this.paymentMethodHttpService)
         this.dexieService.populateTable('suppliers', this.supplierHttpService)
         this.dexieService.populateCriteria('companiesCriteria', this.companyHttpService)
@@ -184,6 +186,7 @@ export class AccountService extends HttpDataService {
         // Sales
         this.dexieService.populateTable('customers', this.customerHttpService)
         this.dexieService.populateTable('nationalities', this.nationalityHttpService)
+        this.dexieService.populateTable('saleDocumentTypes', this.saleDocumentHttpService)
         this.dexieService.populateTable('taxOffices', this.taxOfficeService)
     }
 

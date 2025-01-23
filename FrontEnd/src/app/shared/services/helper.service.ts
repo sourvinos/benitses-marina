@@ -87,7 +87,7 @@ export class HelperService {
                 input.focus()
                 input.select()
             }
-        }, 500)
+        }, 1500)
     }
 
     public enableTableFilters(): void {

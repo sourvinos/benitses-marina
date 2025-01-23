@@ -8,9 +8,9 @@ import { DocumentTypeListComponent } from '../../user-interface/documentType-lis
 import { DocumentTypeListResolver } from '../resolvers/documentType-list.resolver'
 
 const routes: Routes = [
-    { path: '', component: DocumentTypeListComponent, canActivate: [AuthGuardService], resolve: { documentTypeList: DocumentTypeListResolver } },
+    { path: '', component: DocumentTypeListComponent, canActivate: [AuthGuardService], resolve: { saleDocumentTypeList: DocumentTypeListResolver } },
     { path: 'new', component: DocumentTypeFormComponent, canActivate: [AuthGuardService] },
-    { path: ':id', component: DocumentTypeFormComponent, canActivate: [AuthGuardService], resolve: { documentTypeForm: DocumentTypeFormResolver } }
+    { path: ':id', component: DocumentTypeFormComponent, canActivate: [AuthGuardService], resolve: { saleDocumentTypeForm: DocumentTypeFormResolver } }
 ]
 
 @NgModule({

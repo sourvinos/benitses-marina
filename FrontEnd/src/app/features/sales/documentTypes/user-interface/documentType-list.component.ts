@@ -27,9 +27,9 @@ export class DocumentTypeListComponent {
 
     @ViewChild('table') table: Table
 
-    private url = 'documentTypes'
+    private url = 'saleDocumentTypes'
     private virtualElement: any
-    public feature = 'documentTypeList'
+    public feature = 'saleDocumentTypeList'
     public featureIcon = 'documentTypes'
     public icon = 'home'
     public parentUrl = '/home'
@@ -42,13 +42,6 @@ export class DocumentTypeListComponent {
 
     public menuItems!: MenuItem[]
     public selectedRecord!: DocumentTypeListVM
-
-    //#endregion
-
-    //#region dropdown filters
-
-    public distinctShips: SimpleEntity[] = []
-    public distinctShipOwners: SimpleEntity[] = []
 
     //#endregion
 

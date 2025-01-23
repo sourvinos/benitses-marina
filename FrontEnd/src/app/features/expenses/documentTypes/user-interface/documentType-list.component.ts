@@ -29,7 +29,7 @@ export class DocumentTypeListComponent {
 
     private url = 'documentTypes'
     private virtualElement: any
-    public feature = 'documentTypeList'
+    public feature = 'expenseDocumentTypeList'
     public featureIcon = 'documentTypes'
     public icon = 'home'
     public parentUrl = '/home'
