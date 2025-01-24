@@ -23,6 +23,7 @@ using API.Features.Sales.Customers;
 using API.Features.Sales.TaxOffices;
 using API.Features.Sales.Nationalities;
 using API.Features.Sales.DocumentTypes;
+using API.Features.Sales.Invoices;
 
 namespace API.Infrastructure.Extensions {
 
@@ -69,6 +70,7 @@ namespace API.Infrastructure.Extensions {
             services.AddTransient<IPriceValidation, PriceValidation>();
             services.AddTransient<ISaleDocumentTypeRepository, SaleDocumentTypeRepository>();
             services.AddTransient<ISaleDocumentTypeValidation, SaleDocumentTypeValidation>();
+            services.AddTransient<IInvoiceReadRepository, InvoiceReadRepository>();
             services.AddTransient<ITaxOfficeRepository, TaxOfficeRepository>();
             services.AddTransient<ITaxOfficeValidation, TaxOfficeValidator>();
             #endregion

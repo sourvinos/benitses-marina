@@ -20,6 +20,8 @@ using API.Features.Sales.Customers;
 using API.Features.Sales.Nationalities;
 using API.Features.Sales.TaxOffices;
 using API.Features.Sales.DocumentTypes;
+using API.Features.Sales.Invoices;
+using API.Features.Sales.Transactions;
 
 namespace API.Infrastructure.Classes {
 
@@ -28,15 +30,18 @@ namespace API.Infrastructure.Classes {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         #region expenses
+
         public DbSet<BalanceFilter> BalanceFilters { get; set; }
         public DbSet<Bank> Banks { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<ExpenseDocumentType> ExpenseDocumentTypes { get; set; }
         public DbSet<Expense> Expenses { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
+
         #endregion
 
         #region reservations
+
         public DbSet<Berth> Berths { get; set; }
         public DbSet<BoatType> BoatTypes { get; set; }
         public DbSet<BoatUsage> BoatUsages { get; set; }
@@ -48,19 +53,28 @@ namespace API.Infrastructure.Classes {
         public DbSet<ReservationFee> ReservationFeeDetails { get; set; }
         public DbSet<ReservationInsurance> ReservationInsuranceDetails { get; set; }
         public DbSet<ReservationOwner> ReservationOwnerDetails { get; set; }
+
         #endregion
 
         #region common
+
         public DbSet<Token> Tokens { get; set; }
         public DbSet<PaymentMethod> PaymentMethods { get; set; }
+
         #endregion
 
         #region sales
+
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Nationality> Nationalities { get; set; }
         public DbSet<Price> Prices { get; set; }
+        public DbSet<Invoice> Invoices { get; set; }
+        public DbSet<InvoiceAade> InvoicesAade { get; set; }
+        public DbSet<InvoiceItem> InvoicesItems { get; set; }
         public DbSet<SaleDocumentType> SaleDocumentTypes { get; set; }
         public DbSet<TaxOffice> TaxOffices { get; set; }
+        public DbSet<TransactionsBase> Transactions { get; set; }
+
         #endregion
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
@@ -93,6 +107,10 @@ namespace API.Infrastructure.Classes {
             modelBuilder.ApplyConfiguration(new PriceConfig());
             modelBuilder.ApplyConfiguration(new SaleDocumentTypeConfig());
             modelBuilder.ApplyConfiguration(new TaxOfficeConfig());
+            modelBuilder.ApplyConfiguration(new TransactionConfig());
+            modelBuilder.ApplyConfiguration(new InvoiceAadeConfig());
+            modelBuilder.ApplyConfiguration(new InvoiceConfig());
+            modelBuilder.ApplyConfiguration(new InvoiceItemConfig());
             #endregion
         }
 

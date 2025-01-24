@@ -1,5 +1,4 @@
-﻿using API.Infrastructure.Classes;
-using API.Infrastructure.Interfaces;
+﻿using API.Infrastructure.Interfaces;
 
 namespace API.Features.Sales.DocumentTypes {
 
