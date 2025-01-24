@@ -65,12 +65,14 @@ namespace API.Infrastructure.Extensions {
             services.AddTransient<ICustomerAadeRepository, CustomerAadeRepository>();
             services.AddTransient<ICustomerRepository, CustomerRepository>();
             services.AddTransient<ICustomerValidation, CustomerValidation>();
+            services.AddTransient<IInvoiceReadRepository, InvoiceReadRepository>();
+            services.AddTransient<IInvoiceUpdateRepository, InvoiceUpdateRepository>();
+            services.AddTransient<IInvoiceValidation, InvoiceValidation>();
             services.AddTransient<INationalityRepository, NationalityRepository>();
             services.AddTransient<IPriceRepository, PriceRepository>();
             services.AddTransient<IPriceValidation, PriceValidation>();
             services.AddTransient<ISaleDocumentTypeRepository, SaleDocumentTypeRepository>();
             services.AddTransient<ISaleDocumentTypeValidation, SaleDocumentTypeValidation>();
-            services.AddTransient<IInvoiceReadRepository, InvoiceReadRepository>();
             services.AddTransient<ITaxOfficeRepository, TaxOfficeRepository>();
             services.AddTransient<ITaxOfficeValidation, TaxOfficeValidator>();
             #endregion
@@ -83,6 +85,7 @@ namespace API.Infrastructure.Extensions {
             #endregion
 
         }
+
     }
 
 }

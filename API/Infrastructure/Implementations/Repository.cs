@@ -17,8 +17,8 @@ namespace API.Infrastructure.Implementations {
 
         private readonly IHttpContextAccessor httpContextAccessor;
         private readonly TestingEnvironment testingSettings;
-        protected readonly AppDbContext context;
         private readonly UserManager<UserExtended> userManager;
+        protected readonly AppDbContext context;
 
         public Repository(AppDbContext context, IHttpContextAccessor httpContextAccessor, IOptions<TestingEnvironment> testingSettings, UserManager<UserExtended> userManager) {
             this.context = context;

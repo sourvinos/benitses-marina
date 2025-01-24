@@ -1,5 +1,7 @@
 ﻿using API.Features.Sales.Customers;
-using API.Features.Sales.Transactions;
+using API.Infrastructure.Extensions;
+using API.Infrastructure.Helpers;
+using API.Infrastructure.Responses;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,13 +17,17 @@ namespace API.Features.Sales.Invoices {
 
         private readonly ICustomerRepository customerRepo;
         private readonly IInvoiceReadRepository invoiceReadRepo;
+        private readonly IInvoiceUpdateRepository invoiceUpdateRepo;
+        private readonly IInvoiceValidation invoiceValidation;
         private readonly IMapper mapper;
 
         #endregion
 
-        public SalesController(ICustomerRepository customerRepo, IInvoiceReadRepository invoiceReadRepo, IMapper mapper) {
+        public SalesController(ICustomerRepository customerRepo, IInvoiceReadRepository invoiceReadRepo, IInvoiceUpdateRepository invoiceUpdateRepo, IInvoiceValidation invoiceValidation, IMapper mapper) {
             this.customerRepo = customerRepo;
             this.invoiceReadRepo = invoiceReadRepo;
+            this.invoiceUpdateRepo = invoiceUpdateRepo;
+            this.invoiceValidation = invoiceValidation;
             this.mapper = mapper;
         }
 
@@ -30,6 +36,46 @@ namespace API.Features.Sales.Invoices {
         public async Task<IEnumerable<InvoiceistVM>> GetAsync() {
             return await invoiceReadRepo.GetAsync();
         }
+
+        [HttpGet("{invoiceId}")]
+        [Authorize(Roles = "admin")]
+        public async Task<ResponseWithBody> GetByIdAsync(string invoiceId) {
+            var x = await invoiceReadRepo.GetByIdAsync(invoiceId, true);
+            if (x != null) {
+                return new ResponseWithBody {
+                    Code = 200,
+                    Icon = Icons.Info.ToString(),
+                    Message = ApiMessages.OK(),
+                    Body = mapper.Map<Invoice, InvoiceReadDto>(x)
+                };
+            } else {
+                throw new CustomException() {
+                    ResponseCode = 404
+                };
+            }
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "admin")]
+        [ServiceFilter(typeof(ModelValidationAttribute))]
+        public async Task<Response> PostAsync([FromBody] InvoiceCreateDto invoice) {
+            invoice.InvoiceNo = await invoiceUpdateRepo.IncreaseInvoiceNoAsync(invoice);
+            var x = invoiceValidation.IsValidAsync(null, invoice);
+            if (await x == 200) {
+                var z = invoiceUpdateRepo.Create(mapper.Map<InvoiceCreateDto, Invoice>((InvoiceCreateDto)invoiceUpdateRepo.AttachMetadataToPostDto(invoice)));
+                return new Response {
+                    Code = 200,
+                    Icon = Icons.Success.ToString(),
+                    Id = z.InvoiceId.ToString(),
+                    Message = ApiMessages.OK()
+                };
+            } else {
+                throw new CustomException() {
+                    ResponseCode = await x
+                };
+            }
+        }
+
 
     }
 

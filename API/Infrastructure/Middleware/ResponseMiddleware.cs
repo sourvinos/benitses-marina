@@ -81,6 +81,8 @@ namespace API.Infrastructure.Middleware {
                 415 => ApiMessages.ConcurrencyError(),
                 491 => ApiMessages.RecordInUse(),
                 498 => ApiMessages.EmailNotSent(),
+                463 => ApiMessages.InvoiceAlreadyExists(),
+                443 => ApiMessages.InvoiceAutoNumberingHasErrors(),
                 _ => ApiMessages.UnknownError(),
             };
         }

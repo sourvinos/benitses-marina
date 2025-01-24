@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using API.Features.Sales.Transactions;
 
 namespace API.Features.Sales.Invoices {
 
@@ -27,13 +26,34 @@ namespace API.Features.Sales.Invoices {
                 .Where(x => x.DiscriminatorId == 1)
                 .Include(x => x.Customer)
                 .Include(x => x.DocumentType)
+                .Include(x => x.Aade)
                 .OrderBy(x => x.Date)
                 .ToListAsync();
             return mapper.Map<IEnumerable<Invoice>, IEnumerable<InvoiceistVM>>(sales);
         }
 
+        public async Task<Invoice> GetByIdAsync(string invoiceId, bool includeTables) {
+            return includeTables
+                ? await context.Invoices
+                    .AsNoTracking()
+                    .Include(x => x.Customer).ThenInclude(x => x.Nationality)
+                    .Include(x => x.Customer).ThenInclude(x => x.TaxOffice)
+                    .Include(x => x.DocumentType)
+                    .Include(x => x.PaymentMethod)
+                    .Include(x => x.Aade)
+                    .Include(x => x.LineItems)
+                    .Where(x => x.InvoiceId.ToString() == invoiceId)
+                    .SingleOrDefaultAsync()
+               : await context.Invoices
+                    .AsNoTracking()
+                    .Include(x => x.Aade)
+                    .Include(x => x.LineItems)
+                    .Where(x => x.InvoiceId.ToString() == invoiceId)
+                    .SingleOrDefaultAsync();
+        }
+
         public async Task<InvoiceAade> GetInvoiceAadeByIdAsync(string invoiceId) {
-            return await context.InvoicesAade
+            return await context.SalesAade
                 .AsNoTracking()
                 .Where(x => x.InvoiceId.ToString() == invoiceId)
                 .SingleOrDefaultAsync();

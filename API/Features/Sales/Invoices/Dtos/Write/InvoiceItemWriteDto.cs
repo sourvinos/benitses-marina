@@ -2,7 +2,7 @@ using System;
 
 namespace API.Features.Sales.Invoices {
 
-    public class InvoiceItem {
+    public class InvoiceItemWriteDto {
 
         public int Id { get; set; }
         public Guid InvoiceId { get; set; }

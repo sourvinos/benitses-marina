@@ -69,11 +69,11 @@ namespace API.Infrastructure.Classes {
         public DbSet<Nationality> Nationalities { get; set; }
         public DbSet<Price> Prices { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
-        public DbSet<InvoiceAade> InvoicesAade { get; set; }
+        public DbSet<InvoiceAade> SalesAade { get; set; }
         public DbSet<InvoiceItem> InvoicesItems { get; set; }
         public DbSet<SaleDocumentType> SaleDocumentTypes { get; set; }
         public DbSet<TaxOffice> TaxOffices { get; set; }
-        public DbSet<TransactionsBase> Transactions { get; set; }
+        public DbSet<TransactionsBase> Sales { get; set; }
 
         #endregion
 

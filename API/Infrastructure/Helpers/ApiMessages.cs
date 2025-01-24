@@ -25,7 +25,9 @@ namespace API.Infrastructure.Helpers {
         #region Specific Messages
 
         public static string VatNumberIsDuplicate() { return "The Tax Number already exists."; }
-        public static string CustomerDataIsInvalid() { return "Customer data is invalid"; }
+        public static string CustomerDataIsInvalid() { return "Customer data is invalid."; }
+        public static string InvoiceAlreadyExists() { return "Invoice already exists."; }
+        public static string InvoiceAutoNumberingHasErrors() { return "Invoice auto-numbering has errors."; }
 
         #endregion
 
