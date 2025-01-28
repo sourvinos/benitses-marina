@@ -6,7 +6,8 @@ namespace API.Features.Sales.Invoices {
     public interface IInvoiceDataUpRepository {
 
         DataUpJsonVM CreateJsonFileAsync(Invoice x);
-        Task<JObject> UploadJsonAsync();
+        Task<JObject> UploadJsonAsync(DataUpJsonVM json);
+        Task<JObject> UploadHardCodedJsonAsync();
 
     }
 

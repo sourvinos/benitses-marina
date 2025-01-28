@@ -29,8 +29,10 @@ namespace API.Features.Sales.Invoices {
         public async Task<ResponseWithBody> CreateJsonFile(string invoiceId) {
             var x = await invoiceReadRepo.GetByIdAsync(invoiceId, true);
             if (x != null) {
+                var json = dataUpRepo.CreateJsonFileAsync(x);
+                var dataUpResponse = dataUpRepo.UploadJsonAsync(json);
                 // var json = dataUpRepo.CreateJsonFileAsync(x);
-                var dataUpResponse = dataUpRepo.UploadJsonAsync();
+                // var dataUpResponse = dataUpRepo.UploadHardCodedJsonAsync();
                 return new ResponseWithBody {
                     Code = 200,
                     Icon = Icons.Info.ToString(),

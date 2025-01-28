@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 using API.Infrastructure.Helpers;
 using Newtonsoft.Json.Linq;
@@ -15,11 +16,11 @@ namespace API.Features.Sales.Invoices {
                 Vessel_name = "vessel_name",
                 Invoice = new() {
                     Issue_date = DateHelpers.DateToISOString(invoice.Date),
-                    Series = "series",
+                    Series = invoice.DocumentType.Abbreviation,
                     Gross_price = invoice.GrossAmount,
                     Payment_type = invoice.PaymentMethod.MyDataId.ToString(),
-                    Branch = "branch",
-                    Issuer_vat_number = "issuer_vat_number",
+                    Branch = "0",
+                    Issuer_vat_number = "801515394",
                     Mydata_transmit = "true"
                 },
                 CounterPart = new() {
@@ -41,7 +42,19 @@ namespace API.Features.Sales.Invoices {
             return json;
         }
 
-        public async Task<JObject> UploadJsonAsync() {
+        public async Task<JObject> UploadJsonAsync(DataUpJsonVM json) {
+            var client = new HttpClient();
+            var request = new HttpRequestMessage(HttpMethod.Post, "https://dataup-uat.gr/api/docking/invoice/add");
+            var x = JsonSerializer.Serialize(json);
+            request.Headers.Add("Authorization", "Bearer 3a78c28fda85b253c8446c5fbe664b54da71775c112c85f22cc1995e986620a2");
+            var content = new StringContent(x, System.Text.Encoding.UTF8, "application/json");
+            request.Content = content;
+            var response = await client.SendAsync(request);
+            var z = JObject.Parse(await response.Content.ReadAsStringAsync());
+            return z;
+        }
+
+        public async Task<JObject> UploadHardCodedJsonAsync() {
             var client = new HttpClient();
             var request = new HttpRequestMessage(HttpMethod.Post, "https://dataup-uat.gr/api/docking/invoice/add");
             request.Headers.Add("Authorization", "Bearer 3a78c28fda85b253c8446c5fbe664b54da71775c112c85f22cc1995e986620a2");
@@ -57,9 +70,11 @@ namespace API.Features.Sales.Invoices {
             foreach (var lineItem in lineItems) {
                 var z = new DataUpJsonLineVM() {
                     Title = "title",
-                    Description = "",
+                    Description = "description",
                     Tax_code = "1",
-                    Gross_price = lineItem.GrossAmount
+                    Quantity = 1,
+                    Net_price = 100,
+                    Gross_price = 124
                 };
                 x.Add(z);
             }
