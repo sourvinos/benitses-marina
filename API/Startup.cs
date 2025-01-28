@@ -1,4 +1,5 @@
 using System;
+using API.Features.Sales.Invoices;
 using API.Infrastructure.Auth;
 using API.Infrastructure.Classes;
 using API.Infrastructure.Extensions;
@@ -95,6 +96,7 @@ namespace API {
             services.Configure<EmailInvoicingSettings>(options => Configuration.GetSection("EmailInvoicingSettings").Bind(options));
             services.Configure<TokenSettings>(options => Configuration.GetSection("TokenSettings").Bind(options));
             services.Configure<TestingEnvironment>(options => Configuration.GetSection("TestingEnvironment").Bind(options));
+            services.AddHttpClient<SalesDataUpController>();
         }
 
         public void ConfigureLocalDevelopment(IApplicationBuilder app) {

@@ -8,11 +8,13 @@ namespace API.Features.Sales.Invoices {
     public class SaleMappingProfile : Profile {
 
         public SaleMappingProfile() {
+            // List
             CreateMap<Invoice, InvoiceistVM>()
                 .ForMember(x => x.Date, x => x.MapFrom(x => DateHelpers.DateToISOString(x.Date)))
                 .ForMember(x => x.Customer, x => x.MapFrom(x => new SimpleEntity { Id = x.Customer.Id, Description = x.Customer.Description }))
                 .ForMember(x => x.DocumentType, x => x.MapFrom(x => new SimpleEntity { Id = x.DocumentType.Id, Description = x.DocumentType.Abbreviation + " - ΣΕΙΡΑ " + x.DocumentType.Batch }))
                 .ForMember(x => x.Aade, x => x.MapFrom(x => new SaleListAadeVM { Mark = x.Aade.Mark != "", MarkCancel = x.Aade.MarkCancel != "" }));
+            // Read
             CreateMap<Invoice, InvoiceReadDto>()
                 .ForMember(x => x.Date, x => x.MapFrom(x => DateHelpers.DateToISOString(x.Date)))
                 .ForMember(x => x.Customer, x => x.MapFrom(x => new SimpleEntity {
@@ -40,7 +42,7 @@ namespace API.Features.Sales.Invoices {
                     // InvoiceId = x.InvoiceId,
                     GrossAmount = x.GrossAmount
                 })));
-            // Create invoice
+            // Post
             CreateMap<InvoiceCreateDto, Invoice>()
                 .ForMember(x => x.DiscriminatorId, x => x.MapFrom(x => 1))
                 .ForMember(x => x.Aade, x => x.MapFrom(x => new InvoiceAade {

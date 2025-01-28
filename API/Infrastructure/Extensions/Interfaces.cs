@@ -75,6 +75,7 @@ namespace API.Infrastructure.Extensions {
             services.AddTransient<ISaleDocumentTypeValidation, SaleDocumentTypeValidation>();
             services.AddTransient<ITaxOfficeRepository, TaxOfficeRepository>();
             services.AddTransient<ITaxOfficeValidation, TaxOfficeValidator>();
+            services.AddTransient<IInvoiceDataUpRepository, InvoiceDataUpRepository>();
             #endregion
             #region common
             services.AddScoped<Token>();

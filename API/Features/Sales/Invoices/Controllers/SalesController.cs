@@ -1,5 +1,4 @@
-﻿using API.Features.Sales.Customers;
-using API.Infrastructure.Extensions;
+﻿using API.Infrastructure.Extensions;
 using API.Infrastructure.Helpers;
 using API.Infrastructure.Responses;
 using AutoMapper;
@@ -15,7 +14,6 @@ namespace API.Features.Sales.Invoices {
 
         #region variables
 
-        private readonly ICustomerRepository customerRepo;
         private readonly IInvoiceReadRepository invoiceReadRepo;
         private readonly IInvoiceUpdateRepository invoiceUpdateRepo;
         private readonly IInvoiceValidation invoiceValidation;
@@ -23,8 +21,7 @@ namespace API.Features.Sales.Invoices {
 
         #endregion
 
-        public SalesController(ICustomerRepository customerRepo, IInvoiceReadRepository invoiceReadRepo, IInvoiceUpdateRepository invoiceUpdateRepo, IInvoiceValidation invoiceValidation, IMapper mapper) {
-            this.customerRepo = customerRepo;
+        public SalesController(IInvoiceReadRepository invoiceReadRepo, IInvoiceUpdateRepository invoiceUpdateRepo, IInvoiceValidation invoiceValidation, IMapper mapper) {
             this.invoiceReadRepo = invoiceReadRepo;
             this.invoiceUpdateRepo = invoiceUpdateRepo;
             this.invoiceValidation = invoiceValidation;
@@ -75,7 +72,6 @@ namespace API.Features.Sales.Invoices {
                 };
             }
         }
-
 
     }
 
