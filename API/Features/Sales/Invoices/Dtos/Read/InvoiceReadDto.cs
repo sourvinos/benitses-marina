@@ -21,7 +21,7 @@ namespace API.Features.Sales.Invoices {
         public bool IsCancelled { get; set; }
         // Child tables
         public InvoiceFormAadeVM Aade { get; set; }
-        public List<InvoiceLineItemReadDto> InvoiceLineItems { get; set; }
+        public List<InvoiceItemReadDto> Items { get; set; }
         // Navigation
         public SimpleEntity Customer { get; set; }
         public DocumentTypeVM DocumentType { get; set; }

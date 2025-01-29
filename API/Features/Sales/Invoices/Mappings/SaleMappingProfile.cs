@@ -37,9 +37,15 @@ namespace API.Features.Sales.Invoices {
                     MarkCancel = x.Aade.MarkCancel,
                     QrUrl = x.Aade.QrUrl
                 }))
-                .ForMember(x => x.InvoiceLineItems, x => x.MapFrom(x => x.LineItems.Select(x => new InvoiceLineItemReadDto {
-                    // Id = x.Id,
-                    // InvoiceId = x.InvoiceId,
+                .ForMember(x => x.Items, x => x.MapFrom(x => x.Items.Select(x => new InvoiceItemReadDto {
+                    Id = x.Id,
+                    InvoiceId = x.InvoiceId.ToString(),
+                    Code = x.Code,
+                    Description = x.Description,
+                    EnglishDescription = x.EnglishDescription,
+                    Qty = x.Quantity,
+                    NetAmount = x.NetAmount,
+                    VatAmount = x.VatAmount,
                     GrossAmount = x.GrossAmount
                 })));
             // Post

@@ -25,7 +25,7 @@ namespace API.Features.Sales.Invoices {
         public Invoice Update(Guid invoiceId, Invoice invoice) {
             using var transaction = context.Database.BeginTransaction();
             UpdateInvoice(invoice);
-            DeleteLineItems(invoiceId, invoice.LineItems);
+            DeleteLineItems(invoiceId, invoice.Items);
             context.SaveChanges();
             DisposeOrCommit(transaction);
             return invoice;

@@ -95,6 +95,7 @@ namespace API {
             services.Configure<EmailSettings>(options => Configuration.GetSection("EmailSettings").Bind(options));
             services.Configure<EmailInvoicingSettings>(options => Configuration.GetSection("EmailInvoicingSettings").Bind(options));
             services.Configure<TokenSettings>(options => Configuration.GetSection("TokenSettings").Bind(options));
+            services.Configure<DataUpSettings>(options => Configuration.GetSection("DataUpSettings").Bind(options));
             services.Configure<TestingEnvironment>(options => Configuration.GetSection("TestingEnvironment").Bind(options));
             services.AddHttpClient<SalesDataUpController>();
         }
