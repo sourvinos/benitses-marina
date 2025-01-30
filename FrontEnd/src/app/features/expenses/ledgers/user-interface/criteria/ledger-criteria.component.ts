@@ -132,8 +132,8 @@ export class LedgerCriteriaDialogComponent {
 
     private initForm(): void {
         this.form = this.formBuilder.group({
-            company: ['', [Validators.required, ValidationService.RequireAutocomplete]],
-            supplier: ['', [Validators.required, ValidationService.RequireAutocomplete]],
+            company: ['', [Validators.required, ValidationService.requireAutocomplete]],
+            supplier: ['', [Validators.required, ValidationService.requireAutocomplete]],
             fromDate: ['', [Validators.required]],
             toDate: ['', [Validators.required]],
         })

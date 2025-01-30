@@ -1,0 +1,20 @@
+<div class="group-input-field hide-hint">
+    <form [formGroup]="form" id="form">
+        <mat-form-field>
+            <mat-label>{{ getLabel('uId') }}</mat-label>
+            <input formControlName="uId" matInput readonly>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>{{ getLabel('mark') }}</mat-label>
+            <input formControlName="mark" matInput readonly>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>{{ getLabel('markCancel') }}</mat-label>
+            <input formControlName="markCancel" matInput readonly>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>{{ getLabel('qrUrl') }}</mat-label>
+            <input formControlName="qrUrl" matInput readonly>
+        </mat-form-field>
+    </form>
+</div>

@@ -114,6 +114,12 @@ export class DateHelperService {
             : date
     }
 
+    public convertIsoDateToUnixTime(date: string): number {
+        const x = this.createDateFromString(date)
+        const z = x.getTime()
+        return z
+    }
+
     public isSelectedDateToday(date: string): boolean {
         const x = date
         const z = this.formatDateToIso(new Date())

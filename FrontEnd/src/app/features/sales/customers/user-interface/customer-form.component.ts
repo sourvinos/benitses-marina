@@ -236,8 +236,8 @@ export class CustomerFormComponent {
     private initForm(): void {
         this.form = this.formBuilder.group({
             id: 0,
-            nationality: ['', [Validators.required, ValidationService.RequireAutocomplete]],
-            taxOffice: ['', [Validators.required, ValidationService.RequireAutocomplete]],
+            nationality: ['', [Validators.required, ValidationService.requireAutocomplete]],
+            taxOffice: ['', [Validators.required, ValidationService.requireAutocomplete]],
             vatPercent: ['', [Validators.required, Validators.min(0), Validators.max(100)]],
             vatPercentId: ['', [Validators.required, Validators.min(1), Validators.max(9)]],
             vatExemptionId: [0, [Validators.required, Validators.min(0), Validators.max(30)]],

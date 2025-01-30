@@ -1655,5 +1655,58 @@
                 "description": "Αποθηκευση"
             }
         ]
+    },
+    {
+        "feature": "saleList",
+        "labels": [
+            {
+                "id": "header",
+                "description": "Ημερολόγιο πωλήσεων"
+            },
+            {
+                "id": "headerDate",
+                "description": "Ημερομηνία"
+            },
+            {
+                "id": "headerShipOwnerDescription",
+                "description": "Εκδότης"
+            },
+            {
+                "id": "headerCustomerDescription",
+                "description": "Πελάτης"
+            },
+            {
+                "id": "headerDocumentType",
+                "description": "Παραστατικό"
+            },
+            {
+                "id": "headerNo",
+                "description": "Νο"
+            },
+            {
+                "id": "headerGrossAmount",
+                "description": "Αξία"
+            },
+            {
+                "id": "newRecord",
+                "description": "Νεα εγγραφη"
+            },
+            {
+                "id": "noDataHeader",
+                "description": "Δεν βρήκαμε εγγραφές για να εμφανίσουμε."
+            },
+            {
+                "id": "noDataSubHeader",
+                "description": "Ισως πρέπει να δώσετε διαφορετικά κριτήρια."
+            },
+            {
+                "id": "contextMenuEdit",
+                "description": "Επεξεργασία"
+            },
+            {
+                "id": "contextMenuEmail",
+                "description": "Αποστολή με email"
+            }
+        ]
     }
 ]

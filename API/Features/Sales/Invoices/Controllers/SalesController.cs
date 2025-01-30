@@ -30,8 +30,14 @@ namespace API.Features.Sales.Invoices {
 
         [HttpGet]
         [Authorize(Roles = "admin")]
-        public async Task<IEnumerable<InvoiceistVM>> GetAsync() {
+        public async Task<IEnumerable<InvoiceListVM>> GetAsync() {
             return await invoiceReadRepo.GetAsync();
+        }
+
+        [HttpPost("{getForPeriod}")]
+        [Authorize(Roles = "admin")]
+        public async Task<IEnumerable<InvoiceListVM>> GetForPeriodAsync([FromBody] SaleListCriteriaVM criteria) {
+            return await invoiceReadRepo.GetForPeriodAsync(criteria);
         }
 
         [HttpGet("{invoiceId}")]

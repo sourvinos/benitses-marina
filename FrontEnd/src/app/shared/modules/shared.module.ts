@@ -18,6 +18,7 @@ import { LogoComponent } from '../components/logo/logo.component'
 import { MainFooterComponent } from '../components/home/main-footer.component'
 import { MaterialModule } from './material.module'
 import { MetadataPanelComponent } from '../components/metadata-panel/metadata-panel.component'
+import { ModalDebugDialogComponent } from '../components/modal-debug-dialog/modal-debug-dialog.component'
 import { ModalDialogComponent } from '../components/modal-dialog/modal-dialog.component'
 import { PadNumberPipe } from '../pipes/pad-number.pipe'
 import { PrettyPrintPipe } from '../pipes/json-pretty.pipe'
@@ -45,6 +46,7 @@ import { TrimStringPipe } from './../pipes/string-trim.pipe'
         LogoComponent,
         MainFooterComponent,
         MetadataPanelComponent,
+        ModalDebugDialogComponent,
         ModalDialogComponent,
         PadNumberPipe,
         PrettyPrintPipe,
@@ -82,6 +84,7 @@ import { TrimStringPipe } from './../pipes/string-trim.pipe'
         MainFooterComponent,
         MaterialModule,
         MetadataPanelComponent,
+        ModalDebugDialogComponent,
         NgxCurrencyDirective,
         PadNumberPipe,
         PrettyPrintPipe,

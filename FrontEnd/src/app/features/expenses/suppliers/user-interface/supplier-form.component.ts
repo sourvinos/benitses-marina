@@ -176,7 +176,7 @@ export class SupplierFormComponent {
     private initForm(): void {
         this.form = this.formBuilder.group({
             id: 0,
-            bank: ['', [Validators.required, ValidationService.RequireAutocomplete]],
+            bank: ['', [Validators.required, ValidationService.requireAutocomplete]],
             iban: [''],
             description: ['', [Validators.required, Validators.maxLength(128)]],
             longDescription: ['', [Validators.maxLength(128)]],

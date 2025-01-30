@@ -63,6 +63,8 @@ export class MessageDialogService {
     public supplierVatNumberIsDuplicate(): string { return this.getDescription(this.feature, 'supplierVatNumberIsDuplicate') }
     public customerAadeDoesNotExist(): string { return this.getDescription(this.feature, 'customerAadeDoesNotExist') }
     public customerVatNumberIsDuplicate(): string { return this.getDescription(this.feature, 'customerVatNumberIsDuplicate') }
+    public noRecordsSelected(): string { return this.getDescription(this.feature, 'noRecordsSelected') }
+    public customerDataIsInvalid(): string { return this.getDescription(this.feature, 'customerDataIsInvalid') }
 
     public filterResponse(error: any, feature = 'snackbarMessages'): string {
         let returnValue = ''

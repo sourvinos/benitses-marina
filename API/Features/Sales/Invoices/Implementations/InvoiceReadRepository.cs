@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using System;
 
 namespace API.Features.Sales.Invoices {
 
@@ -20,7 +21,7 @@ namespace API.Features.Sales.Invoices {
             this.mapper = mapper;
         }
 
-        public async Task<IEnumerable<InvoiceistVM>> GetAsync() {
+        public async Task<IEnumerable<InvoiceListVM>> GetAsync() {
             var sales = await context.Invoices
                 .AsNoTracking()
                 .Where(x => x.DiscriminatorId == 1)
@@ -29,7 +30,20 @@ namespace API.Features.Sales.Invoices {
                 .Include(x => x.Aade)
                 .OrderBy(x => x.Date)
                 .ToListAsync();
-            return mapper.Map<IEnumerable<Invoice>, IEnumerable<InvoiceistVM>>(sales);
+            return mapper.Map<IEnumerable<Invoice>, IEnumerable<InvoiceListVM>>(sales);
+        }
+
+        public async Task<IEnumerable<InvoiceListVM>> GetForPeriodAsync(SaleListCriteriaVM criteria) {
+            var invoices = await context.Invoices
+                .AsNoTracking()
+                .Where(x => x.DiscriminatorId == 1)
+                .Include(x => x.Customer)
+                .Include(x => x.DocumentType)
+                .Include(x => x.Aade)
+                .Where(x => x.Date >= Convert.ToDateTime(criteria.FromDate) && x.Date <= Convert.ToDateTime(criteria.ToDate))
+                .OrderBy(x => x.Date).ThenBy(x => x.InvoiceNo)
+                .ToListAsync();
+            return mapper.Map<IEnumerable<Invoice>, IEnumerable<InvoiceListVM>>(invoices);
         }
 
         public async Task<Invoice> GetByIdAsync(string invoiceId, bool includeTables) {

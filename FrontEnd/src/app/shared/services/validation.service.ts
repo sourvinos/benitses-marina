@@ -57,12 +57,16 @@ export class ValidationService {
         }
     }
 
-    static RequireAutocomplete(control: AbstractControl): any {
+    static requireAutocomplete(control: AbstractControl): any {
         const selection: any = control.value
         if (typeof selection === 'string') {
             return { incorrect: true }
         }
         return null
+    }
+
+    static isGreaterThanZero(control: AbstractControl): { [key: string]: any } {
+        return control.value == 0 ? { isGreaterThanZero: false } : null
     }
 
 }

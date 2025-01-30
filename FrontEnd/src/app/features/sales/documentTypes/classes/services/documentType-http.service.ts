@@ -18,4 +18,8 @@ export class DocumentTypeHttpService extends HttpDataService {
         return this.http.get<DocumentTypeBrowserStorageVM[]>(environment.apiUrl + '/saleDocumentTypes/getForBrowser')
     }
 
+    public getLastDocumentTypeNo(id: number): Observable<any> {
+        return this.http.request('get', this.url + '/getLastDocumentTypeNo/' + id)
+    }
+
 }

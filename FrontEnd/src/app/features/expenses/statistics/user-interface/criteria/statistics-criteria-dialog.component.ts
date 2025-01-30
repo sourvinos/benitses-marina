@@ -132,8 +132,8 @@ export class StatisticsCriteriaDialogComponent {
 
     private initForm(): void {
         this.form = this.formBuilder.group({
-            company: ['', [Validators.required, ValidationService.RequireAutocomplete]],
-            balanceFilter: ['', [Validators.required, ValidationService.RequireAutocomplete]],
+            company: ['', [Validators.required, ValidationService.requireAutocomplete]],
+            balanceFilter: ['', [Validators.required, ValidationService.requireAutocomplete]],
             fromDate: ['', [Validators.required]],
             toDate: ['', [Validators.required]],
         })

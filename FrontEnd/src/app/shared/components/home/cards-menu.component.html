@@ -49,7 +49,7 @@
                 <mat-divider inset></mat-divider>
                 <mat-card-subtitle>{{ getLabel("pricesSubTitle") }}</mat-card-subtitle>
             </mat-card>
-            <mat-card (click)="doNavigation('sales',false)">
+            <mat-card (click)="doNavigation('sales',true)">
                 <img (load)="loadImage()" [ngClass]="imageIsLoading()" [src]="getIcon('sales')" style="height: 6.25rem; margin-left: 1rem; width: 6.25rem">
                 <mat-card-title>{{ getLabel("salesTitle") }}</mat-card-title>
                 <mat-divider inset></mat-divider>

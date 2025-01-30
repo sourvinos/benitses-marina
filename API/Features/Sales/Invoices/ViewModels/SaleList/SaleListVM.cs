@@ -2,7 +2,7 @@ using API.Infrastructure.Classes;
 
 namespace API.Features.Sales.Invoices {
 
-    public class InvoiceistVM {
+    public class InvoiceListVM {
 
         public string InvoiceId { get; set; }
         public string Date { get; set; }
