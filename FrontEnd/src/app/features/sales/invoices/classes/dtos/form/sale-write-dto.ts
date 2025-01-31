@@ -1,23 +1,20 @@
 import { Guid } from 'guid-typescript'
 // Custom
-import { PortWriteDto } from './port-write-dto'
+import { ItemWriteDto } from './item-write-dto'
 
-export interface InvoiceWriteDto {
+export interface SaleWriteDto {
 
     invoiceId: Guid
     customerId: number
-    destinationId: number
     documentTypeId: number
     paymentMethodId: number
-    shipId: number
     date: string
-    tripDate: string
     invoiceNo: number
     netAmount: number
     vatPercent: number
     vatAmount: number
     grossAmount: number
-    invoicesPorts: PortWriteDto[]
+    items: ItemWriteDto[]
     remarks: string
     putAt: string
 

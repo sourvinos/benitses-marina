@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using API.Infrastructure.Helpers;
 
 namespace API.Features.Sales.DocumentTypes {
 
@@ -51,15 +52,15 @@ namespace API.Features.Sales.DocumentTypes {
                 .SingleOrDefaultAsync(x => x.Id == id);
         }
 
-        // public async Task<int> GetLastDocumentTypeNoAsync(int documentTypeId) {
-        //     var lastInvoiceNo = await context.Sales
-        //         .AsNoTracking()
-        //         .Where(x => x.Date.Year == DateHelpers.GetLocalDateTime().Year && x.DocumentTypeId == documentTypeId)
-        //         .OrderBy(x => x.InvoiceNo)
-        //         .Select(x => x.InvoiceNo)
-        //         .LastOrDefaultAsync();
-        //     return lastInvoiceNo;
-        // }
+        public async Task<int> GetLastDocumentTypeNoAsync(int documentTypeId) {
+            var lastInvoiceNo = await context.Sales
+                .AsNoTracking()
+                .Where(x => x.Date.Year == DateHelpers.GetLocalDateTime().Year && x.DocumentTypeId == documentTypeId)
+                .OrderBy(x => x.InvoiceNo)
+                .Select(x => x.InvoiceNo)
+                .LastOrDefaultAsync();
+            return lastInvoiceNo;
+        }
 
     }
 

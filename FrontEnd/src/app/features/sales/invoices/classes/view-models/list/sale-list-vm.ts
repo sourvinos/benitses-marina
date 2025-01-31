@@ -1,11 +1,10 @@
-import { InvoiceListAadeVM } from './invoice-list-aade-vm'
+import { SaleListAadeVM } from './sale-list-aade-vm'
 import { SimpleEntity } from '../../../../../../shared/classes/simple-entity'
 
-export interface InvoiceListVM {
+export interface SaleListVM {
 
     customer: SimpleEntity
     date: SimpleEntity
-    destination: SimpleEntity
     documentType: SimpleEntity
     batch: string
     grossAmount: number
@@ -16,6 +15,6 @@ export interface InvoiceListVM {
     isEmailSent: boolean
     ship: SimpleEntity
     shipOwner: SimpleEntity
-    aade: InvoiceListAadeVM
+    aade: SaleListAadeVM
 
 }

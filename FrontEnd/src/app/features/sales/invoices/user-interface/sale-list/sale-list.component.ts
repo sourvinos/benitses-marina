@@ -6,43 +6,42 @@ import { Table } from 'primeng/table'
 import { formatNumber } from '@angular/common'
 // Custom
 import { DateHelperService } from '../../../../../shared/services/date-helper.service'
+import { DateRangePickerComponent } from 'src/app/shared/components/date-range-picker/date-range-picker.component'
 import { DialogService } from '../../../../../shared/services/modal-dialog.service'
 import { EmojiService } from '../../../../../shared/services/emoji.service'
 import { HelperService } from '../../../../../shared/services/helper.service'
 import { InteractionService } from '../../../../../shared/services/interaction.service'
-import { InvoiceHttpDataService } from '../../classes/services/invoice-http-data.service'
-import { InvoiceHttpPdfService } from '../../classes/services/invoice-http-pdf.service'
-import { InvoiceListCriteriaVM } from './../../classes/view-models/criteria/invoice-list-criteria-vm'
-import { InvoiceListVM } from '../../classes/view-models/list/invoice-list-vm'
 import { LocalStorageService } from '../../../../../shared/services/local-storage.service'
 import { MessageDialogService } from '../../../../../shared/services/message-dialog.service'
 import { MessageLabelService } from '../../../../../shared/services/message-label.service'
+import { SaleHttpDataService } from '../../classes/services/sale-http-data.service'
+import { SaleListCriteriaVM } from '../../classes/view-models/criteria/sale-list-criteria-vm'
+import { SaleListVM } from '../../classes/view-models/list/sale-list-vm'
 import { SessionStorageService } from '../../../../../shared/services/session-storage.service'
-import { DateRangePickerComponent } from 'src/app/shared/components/date-range-picker/date-range-picker.component'
 
 @Component({
-    selector: 'invoice-list',
-    templateUrl: './invoice-list.component.html',
-    styleUrls: ['../../../../../../assets/styles/custom/lists.css', './invoice-list.component.css']
+    selector: 'sale-list',
+    templateUrl: './sale-list.component.html',
+    styleUrls: ['../../../../../../assets/styles/custom/lists.css', './sale-list.component.css']
 })
 
-export class InvoiceListComponent {
+export class SaleListComponent {
 
     //#region variables
 
     @ViewChild('table') table: Table
 
-    private criteria: InvoiceListCriteriaVM
-    private url = 'invoices'
+    private criteria: SaleListCriteriaVM
+    private url = 'sales'
     private virtualElement: any
     public feature = 'saleList'
     public featureIcon = 'sales'
     public icon = 'home'
     public parentUrl = '/home'
-    public records: InvoiceListVM[] = []
-    public selectedRecords: InvoiceListVM[] = []
+    public records: SaleListVM[] = []
+    public selectedRecords: SaleListVM[] = []
     public recordsFilteredCount = 0
-    public recordsFiltered: InvoiceListVM[]
+    public recordsFiltered: SaleListVM[]
 
     //#endregion
 
@@ -57,18 +56,17 @@ export class InvoiceListComponent {
     //#region context menu
 
     public menuItems!: MenuItem[]
-    public selectedRecord!: InvoiceListVM
+    public selectedRecord!: SaleListVM
 
     //#endregion
 
-    constructor(private dateHelperService: DateHelperService, private dialogService: DialogService, private emojiService: EmojiService, private helperService: HelperService, private interactionService: InteractionService, private invoiceHttpPdfService: InvoiceHttpPdfService, private invoiceHttpService: InvoiceHttpDataService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService, public dialog: MatDialog) { }
+    constructor(private dateHelperService: DateHelperService, private dialogService: DialogService, private emojiService: EmojiService, private helperService: HelperService, private interactionService: InteractionService, private saleHttpService: SaleHttpDataService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService, public dialog: MatDialog) { }
 
     //#region lifecycle hooks
 
     ngOnInit(): void {
         this.setTabTitle()
         this.subscribeToInteractionService()
-        this.initContextMenu()
         this.getStoredCriteria()
         this.buildCriteriaVM(this.criteria).then((response) => {
             this.loadRecords(response).then(() => {
@@ -158,7 +156,7 @@ export class InvoiceListComponent {
             this.selectedRecords.forEach(record => {
                 ids.push(record.invoiceId)
             })
-            this.invoiceHttpService.patchInvoicesWithEmailPending(ids).subscribe({
+            this.saleHttpService.patchSalesWithEmailPending(ids).subscribe({
                 next: () => {
                     this.onRefreshList()
                     this.helperService.doPostSaveFormTasks(this.messageDialogService.success(), 'ok', this.parentUrl, false)
@@ -170,37 +168,37 @@ export class InvoiceListComponent {
         }
     }
 
-    public buildAndOpenSelectedRecords(): void {
-        if (this.isAnyRowSelected()) {
-            const ids = []
-            this.selectedRecords.forEach(record => {
-                ids.push(record.invoiceId)
-            })
-            this.invoiceHttpPdfService.buildPdf(ids).subscribe({
-                next: () => {
-                    ids.forEach(id => {
-                        this.invoiceHttpPdfService.openPdf(id + '.pdf').subscribe({
-                            next: (response) => {
-                                const blob = new Blob([response], { type: 'application/pdf' })
-                                const fileURL = URL.createObjectURL(blob)
-                                window.open(fileURL, '_blank')
-                            },
-                            error: (errorFromInterceptor) => {
-                                this.dialogService.open(this.messageDialogService.filterResponse(errorFromInterceptor), 'error', ['ok'])
-                            }
-                        })
-                    })
-                },
-                error: (errorFromInterceptor) => {
-                    this.dialogService.open(this.messageDialogService.filterResponse(errorFromInterceptor), 'error', ['ok'])
-                }
-            })
-        }
-    }
+    // public buildAndOpenSelectedRecords(): void {
+    //     if (this.isAnyRowSelected()) {
+    //         const ids = []
+    //         this.selectedRecords.forEach(record => {
+    //             ids.push(record.invoiceId)
+    //         })
+    //         this.saleHttpPdfService.buildPdf(ids).subscribe({
+    //             next: () => {
+    //                 ids.forEach(id => {
+    //                     this.saleHttpPdfService.openPdf(id + '.pdf').subscribe({
+    //                         next: (response) => {
+    //                             const blob = new Blob([response], { type: 'application/pdf' })
+    //                             const fileURL = URL.createObjectURL(blob)
+    //                             window.open(fileURL, '_blank')
+    //                         },
+    //                         error: (errorFromInterceptor) => {
+    //                             this.dialogService.open(this.messageDialogService.filterResponse(errorFromInterceptor), 'error', ['ok'])
+    //                         }
+    //                     })
+    //                 })
+    //             },
+    //             error: (errorFromInterceptor) => {
+    //                 this.dialogService.open(this.messageDialogService.filterResponse(errorFromInterceptor), 'error', ['ok'])
+    //             }
+    //         })
+    //     }
+    // }
 
     public onShowCriteriaDialog(): void {
         const dialogRef = this.dialog.open(DateRangePickerComponent, {
-            data: 'invoiceListCriteria',
+            data: 'saleListCriteria',
             height: '36.0625rem',
             panelClass: 'dialog',
             width: '32rem',
@@ -226,12 +224,12 @@ export class InvoiceListComponent {
 
     //#region private methods
 
-    private addSelectedRecordToSelectedRecords(record: InvoiceListVM): void {
+    private addSelectedRecordToSelectedRecords(record: SaleListVM): void {
         this.selectedRecords = []
         this.selectedRecords.push(record)
     }
 
-    private buildCriteriaVM(event: InvoiceListCriteriaVM): Promise<any> {
+    private buildCriteriaVM(event: SaleListCriteriaVM): Promise<any> {
         return new Promise((resolve) => {
             this.criteria = {
                 fromDate: event.fromDate,
@@ -243,7 +241,7 @@ export class InvoiceListComponent {
 
     private clearFilters(): void {
         this.table != undefined
-            ? this.helperService.clearTableTextFilters(this.table, ['invoiceNo', 'grossAmount'])
+            ? this.helperService.clearTableTextFilters(this.table, ['saleNo', 'grossAmount'])
             : null
     }
 
@@ -262,7 +260,7 @@ export class InvoiceListComponent {
     }
 
     private deleteStoredFilters(): void {
-        this.sessionStorageService.deleteItems([{ 'item': 'invoiceList-filters', 'when': 'always' }])
+        this.sessionStorageService.deleteItems([{ 'item': 'saleList-filters', 'when': 'always' }])
     }
 
     private doVirtualTableTasks(): void {
@@ -289,7 +287,7 @@ export class InvoiceListComponent {
                 this.filterColumn(filters.ship, 'ship', 'in')
                 this.filterColumn(filters.shipOwner, 'shipOwner', 'in')
                 this.filterColumn(filters.documentType, 'documentType', 'in')
-                this.filterColumn(filters.invoiceNo, 'invoiceNo', 'contains')
+                this.filterColumn(filters.saleNo, 'saleNo', 'contains')
                 this.filterColumn(filters.grossAmount, 'grossAmount', 'contains')
             }, 1000)
         }
@@ -300,7 +298,7 @@ export class InvoiceListComponent {
     }
 
     private getStoredCriteria(): void {
-        const storedCriteria: any = this.sessionStorageService.getItem('invoiceListCriteria') ? JSON.parse(this.sessionStorageService.getItem('invoiceListCriteria')) : ''
+        const storedCriteria: any = this.sessionStorageService.getItem('saleListCriteria') ? JSON.parse(this.sessionStorageService.getItem('saleListCriteria')) : ''
         if (storedCriteria) {
             this.criteria = {
                 fromDate: storedCriteria.fromDate,
@@ -322,18 +320,6 @@ export class InvoiceListComponent {
         this.helperService.highlightSavedRow(this.feature)
     }
 
-    private initContextMenu(): void {
-        this.menuItems = [
-            { label: this.getLabel('contextMenuEdit'), command: () => this.editRecord(this.selectedRecord.invoiceId.toString()) },
-            {
-                label: this.getLabel('contextMenuEmail'), command: (): void => {
-                    this.addSelectedRecordToSelectedRecords(this.selectedRecord)
-                    this.addSelectedRecordsToEmailQueue()
-                }
-            }
-        ]
-    }
-
     private initFilteredRecordsCount(): void {
         this.recordsFilteredCount = this.records.length
     }
@@ -346,9 +332,9 @@ export class InvoiceListComponent {
         return true
     }
 
-    private loadRecords(criteria: InvoiceListCriteriaVM): Promise<InvoiceListVM[]> {
+    private loadRecords(criteria: SaleListCriteriaVM): Promise<SaleListVM[]> {
         return new Promise((resolve) => {
-            this.invoiceHttpService.getForList(criteria).subscribe(response => {
+            this.saleHttpService.getForList(criteria).subscribe(response => {
                 this.records = response
                 resolve(this.records)
             })

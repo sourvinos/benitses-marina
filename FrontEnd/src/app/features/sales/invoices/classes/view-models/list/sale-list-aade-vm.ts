@@ -1,4 +1,4 @@
-export interface InvoiceListAadeVM {
+export interface SaleListAadeVM {
 
     mark: boolean
     markCancel: boolean

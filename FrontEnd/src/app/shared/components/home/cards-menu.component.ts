@@ -41,7 +41,7 @@ export class CardsMenuComponent {
     }
 
     public getActiveTab(): number {
-        return this.sessionStorageService.getItem('cards-active-tab') ? parseInt(this.sessionStorageService.getItem('cards-active-tab')) : 0
+        return this.sessionStorageService.getItem('cards-active-tab') ? parseInt(this.sessionStorageService.getItem('cards-active-tab')) : 1
     }
 
     public getIcon(filename: string): string {

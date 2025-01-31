@@ -4,20 +4,20 @@ import { Observable } from 'rxjs'
 // Custom
 import { AadeVM } from '../view-models/form/aade-vm'
 import { HttpDataService } from 'src/app/shared/services/http-data.service'
-import { InvoiceListCriteriaVM } from '../view-models/criteria/invoice-list-criteria-vm'
-import { InvoiceListVM } from '../view-models/list/invoice-list-vm'
+import { SaleListCriteriaVM } from '../view-models/criteria/sale-list-criteria-vm'
+import { SaleListVM } from '../view-models/list/sale-list-vm'
 import { environment } from 'src/environments/environment'
 
 @Injectable({ providedIn: 'root' })
 
-export class InvoiceHttpDataService extends HttpDataService {
+export class SaleHttpDataService extends HttpDataService {
 
     constructor(httpClient: HttpClient) {
         super(httpClient, environment.apiUrl + '/sales')
     }
 
-    public getForList(criteria: InvoiceListCriteriaVM): Observable<InvoiceListVM[]> {
-        return this.http.request<InvoiceListVM[]>('post', environment.apiUrl + '/sales/getForPeriod', { body: criteria })
+    public getForList(criteria: SaleListCriteriaVM): Observable<SaleListVM[]> {
+        return this.http.request<SaleListVM[]>('post', environment.apiUrl + '/sales/getForPeriod', { body: criteria })
     }
 
     public validateCustomerData(customerId: number): Observable<any> {
@@ -30,15 +30,15 @@ export class InvoiceHttpDataService extends HttpDataService {
             : this.http.put<any>(this.url, formData)
     }
 
-    public updateInvoiceAade(aadeVM: AadeVM): Observable<any> {
+    public updateSaleAade(aadeVM: AadeVM): Observable<any> {
         return this.http.put<any>(this.url + '/invoiceAade', aadeVM)
     }
 
-    public patchInvoicesWithEmailPending(invoiceIds: string[]): Observable<any> {
-        return this.http.patch<any>(this.url + '/patchInvoicesWithEmailPending', invoiceIds)
+    public patchSalesWithEmailPending(invoiceIds: string[]): Observable<any> {
+        return this.http.patch<any>(this.url + '/patchSalesWithEmailPending', invoiceIds)
     }
 
-    public patchInvoiceWithIsCancelled(invoiceId: string): Observable<any> {
+    public patchSaleWithIsCancelled(invoiceId: string): Observable<any> {
         return this.http.patch<any>(this.url + '/isCancelled/' + invoiceId, null)
     }
 

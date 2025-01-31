@@ -1,23 +1,18 @@
 import { Injectable } from '@angular/core'
 // Custom
-import { BillingCriteriaVM } from '../view-models/form/billing-criteria-vm'
 import { DateHelperService } from 'src/app/shared/services/date-helper.service'
 import { DexieService } from 'src/app/shared/services/dexie.service'
 import { DocumentTypeReadDto } from '../../../documentTypes/classes/dtos/documentType-read-dto'
-import { InvoiceWriteDto } from '../dtos/form/invoice-write-dto'
-import { PortWriteDto } from '../dtos/form/port-write-dto'
+import { SaleWriteDto } from '../dtos/form/sale-write-dto'
+import { ItemWriteDto } from '../dtos/form/item-write-dto'
 
 @Injectable({ providedIn: 'root' })
 
-export class InvoiceHelperService {
+export class SaleHelperService {
 
     constructor(private dexieService: DexieService, private dateHelperService: DateHelperService) { }
 
     //#region public methods
-
-    public validatePriceRetriever(x: BillingCriteriaVM): boolean {
-        return x.date != 'NaN-NaN-NaN' && x.customerId != undefined && x.destinationId != undefined
-    }
 
     public calculatePortA(formValue: any): any {
         const adults_A_AmountWithTransfer = formValue.portA.adults_A_WithTransfer * formValue.portA.adults_A_PriceWithTransfer
@@ -86,7 +81,7 @@ export class InvoiceHelperService {
         }
     }
 
-    public calculateInvoiceSummary(formValue: any): any {
+    public calculateSaleSummary(formValue: any): any {
         const grossAmount = parseFloat(formValue.portTotals.total_Amount)
         const vatPercent = parseFloat(formValue.vatPercent) / 100
         const netAmount = grossAmount / (1 + vatPercent)
@@ -99,16 +94,13 @@ export class InvoiceHelperService {
         }
     }
 
-    public flattenForm(formValue: any): InvoiceWriteDto {
-        const x: InvoiceWriteDto = {
-            invoiceId: formValue.invoiceId != '' ? formValue.invoiceId : null,
+    public flattenForm(formValue: any): SaleWriteDto {
+        const x: SaleWriteDto = {
+            invoiceId: formValue.saleId != '' ? formValue.saleId : null,
             customerId: formValue.customer.id,
-            destinationId: formValue.destination.id,
             documentTypeId: formValue.documentType.id,
             paymentMethodId: formValue.paymentMethod.id,
-            shipId: formValue.ship.id,
             date: this.dateHelperService.formatDateToIso(new Date(formValue.date)),
-            tripDate: this.dateHelperService.formatDateToIso(new Date(formValue.tripDate)),
             invoiceNo: formValue.invoiceNo,
             netAmount: formValue.netAmount,
             vatPercent: formValue.vatPercent,
@@ -116,53 +108,61 @@ export class InvoiceHelperService {
             grossAmount: formValue.grossAmount,
             remarks: formValue.remarks,
             putAt: formValue.putAt,
-            invoicesPorts: this.mapPorts(formValue)
+            items: []
         }
         return x
     }
 
     public updateBrowserStorageAfterApiUpdate(record: DocumentTypeReadDto): void {
-        this.dexieService.update('documentTypesInvoice', record)
+        this.dexieService.update('documentTypesSale', record)
     }
 
     //#endregion
 
     //#region private methods
 
-    private mapPorts(formValue: any): PortWriteDto[] {
-        const ports = []
-        const x: PortWriteDto = {
-            invoiceId: formValue.portA.invoiceId != '' ? formValue.portA.invoiceId : null,
-            portId: formValue.portA.portId,
-            adultsWithTransfer: formValue.portA.adults_A_WithTransfer,
-            adultsPriceWithTransfer: formValue.portA.adults_A_PriceWithTransfer,
-            adultsWithoutTransfer: formValue.portA.adults_A_WithoutTransfer,
-            adultsPriceWithoutTransfer: formValue.portA.adults_A_PriceWithoutTransfer,
-            kidsWithTransfer: formValue.portA.kids_A_WithTransfer,
-            kidsPriceWithTransfer: formValue.portA.kids_A_PriceWithTransfer,
-            kidsWithoutTransfer: formValue.portA.kids_A_WithoutTransfer,
-            kidsPriceWithoutTransfer: formValue.portA.kids_A_PriceWithoutTransfer,
-            freeWithTransfer: formValue.portA.free_A_WithTransfer,
-            freeWithoutTransfer: formValue.portA.free_A_WithoutTransfer,
-        }
-        const z: PortWriteDto = {
-            invoiceId: formValue.portB.invoiceId != '' ? formValue.portA.invoiceId : null,
-            portId: formValue.portB.portId,
-            adultsWithTransfer: formValue.portB.adults_B_WithTransfer,
-            adultsPriceWithTransfer: formValue.portB.adults_B_PriceWithTransfer,
-            adultsWithoutTransfer: formValue.portB.adults_B_WithoutTransfer,
-            adultsPriceWithoutTransfer: formValue.portB.adults_B_PriceWithoutTransfer,
-            kidsWithTransfer: formValue.portB.kids_B_WithTransfer,
-            kidsPriceWithTransfer: formValue.portB.kids_B_PriceWithTransfer,
-            kidsWithoutTransfer: formValue.portB.kids_B_WithoutTransfer,
-            kidsPriceWithoutTransfer: formValue.portB.kids_B_PriceWithoutTransfer,
-            freeWithTransfer: formValue.portB.free_B_WithTransfer,
-            freeWithoutTransfer: formValue.portB.free_B_WithoutTransfer,
-        }
-        ports.push(x)
-        ports.push(z)
-        return ports
-    }
+    // private mapItems(formValue: any): ItemWriteDto[] {
+    //     const ports = []
+    //     const x: ItemWriteDto = {
+    //         invoiceId: formValue.portA.saleId != '' ? formValue.portA.saleId : null,
+
+    //         code: string
+    //         description: string
+    //         englishDescription: string
+    //         qty: number
+    //         netAmount: number
+    //         vatAmount: number
+    //         grossAmount: number
+        
+    //         // adultsWithTransfer: formValue.portA.adults_A_WithTransfer,
+    //         // adultsPriceWithTransfer: formValue.portA.adults_A_PriceWithTransfer,
+    //         // adultsWithoutTransfer: formValue.portA.adults_A_WithoutTransfer,
+    //         // adultsPriceWithoutTransfer: formValue.portA.adults_A_PriceWithoutTransfer,
+    //         // kidsWithTransfer: formValue.portA.kids_A_WithTransfer,
+    //         // kidsPriceWithTransfer: formValue.portA.kids_A_PriceWithTransfer,
+    //         // kidsWithoutTransfer: formValue.portA.kids_A_WithoutTransfer,
+    //         // kidsPriceWithoutTransfer: formValue.portA.kids_A_PriceWithoutTransfer,
+    //         // freeWithTransfer: formValue.portA.free_A_WithTransfer,
+    //         // freeWithoutTransfer: formValue.portA.free_A_WithoutTransfer,
+    //     }
+    //     const z: ItemWriteDto = {
+    //         invoiceId: formValue.portB.saleId != '' ? formValue.portA.saleId : null,
+    //         portId: formValue.portB.portId,
+    //         adultsWithTransfer: formValue.portB.adults_B_WithTransfer,
+    //         adultsPriceWithTransfer: formValue.portB.adults_B_PriceWithTransfer,
+    //         adultsWithoutTransfer: formValue.portB.adults_B_WithoutTransfer,
+    //         adultsPriceWithoutTransfer: formValue.portB.adults_B_PriceWithoutTransfer,
+    //         kidsWithTransfer: formValue.portB.kids_B_WithTransfer,
+    //         kidsPriceWithTransfer: formValue.portB.kids_B_PriceWithTransfer,
+    //         kidsWithoutTransfer: formValue.portB.kids_B_WithoutTransfer,
+    //         kidsPriceWithoutTransfer: formValue.portB.kids_B_PriceWithoutTransfer,
+    //         freeWithTransfer: formValue.portB.free_B_WithTransfer,
+    //         freeWithoutTransfer: formValue.portB.free_B_WithoutTransfer,
+    //     }
+    //     ports.push(x)
+    //     ports.push(z)
+    //     return ports
+    // }
 
     //#endregion
 

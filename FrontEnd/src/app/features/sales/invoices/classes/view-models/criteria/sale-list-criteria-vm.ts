@@ -1,4 +1,4 @@
-export interface InvoiceListCriteriaVM {
+export interface SaleListCriteriaVM {
 
     fromDate: string
     toDate: string
