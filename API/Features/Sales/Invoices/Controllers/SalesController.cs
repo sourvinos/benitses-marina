@@ -15,13 +15,13 @@ namespace API.Features.Sales.Invoices {
         #region variables
 
         private readonly IInvoiceReadRepository invoiceReadRepo;
-        private readonly IInvoiceUpdateRepository invoiceUpdateRepo;
+        private readonly IInvoiceCreateRepository invoiceUpdateRepo;
         private readonly IInvoiceValidation invoiceValidation;
         private readonly IMapper mapper;
 
         #endregion
 
-        public SalesController(IInvoiceReadRepository invoiceReadRepo, IInvoiceUpdateRepository invoiceUpdateRepo, IInvoiceValidation invoiceValidation, IMapper mapper) {
+        public SalesController(IInvoiceReadRepository invoiceReadRepo, IInvoiceCreateRepository invoiceUpdateRepo, IInvoiceValidation invoiceValidation, IMapper mapper) {
             this.invoiceReadRepo = invoiceReadRepo;
             this.invoiceUpdateRepo = invoiceUpdateRepo;
             this.invoiceValidation = invoiceValidation;

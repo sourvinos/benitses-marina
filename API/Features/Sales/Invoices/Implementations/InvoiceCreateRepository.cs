@@ -14,11 +14,11 @@ using API.Infrastructure.Helpers;
 
 namespace API.Features.Sales.Invoices {
 
-    public class InvoiceUpdateRepository : Repository<Invoice>, IInvoiceUpdateRepository {
+    public class InvoiceCreateRepository : Repository<Invoice>, IInvoiceCreateRepository {
 
         private readonly TestingEnvironment testingEnvironment;
 
-        public InvoiceUpdateRepository(AppDbContext context, IHttpContextAccessor httpContext, IOptions<TestingEnvironment> testingEnvironment, UserManager<UserExtended> userManager) : base(context, httpContext, testingEnvironment, userManager) {
+        public InvoiceCreateRepository(AppDbContext context, IHttpContextAccessor httpContext, IOptions<TestingEnvironment> testingEnvironment, UserManager<UserExtended> userManager) : base(context, httpContext, testingEnvironment, userManager) {
             this.testingEnvironment = testingEnvironment.Value;
         }
 
@@ -29,14 +29,6 @@ namespace API.Features.Sales.Invoices {
             context.SaveChanges();
             DisposeOrCommit(transaction);
             return invoice;
-        }
-
-        public InvoiceAade UpdateInvoiceAade(InvoiceAade invoiceAade) {
-            using var transaction = context.Database.BeginTransaction();
-            context.SalesAade.Update(invoiceAade);
-            context.SaveChanges();
-            DisposeOrCommit(transaction);
-            return invoiceAade;
         }
 
         public void UpdateIsEmailSent(Invoice invoice, string invoiceId) {

@@ -20,7 +20,6 @@ namespace API.Features.Sales.Invoices {
         public bool IsEmailSent { get; set; }
         public bool IsCancelled { get; set; }
         // Child tables
-        // public InvoiceFormAadeVM Aade { get; set; }
         public List<InvoiceItemReadDto> Items { get; set; }
         // Navigation
         public SimpleEntity Customer { get; set; }

@@ -27,7 +27,6 @@ namespace API.Features.Sales.Invoices {
                 .Where(x => x.DiscriminatorId == 1)
                 .Include(x => x.Customer)
                 .Include(x => x.DocumentType)
-                // .Include(x => x.Aade)
                 .OrderBy(x => x.Date)
                 .ToListAsync();
             return mapper.Map<IEnumerable<Invoice>, IEnumerable<InvoiceListVM>>(sales);
@@ -39,7 +38,6 @@ namespace API.Features.Sales.Invoices {
                 .Where(x => x.DiscriminatorId == 1)
                 .Include(x => x.Customer)
                 .Include(x => x.DocumentType)
-                // .Include(x => x.Aade)
                 .Where(x => x.Date >= Convert.ToDateTime(criteria.FromDate) && x.Date <= Convert.ToDateTime(criteria.ToDate))
                 .OrderBy(x => x.Date).ThenBy(x => x.InvoiceNo)
                 .ToListAsync();
@@ -54,23 +52,14 @@ namespace API.Features.Sales.Invoices {
                     .Include(x => x.Customer).ThenInclude(x => x.TaxOffice)
                     .Include(x => x.DocumentType)
                     .Include(x => x.PaymentMethod)
-                    // .Include(x => x.Aade)
                     .Include(x => x.Items)
                     .Where(x => x.InvoiceId.ToString() == invoiceId)
                     .SingleOrDefaultAsync()
                : await context.Invoices
                     .AsNoTracking()
-                    // .Include(x => x.Aade)
                     .Include(x => x.Items)
                     .Where(x => x.InvoiceId.ToString() == invoiceId)
                     .SingleOrDefaultAsync();
-        }
-
-        public async Task<InvoiceAade> GetInvoiceAadeByIdAsync(string invoiceId) {
-            return await context.SalesAade
-                .AsNoTracking()
-                .Where(x => x.InvoiceId.ToString() == invoiceId)
-                .SingleOrDefaultAsync();
         }
 
     }

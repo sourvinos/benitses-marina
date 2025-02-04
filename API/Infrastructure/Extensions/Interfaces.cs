@@ -65,8 +65,9 @@ namespace API.Infrastructure.Extensions {
             services.AddTransient<ICustomerAadeRepository, CustomerAadeRepository>();
             services.AddTransient<ICustomerRepository, CustomerRepository>();
             services.AddTransient<ICustomerValidation, CustomerValidation>();
+            services.AddTransient<IInvoiceCreateRepository, InvoiceCreateRepository>();
+            services.AddTransient<IInvoiceDataUpRepository, InvoiceDataUpRepository>();
             services.AddTransient<IInvoiceReadRepository, InvoiceReadRepository>();
-            services.AddTransient<IInvoiceUpdateRepository, InvoiceUpdateRepository>();
             services.AddTransient<IInvoiceValidation, InvoiceValidation>();
             services.AddTransient<INationalityRepository, NationalityRepository>();
             services.AddTransient<IPriceRepository, PriceRepository>();
@@ -75,7 +76,6 @@ namespace API.Infrastructure.Extensions {
             services.AddTransient<ISaleDocumentTypeValidation, SaleDocumentTypeValidation>();
             services.AddTransient<ITaxOfficeRepository, TaxOfficeRepository>();
             services.AddTransient<ITaxOfficeValidation, TaxOfficeValidator>();
-            services.AddTransient<IInvoiceDataUpRepository, InvoiceDataUpRepository>();
             #endregion
             #region common
             services.AddScoped<Token>();

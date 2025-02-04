@@ -69,7 +69,6 @@ namespace API.Infrastructure.Classes {
         public DbSet<Nationality> Nationalities { get; set; }
         public DbSet<Price> Prices { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
-        public DbSet<InvoiceAade> SalesAade { get; set; }
         public DbSet<InvoiceItem> InvoicesItems { get; set; }
         public DbSet<SaleDocumentType> SaleDocumentTypes { get; set; }
         public DbSet<TaxOffice> TaxOffices { get; set; }
@@ -108,7 +107,6 @@ namespace API.Infrastructure.Classes {
             modelBuilder.ApplyConfiguration(new SaleDocumentTypeConfig());
             modelBuilder.ApplyConfiguration(new TaxOfficeConfig());
             modelBuilder.ApplyConfiguration(new TransactionConfig());
-            modelBuilder.ApplyConfiguration(new InvoiceAadeConfig());
             modelBuilder.ApplyConfiguration(new InvoiceConfig());
             modelBuilder.ApplyConfiguration(new InvoiceItemConfig());
             #endregion

@@ -22,7 +22,7 @@ namespace API.Features.Sales.Invoices {
                 var x when x == !await IsCompositeKeyValidAsync(invoice) => 466,
                 var x when x == !await IsInvoiceCountEqualToLastInvoiceNo(invoice) => 467,
                 var x when x == !await IsValidCustomer(invoice) => 450,
-                var x when x == !await IsInvoiceAlreadySaved(invoice) => 463,
+                // var x when x == !await IsInvoiceAlreadySaved(invoice) => 463,
                 var x when x == IsAlreadyUpdated(z, invoice) => 415,
                 _ => 200,
             };
