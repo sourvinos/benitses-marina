@@ -9,6 +9,7 @@ export interface ItemWriteDto {
     englishDescription: string
     qty: number
     netAmount: number
+    vatPercent: number
     vatAmount: number
     grossAmount: number
 

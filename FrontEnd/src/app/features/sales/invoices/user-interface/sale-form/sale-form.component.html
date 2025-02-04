@@ -100,6 +100,50 @@
                                 <input [inputTabStop]="input" dataTabIndex="5" formControlName="remarks" matInput>
                             </mat-form-field>
                         </div>
+                        <div formArrayName="items">
+                            <div *ngFor="let item of itemsArray; let i = index">
+                                <div class="group-input-field" [formGroupName]="i">
+                                    <mat-form-field style="width: 10%;">
+                                        <mat-label>{{ getLabel("item-code") }}</mat-label>
+                                        <input [inputTabStop]="input" formControlName="code" matInput>
+                                    </mat-form-field>
+                                    <mat-form-field style="width: 50%;">
+                                        <mat-label>{{ getLabel("item-description") }}</mat-label>
+                                        <input [inputTabStop]="input" formControlName="description" matInput>
+                                    </mat-form-field>
+                                    <mat-form-field style="width: 10%;">
+                                        <mat-label>{{ getLabel("item-qty") }}</mat-label>
+                                        <input [inputTabStop]="input" currencyMask formControlName="qty" matInput>
+                                    </mat-form-field>
+                                    <mat-form-field style="width: 10%;">
+                                        <mat-label>{{ getLabel("item-price") }}</mat-label>
+                                        <input [inputTabStop]="input" currencyMask formControlName="netAmount" matInput>
+                                    </mat-form-field>
+                                    <mat-form-field style="width: 10%;">
+                                        <mat-label>{{ getLabel("item-vat-percent") }}</mat-label>
+                                        <input [inputTabStop]="input" currencyMask formControlName="vatPercent" matInput>
+                                    </mat-form-field>
+                                    <mat-form-field style="width: 10%;">
+                                        <mat-label>{{ getLabel("item-vat-amount") }}</mat-label>
+                                        <input [inputTabStop]="input" currencyMask formControlName="vatAmount" matInput>
+                                    </mat-form-field>
+                                    <mat-form-field style="width: 10%;">
+                                        <mat-label>{{ getLabel("item-gross-amount") }}</mat-label>
+                                        <input [inputTabStop]="input" currencyMask formControlName="grossAmount" matInput>
+                                    </mat-form-field>
+                                    <div matSuffix style="display:flex; margin-top: 4px;">
+                                        <button (click)="onAddItem()" mat-icon-button type="button">
+                                            <mat-icon class="input-suffix material-icons-outlined">add</mat-icon>
+                                        </button>
+                                    </div>
+                                    <div matSuffix style="display:flex; margin-top: 4px;">
+                                        <button [disabled]="itemsArray.length == 1" (click)="onRemoveItem(i)" mat-icon-button type="button">
+                                            <mat-icon class="input-suffix material-icons-outlined">delete</mat-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="align-bottom">
                             <!-- Metadata -->
                             <metadata-panel [feature]="feature" [postAt]="form.value.postAt" [postUser]="form.value.postUser" [putAt]="form.value.putAt" [putUser]="form.value.putUser"></metadata-panel>

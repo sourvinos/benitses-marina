@@ -5,7 +5,7 @@ namespace API.Features.Sales.Invoices {
 
     public class InvoiceWriteDto : TransactionsBase {
 
-        public List<InvoiceItemWriteDto> InvoicesPorts { get; set; }
+        public List<InvoiceItemWriteDto> Items { get; set; }
 
     }
 

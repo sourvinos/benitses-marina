@@ -113,6 +113,16 @@
     margin: auto 0 0 0;
 }
 
+.add-item-button {
+    background-color: var(--color-button-secondary);
+    border-radius: 1rem;
+    color: var(--color-button-text);
+    height: 1.5625rem;
+    margin: 0.9375rem 0 0 0;
+    width: 1.5625rem;
+}
+
+
 @media (width <=1366px) {
     #header, #form {
         width: 100%;

@@ -1,9 +1,6 @@
-import { Guid } from 'guid-typescript'
+export interface ItemVM {
 
-export interface ItemReadDto {
-
-    id: number
-    invoiceId: Guid
+    invoiceId: string
     code: string
     description: string
     englishDescription: string

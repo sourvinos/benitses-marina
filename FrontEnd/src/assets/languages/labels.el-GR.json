@@ -1875,6 +1875,34 @@
             {
                 "id": "total",
                 "description": "Σύνολο"
+            },
+            {
+                "id": "item-code",
+                "description": "Κωδ. είδους"
+            },
+            {
+                "id": "item-description",
+                "description": "Περιγραφή"
+            },
+            {
+                "id": "item-qty",
+                "description": "Ποσότητα"
+            },
+            {
+                "id": "item-price",
+                "description": "Τιμή μονάδος"
+            },
+            {
+                "id": "item-vat-percent",
+                "description": "Ποσοστό ΦΠΑ"
+            },
+            {
+                "id": "item-vat-amount",
+                "description": "Αξία ΦΠΑ"
+            },
+            {
+                "id": "item-gross-amount",
+                "description": "Συνολική αξία"
             }
         ]
     }

@@ -88,13 +88,26 @@ export class SaleFormComponent {
         if (event.target.value == '') this.isAutoCompleteDisabled = true
     }
 
-    public onAddItemTextBox(): void {
+    public onAddItem(): void {
         const control = <FormArray>this.form.get('items')
         const newGroup = this.formBuilder.group({
-            description: ''
+            code: 'code',
+            description: 'description',
+            englishDescription: 'english description',
+            qty: 1,
+            netAmount: 100,
+            vatPercent: 24,
+            vatAmount: 24,
+            grossAmount: 124
         })
         control.push(newGroup)
         this.itemsArray.push(this.form.controls.items.value)
+    }
+
+    public onRemoveItem(itemIndex: number): void {
+        const items = <FormArray>this.form.get('items')
+        items.removeAt(itemIndex)
+        this.itemsArray.splice(itemIndex, 1)
     }
 
     public onComparePriceTotals(): boolean {
@@ -189,7 +202,7 @@ export class SaleFormComponent {
     private getRecord(): Promise<any> {
         if (this.invoiceId != undefined) {
             return new Promise((resolve) => {
-                const formResolved: FormResolved = this.activatedRoute.snapshot.data['invoiceForm']
+                const formResolved: FormResolved = this.activatedRoute.snapshot.data['saleForm']
                 if (formResolved.error == null) {
                     this.record = formResolved.record.body
                     resolve(this.record)
@@ -284,6 +297,7 @@ export class SaleFormComponent {
                 remarks: this.record.remarks,
                 isEmailSent: this.record.isEmailSent,
                 isCancelled: this.record.isCancelled,
+                netAmount: this.record.netAmount,
                 vatPercent: this.record.vatPercent,
                 vatAmount: this.record.vatAmount,
                 grossAmount: this.record.grossAmount,
@@ -359,16 +373,23 @@ export class SaleFormComponent {
                     const control = <FormArray>this.form.get('items')
                     const newGroup = this.formBuilder.group({
                         invoiceId: item.id,
-                        description: item.description
+                        code: item.code,
+                        description: item.description,
+                        englishDescription: item.englishDescription,
+                        qty: item.qty,
+                        netAmount: item.netAmount,
+                        vatPercent: item.vatPercent,
+                        vatAmount: item.vatAmount,
+                        grossAmount: item.grossAmount
                     })
                     control.push(newGroup)
                     this.itemsArray.push(this.form.controls.items.value)
                 })
             } else {
-                this.onAddItemTextBox()
+                this.onAddItem()
             }
         } else {
-            this.onAddItemTextBox()
+            this.onAddItem()
         }
     }
 
