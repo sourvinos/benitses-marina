@@ -12,9 +12,10 @@ namespace API.Features.Reservations.Transactions {
         public string ToDate { get; set; }
         public string Remarks { get; set; }
         public string FinancialRemarks { get; set; }
+        public bool IsAthenian { get; set; }
         public bool IsDocked { get; set; }
         public bool IsDryDock { get; set; }
-        public bool IsAthenian { get; set; }
+        public bool IsRequest { get; set; }
         public ReservationBoatDetailsWriteDto Boat { get; set; }
         public ReservationInsuranceDetailsDto Insurance { get; set; }
         public ReservationOwnerDetailsDto Owner { get; set; }

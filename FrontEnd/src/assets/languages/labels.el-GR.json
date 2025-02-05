@@ -106,6 +106,10 @@
             {
                 "id": "athenian",
                 "description": "Athenian"
+            },
+            {
+                "id": "headerIsRequest",
+                "description": "Αίτηση"
             }
         ]
     },
@@ -191,6 +195,10 @@
             {
                 "id": "isFishingBoat",
                 "description": "Αλιευτικό"
+            },
+            {
+                "id": "isRequest",
+                "description": "Αίτηση για ελλιμενισμό"
             },
             {
                 "id": "paymentStatus",

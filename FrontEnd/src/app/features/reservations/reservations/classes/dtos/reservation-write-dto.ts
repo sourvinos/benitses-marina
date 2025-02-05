@@ -13,10 +13,11 @@ export interface ReservationWriteDto {
     toDate: string
     remarks: string
     financialRemarks: string
-    isDocked: boolean
-    paymentStatusId: number
-    isDryDock: boolean
     isAthenian: boolean
+    isDocked: boolean
+    isDryDock: boolean
+    isRequest: boolean
+    paymentStatusId: number
     berths: BerthWriteDto[]
     boat: ReservationBoatWriteDto
     insurance: ReservationInsuranceDto

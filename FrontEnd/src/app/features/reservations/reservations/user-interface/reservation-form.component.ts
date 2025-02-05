@@ -329,9 +329,10 @@ export class ReservationFormComponent {
             owner: this.mapOwner(this.form),
             billing: this.mapBilling(this.form),
             fee: this.mapFee(this.form),
+            isAthenian: this.form.value.isAthenian,
             isDocked: this.form.value.isDocked,
             isDryDock: this.form.value.isDryDock,
-            isAthenian: this.form.value.isAthenian,
+            isRequest: this.form.value.isRequest,
             putAt: this.form.value.putAt
         }
     }
@@ -394,10 +395,11 @@ export class ReservationFormComponent {
             vatPercent: ['', [Validators.required, Validators.min(0), Validators.max(99)]],
             vatAmount: ['', [Validators.required, Validators.min(0), Validators.max(99999)]],
             grossAmount: ['', [Validators.required, Validators.min(0), Validators.max(99999)]],
+            isAthenian: false,
             isDocked: false,
             isDryDock: false,
-            isAthenian: false,
             isFishingBoat: false,
+            isRequest: false,
             isCash: false,
             ownerName: '',
             ownerAddress: '',
@@ -537,6 +539,7 @@ export class ReservationFormComponent {
                 isDryDock: this.reservation.isDryDock,
                 isAthenian: this.reservation.isAthenian,
                 isFishingBoat: this.reservation.boat.isFishingBoat,
+                isRequest: this.reservation.isRequest,
                 isCash: this.reservation.fee.isCash,
                 paymentStatus: { 'id': this.reservation.paymentStatus.id, 'description': this.reservation.paymentStatus.description },
                 boatType: { 'id': this.reservation.boat.type.id, 'description': this.reservation.boat.type.description },

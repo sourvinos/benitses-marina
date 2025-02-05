@@ -23,9 +23,10 @@ namespace API.Features.Reservations.Transactions {
         public string ToDate { get; set; }
         public string Remarks { get; set; }
         public string FinancialRemarks { get; set; }
+        public bool IsAthenian { get; set; }
         public bool IsDocked { get; set; }
         public bool IsDryDock { get; set; }
-        public bool IsAthenian { get; set; }
+        public bool IsRequest { get; set; }
         // Metadata
         public string PostAt { get; set; }
         public string PostUser { get; set; }

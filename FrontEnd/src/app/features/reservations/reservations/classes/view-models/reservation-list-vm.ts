@@ -13,9 +13,10 @@ export interface ReservationListVM {
     paymentStatus: SimpleEntity
     isFishingBoat: boolean
     isAthenian: boolean
-    isOverdue: boolean
     isDocked: boolean
     isDryDock: boolean
+    isOverdue: boolean
+    isRequest: boolean
     joinedBerths: string
 
 }

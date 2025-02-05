@@ -16,9 +16,10 @@ export interface ReservationReadDto extends Metadata {
     remarks: string
     financialRemarks: string
     paymentStatus: SimpleEntity
+    isAthenian: boolean
     isDocked: boolean
     isDryDock: boolean
-    isAthenian: boolean
+    isRequest: boolean
     berths: BerthReadDto[]
     boat: ReservationBoatDto
     insurance: ReservationInsuranceDto

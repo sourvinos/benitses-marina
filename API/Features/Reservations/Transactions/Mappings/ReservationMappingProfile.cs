@@ -25,10 +25,11 @@ namespace API.Features.Reservations.Transactions {
                     Description = x.PaymentStatus.Description
                 }))
                 .ForMember(x => x.IsAthenian, x => x.MapFrom(x => x.IsAthenian))
-                .ForMember(x => x.IsOverdue, x => x.MapFrom(x => ReservationHelpers.IsOverdue(x.IsDocked, x.ToDate)))
-                .ForMember(x => x.IsFishingBoat, x => x.MapFrom(x => x.Boat.IsFishingBoat))
+                .ForMember(x => x.IsDocked, x => x.MapFrom(x => x.IsDocked))
                 .ForMember(x => x.IsDryDock, x => x.MapFrom(x => x.IsDryDock))
-                .ForMember(x => x.IsDocked, x => x.MapFrom(x => x.IsDocked));
+                .ForMember(x => x.IsFishingBoat, x => x.MapFrom(x => x.Boat.IsFishingBoat))
+                .ForMember(x => x.IsOverdue, x => x.MapFrom(x => ReservationHelpers.IsOverdue(x.IsDocked, x.ToDate)))
+                .ForMember(x => x.IsRequest, x => x.MapFrom(x => x.IsRequest));
             // GetById
             CreateMap<Reservation, ReservationReadDto>()
                 .ForMember(x => x.FromDate, x => x.MapFrom(x => DateHelpers.DateToISOString(x.FromDate)))
