@@ -19,10 +19,11 @@ export class DexieService extends Dexie {
             companiesCriteria: 'id, description',
             customers: 'id, description',
             expenseDocumentTypes: 'id, description',
-            saleDocumentTypes: 'id, description',
             nationalities: 'id, description',
             paymentMethods: 'id, description',
             paymentStatuses: 'id, description',
+            prices: 'id, code, description',
+            saleDocumentTypes: 'id, description',
             suppliers: 'id, description',
             suppliersCriteria: 'id, description',
             taxOffices: 'id, description'

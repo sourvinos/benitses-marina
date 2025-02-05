@@ -1,6 +1,5 @@
 import { Guid } from 'guid-typescript'
 // Custom
-import { AadeVM } from '../../view-models/form/aade-vm'
 import { DocumentTypeVM } from '../../view-models/form/documentType-vm'
 import { ItemReadDto } from './item-read-dto'
 import { Metadata } from 'src/app/shared/classes/metadata'
@@ -14,7 +13,6 @@ export interface SaleReadDto extends Metadata {
     customer: SimpleEntity
     documentType: DocumentTypeVM
     paymentMethod: SimpleEntity
-    aade: AadeVM
     items: ItemReadDto[]
     remarks: string
     isEmailSent: boolean

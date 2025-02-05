@@ -1,4 +1,3 @@
-import { SaleListAadeVM } from './sale-list-aade-vm'
 import { SimpleEntity } from '../../../../../../shared/classes/simple-entity'
 
 export interface SaleListVM {
@@ -15,6 +14,5 @@ export interface SaleListVM {
     isEmailSent: boolean
     ship: SimpleEntity
     shipOwner: SimpleEntity
-    aade: SaleListAadeVM
 
 }

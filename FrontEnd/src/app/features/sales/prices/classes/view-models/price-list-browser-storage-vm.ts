@@ -1,15 +1,12 @@
-import { Guid } from 'guid-typescript'
+export interface PriceListBrowserStorageVM {
 
-export interface ItemWriteDto {
-
-    invoiceId: Guid
-    code: string
+    id: number
     description: string
     englishDescription: string
-    qty: number
     netAmount: number
     vatPercent: number
     vatAmount: number
     grossAmount: number
+    isActive: boolean
 
 }

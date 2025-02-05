@@ -14,22 +14,6 @@
     margin: 0 1rem 0 0;
 }
 
-#invoice-tab {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    justify-content: center;
-    overflow: hidden;
-}
-
-#ports-tab {
-    column-gap: 1rem;
-    display: flex;
-    flex-direction: row;
-    height: 100%;
-    width: 461px;
-}
-
 #table-wrapper {
     margin: 0;
 }
@@ -69,68 +53,4 @@
 
 .autocomplete-document-type span:nth-child(2) {
     width: 50%;
-}
-
-.invisible {
-    height: 0 !important;
-    visibility: hidden !important;
-}
-
-.visible {
-    height: 100%;
-    visibility: visible;
-}
-
-.port {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
-
-.per-age-group {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    margin: 0.5rem 0 0 0;
-    row-gap: 0.5rem;
-}
-
-.per-age-group .header {
-    color: var(--color-text);
-    font-family: var(--font-family-asty);
-    font-size: 0.75rem;
-    font-weight: 300;
-}
-
-.per-age-group .full-width {
-    display: flex;
-    flex-direction: column;
-    row-gap: 0.5rem;
-    width: 100%;
-}
-
-.per-age-group:last-child {
-    margin: auto 0 0 0;
-}
-
-.add-item-button {
-    background-color: var(--color-button-secondary);
-    border-radius: 1rem;
-    color: var(--color-button-text);
-    height: 1.5625rem;
-    margin: 0.9375rem 0 0 0;
-    width: 1.5625rem;
-}
-
-
-@media (width <=1366px) {
-    #header, #form {
-        width: 100%;
-    }
-}
-
-@media (width > 1366px) {
-    #header, #form {
-        width: 80%
-    }
 }

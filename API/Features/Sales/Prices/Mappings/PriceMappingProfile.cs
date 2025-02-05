@@ -8,7 +8,8 @@ namespace API.Features.Sales.Prices {
             CreateMap<Price, PriceListVM>()
                 .ForMember(x => x.VatAmount, x => x.MapFrom(x => (x.NetAmount * x.VatPercent / 100).ToString("F")))
                 .ForMember(x => x.GrossAmount, x => x.MapFrom(x => (x.NetAmount * x.VatPercent / 100 + x.NetAmount).ToString("F")));
-            CreateMap<Price, PriceReadDto>()                
+            CreateMap<Price, PriceListBrowserVM>();
+            CreateMap<Price, PriceReadDto>()
                 .ForMember(x => x.VatAmount, x => x.MapFrom(x => (x.NetAmount * x.VatPercent / 100).ToString("F")))
                 .ForMember(x => x.GrossAmount, x => x.MapFrom(x => (x.NetAmount * x.VatPercent / 100 + x.NetAmount).ToString("F")));
             CreateMap<PriceWriteDto, Price>()

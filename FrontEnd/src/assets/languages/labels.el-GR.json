@@ -1722,19 +1722,11 @@
             },
             {
                 "id": "tab2",
-                "description": "Αναλυτικά"
-            },
-            {
-                "id": "tab3",
-                "description": "myData"
+                "description": "Είδη & υπηρεσίες"
             },
             {
                 "id": "date",
                 "description": "Ημερομηνία έκδοσης"
-            },
-            {
-                "id": "tripDate",
-                "description": "Ημερομηνία εκδρομής"
             },
             {
                 "id": "documentTypeAbbreviation",
@@ -1789,14 +1781,6 @@
                 "description": "Τελευταία ενημέρωση"
             },
             {
-                "id": "toggleButtonGeneral",
-                "description": "Γενικα"
-            },
-            {
-                "id": "toggleButtonAnalysis",
-                "description": "Αναλυση"
-            },
-            {
                 "id": "cancelButton",
                 "description": "Ακυρο"
             },
@@ -1823,58 +1807,6 @@
             {
                 "id": "cancelInvoice",
                 "description": "Ακύρωση"
-            },
-            {
-                "id": "retrievePrices",
-                "description": "Ανάκτηση χρεώσεων"
-            },
-            {
-                "id": "uId",
-                "description": "UID"
-            },
-            {
-                "id": "mark",
-                "description": "ΜΑρΚ"
-            },
-            {
-                "id": "markCancel",
-                "description": "ΜΑρΚ Ακύρωσης"
-            },
-            {
-                "id": "qrUrl",
-                "description": "qrCode URL"
-            },
-            {
-                "id": "port",
-                "description": "Λιμάνι"
-            },
-            {
-                "id": "adults",
-                "description": "Ενήλικες"
-            },
-            {
-                "id": "kids",
-                "description": "Παιδιά"
-            },
-            {
-                "id": "free",
-                "description": "Δωρεάν"
-            },
-            {
-                "id": "withTransfer",
-                "description": "w/ transfer"
-            },
-            {
-                "id": "withoutTransfer",
-                "description": "w/o transfer"
-            },
-            {
-                "id": "price",
-                "description": "Χρέωση"
-            },
-            {
-                "id": "total",
-                "description": "Σύνολο"
             },
             {
                 "id": "item-code",

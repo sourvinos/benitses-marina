@@ -55,6 +55,7 @@ export class SaleFormComponent {
     public dropdownCustomers: Observable<CustomerAutoCompleteVM[]>
     public dropdownDocumentTypes: Observable<DocumentTypeListVM[]>
     public dropdownPaymentMethods: Observable<SimpleEntity[]>
+    public dropdownCodes: Observable<SimpleEntity[]>
 
     //#endregion
 
@@ -70,10 +71,6 @@ export class SaleFormComponent {
         this.populateDropdowns()
         this.setLocale()
         this.populateItems()
-    }
-
-    ngAfterViewInit(): void {
-        this.leftAlignLastTab()
     }
 
     //#endregion
@@ -110,12 +107,6 @@ export class SaleFormComponent {
         this.itemsArray.splice(itemIndex, 1)
     }
 
-    public onComparePriceTotals(): boolean {
-        const x = parseFloat(this.form.value.grossAmount)
-        const z = parseFloat(this.form.value.portTotals.total_Amount)
-        return x == z || z == 0
-    }
-
     public onDoSubmitTasks(): void {
         // re-send to data-up
     }
@@ -148,17 +139,17 @@ export class SaleFormComponent {
         return this.form.value.isCancelled
     }
 
-    public isSubmitted(): boolean {
-        return this.form.value.aade.mark != ''
+    public onSave(): void {
+        this.saveRecord(this.flattenForm())
     }
 
-    public onSave(): void {
-        this.isCustomerDataValid().then((response) => {
-            response
-                ? this.saveRecord(this.flattenForm())
-                : this.dialogService.open(this.messageDialogService.customerDataIsInvalid(), 'error', ['ok'])
-        })
-    }
+    // public onSave(): void {
+    //     this.isCustomerDataValid().then((response) => {
+    //         response
+    //             ? this.saveRecord(this.flattenForm())
+    //             : this.dialogService.open(this.messageDialogService.customerDataIsInvalid(), 'error', ['ok'])
+    //     })
+    // }
 
     public updateFieldsAfterDocumentTypeSelection(value: DocumentTypeListVM): void {
         this.documentTypeHttpService.getSingle(value.id).subscribe({
@@ -230,19 +221,11 @@ export class SaleFormComponent {
             documentTypeDescription: '',
             batch: '',
             paymentMethod: ['', [Validators.required, ValidationService.requireAutocomplete]],
-            netAmount: [0, ValidationService.isGreaterThanZero],
+            netAmount: [0],
             vatPercent: [0],
             vatAmount: [0],
-            grossAmount: [0, [Validators.required, Validators.min(1), Validators.max(99999)]],
+            grossAmount: [0],
             items: this.formBuilder.array([]),
-            aade: this.formBuilder.group({
-                id: 0,
-                uId: '',
-                mark: '',
-                markCancel: '',
-                invoiceId: '',
-                qrUrl: '',
-            }),
             remarks: ['', Validators.maxLength(128)],
             isEmailSent: false,
             isCancelled: false,
@@ -281,6 +264,7 @@ export class SaleFormComponent {
         this.populateDropdownFromDexieDB('customers', 'dropdownCustomers', 'customer', 'description', 'description')
         this.populateDropdownFromDexieDB('saleDocumentTypes', 'dropdownDocumentTypes', 'documentType', 'description', 'description')
         this.populateDropdownFromDexieDB('paymentMethods', 'dropdownPaymentMethods', 'paymentMethod', 'description', 'description')
+        this.populateDropdownFromDexieDB('codes', 'dropdownCodes', 'items.code', 'description', 'description')
     }
 
     private populateFields(): void {
@@ -305,13 +289,6 @@ export class SaleFormComponent {
                 postUser: this.record.postUser,
                 putAt: this.record.putAt,
                 putUser: this.record.putUser,
-                aade: {
-                    invoiceId: this.record.aade.invoiceId,
-                    uId: this.record.aade.uId,
-                    mark: this.record.aade.mark,
-                    markCancel: this.record.aade.markCancel,
-                    qrUrl: this.record.aade.qrUrl
-                },
                 items: [],
             })
         }
@@ -360,10 +337,6 @@ export class SaleFormComponent {
             return this[array].filter((element: { [x: string]: string; }) =>
                 element[field].toLowerCase().startsWith(filtervalue))
         }
-    }
-
-    private leftAlignLastTab(): void {
-        this.helperService.leftAlignLastTab()
     }
 
     private populateItems(): void {

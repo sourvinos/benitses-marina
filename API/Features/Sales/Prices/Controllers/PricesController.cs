@@ -32,6 +32,12 @@ namespace API.Features.Sales.Prices {
             return await priceRepo.GetAsync();
         }
 
+        [HttpGet("[action]")]
+        [Authorize(Roles = "user, admin")]
+        public async Task<IEnumerable<PriceListBrowserVM>> GetForBrowserAsync() {
+            return await priceRepo.GetForBrowserAsync();
+        }
+
         [HttpGet("{id}")]
         [Authorize(Roles = "user, admin")]
         public async Task<ResponseWithBody> GetByIdAsync(int id) {

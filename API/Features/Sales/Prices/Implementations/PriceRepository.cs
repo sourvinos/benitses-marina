@@ -28,6 +28,15 @@ namespace API.Features.Sales.Prices {
             return mapper.Map<IEnumerable<Price>, IEnumerable<PriceListVM>>(prices);
         }
 
+        public async Task<IEnumerable<PriceListBrowserVM>> GetForBrowserAsync() {
+            var prices = await context.Prices
+                .AsNoTracking()
+                .OrderBy(x => x.Description)
+                .ToListAsync();
+            return mapper.Map<IEnumerable<Price>, IEnumerable<PriceListBrowserVM>>(prices);
+        }
+
+
         public async Task<Price> GetByIdAsync(int id, bool includeTables) {
             return includeTables
                 ? await context.Prices
