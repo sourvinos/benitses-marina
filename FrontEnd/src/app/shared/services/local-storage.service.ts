@@ -23,12 +23,4 @@ export class LocalStorageService {
         localStorage.setItem(key, value)
     }
 
-    public deleteItems(items: any): void {
-        items.forEach((element: { when: string; item: string }) => {
-            if (element.when == 'always' || environment.production) {
-                localStorage.removeItem(element.item)
-            }
-        })
-    }
-
 }

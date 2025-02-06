@@ -52,19 +52,16 @@ export class MessageDialogService {
     public formIsDirty(): string { return this.getDescription(this.feature, 'formIsDirty') }
     public emailNotSent(): string { return this.getDescription(this.feature, 'emailNotSent') }
     public unableToResetPassword(): string { return this.getDescription(this.feature, 'unableToResetPassword') }
-    public invalidModel(): string { return this.getDescription(this.feature, 'invalidModel') }
     public passwordCanBeChangedOnlyByAccountOwner(): string { return this.getDescription(this.feature, 'passwordCanBeChangedOnlyByAccountOwner') }
     public noContactWithServer(): string { return this.getDescription(this.feature, 'noContactWithServer') }
     public success(): string { return this.getDescription(this.feature, 'success') }
     public confirmDelete(): string { return this.getDescription(this.feature, 'warning') }
     public confirmDeleteDexieDB(): string { return this.getDescription(this.feature, 'confirmDeleteDexieDB') }
     public confirmLogout(): string { return this.getDescription(this.feature, 'confirmLogout') }
-    public helpDialog(): string { return this.getDescription(this.feature, 'helpDialog') }
     public supplierVatNumberIsDuplicate(): string { return this.getDescription(this.feature, 'supplierVatNumberIsDuplicate') }
     public customerAadeDoesNotExist(): string { return this.getDescription(this.feature, 'customerAadeDoesNotExist') }
     public customerVatNumberIsDuplicate(): string { return this.getDescription(this.feature, 'customerVatNumberIsDuplicate') }
     public noRecordsSelected(): string { return this.getDescription(this.feature, 'noRecordsSelected') }
-    public customerDataIsInvalid(): string { return this.getDescription(this.feature, 'customerDataIsInvalid') }
 
     public filterResponse(error: any, feature = 'snackbarMessages'): string {
         let returnValue = ''

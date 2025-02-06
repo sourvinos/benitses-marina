@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog'
 // Custom
 import { DateHelperService } from 'src/app/shared/services/date-helper.service'
 import { HelperService } from '../../../../../shared/services/helper.service'
-import { InteractionService } from 'src/app/shared/services/interaction.service'
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
 import { StatisticsCriteriaDialogComponent } from '../criteria/statistics-criteria-dialog.component'
 import { StatisticsCriteriaVM } from '../../classes/view-models/criteria/statisticss-criteria-vm'
@@ -32,13 +31,12 @@ export class StatisticsParentComponent {
 
     //#endregion
 
-    constructor(private statisticsHttpService: StatisticsHttpService, private dateHelperService: DateHelperService, private helperService: HelperService, private interactionService: InteractionService, private messageLabelService: MessageLabelService, public dialog: MatDialog) { }
+    constructor(private statisticsHttpService: StatisticsHttpService, private dateHelperService: DateHelperService, private helperService: HelperService,private messageLabelService: MessageLabelService, public dialog: MatDialog) { }
 
     //#region lifecycle hooks
 
     ngOnInit(): void {
         this.setTabTitle()
-        this.subscribeToInteractionService()
         this.setListHeight()
     }
 
@@ -130,16 +128,6 @@ export class StatisticsParentComponent {
 
     private setTabTitle(): void {
         this.helperService.setTabTitle(this.feature)
-    }
-
-    private subscribeToInteractionService(): void {
-        this.interactionService.refreshTabTitle.subscribe(() => { this.setTabTitle() })
-        this.interactionService.emitDateRange.subscribe((response) => {
-            if (response) {
-                this.criteria.fromDate = response.fromDate
-                this.criteria.toDate = response.toDate
-            }
-        })
     }
 
     private toggleZeroBalanceRecords(): void {

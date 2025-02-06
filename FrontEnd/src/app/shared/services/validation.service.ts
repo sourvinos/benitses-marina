@@ -65,10 +65,6 @@ export class ValidationService {
         return null
     }
 
-    static isGreaterThanZero(control: AbstractControl): { [key: string]: any } {
-        return control.value == 0 ? { isGreaterThanZero: false } : null
-    }
-
 }
 
 export class ConfirmValidParentMatcher {

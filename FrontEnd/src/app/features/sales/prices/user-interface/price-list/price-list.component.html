@@ -7,7 +7,7 @@
         </div>
 
         <div id="table-wrapper">
-            <p-table #table (onFilter)="filterRecords($event)" [(selection)]="selectedRecords" [scrollable]="true" [value]="records" [virtualScrollItemSize]="32" [virtualScroll]="true" dataKey="id" scrollHeight="flex" selectionMode="single" sortMode="multiple">
+            <p-table #table (onFilter)="onFilterRecords($event)" [(selection)]="selectedRecords" [scrollable]="true" [value]="records" [virtualScrollItemSize]="32" [virtualScroll]="true" dataKey="id" scrollHeight="flex" selectionMode="multiple" sortMode="multiple" stateKey="priceList-filters" stateStorage="session">
                 <ng-template pTemplate="header">
                     <tr>
                         <th class="no-border-bottom width-3"></th>
@@ -27,7 +27,7 @@
                     </tr>
                 </ng-template>
                 <ng-template let-record pTemplate="body">
-                    <tr (click)="highlightRow(record.id)" (dblclick)="editRecord(record.id)" [attr.id]=record.id style="height: 32px;">
+                    <tr (click)="onHighlightRow(record.id)" (dblclick)="onEditRecord(record.id)" [attr.id]=record.id style="height: 32px;">
                         <td class="width-3"><span class="center no-overflow" style="padding-top: 0.25rem !important;"><p-tableCheckbox [value]="record"></p-tableCheckbox></span></td>
                         <td class="width-auto"><span>{{ record.description }}</span></td>
                         <td class="width-auto"><span>{{ record.englishDescription }}</span></td>
@@ -42,7 +42,7 @@
     </div>
 
     <div id="footer">
-        <table-total-filtered-records (resetTableFilters)="resetTableFilters()" [filteredRecordCount]="recordsFilteredCount" [recordCount]="records.length"></table-total-filtered-records>
+        <table-total-filtered-records (resetTableFilters)="onResetTableFilters()" [filteredRecordCount]="recordsFilteredCount" [mustShowSelectedFilteredCount]="true" [recordCount]="records.length" [selectedRecordCount]="selectedRecords.length"></table-total-filtered-records>
         <div id="align-right">
             <button (click)="newRecord()" class="primary" mat-flat-button>{{ getLabel("newRecord") | uppercase }}</button>
         </div>

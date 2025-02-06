@@ -58,7 +58,6 @@ export class ReservationListComponent {
         this.filterAthenian()
         this.populateDropdownFilters()
         this.stringifyBerths()
-        this.filterTableFromStoredFilters()
         this.setTabTitle()
         this.doVirtualTableTasks()
         this.setSidebarsHeight()
@@ -87,10 +86,6 @@ export class ReservationListComponent {
             : anything ? this.emojiService.getEmoji('green-box') : this.emojiService.getEmoji('red-box')
     }
 
-    public getWarningEmoji(isOverdue: boolean): string {
-        return isOverdue ? this.emojiService.getEmoji('warning') : ''
-    }
-
     public getLabel(id: string): string {
         return this.messageLabelService.getDescription(this.feature, id)
     }
@@ -114,10 +109,6 @@ export class ReservationListComponent {
         }
     }
 
-    public hasDateFilter(): string {
-        return this.filterDate == '' ? 'hidden' : ''
-    }
-
     public isAdmin(): boolean {
         return this.cryptoService.decrypt(this.sessionStorageService.getItem('isAdmin')) == 'true' ? true : false
     }
@@ -133,7 +124,6 @@ export class ReservationListComponent {
     }
 
     public onFilterRecords(event: any): void {
-        this.sessionStorageService.saveItem(this.feature + '-' + 'filters', JSON.stringify(this.table.filters))
         this.recordsFilteredCount = event.filteredValue.length
     }
 
@@ -163,31 +153,6 @@ export class ReservationListComponent {
 
     private enableDisableFilters(): void {
         this.records.length == 0 ? this.helperService.disableTableFilters() : this.helperService.enableTableFilters()
-    }
-
-    private filterColumn(element: { value: any }, field: string, matchMode: string): void {
-        if (element != undefined && (element.value != null || element.value != undefined)) {
-            this.table.filter(element.value, field, matchMode)
-        }
-    }
-
-    private filterTableFromStoredFilters(): void {
-        const filters = this.sessionStorageService.getFilters(this.feature + '-' + 'filters')
-        if (filters != undefined) {
-            setTimeout(() => {
-                this.filterColumn(filters.boatName, 'boatName', 'contains')
-                this.filterColumn(filters.ownerName, 'ownerName', 'contains')
-                this.filterColumn(filters.boatLoa, 'boatLoa', 'contains')
-                this.filterColumn(filters.fromDate, 'fromDate', 'contains')
-                this.filterColumn(filters.toDate, 'toDate', 'contains')
-                this.filterColumn(filters.joinedBerths, 'joinedBerths', 'contains')
-                this.filterColumn(filters.paymentStatus, 'paymentStatus', 'in')
-                this.filterColumn(filters.isAthenian, 'isAthenian', 'contains')
-                this.filterColumn(filters.isOverdue, 'isOverdue', 'contains')
-                this.filterColumn(filters.isDocked, 'isDocked', 'contains')
-                this.filterColumn(filters.isCash, 'isCash', 'contains')
-            }, 1000)
-        }
     }
 
     private filterOccupied(): void {

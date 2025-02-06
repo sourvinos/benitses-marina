@@ -17,8 +17,7 @@
 
         <ng-template [ngIf]="records.length > 0" [ngIfElse]="noData">
             <div id="table-wrapper">
-                <p-contextMenu #contextMenu [model]="menuItems"></p-contextMenu>
-                <p-table #table (onFilter)="onFilterRecords($event)" [(contextMenuSelection)]="selectedRecord" [contextMenu]="contextMenu" [scrollable]="true" [(selection)]="selectedRecords" [value]="records" [virtualScrollItemSize]="32" [virtualScroll]="true" dataKey="invoiceId" scrollHeight="flex" selectionMode="single" sortMode="multiple">
+                <p-table #table (onFilter)="onFilterRecords($event)" [(selection)]="selectedRecords" [scrollable]="true" [value]="records" [virtualScrollItemSize]="32" [virtualScroll]="true" dataKey="invoice" scrollHeight="flex" selectionMode="multiple" sortMode="multiple" stateKey="saleList-filters" stateStorage="session">
                     <ng-template pTemplate="header">
                         <tr>
                             <th class="no-border-bottom width-3"></th>
@@ -105,30 +104,13 @@
     </div>
 
     <div id="footer">
-        <button [matMenuTriggerFor]="menu" class="fab fab-with-no-background" mat-icon-button>
-            <mat-icon class="material-icons-outlined">more_vert</mat-icon>
-        </button>
-        <mat-menu #menu="matMenu" class="primary">
-            <ng-container *ngTemplateOutlet="threeDotsMenu"></ng-container>
-        </mat-menu>
-        <div class="filter-pill">
-            <table-total-filtered-records (resetTableFilters)="onClearFilterTasks()" [filteredRecordCount]="recordsFilteredCount" [recordCount]="records.length" [selectedRecordCount]="selectedRecords.length" [mustShowSelectedFilteredCount]="true"></table-total-filtered-records>
-        </div>
+        <table-total-filtered-records (resetTableFilters)="onClearFilterTasks()" [filteredRecordCount]="recordsFilteredCount" [recordCount]="records.length" [selectedRecordCount]="selectedRecords.length" [mustShowSelectedFilteredCount]="true"></table-total-filtered-records>
         <div id="align-right">
             <button (click)="onNewRecord()" class="primary" mat-flat-button>{{ getLabel("newRecord") | uppercase }}</button>
         </div>
     </div>
 
 </div>
-
-<ng-template #threeDotsMenu>
-    <button mat-menu-item>
-        <span>Προεπισκόπηση επιλεγμένων</span>
-    </button>
-    <button (click)="addSelectedRecordsToEmailQueue()" mat-menu-item>
-        <span>Αποστολή επιλεγμένων με email</span>
-    </button>
-</ng-template>
 
 <ng-template #noData>
     <cat-page icon="face" [header]="getLabel('noDataHeader')" [subHeader]="getLabel('noDataSubHeader')"></cat-page>

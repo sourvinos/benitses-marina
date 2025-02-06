@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog'
 // Custom
 import { DateHelperService } from '../../../../../shared/services/date-helper.service'
 import { HelperService } from '../../../../../shared/services/helper.service'
-import { InteractionService } from 'src/app/shared/services/interaction.service'
+
 import { LedgerCriteriaDialogComponent } from '../criteria/ledger-criteria.component'
 import { LedgerCriteriaVM } from '../../classes/view-models/criteria/ledger-criteria-vm'
 import { LedgerFormCriteriaVM } from '../../classes/view-models/criteria/ledger-form-criteria-vm'
@@ -31,13 +31,12 @@ export class LedgerParentBillingComponent {
 
     //#endregion
 
-    constructor(private dateHelperService: DateHelperService, private helperService: HelperService, private interactionService: InteractionService, private ledgerHttpService: LedgerHttpService, private messageLabelService: MessageLabelService, private sessionStorageService: SessionStorageService, public dialog: MatDialog) { }
+    constructor(private dateHelperService: DateHelperService, private helperService: HelperService,private ledgerHttpService: LedgerHttpService, private messageLabelService: MessageLabelService, private sessionStorageService: SessionStorageService, public dialog: MatDialog) { }
 
     //#region lifecycle hooks
 
     ngOnInit(): void {
         this.setTabTitle()
-        this.subscribeToInteractionService()
         this.setListHeight()
     }
 
@@ -112,18 +111,6 @@ export class LedgerParentBillingComponent {
 
     private setTabTitle(): void {
         this.helperService.setTabTitle(this.feature)
-    }
-
-    private subscribeToInteractionService(): void {
-        this.interactionService.refreshTabTitle.subscribe(() => {
-            this.setTabTitle()
-        })
-        this.interactionService.emitDateRange.subscribe((response) => {
-            if (response) {
-                this.criteria.fromDate = response.fromDate
-                this.criteria.toDate = response.toDate
-            }
-        })
     }
 
     //#endregion

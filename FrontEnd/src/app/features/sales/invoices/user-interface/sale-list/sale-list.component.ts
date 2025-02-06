@@ -10,7 +10,6 @@ import { DateRangePickerComponent } from 'src/app/shared/components/date-range-p
 import { DialogService } from '../../../../../shared/services/modal-dialog.service'
 import { EmojiService } from '../../../../../shared/services/emoji.service'
 import { HelperService } from '../../../../../shared/services/helper.service'
-import { InteractionService } from '../../../../../shared/services/interaction.service'
 import { LocalStorageService } from '../../../../../shared/services/local-storage.service'
 import { MessageDialogService } from '../../../../../shared/services/message-dialog.service'
 import { MessageLabelService } from '../../../../../shared/services/message-label.service'
@@ -53,26 +52,17 @@ export class SaleListComponent {
 
     //#endregion
 
-    //#region context menu
-
-    public menuItems!: MenuItem[]
-    public selectedRecord!: SaleListVM
-
-    //#endregion
-
-    constructor(private dateHelperService: DateHelperService, private dialogService: DialogService, private emojiService: EmojiService, private helperService: HelperService, private interactionService: InteractionService, private saleHttpService: SaleHttpDataService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService, public dialog: MatDialog) { }
+    constructor(private dateHelperService: DateHelperService, private dialogService: DialogService, private emojiService: EmojiService, private helperService: HelperService,private saleHttpService: SaleHttpDataService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService, public dialog: MatDialog) { }
 
     //#region lifecycle hooks
 
     ngOnInit(): void {
         this.setTabTitle()
-        this.subscribeToInteractionService()
         this.getStoredCriteria()
         this.buildCriteriaVM(this.criteria).then((response) => {
             this.loadRecords(response).then(() => {
                 this.createDateObjects()
                 this.initFilteredRecordsCount()
-                this.filterTableFromStoredFilters()
                 this.populateDropdownFilters()
                 this.clearSelectedRecords()
                 this.doVirtualTableTasks()
@@ -114,7 +104,6 @@ export class SaleListComponent {
             this.loadRecords(response).then(() => {
                 this.createDateObjects()
                 this.initFilteredRecordsCount()
-                this.filterTableFromStoredFilters()
                 this.populateDropdownFilters()
                 this.clearSelectedRecords()
                 this.doVirtualTableTasks()
@@ -210,7 +199,6 @@ export class SaleListComponent {
                     this.loadRecords(response).then(() => {
                         this.createDateObjects()
                         this.initFilteredRecordsCount()
-                        this.filterTableFromStoredFilters()
                         this.populateDropdownFilters()
                         this.clearSelectedRecords()
                         this.doVirtualTableTasks()
@@ -274,22 +262,6 @@ export class SaleListComponent {
     private filterColumn(element: any, field: string, matchMode: string): void {
         if (element != undefined && (element.value != null || element.value != undefined)) {
             this.table.filter(element.value, field, matchMode)
-        }
-    }
-
-    private filterTableFromStoredFilters(): void {
-        const filters = this.sessionStorageService.getFilters(this.feature + '-' + 'filters')
-        if (filters) {
-            setTimeout(() => {
-                this.filterColumn(filters.date, 'date', 'in')
-                this.filterColumn(filters.customer, 'customer', 'in')
-                this.filterColumn(filters.destination, 'destination', 'in')
-                this.filterColumn(filters.ship, 'ship', 'in')
-                this.filterColumn(filters.shipOwner, 'shipOwner', 'in')
-                this.filterColumn(filters.documentType, 'documentType', 'in')
-                this.filterColumn(filters.saleNo, 'saleNo', 'contains')
-                this.filterColumn(filters.grossAmount, 'grossAmount', 'contains')
-            }, 1000)
         }
     }
 
@@ -365,18 +337,6 @@ export class SaleListComponent {
 
     private storeScrollTop(): void {
         this.sessionStorageService.saveItem(this.feature + '-scrollTop', this.virtualElement.scrollTop)
-    }
-
-    private subscribeToInteractionService(): void {
-        this.interactionService.refreshTabTitle.subscribe(() => {
-            this.setTabTitle()
-        })
-        this.interactionService.emitDateRange.subscribe((response) => {
-            if (response) {
-                this.criteria.fromDate = response.fromDate
-                this.criteria.toDate = response.toDate
-            }
-        })
     }
 
     //#endregion

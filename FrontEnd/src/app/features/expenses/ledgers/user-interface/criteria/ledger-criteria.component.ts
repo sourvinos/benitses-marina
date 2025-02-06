@@ -1,6 +1,6 @@
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { Component, EventEmitter, Inject, NgZone, Output } from '@angular/core'
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
+import { Component, EventEmitter, NgZone, Output } from '@angular/core'
+import { MatDialogRef } from '@angular/material/dialog'
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete'
 import { Observable, map, startWith } from 'rxjs'
 // Custom
@@ -8,7 +8,6 @@ import { DateHelperService } from 'src/app/shared/services/date-helper.service'
 import { DexieService } from 'src/app/shared/services/dexie.service'
 import { HelperService } from 'src/app/shared/services/helper.service'
 import { InputTabStopDirective } from 'src/app/shared/directives/input-tabstop.directive'
-import { InteractionService } from 'src/app/shared/services/interaction.service'
 import { LedgerCriteriaVM } from './../../classes/view-models/criteria/ledger-criteria-vm'
 import { LedgerFormCriteriaVM } from './../../classes/view-models/criteria/ledger-form-criteria-vm'
 import { MessageInputHintService } from './../../../../../shared/services/message-input-hint.service'
@@ -46,7 +45,7 @@ export class LedgerCriteriaDialogComponent {
 
     //#endregion
 
-    constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dateHelperService: DateHelperService, private dexieService: DexieService, private dialogRef: MatDialogRef<LedgerCriteriaDialogComponent>, private formBuilder: FormBuilder, private helperService: HelperService, private interactionService: InteractionService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private ngZone: NgZone, private sessionStorageService: SessionStorageService,) { }
+    constructor(private dateHelperService: DateHelperService, private dexieService: DexieService, private dialogRef: MatDialogRef<LedgerCriteriaDialogComponent>, private formBuilder: FormBuilder, private helperService: HelperService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private ngZone: NgZone, private sessionStorageService: SessionStorageService,) { }
 
     //#region lifecycle hooks
 
@@ -97,7 +96,6 @@ export class LedgerCriteriaDialogComponent {
 
     public onSearch(): void {
         this.ngZone.run(() => {
-            this.interactionService.updateDateRange(this.form.value)
             this.sessionStorageService.saveItem(this.feature, JSON.stringify(this.form.value))
             this.dialogRef.close(this.createCriteriaObject(this.form.value))
         })

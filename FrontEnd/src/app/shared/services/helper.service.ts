@@ -1,15 +1,12 @@
-import { Clipboard } from '@angular/cdk/clipboard'
 import { FormGroup } from '@angular/forms'
-import { Injectable, QueryList } from '@angular/core'
+import { Injectable } from '@angular/core'
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete'
-import { MatExpansionPanel } from '@angular/material/expansion'
 import { Observable, Subject, defer, finalize } from 'rxjs'
 import { Router } from '@angular/router'
 import { Table } from 'primeng/table'
 import { Title } from '@angular/platform-browser'
 // Custom
 import { DialogService } from './modal-dialog.service'
-import { LocalStorageService } from './local-storage.service'
 import { MessageLabelService } from './message-label.service'
 import { SessionStorageService } from './session-storage.service'
 import { environment } from 'src/environments/environment'
@@ -38,13 +35,9 @@ export class HelperService {
 
     //#endregion
 
-    constructor(private clipboard: Clipboard, private dialogService: DialogService, private localStorageService: LocalStorageService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService, private titleService: Title) { }
+    constructor(private dialogService: DialogService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService, private titleService: Title) { }
 
     //#region public methods
-
-    public copyToClipboard(): void {
-        this.clipboard.copy(window.getSelection().toString())
-    }
 
     public leftAlignLastTab(): void {
         const tabs = document.getElementsByClassName('mat-mdc-tab') as HTMLCollectionOf<HTMLElement>
@@ -158,18 +151,6 @@ export class HelperService {
         return result
     }
 
-    public sortArray(array: any, field: string): any {
-        array.sort((a: any, b: any) => {
-            if (a[field] < b[field]) {
-                return -1
-            }
-            if (a[field] > b[field]) {
-                return 1
-            }
-            return 0
-        })
-    }
-
     public deepEqual(object1: any, object2: any): boolean {
         if (object1 == undefined || object2 == undefined) {
             return false
@@ -212,15 +193,6 @@ export class HelperService {
         }, 500)
     }
 
-    public clearTableCheckboxes(): void {
-        setTimeout(() => {
-            const x = document.querySelectorAll('tr td .p-element .p-checkbox .p-checkbox-box .p-checkbox-icon.pi')
-            x.forEach(row => {
-                row.classList.remove('pi-check')
-            })
-        }, 100)
-    }
-
     public scrollToSavedPosition(virtualElement: any, feature: string): void {
         if (virtualElement != undefined) {
             setTimeout(() => {
@@ -241,14 +213,6 @@ export class HelperService {
         this.titleService.setTitle(environment.appName + ': ' + this.messageLabelService.getDescription(feature, 'header'))
     }
 
-    public toggleExpansionPanel(panels: QueryList<MatExpansionPanel> | { open: () => any; close: () => any }[], newState: boolean): void {
-        panels.forEach((panel: { open: () => any; close: () => any }) => {
-            setTimeout(() => {
-                newState == true ? panel.open() : panel.close()
-            }, 400)
-        })
-    }
-
     public clearInvisibleFieldsAndRestoreVisibility(form: FormGroup<any>, fields: string[]): void {
         setTimeout(() => {
             this.clearInvisibleField(form, fields)
@@ -256,25 +220,11 @@ export class HelperService {
         }, 1000)
     }
 
-    public formatNumberToLocale(x: number): string {
-        return x.toString()
-            .split('')
-            .reverse()
-            .join('')
-            .match(/.{1,3}/g)
-            .join(this.getNumberLocaleSeperator()).split('')
-            .reduce((acc, char) => char + acc, '')
-    }
-
     public setSidebarsTopMargin(margin: string): void {
         const sidebars = document.getElementsByClassName('sidebar') as HTMLCollectionOf<HTMLElement>
         for (let i = 0; i < sidebars.length; i++) {
             sidebars[i].style.marginTop = margin + 'rem'
         }
-    }
-
-    public generateRandomString(): string {
-        return Math.floor(Math.random() * Date.now()).toString(36)
     }
 
     //#endregion
@@ -299,12 +249,6 @@ export class HelperService {
         elements.forEach(element => {
             element.classList.remove('invisible')
         })
-    }
-
-    private getNumberLocaleSeperator(): string {
-        switch (this.localStorageService.getLanguage()) {
-            case 'el-GR': return '.'
-        }
     }
 
     //#endregion

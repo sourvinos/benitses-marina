@@ -1,21 +1,17 @@
 import { ActivatedRoute, Router } from '@angular/router'
 import { Component, ViewChild } from '@angular/core'
 import { DateAdapter } from '@angular/material/core'
-import { MatDialog } from '@angular/material/dialog'
 import { Table } from 'primeng/table'
 import { formatNumber } from '@angular/common'
 // Custom
-import { DateHelperService } from '../../../../../shared/services/date-helper.service'
 import { DialogService } from '../../../../../shared/services/modal-dialog.service'
 import { EmojiService } from '../../../../../shared/services/emoji.service'
 import { HelperService } from '../../../../../shared/services/helper.service'
-import { InteractionService } from '../../../../../shared/services/interaction.service'
 import { ListResolved } from '../../../../../shared/classes/list-resolved'
 import { LocalStorageService } from '../../../../../shared/services/local-storage.service'
 import { MessageDialogService } from '../../../../../shared/services/message-dialog.service'
 import { MessageLabelService } from '../../../../../shared/services/message-label.service'
 import { PriceListVM } from '../../classes/view-models/price-list-vm'
-import { PriceHttpService } from '../../classes/services/price-http.service'
 import { SessionStorageService } from '../../../../../shared/services/session-storage.service'
 
 @Component({
@@ -38,25 +34,18 @@ export class PriceListComponent {
     public parentUrl = '/home'
     public records: PriceListVM[]
     public recordsFilteredCount: number
-
-    //#endregion
-
-    //#region specific
-
     public recordsFiltered: PriceListVM[]
     public selectedRecords: PriceListVM[] = []
     public selectedIds: number[] = []
 
     //#endregion
 
-    constructor(private activatedRoute: ActivatedRoute, private dateAdapter: DateAdapter<any>, private dateHelperService: DateHelperService, private dialogService: DialogService, private emojiService: EmojiService, private helperService: HelperService, private interactionService: InteractionService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageLabelService: MessageLabelService, private priceService: PriceHttpService, private router: Router, private sessionStorageService: SessionStorageService, public dialog: MatDialog) { }
+    constructor(private activatedRoute: ActivatedRoute, private dateAdapter: DateAdapter<any>, private dialogService: DialogService, private emojiService: EmojiService, private helperService: HelperService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService) { }
 
     //#region lifecycle hooks
 
     ngOnInit(): void {
         this.loadRecords().then(() => {
-            this.filterTableFromStoredFilters()
-            this.subscribeToInteractionService()
             this.setTabTitle()
             this.setLocale()
             this.setSidebarsHeight()
@@ -76,16 +65,19 @@ export class PriceListComponent {
 
     //#region public common methods
 
-    public editRecord(id: number): void {
+    public onEditRecord(id: number): void {
         this.storeScrollTop()
         this.storeSelectedId(id)
         this.navigateToRecord(id)
     }
 
-    public filterRecords(event: any): void {
-        this.sessionStorageService.saveItem(this.feature + '-' + 'filters', JSON.stringify(this.table.filters))
+    public onFilterRecords(event: any): void {
         this.recordsFiltered = event.filteredValue
         this.recordsFilteredCount = event.filteredValue.length
+    }
+
+    public onResetTableFilters(): void {
+        this.helperService.clearTableTextFilters(this.table, ['description', 'headerEnglishDescription', 'headerNetAmount', 'headerVatAmount', 'headerGrossAmount'])
     }
 
     public formatNumberToLocale(number: number, decimals = true): string {
@@ -102,7 +94,7 @@ export class PriceListComponent {
         return this.messageLabelService.getDescription(this.feature, id)
     }
 
-    public highlightRow(id: any): void {
+    public onHighlightRow(id: any): void {
         this.helperService.highlightRow(id)
     }
 
@@ -129,17 +121,6 @@ export class PriceListComponent {
     private filterColumn(element: { value: any }, field: string, matchMode: string): void {
         if (element != undefined && (element.value != null || element.value != undefined)) {
             this.table.filter(element.value, field, matchMode)
-        }
-    }
-
-    private filterTableFromStoredFilters(): void {
-        const filters = this.sessionStorageService.getFilters(this.feature + '-' + 'filters')
-        if (filters != undefined) {
-            setTimeout(() => {
-                this.filterColumn(filters.customer, 'customer', 'in')
-                this.filterColumn(filters.destination, 'destination', 'in')
-                this.filterColumn(filters.port, 'port', 'in')
-            }, 500)
         }
     }
 
@@ -193,12 +174,6 @@ export class PriceListComponent {
 
     private storeScrollTop(): void {
         this.sessionStorageService.saveItem(this.feature + '-scrollTop', this.virtualElement.scrollTop)
-    }
-
-    private subscribeToInteractionService(): void {
-        this.interactionService.refreshTabTitle.subscribe(() => {
-            this.setTabTitle()
-        })
     }
 
     //#endregion

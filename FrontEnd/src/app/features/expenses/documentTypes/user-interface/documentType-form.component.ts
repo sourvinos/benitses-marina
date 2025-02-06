@@ -15,7 +15,6 @@ import { ExpensesDocumentTypeHttpService } from '../classes/services/documentTyp
 import { FormResolved } from 'src/app/shared/classes/form-resolved'
 import { HelperService } from 'src/app/shared/services/helper.service'
 import { InputTabStopDirective } from 'src/app/shared/directives/input-tabstop.directive'
-import { InteractionService } from 'src/app/shared/services/interaction.service'
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service'
 import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
 import { MessageInputHintService } from 'src/app/shared/services/message-input-hint.service'
@@ -52,7 +51,7 @@ export class DocumentTypeFormComponent {
 
     //#endregion
 
-    constructor(private activatedRoute: ActivatedRoute, private documentTypeHelperService: DocumentTypeHelperService, private documentTypeHttpService: ExpensesDocumentTypeHttpService, private dateAdapter: DateAdapter<any>, private dexieService: DexieService, private dialogService: DialogService, private emojiService: EmojiService, private formBuilder: FormBuilder, private helperService: HelperService, private interactionService: InteractionService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private router: Router) { }
+    constructor(private activatedRoute: ActivatedRoute, private documentTypeHelperService: DocumentTypeHelperService, private documentTypeHttpService: ExpensesDocumentTypeHttpService, private dateAdapter: DateAdapter<any>, private dexieService: DexieService, private dialogService: DialogService, private emojiService: EmojiService, private formBuilder: FormBuilder, private helperService: HelperService,private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private router: Router) { }
 
     //#region lifecycle hooks
 
@@ -61,7 +60,6 @@ export class DocumentTypeFormComponent {
         this.setRecordId()
         this.getRecord()
         this.populateFields()
-        this.subscribeToInteractionService()
         this.setLocale()
     }
 
@@ -215,12 +213,6 @@ export class DocumentTypeFormComponent {
 
     private setLocale(): void {
         this.dateAdapter.setLocale(this.localStorageService.getLanguage())
-    }
-
-    private subscribeToInteractionService(): void {
-        this.interactionService.refreshDateAdapter.subscribe(() => {
-            this.setLocale()
-        })
     }
 
     private setRecordId(): void {

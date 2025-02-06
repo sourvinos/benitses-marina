@@ -56,9 +56,6 @@ export class AccountService extends HttpDataService {
         this.sessionStorageService.deleteItems([
             { 'item': 'displayName', 'when': 'always' },
             { 'item': 'expiration', 'when': 'always' },
-            { 'item': 'invoiceList-filters', 'when': 'always' },
-            { 'item': 'invoiceList-id', 'when': 'always' },
-            { 'item': 'invoiceList-scrollTop', 'when': 'always' },
             { 'item': 'isAdmin', 'when': 'always' },
             { 'item': 'isFirstFieldFocused', 'when': 'always' },
             { 'item': 'jwt', 'when': 'always' },
@@ -67,13 +64,29 @@ export class AccountService extends HttpDataService {
             { 'item': 'refreshToken', 'when': 'always' },
             { 'item': 'returnUrl', 'when': 'always' },
             { 'item': 'userId', 'when': 'always' },
+            // Lists and filters
             { 'item': 'cards-active-tab', 'when': 'always' },
+            { 'item': 'customerList-filters', 'when': 'always' },
             { 'item': 'customerList-id', 'when': 'always' },
             { 'item': 'customerList-scrollTop', 'when': 'always' },
+            { 'item': 'expenseDocumentTypeList-filters', 'when': 'always' },
+            { 'item': 'expenseDocumentTypeList-id', 'when': 'always' },
+            { 'item': 'expenseDocumentTypeList-scrollTop', 'when': 'always' },
+            { 'item': 'invoiceList-filters', 'when': 'always' },
+            { 'item': 'invoiceList-id', 'when': 'always' },
+            { 'item': 'invoiceList-scrollTop', 'when': 'always' },
+            { 'item': 'priceList-filters', 'when': 'always' },
             { 'item': 'priceList-id', 'when': 'always' },
             { 'item': 'priceList-scrollTop', 'when': 'always' },
+            { 'item': 'reservationList-filters', 'when': 'always' },
+            { 'item': 'reservationList-id', 'when': 'always' },
+            { 'item': 'reservationList-scrollTop', 'when': 'always' },
+            { 'item': 'supplierList-filters', 'when': 'always' },
             { 'item': 'supplierList-id', 'when': 'always' },
             { 'item': 'supplierList-scrollTop', 'when': 'always' },
+            { 'item': 'userList-filters', 'when': 'always' },
+            { 'item': 'userList-id', 'when': 'always' },
+            { 'item': 'userList-scrollTop', 'when': 'always' }
         ])
     }
 

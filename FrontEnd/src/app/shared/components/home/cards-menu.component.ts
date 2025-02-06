@@ -26,8 +26,8 @@ export class CardsMenuComponent {
 
     //#region lifecycle hooks
 
-    ngOnInit(): void {
-
+    public isDevelopment(): boolean {
+        return environment.isDevelopment == true
     }
 
     //#endregion
@@ -41,7 +41,7 @@ export class CardsMenuComponent {
     }
 
     public getActiveTab(): number {
-        return this.sessionStorageService.getItem('cards-active-tab') ? parseInt(this.sessionStorageService.getItem('cards-active-tab')) : 1
+        return this.sessionStorageService.getItem('cards-active-tab') ? parseInt(this.sessionStorageService.getItem('cards-active-tab')) : 0
     }
 
     public getIcon(filename: string): string {

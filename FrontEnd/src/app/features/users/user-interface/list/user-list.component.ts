@@ -1,6 +1,5 @@
 import { ActivatedRoute, Router } from '@angular/router'
 import { Component, ViewChild } from '@angular/core'
-import { MenuItem } from 'primeng/api'
 import { Table } from 'primeng/table'
 // Custom
 import { DialogService } from 'src/app/shared/services/modal-dialog.service'
@@ -20,7 +19,7 @@ import { UserListVM } from '../../classes/view-models/user-list-vm'
 
 export class UserListComponent {
 
-    //#region common
+    //#region variables
 
     @ViewChild('table') table: Table
 
@@ -32,13 +31,9 @@ export class UserListComponent {
     public parentUrl = '/home'
     public records: UserListVM[]
     public recordsFilteredCount: number
-
-    //#endregion
-
-    //#region context menu
-
-    public menuItems!: MenuItem[]
-    public selectedRecord!: UserListVM
+    public recordsFiltered: UserListVM[]
+    public selectedRecords: UserListVM[] = []
+    public selectedIds: number[] = []
 
     //#endregion
 
@@ -48,10 +43,8 @@ export class UserListComponent {
 
     ngOnInit(): void {
         this.loadRecords().then(() => {
-            this.filterTableFromStoredFilters()
             this.setTabTitle()
             this.setSidebarsHeight()
-            this.initContextMenu()
         })
     }
 
@@ -85,8 +78,12 @@ export class UserListComponent {
         this.navigateToRecord(id)
     }
 
+    public onFilter(event: any, column: string, matchMode: string): void {
+        if (event) this.table.filter(event, column, matchMode)
+    }
+
     public onFilterRecords(event: any): void {
-        this.sessionStorageService.saveItem(this.feature + '-' + 'filters', JSON.stringify(this.table.filters))
+        this.recordsFiltered = event.filteredValue
         this.recordsFilteredCount = event.filteredValue.length
     }
 
@@ -98,7 +95,7 @@ export class UserListComponent {
         this.router.navigate([this.url + '/new'])
     }
 
-    public resetTableFilters(): void {
+    public onResetTableFilters(): void {
         this.helperService.clearTableTextFilters(this.table, ['userName', 'displayname', 'email'])
     }
 
@@ -108,25 +105,6 @@ export class UserListComponent {
 
     private enableDisableFilters(): void {
         this.records.length == 0 ? this.helperService.disableTableFilters() : this.helperService.enableTableFilters()
-    }
-
-    private filterColumn(element: { value: any }, field: string, matchMode: string): void {
-        if (element != undefined && (element.value != null || element.value != undefined)) {
-            this.table.filter(element.value, field, matchMode)
-        }
-    }
-
-    private filterTableFromStoredFilters(): void {
-        const filters = this.sessionStorageService.getFilters(this.feature + '-' + 'filters')
-        if (filters != undefined) {
-            setTimeout(() => {
-                this.filterColumn(filters.isActive, 'isActive', 'contains')
-                this.filterColumn(filters.isAdmin, 'isAdmin', 'equals')
-                this.filterColumn(filters.userName, 'userName', 'contains')
-                this.filterColumn(filters.displayname, 'displayname', 'contains')
-                this.filterColumn(filters.email, 'email', 'contains')
-            }, 500)
-        }
     }
 
     private getVirtualElement(): void {
@@ -139,12 +117,6 @@ export class UserListComponent {
 
     private hightlightSavedRow(): void {
         this.helperService.highlightSavedRow(this.feature)
-    }
-
-    private initContextMenu(): void {
-        this.menuItems = [
-            { label: this.getLabel('contextMenuEdit'), command: () => this.onEditRecord(this.selectedRecord.id) }
-        ]
     }
 
     private loadRecords(): Promise<any> {

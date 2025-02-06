@@ -7,7 +7,7 @@ import { DialogService } from '../../../../../shared/services/modal-dialog.servi
 import { FormResolved } from 'src/app/shared/classes/form-resolved'
 import { HelperService } from 'src/app/shared/services/helper.service'
 import { InputTabStopDirective } from 'src/app/shared/directives/input-tabstop.directive'
-import { InteractionService } from 'src/app/shared/services/interaction.service'
+
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service'
 import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
 import { MessageInputHintService } from 'src/app/shared/services/message-input-hint.service'
@@ -15,7 +15,6 @@ import { MessageLabelService } from 'src/app/shared/services/message-label.servi
 import { PriceHttpService } from '../../classes/services/price-http.service'
 import { PriceReadDto } from '../../classes/dtos/price-read-dto'
 import { PriceWriteDto } from '../../classes/dtos/price-write-dto'
-import { SimpleEntity } from '../../../../../shared/classes/simple-entity'
 
 @Component({
     selector: 'price-form',
@@ -38,7 +37,7 @@ export class PriceFormComponent {
 
     //#endregion
 
-    constructor(private activatedRoute: ActivatedRoute, private dateAdapter: DateAdapter<any>, private dialogService: DialogService, private formBuilder: FormBuilder, private helperService: HelperService, private interactionService: InteractionService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private priceService: PriceHttpService, private router: Router) { }
+    constructor(private activatedRoute: ActivatedRoute, private dateAdapter: DateAdapter<any>, private dialogService: DialogService, private formBuilder: FormBuilder, private helperService: HelperService,private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private priceService: PriceHttpService, private router: Router) { }
 
     //#region lifecycle hooks
 
@@ -47,7 +46,6 @@ export class PriceFormComponent {
         this.setRecordId()
         this.getRecord()
         this.populateFields()
-        this.subscribeToInteractionService()
         this.setLocale()
     }
 
@@ -231,12 +229,6 @@ export class PriceFormComponent {
     private setRecordId(): void {
         this.activatedRoute.params.subscribe(x => {
             this.recordId = x.id
-        })
-    }
-
-    private subscribeToInteractionService(): void {
-        this.interactionService.refreshDateAdapter.subscribe(() => {
-            this.setLocale()
         })
     }
 

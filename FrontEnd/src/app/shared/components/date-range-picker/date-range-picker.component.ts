@@ -4,7 +4,6 @@ import { DateAdapter } from '@angular/material/core'
 // Custom
 import { DateHelperService } from '../../services/date-helper.service'
 import { InputTabStopDirective } from '../../directives/input-tabstop.directive'
-import { InteractionService } from '../../services/interaction.service'
 import { LocalStorageService } from '../../services/local-storage.service'
 import { MatDatepickerInputEvent } from '@angular/material/datepicker'
 import { MessageInputHintService } from '../../services/message-input-hint.service'
@@ -31,14 +30,13 @@ export class DateRangePickerComponent {
 
     //#endregion
 
-    constructor(private dateAdapter: DateAdapter<any>, private dateHelperService: DateHelperService, private formBuilder: FormBuilder, private interactionService: InteractionService, private localStorageService: LocalStorageService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService) { }
+    constructor(private dateAdapter: DateAdapter<any>, private dateHelperService: DateHelperService, private formBuilder: FormBuilder, private localStorageService: LocalStorageService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService) { }
 
     //#region lifecycle hooks
 
     ngOnInit(): void {
         this.initForm()
         this.setLocale()
-        this.subscribeToInteractionService()
     }
 
     //#endregion
@@ -101,12 +99,6 @@ export class DateRangePickerComponent {
 
     private setLocale(): void {
         this.dateAdapter.setLocale(this.localStorageService.getLanguage())
-    }
-
-    private subscribeToInteractionService(): void {
-        this.interactionService.refreshDateAdapter.subscribe(() => {
-            this.setLocale()
-        })
     }
 
     //#endregion

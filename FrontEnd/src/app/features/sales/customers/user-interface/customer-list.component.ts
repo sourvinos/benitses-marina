@@ -1,6 +1,5 @@
 import { ActivatedRoute, Router } from '@angular/router'
 import { Component, ViewChild } from '@angular/core'
-import { MenuItem } from 'primeng/api'
 import { Table } from 'primeng/table'
 // Custom
 import { CryptoService } from 'src/app/shared/services/crypto.service'
@@ -8,7 +7,6 @@ import { CustomerListVM } from '../classes/view-models/customer-list-vm'
 import { DialogService } from 'src/app/shared/services/modal-dialog.service'
 import { EmojiService } from 'src/app/shared/services/emoji.service'
 import { HelperService } from 'src/app/shared/services/helper.service'
-import { InteractionService } from 'src/app/shared/services/interaction.service'
 import { ListResolved } from '../../../../shared/classes/list-resolved'
 import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
@@ -22,7 +20,7 @@ import { SessionStorageService } from 'src/app/shared/services/session-storage.s
 
 export class CustomerListComponent {
 
-    //#region common
+    //#region variables
 
     @ViewChild('table') table: Table
 
@@ -33,28 +31,21 @@ export class CustomerListComponent {
     public icon = 'home'
     public parentUrl = '/home'
     public records: CustomerListVM[] = []
-    public recordsFilteredCount = 0
+    public recordsFilteredCount: number
+    public recordsFiltered: CustomerListVM[]
+    public selectedRecords: CustomerListVM[] = []
+    public selectedIds: number[] = []
 
     //#endregion
 
-    //#region context menu
-
-    public menuItems!: MenuItem[]
-    public selectedRecord!: CustomerListVM
-
-    //#endregion
-
-    constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dialogService: DialogService, private emojiService: EmojiService, private helperService: HelperService, private interactionService: InteractionService, private messageDialogService: MessageDialogService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService) { }
+    constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dialogService: DialogService, private emojiService: EmojiService, private helperService: HelperService, private messageDialogService: MessageDialogService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService) { }
 
     //#region lifecycle hooks
 
     ngOnInit(): void {
         this.loadRecords().then(() => {
-            this.filterTableFromStoredFilters()
-            this.subscribeToInteractionService()
             this.setTabTitle()
             this.setSidebarsHeight()
-            this.initContextMenu()
         })
     }
 
@@ -96,7 +87,7 @@ export class CustomerListComponent {
     }
 
     public onFilterRecords(event: any): void {
-        this.sessionStorageService.saveItem(this.feature + '-' + 'filters', JSON.stringify(this.table.filters))
+        this.recordsFiltered = event.filteredValue
         this.recordsFilteredCount = event.filteredValue.length
     }
 
@@ -109,7 +100,7 @@ export class CustomerListComponent {
     }
 
     public onResetTableFilters(): void {
-        this.helperService.clearTableTextFilters(this.table, ['description', 'email', 'phones'])
+        this.helperService.clearTableTextFilters(this.table, ['description', 'vatNumber', 'email', 'phones'])
     }
 
     //#endregion
@@ -118,25 +109,6 @@ export class CustomerListComponent {
 
     private enableDisableFilters(): void {
         this.records.length == 0 ? this.helperService.disableTableFilters() : this.helperService.enableTableFilters()
-    }
-
-    private filterColumn(element: { value: any }, field: string, matchMode: string): void {
-        if (element != undefined && (element.value != null || element.value != undefined)) {
-            this.table.filter(element.value, field, matchMode)
-        }
-    }
-
-    private filterTableFromStoredFilters(): void {
-        const filters = this.sessionStorageService.getFilters(this.feature + '-' + 'filters')
-        if (filters != undefined) {
-            setTimeout(() => {
-                this.filterColumn(filters.isActive, 'isActive', 'contains')
-                this.filterColumn(filters.description, 'description', 'contains')
-                this.filterColumn(filters.vatNumber, 'vatNumber', 'contains')
-                this.filterColumn(filters.email, 'email', 'contains')
-                this.filterColumn(filters.phones, 'phones', 'contains')
-            }, 500)
-        }
     }
 
     private getVirtualElement(): void {
@@ -149,12 +121,6 @@ export class CustomerListComponent {
 
     private hightlightSavedRow(): void {
         this.helperService.highlightSavedRow(this.feature)
-    }
-
-    private initContextMenu(): void {
-        this.menuItems = [
-            { label: this.getLabel('contextMenuEdit'), command: () => this.onEditRecord(this.selectedRecord.id) }
-        ]
     }
 
     private loadRecords(): Promise<any> {
@@ -194,12 +160,6 @@ export class CustomerListComponent {
 
     private storeScrollTop(): void {
         this.sessionStorageService.saveItem(this.feature + '-scrollTop', this.virtualElement.scrollTop)
-    }
-
-    private subscribeToInteractionService(): void {
-        this.interactionService.refreshTabTitle.subscribe(() => {
-            this.setTabTitle()
-        })
     }
 
     //#endregion

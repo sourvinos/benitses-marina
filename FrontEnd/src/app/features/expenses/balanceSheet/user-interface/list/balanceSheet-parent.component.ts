@@ -8,7 +8,7 @@ import { BalanceSheetHttpService } from '../../classes/services/balanceSheet-htt
 import { BalanceSheetVM } from '../../classes/view-models/list/balanceSheet-vm'
 import { DateHelperService } from 'src/app/shared/services/date-helper.service'
 import { HelperService } from '../../../../../shared/services/helper.service'
-import { InteractionService } from 'src/app/shared/services/interaction.service'
+
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
 
 @Component({
@@ -32,13 +32,12 @@ export class BalanceSheetParentComponent {
 
     //#endregion
 
-    constructor(private balanceSheetHttpService: BalanceSheetHttpService, private dateHelperService: DateHelperService, private helperService: HelperService, private interactionService: InteractionService, private messageLabelService: MessageLabelService, public dialog: MatDialog) { }
+    constructor(private balanceSheetHttpService: BalanceSheetHttpService, private dateHelperService: DateHelperService, private helperService: HelperService,private messageLabelService: MessageLabelService, public dialog: MatDialog) { }
 
     //#region lifecycle hooks
 
     ngOnInit(): void {
         this.setTabTitle()
-        this.subscribeToInteractionService()
         this.setListHeight()
     }
 
@@ -123,16 +122,6 @@ export class BalanceSheetParentComponent {
 
     private setTabTitle(): void {
         this.helperService.setTabTitle(this.feature)
-    }
-
-    private subscribeToInteractionService(): void {
-        this.interactionService.refreshTabTitle.subscribe(() => { this.setTabTitle() })
-        this.interactionService.emitDateRange.subscribe((response) => {
-            if (response) {
-                this.criteria.fromDate = response.fromDate
-                this.criteria.toDate = response.toDate
-            }
-        })
     }
 
     private toggleZeroBalanceRecords(): void {

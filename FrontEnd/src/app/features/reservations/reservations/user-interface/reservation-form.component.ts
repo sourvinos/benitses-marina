@@ -93,7 +93,7 @@ export class ReservationFormComponent {
 
     ngAfterViewInit(): void {
         this.focusOnField()
-        this.leftAlignLastTab()
+        this.rightAlignLastTab()
     }
 
     //#endregion
@@ -390,7 +390,7 @@ export class ReservationFormComponent {
             paymentStatus: ['', [Validators.required, ValidationService.requireAutocomplete]],
             insuranceCompany: '',
             policyNo: '',
-            policyEnds: '',
+            policyEnds: ['', [Validators.required]],
             netAmount: ['', [Validators.required, Validators.min(0), Validators.max(99999)]],
             vatPercent: ['', [Validators.required, Validators.min(0), Validators.max(99)]],
             vatAmount: ['', [Validators.required, Validators.min(0), Validators.max(99999)]],
@@ -429,7 +429,7 @@ export class ReservationFormComponent {
         })
     }
 
-    private leftAlignLastTab(): void {
+    private rightAlignLastTab(): void {
         this.helperService.leftAlignLastTab()
     }
 

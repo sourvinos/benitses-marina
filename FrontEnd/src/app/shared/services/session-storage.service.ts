@@ -23,7 +23,7 @@ export class SessionStorageService {
 
     public deleteItems(items: any): void {
         items.forEach((element: { when: string; item: string }) => {
-            if (element.when == 'always' || environment.production) {
+            if (element.when == 'always' || environment.isProduction) {
                 sessionStorage.removeItem(element.item)
             }
         })

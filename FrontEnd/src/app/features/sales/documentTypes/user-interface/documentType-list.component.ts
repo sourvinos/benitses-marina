@@ -8,12 +8,11 @@ import { DialogService } from 'src/app/shared/services/modal-dialog.service'
 import { DocumentTypeListVM } from '../classes/view-models/documentType-list-vm'
 import { EmojiService } from 'src/app/shared/services/emoji.service'
 import { HelperService } from 'src/app/shared/services/helper.service'
-import { InteractionService } from 'src/app/shared/services/interaction.service'
+
 import { ListResolved } from '../../../../shared/classes/list-resolved'
 import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
 import { SessionStorageService } from 'src/app/shared/services/session-storage.service'
-import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 
 @Component({
     selector: 'documentType-list',
@@ -35,27 +34,20 @@ export class DocumentTypeListComponent {
     public parentUrl = '/home'
     public records: DocumentTypeListVM[]
     public recordsFilteredCount: number
+    public recordsFiltered: DocumentTypeListVM[]
+    public selectedRecords: DocumentTypeListVM[] = []
+    public selectedIds: number[] = []
 
     //#endregion
 
-    //#region context menu
-
-    public menuItems!: MenuItem[]
-    public selectedRecord!: DocumentTypeListVM
-
-    //#endregion
-
-    constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dialogService: DialogService, private emojiService: EmojiService, private helperService: HelperService, private interactionService: InteractionService, private messageDialogService: MessageDialogService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService) { }
+    constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dialogService: DialogService, private emojiService: EmojiService, private helperService: HelperService, private messageDialogService: MessageDialogService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService) { }
 
     //#region lifecycle hooks
 
     ngOnInit(): void {
         this.loadRecords().then(() => {
-            this.filterTableFromStoredFilters()
-            this.subscribeToInteractionService()
             this.setTabTitle()
             this.setSidebarsHeight()
-            this.initContextMenu()
         })
     }
 
@@ -72,6 +64,16 @@ export class DocumentTypeListComponent {
 
     //#region public methods
 
+    public getEmoji(anything: any): string {
+        return typeof anything == 'string'
+            ? this.emojiService.getEmoji(anything)
+            : anything ? this.emojiService.getEmoji('green-box') : this.emojiService.getEmoji('red-box')
+    }
+
+    public getLabel(id: string): string {
+        return this.messageLabelService.getDescription(this.feature, id)
+    }
+
     public isAdmin(): boolean {
         return this.cryptoService.decrypt(this.sessionStorageService.getItem('isAdmin')) == 'true' ? true : false
     }
@@ -82,8 +84,12 @@ export class DocumentTypeListComponent {
         this.navigateToRecord(id)
     }
 
+    public onFilter(event: any, column: string, matchMode: string): void {
+        if (event) this.table.filter(event, column, matchMode)
+    }
+
     public onFilterRecords(event: any): void {
-        this.sessionStorageService.saveItem(this.feature + '-' + 'filters', JSON.stringify(this.table.filters))
+        this.recordsFiltered = event.filteredValue
         this.recordsFilteredCount = event.filteredValue.length
     }
 
@@ -96,17 +102,7 @@ export class DocumentTypeListComponent {
     }
 
     public onResetTableFilters(): void {
-        this.helperService.clearTableTextFilters(this.table, ['description', 'email', 'phones'])
-    }
-
-    public getEmoji(anything: any): string {
-        return typeof anything == 'string'
-            ? this.emojiService.getEmoji(anything)
-            : anything ? this.emojiService.getEmoji('green-box') : this.emojiService.getEmoji('red-box')
-    }
-
-    public getLabel(id: string): string {
-        return this.messageLabelService.getDescription(this.feature, id)
+        this.helperService.clearTableTextFilters(this.table, ['description', 'batch', 'table8_1', 'table8_8', 'table8_9'])
     }
 
     //#endregion
@@ -115,22 +111,6 @@ export class DocumentTypeListComponent {
 
     private enableDisableFilters(): void {
         this.records.length == 0 ? this.helperService.disableTableFilters() : this.helperService.enableTableFilters()
-    }
-
-    private filterColumn(element: { value: any }, field: string, matchMode: string): void {
-        if (element != undefined && (element.value != null || element.value != undefined)) {
-            this.table.filter(element.value, field, matchMode)
-        }
-    }
-
-    private filterTableFromStoredFilters(): void {
-        const filters = this.sessionStorageService.getFilters(this.feature + '-' + 'filters')
-        if (filters != undefined) {
-            setTimeout(() => {
-                this.filterColumn(filters.isActive, 'isActive', 'contains')
-                this.filterColumn(filters.description, 'description', 'contains')
-            }, 500)
-        }
     }
 
     private getVirtualElement(): void {
@@ -143,12 +123,6 @@ export class DocumentTypeListComponent {
 
     private hightlightSavedRow(): void {
         this.helperService.highlightSavedRow(this.feature)
-    }
-
-    private initContextMenu(): void {
-        this.menuItems = [
-            { label: 'Επεξεργασία', command: () => this.onEditRecord(this.selectedRecord.id) }
-        ]
     }
 
     private loadRecords(): Promise<any> {
@@ -188,12 +162,6 @@ export class DocumentTypeListComponent {
 
     private storeScrollTop(): void {
         this.sessionStorageService.saveItem(this.feature + '-scrollTop', this.virtualElement.scrollTop)
-    }
-
-    private subscribeToInteractionService(): void {
-        this.interactionService.refreshTabTitle.subscribe(() => {
-            this.setTabTitle()
-        })
     }
 
     //#endregion
