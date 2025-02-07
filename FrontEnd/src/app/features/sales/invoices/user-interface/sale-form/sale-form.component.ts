@@ -55,7 +55,6 @@ export class SaleFormComponent {
     public dropdownCustomers: Observable<CustomerAutoCompleteVM[]>
     public dropdownDocumentTypes: Observable<DocumentTypeListVM[]>
     public dropdownPaymentMethods: Observable<SimpleEntity[]>
-    public dropdownCodes: Observable<SimpleEntity[]>
 
     //#endregion
 
@@ -70,7 +69,6 @@ export class SaleFormComponent {
         this.populateFields()
         this.populateDropdowns()
         this.setLocale()
-        this.populateItems()
     }
 
     //#endregion
@@ -225,14 +223,14 @@ export class SaleFormComponent {
             vatPercent: [0],
             vatAmount: [0],
             grossAmount: [0],
-            items: this.formBuilder.array([]),
             remarks: ['', Validators.maxLength(128)],
             isEmailSent: false,
             isCancelled: false,
+            items: this.formBuilder.array([]),
             postAt: [''],
             postUser: [''],
             putAt: [''],
-            putUser: [''],
+            putUser: ['']
         })
     }
 
@@ -264,7 +262,7 @@ export class SaleFormComponent {
         this.populateDropdownFromDexieDB('customers', 'dropdownCustomers', 'customer', 'description', 'description')
         this.populateDropdownFromDexieDB('saleDocumentTypes', 'dropdownDocumentTypes', 'documentType', 'description', 'description')
         this.populateDropdownFromDexieDB('paymentMethods', 'dropdownPaymentMethods', 'paymentMethod', 'description', 'description')
-        this.populateDropdownFromDexieDB('codes', 'dropdownCodes', 'items.code', 'description', 'description')
+        this.populateDropdownFromDexieDB('prices', 'dropdownItems', 'items.code', 'code', 'code')
     }
 
     private populateFields(): void {
@@ -289,7 +287,7 @@ export class SaleFormComponent {
                 postUser: this.record.postUser,
                 putAt: this.record.putAt,
                 putUser: this.record.putUser,
-                items: [],
+                items: this.populateItems(),
             })
         }
     }
@@ -384,6 +382,10 @@ export class SaleFormComponent {
 
     get paymentMethod(): AbstractControl {
         return this.form.get('paymentMethod')
+    }
+
+    get item(): AbstractControl {
+        return this.form.get('item.code')
     }
 
     get remarks(): AbstractControl {

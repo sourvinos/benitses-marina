@@ -24,6 +24,10 @@ namespace API.Infrastructure.Helpers {
 
         #region Specific Messages
 
+        public static string InvalidIssueDate() { return "The issue date must be today's date."; }
+        public static string InvalidCustomer() { return "The customer doesn't exist or is inactive."; }
+        public static string InvalidDocumentType() { return "The document type doesn't exist or is inactive."; }
+        public static string InvalidPaymentMethod() { return "The payment method doesn't exist or is inactive."; }
         public static string VatNumberIsDuplicate() { return "The Tax Number already exists."; }
         public static string CustomerDataIsInvalid() { return "Customer data is invalid."; }
         public static string InvoiceAlreadyExists() { return "Invoice already exists."; }

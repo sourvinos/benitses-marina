@@ -22,6 +22,8 @@ namespace API.Features.Sales.Invoices {
                 var x when x == !await IsCompositeKeyValidAsync(invoice) => 466,
                 var x when x == !await IsInvoiceCountEqualToLastInvoiceNo(invoice) => 467,
                 var x when x == !await IsValidCustomer(invoice) => 450,
+                var x when x == !await IsValidDocumentType(invoice) => 465,
+                var x when x == !await IsValidPaymentMethod(invoice) => 468,
                 var x when x == IsAlreadyUpdated(z, invoice) => 415,
                 _ => 200,
             };
@@ -68,6 +70,28 @@ namespace API.Features.Sales.Invoices {
             return await context.Customers
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Id == invoice.CustomerId) != null;
+        }
+
+        private async Task<bool> IsValidDocumentType(InvoiceWriteDto invoice) {
+            if (invoice.InvoiceId == Guid.Empty) {
+                return await context.SaleDocumentTypes
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(x => x.Id == invoice.DocumentTypeId && x.IsActive) != null;
+            }
+            return await context.SaleDocumentTypes
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Id == invoice.DocumentTypeId) != null;
+        }
+
+        private async Task<bool> IsValidPaymentMethod(InvoiceWriteDto invoice) {
+            if (invoice.InvoiceId == Guid.Empty) {
+                return await context.PaymentMethods
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(x => x.Id == invoice.PaymentMethodId && x.IsActive) != null;
+            }
+            return await context.PaymentMethods
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Id == invoice.PaymentMethodId) != null;
         }
 
     }
