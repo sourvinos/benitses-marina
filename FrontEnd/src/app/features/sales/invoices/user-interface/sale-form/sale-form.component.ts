@@ -1,6 +1,6 @@
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
-import { Component } from '@angular/core'
+import { Component, QueryList, ViewChildren } from '@angular/core'
 import { DateAdapter } from '@angular/material/core'
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete'
 import { Observable, map, startWith } from 'rxjs'
@@ -25,6 +25,7 @@ import { SaleReadDto } from '../../classes/dtos/form/sale-read-dto'
 import { SaleWriteDto } from '../../classes/dtos/form/sale-write-dto'
 import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 import { ValidationService } from 'src/app/shared/services/validation.service'
+import { SaleFormItemComponent } from './sale-form-item.component'
 
 @Component({
     selector: 'sale-form',
@@ -41,6 +42,7 @@ export class SaleFormComponent {
     public feature = 'saleForm'
     public featureIcon = 'sales'
     public form: FormGroup
+    public itemForm: FormGroup
     public icon = 'arrow_back'
     public input: InputTabStopDirective
     public isNewRecord: boolean
@@ -55,6 +57,12 @@ export class SaleFormComponent {
     public dropdownCustomers: Observable<CustomerAutoCompleteVM[]>
     public dropdownDocumentTypes: Observable<DocumentTypeListVM[]>
     public dropdownPaymentMethods: Observable<SimpleEntity[]>
+    public dropdownBanks: Observable<SimpleEntity[]>
+
+    public itemCount: Array<number>
+
+    @ViewChildren(SaleFormItemComponent) components: QueryList<SaleFormItemComponent>
+
 
     //#endregion
 
@@ -63,12 +71,17 @@ export class SaleFormComponent {
     //#region lifecycle hooks
 
     ngOnInit(): void {
+        this.itemCount = new Array(2)
         this.initForm()
         this.setRecordId()
         this.getRecord()
         this.populateFields()
         this.populateDropdowns()
         this.setLocale()
+    }
+
+    ngAfterViewInit() {
+        let component: SaleFormItemComponent[] = this.components.toArray();
     }
 
     //#endregion
@@ -84,19 +97,20 @@ export class SaleFormComponent {
     }
 
     public onAddItem(): void {
+        this.itemCount.length += 1
         const control = <FormArray>this.form.get('items')
-        const newGroup = this.formBuilder.group({
-            code: 'code',
-            description: 'description',
-            englishDescription: 'english description',
-            qty: 1,
-            netAmount: 100,
-            vatPercent: 24,
-            vatAmount: 24,
-            grossAmount: 124
-        })
-        control.push(newGroup)
-        this.itemsArray.push(this.form.controls.items.value)
+        // const newGroup = this.formBuilder.group({
+        //     code: 'code',
+        //     description: 'description',
+        //     englishDescription: 'english description',
+        //     qty: 1,
+        //     netAmount: 100,
+        //     vatPercent: 24,
+        //     vatAmount: 24,
+        //     grossAmount: 124
+        // })
+        // control.push(newGroup)
+        // this.itemsArray.push(this.form.controls.items.value)
     }
 
     public onRemoveItem(itemIndex: number): void {
@@ -226,12 +240,19 @@ export class SaleFormComponent {
             remarks: ['', Validators.maxLength(128)],
             isEmailSent: false,
             isCancelled: false,
-            items: this.formBuilder.array([]),
+            // items: this.formBuilder.array([]),
+            items: this.formBuilder.array([this.buildListItem()]),
             postAt: [''],
             postUser: [''],
             putAt: [''],
             putUser: ['']
         })
+    }
+
+    private buildListItem(): FormGroup {
+        return this.formBuilder.group({
+            bank: '',
+        });
     }
 
     private getLastDocumentTypeNo(id: number): Observable<any> {
@@ -390,6 +411,10 @@ export class SaleFormComponent {
 
     get remarks(): AbstractControl {
         return this.form.get('remarks')
+    }
+
+    get bank(): AbstractControl {
+        return this.itemForm.get('bank')
     }
 
     //#endregion
