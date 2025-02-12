@@ -1,35 +1,35 @@
-import { Component, QueryList, ViewChildren } from '@angular/core'
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { SaleReadDto } from '../../classes/dtos/form/sale-read-dto'
-import { InputTabStopDirective } from 'src/app/shared/directives/input-tabstop.directive'
-import { map, Observable, startWith } from 'rxjs'
-import { CustomerAutoCompleteVM } from '../../../customers/classes/view-models/customer-autocomplete-vm'
-import { DocumentTypeListVM } from '../../../documentTypes/classes/view-models/documentType-list-vm'
-import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
-import { SaleFormItemComponent } from './sale-form-item.component'
 import { ActivatedRoute, Router } from '@angular/router'
+import { Component } from '@angular/core'
 import { DateAdapter } from '@angular/material/core'
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete'
+import { Observable, map, startWith } from 'rxjs'
+// Custom
+import { CustomerAutoCompleteVM } from '../../../customers/classes/view-models/customer-autocomplete-vm'
 import { DebugDialogService } from 'src/app/shared/services/debug-dialog.service'
 import { DexieService } from 'src/app/shared/services/dexie.service'
 import { DialogService } from 'src/app/shared/services/modal-dialog.service'
-import { SaleHttpDataService } from '../../classes/services/sale-http-data.service'
-import { SaleHelperService } from '../../classes/services/sale.helper.service'
-import { MessageLabelService } from 'src/app/shared/services/message-label.service'
-import { MessageInputHintService } from 'src/app/shared/services/message-input-hint.service'
-import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
-import { LocalStorageService } from 'src/app/shared/services/local-storage.service'
 import { DocumentTypeHttpService } from '../../../documentTypes/classes/services/documentType-http.service'
-import { HelperService } from 'src/app/shared/services/helper.service'
+import { DocumentTypeListVM } from '../../../documentTypes/classes/view-models/documentType-list-vm'
 import { DocumentTypeReadDto } from '../../../documentTypes/classes/dtos/documentType-read-dto'
-import { MatAutocompleteTrigger } from '@angular/material/autocomplete'
-import { SaleWriteDto } from '../../classes/dtos/form/sale-write-dto'
-import { ValidationService } from 'src/app/shared/services/validation.service'
 import { FormResolved } from 'src/app/shared/classes/form-resolved'
+import { HelperService } from 'src/app/shared/services/helper.service'
+import { InputTabStopDirective } from 'src/app/shared/directives/input-tabstop.directive'
+import { LocalStorageService } from 'src/app/shared/services/local-storage.service'
+import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
+import { MessageInputHintService } from 'src/app/shared/services/message-input-hint.service'
+import { MessageLabelService } from 'src/app/shared/services/message-label.service'
+import { SaleHelperService } from '../../classes/services/sale.helper.service'
+import { SaleHttpDataService } from '../../classes/services/sale-http-data.service'
+import { SaleReadDto } from '../../classes/dtos/form/sale-read-dto'
+import { SaleWriteDto } from '../../classes/dtos/form/sale-write-dto'
+import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
+import { ValidationService } from 'src/app/shared/services/validation.service'
 
 @Component({
-    selector: 'my-app',
+    selector: 'sale-form',
     templateUrl: './sale-form.component.html',
-    styleUrls: ['./sale-form.component.css']
+    styleUrls: ['../../../../../../assets/styles/custom/forms.css', './sale-form.component.css']
 })
 
 export class SaleFormComponent {
@@ -41,7 +41,6 @@ export class SaleFormComponent {
     public feature = 'saleForm'
     public featureIcon = 'sales'
     public form: FormGroup
-    public itemForm: FormGroup
     public icon = 'arrow_back'
     public input: InputTabStopDirective
     public isNewRecord: boolean
@@ -56,35 +55,20 @@ export class SaleFormComponent {
     public dropdownCustomers: Observable<CustomerAutoCompleteVM[]>
     public dropdownDocumentTypes: Observable<DocumentTypeListVM[]>
     public dropdownPaymentMethods: Observable<SimpleEntity[]>
-    public dropdownBanks: Observable<SimpleEntity[]>
-
-    public itemCount: Array<number>
-
-    public exampleForm: FormGroup;
-
-    @ViewChildren(SaleFormItemComponent) components: QueryList<SaleFormItemComponent>
-
 
     //#endregion
 
-    constructor(private activatedRoute: ActivatedRoute, private dateAdapter: DateAdapter<any>, private debugDialogService: DebugDialogService, private dexieService: DexieService, private dialogService: DialogService, private documentTypeHttpService: DocumentTypeHttpService, private fb: FormBuilder, private helperService: HelperService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private router: Router, private saleHelperService: SaleHelperService, private saleHttpInvoice: SaleHttpDataService) {
-        this.createForm();
-    }
+    constructor(private activatedRoute: ActivatedRoute, private dateAdapter: DateAdapter<any>, private debugDialogService: DebugDialogService, private dexieService: DexieService, private dialogService: DialogService, private documentTypeHttpService: DocumentTypeHttpService, private formBuilder: FormBuilder, private helperService: HelperService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private router: Router, private saleHelperService: SaleHelperService, private saleHttpInvoice: SaleHttpDataService) { }
 
     //#region lifecycle hooks
 
     ngOnInit(): void {
-        this.itemCount = new Array(2)
         this.initForm()
         this.setRecordId()
         this.getRecord()
         this.populateFields()
         this.populateDropdowns()
         this.setLocale()
-    }
-
-    ngAfterViewInit() {
-        let component: SaleFormItemComponent[] = this.components.toArray();
     }
 
     //#endregion
@@ -99,21 +83,34 @@ export class SaleFormComponent {
         if (event.target.value == '') this.isAutoCompleteDisabled = true
     }
 
+    public onCalculateLine(index: number): void {
+        const qty = parseFloat(this.form.value.items[index].qty)
+        const netAmount = qty * this.form.value.items[index].netAmount
+        const vatPercent = parseFloat(this.form.value.items[index].vatPercent) / 100
+        const vatAmount = netAmount * vatPercent
+        // const grossAmount = parseFloat(this.form.value.items[index].grossAmount)
+        const items = this.form.get('items') as FormArray
+        const item = items.at(index)
+        item.patchValue({
+            netAmount: netAmount.toFixed(2),
+            grossAmount: netAmount + vatAmount
+        })
+    }
+
     public onAddItem(): void {
-        // this.itemCount.length += 1
-        // const control = <FormArray>this.form.get('items')
-        // const newGroup = this.formBuilder.group({
-        //     code: 'code',
-        //     description: 'description',
-        //     englishDescription: 'english description',
-        //     qty: 1,
-        //     netAmount: 100,
-        //     vatPercent: 24,
-        //     vatAmount: 24,
-        //     grossAmount: 124
-        // })
-        // control.push(newGroup)
-        // this.itemsArray.push(this.form.controls.items.value)
+        const control = <FormArray>this.form.get('items')
+        const newGroup = this.formBuilder.group({
+            code: 'code',
+            description: 'description',
+            englishDescription: 'english description',
+            qty: 1,
+            netAmount: 100,
+            vatPercent: 24,
+            vatAmount: 24,
+            grossAmount: 124
+        })
+        control.push(newGroup)
+        this.itemsArray.push(this.form.controls.items.value)
     }
 
     public onRemoveItem(itemIndex: number): void {
@@ -227,7 +224,7 @@ export class SaleFormComponent {
     }
 
     private initForm(): void {
-        this.form = this.fb.group({
+        this.form = this.formBuilder.group({
             invoiceId: '',
             date: [new Date(), [Validators.required]],
             invoiceNo: 0,
@@ -243,20 +240,13 @@ export class SaleFormComponent {
             remarks: ['', Validators.maxLength(128)],
             isEmailSent: false,
             isCancelled: false,
-            // items: this.formBuilder.array([]),
-            items: this.fb.array([this.buildListItem()]),
+            items: this.formBuilder.array([]),
             postAt: [''],
             postUser: [''],
             putAt: [''],
             putUser: ['']
         })
     }
-
-    // private buildListItem(): FormGroup {
-    //     return this.formBuilder.group({
-    //         bank: '',
-    //     });
-    // }
 
     private getLastDocumentTypeNo(id: number): Observable<any> {
         return this.documentTypeHttpService.getLastDocumentTypeNo(id)
@@ -311,7 +301,7 @@ export class SaleFormComponent {
                 postUser: this.record.postUser,
                 putAt: this.record.putAt,
                 putUser: this.record.putUser,
-                // items: this.populateItems(),
+                items: this.populateItems(),
             })
         }
     }
@@ -361,32 +351,32 @@ export class SaleFormComponent {
         }
     }
 
-    // private populateItems(): void {
-    //     if (this.record) {
-    //         if (this.record.items.length >= 1) {
-    //             this.record.items.forEach(item => {
-    //                 const control = <FormArray>this.form.get('items')
-    //                 const newGroup = this.formBuilder.group({
-    //                     invoiceId: item.id,
-    //                     code: item.code,
-    //                     description: item.description,
-    //                     englishDescription: item.englishDescription,
-    //                     qty: item.qty,
-    //                     netAmount: item.netAmount,
-    //                     vatPercent: item.vatPercent,
-    //                     vatAmount: item.vatAmount,
-    //                     grossAmount: item.grossAmount
-    //                 })
-    //                 control.push(newGroup)
-    //                 this.itemsArray.push(this.form.controls.items.value)
-    //             })
-    //         } else {
-    //             this.onAddItem()
-    //         }
-    //     } else {
-    //         this.onAddItem()
-    //     }
-    // }
+    private populateItems(): void {
+        if (this.record) {
+            if (this.record.items.length >= 1) {
+                this.record.items.forEach(item => {
+                    const control = <FormArray>this.form.get('items')
+                    const newGroup = this.formBuilder.group({
+                        invoiceId: item.id,
+                        code: item.code,
+                        description: item.description,
+                        englishDescription: item.englishDescription,
+                        qty: item.qty,
+                        netAmount: item.netAmount,
+                        vatPercent: item.vatPercent,
+                        vatAmount: item.vatAmount,
+                        grossAmount: item.grossAmount
+                    })
+                    control.push(newGroup)
+                    this.itemsArray.push(this.form.controls.items.value)
+                })
+            } else {
+                this.onAddItem()
+            }
+        } else {
+            this.onAddItem()
+        }
+    }
 
     //#endregion
 
@@ -416,29 +406,6 @@ export class SaleFormComponent {
         return this.form.get('remarks')
     }
 
-    get bank(): AbstractControl {
-        return this.itemForm.get('bank')
-    }
-
     //#endregion
-
-    // exampleForm: FormGroup;
-
-    // constructor(private formBuilder: FormBuilder) {
-    //     this.createForm();
-    // }
-
-    private createForm(): void {
-        this.exampleForm = this.fb.group({
-            // greeting: ['', Validators.required],
-            list: this.fb.array([this.buildListItem()])
-        });
-    }
-
-    private buildListItem(): FormGroup {
-        return this.fb.group({
-            bank: '',
-        });
-    }
 
 }

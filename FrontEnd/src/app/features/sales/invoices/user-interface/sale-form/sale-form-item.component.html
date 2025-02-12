@@ -1,70 +1,11 @@
-<button (click)="onShowFormValue()" class="fab fab-with-no-background" mat-icon-button>
-    <span class="material-icons-outlined">pest_control</span>
-</button>
-
-<h3>Add Course Lessons:</h3>
-<div class="add-lessons-form" [formGroup]="form">
-    <ng-container formArrayName="lessons">
-        <ng-container *ngFor="let lessonForm of lessons.controls; let i = index">
-            <div class="lesson-form-row" [formGroup]="lessonForm">
-                <mat-form-field>
-                    <input #inputAutoComplete #triggerBank="matAutocompleteTrigger" (keydown)="enableOrDisableAutoComplete($event)" (keyup)="checkForEmptyAutoComplete($event)" [matAutocompleteDisabled]="isAutoCompleteDisabled" [matAutocomplete]="banks" formControlName="bank" matInput>
-                    <div matSuffix style="display:flex">
-                        <button (click)="openOrCloseAutoComplete(triggerBank, 'bank')" mat-icon-button type="button">
-                            <mat-icon class="input-suffix material-icons-outlined">expand_more</mat-icon>
-                        </button>
-                    </div>
-                    <!-- <input matInput formControlName="title" placeholder="Lesson title"> -->
-                </mat-form-field>
-                <!-- <mat-form-field>
-                    <mat-label>Label</mat-label>
-                    <input #inputAutoComplete #triggerBank="matAutocompleteTrigger" (keydown)="enableOrDisableAutoComplete($event)" (keyup)="checkForEmptyAutoComplete($event)" [matAutocompleteDisabled]="isAutoCompleteDisabled" [matAutocomplete]="banks" dataTabIndex="3" formControlName="bank" matInput>
-                    <div matSuffix style="display:flex">
-                        <button (click)="openOrCloseAutoComplete(triggerBank, 'bank')" mat-icon-button type="button">
-                            <mat-icon class="input-suffix material-icons-outlined">expand_more</mat-icon>
-                        </button>
-                    </div>
-                    <mat-error *ngIf="bank.hasError('required')">{{ getHint("required") }}</mat-error>
-                    <mat-error *ngIf="!bank.hasError('required') && bank.hasError('incorrect')">{{ getHint("invalid") }}</mat-error>
-                </mat-form-field> -->
-                <mat-form-field appearance="fill">
-                    <mat-select formControlName="level" placeholder="Lesson level">
-                        <mat-option value="beginner">Beginner</mat-option>
-                        <mat-option value="intermediate">Intermediate</mat-option>
-                        <mat-option value="advanced">Advanced</mat-option>
-                    </mat-select>
-                </mat-form-field>
-                <!-- <mat-icon class="delete-btn" (click)="deleteLesson(i)">delete_forever</mat-icon> -->
-            </div>
-        </ng-container>
-    </ng-container>
-
-    <button mat-mini-fab (click)="addLesson()">
-        <mat-icon class="add-course-btn">add</mat-icon>
-    </button>
-
-</div>
-
-
-<!-- <form [formGroup]="itemForm" id="form">
-    <mat-form-field>
-        <mat-label>Label</mat-label>
-        <input #inputAutoComplete #triggerBank="matAutocompleteTrigger" (keydown)="enableOrDisableAutoComplete($event)" (keyup)="checkForEmptyAutoComplete($event)" [matAutocompleteDisabled]="isAutoCompleteDisabled" [matAutocomplete]="banks" dataTabIndex="3" formControlName="bank" matInput>
-        <div matSuffix style="display:flex">
-            <button (click)="openOrCloseAutoComplete(triggerBank, 'bank')" mat-icon-button type="button">
-                <mat-icon class="input-suffix material-icons-outlined">expand_more</mat-icon>
-            </button>
+<h3>Nested form array</h3>
+<button (click)="addOption()">ADD</button>
+<div [formGroup]="form">
+    <div formArrayName="list" *ngFor="let item of list.controls; let i=index">
+        <div [formGroupName]="i">
+            <label>Item</label>
+            <input type="text" id="{{ 'item' + i }}" formControlName="item">
+            <button (click)="removeOption(i)">REMOVE</button>
         </div>
-        <mat-error *ngIf="bank.hasError('required')">{{ getHint("required") }}</mat-error>
-        <mat-error *ngIf="!bank.hasError('required') && bank.hasError('incorrect')">{{ getHint("invalid") }}</mat-error>
-    </mat-form-field>
-</form>
-
--->
-
-
-<mat-autocomplete #banks="matAutocomplete" [displayWith]="autocompleteFields.bind(this, 'description')" autoActiveFirstOption>
-    <mat-option *ngFor="let option of dropdownBanks | async" [value]="option">
-        {{ option.description }}
-    </mat-option>
-</mat-autocomplete>
+    </div>
+</div>
