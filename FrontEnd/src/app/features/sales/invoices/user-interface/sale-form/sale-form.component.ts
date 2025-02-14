@@ -15,6 +15,7 @@ import { DocumentTypeReadDto } from '../../../documentTypes/classes/dtos/documen
 import { FormResolved } from 'src/app/shared/classes/form-resolved'
 import { HelperService } from 'src/app/shared/services/helper.service'
 import { InputTabStopDirective } from 'src/app/shared/directives/input-tabstop.directive'
+import { LineItemVM } from '../../classes/view-models/form/line-item-vm'
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service'
 import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
 import { MessageInputHintService } from 'src/app/shared/services/message-input-hint.service'
@@ -25,6 +26,8 @@ import { SaleReadDto } from '../../classes/dtos/form/sale-read-dto'
 import { SaleWriteDto } from '../../classes/dtos/form/sale-write-dto'
 import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 import { ValidationService } from 'src/app/shared/services/validation.service'
+import { SaleTotalsVM } from '../../classes/view-models/form/sale-totals-vm'
+import { PriceHttpService } from '../../../prices/classes/services/price-http.service'
 
 @Component({
     selector: 'sale-form',
@@ -46,6 +49,7 @@ export class SaleFormComponent {
     public isNewRecord: boolean
     public itemsArray: string[] = []
     public parentUrl = '/sales'
+    public saleTotals: SaleTotalsVM
 
     //#endregion
 
@@ -58,16 +62,16 @@ export class SaleFormComponent {
 
     //#endregion
 
-    constructor(private activatedRoute: ActivatedRoute, private dateAdapter: DateAdapter<any>, private debugDialogService: DebugDialogService, private dexieService: DexieService, private dialogService: DialogService, private documentTypeHttpService: DocumentTypeHttpService, private formBuilder: FormBuilder, private helperService: HelperService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private router: Router, private saleHelperService: SaleHelperService, private saleHttpInvoice: SaleHttpDataService) { }
+    constructor(private activatedRoute: ActivatedRoute, private dateAdapter: DateAdapter<any>, private debugDialogService: DebugDialogService, private dexieService: DexieService, private dialogService: DialogService, private documentTypeHttpService: DocumentTypeHttpService, private formBuilder: FormBuilder, private helperService: HelperService, private priceHttpService: PriceHttpService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private router: Router, private saleHelperService: SaleHelperService, private saleHttpInvoice: SaleHttpDataService) { }
 
     //#region lifecycle hooks
 
     ngOnInit(): void {
         this.initForm()
         this.setRecordId()
+        this.populateDropdowns()
         this.getRecord()
         this.populateFields()
-        this.populateDropdowns()
         this.setLocale()
     }
 
@@ -84,17 +88,15 @@ export class SaleFormComponent {
     }
 
     public onCalculateLine(index: number): void {
-        const qty = parseFloat(this.form.value.items[index].qty)
-        const netAmount = qty * this.form.value.items[index].netAmount
-        const vatPercent = parseFloat(this.form.value.items[index].vatPercent) / 100
-        const vatAmount = netAmount * vatPercent
-        // const grossAmount = parseFloat(this.form.value.items[index].grossAmount)
+        const x = this.calculateLine(index)
         const items = this.form.get('items') as FormArray
         const item = items.at(index)
         item.patchValue({
-            netAmount: netAmount.toFixed(2),
-            grossAmount: netAmount + vatAmount
+            subTotal: x.subTotal,
+            vatAmount: x.vatAmount,
+            grossAmount: x.grossAmount,
         })
+        this.calculateTotals()
     }
 
     public onAddItem(): void {
@@ -103,11 +105,12 @@ export class SaleFormComponent {
             code: 'code',
             description: 'description',
             englishDescription: 'english description',
-            qty: 1,
-            netAmount: 100,
-            vatPercent: 24,
-            vatAmount: 24,
-            grossAmount: 124
+            qty: [0, Validators.required],
+            itemPrice: [0, Validators.required],
+            subTotal: 0,
+            vatPercent: [0, Validators.required],
+            vatAmount: 0,
+            grossAmount: [0, Validators.required],
         })
         control.push(newGroup)
         this.itemsArray.push(this.form.controls.items.value)
@@ -117,6 +120,29 @@ export class SaleFormComponent {
         const items = <FormArray>this.form.get('items')
         items.removeAt(itemIndex)
         this.itemsArray.splice(itemIndex, 1)
+        this.calculateTotals()
+    }
+
+    public onSeekItem(event: Event, index: number): void {
+        const x = (event.target as HTMLInputElement).value
+        this.priceHttpService.getByCode(x).subscribe({
+            next: (response) => {
+                const items = (<FormArray>this.form.get("items")).at(index);
+                items.patchValue({
+                    code: response.body.code,
+                    description: response.body.description,
+                    itemPrice: response.body.netAmount
+                })
+            },
+            error: () => {
+                const items = (<FormArray>this.form.get("items")).at(index);
+                items.patchValue({
+                    code: '',
+                    description: '',
+                    itemPrice: 0
+                })
+            }
+        })
     }
 
     public onDoSubmitTasks(): void {
@@ -190,13 +216,59 @@ export class SaleFormComponent {
             this.form.patchValue({
                 vatPercent: response.vatPercent
             })
-            this.calculateSummary()
+            // this.calculateTotals()
         })
     }
 
     //#endregion
 
     //#region private methods
+
+    private calculateLine(index: number): LineItemVM {
+        const qty = parseFloat(this.form.value.items[index].qty)
+        const itemPrice = parseFloat(this.form.value.items[index].itemPrice)
+        const subTotal = qty * itemPrice
+        const vatPercent = parseFloat(this.form.value.items[index].vatPercent) / 100
+        const vatAmount = subTotal * vatPercent
+        const grossAmount = subTotal + vatAmount
+        const x: LineItemVM = {
+            qty: qty,
+            itemPrice: itemPrice,
+            vatPercent: vatPercent,
+            subTotal: subTotal,
+            vatAmount: vatAmount,
+            grossAmount: grossAmount
+        }
+        return x
+    }
+
+    private calculateTotals(): void {
+        const x = this.form.get('items') as FormArray
+        const items = x.value
+        let saleQty = 0
+        let saleSubTotal = 0
+        let saleVatAmount = 0
+        let saleGrossAmount = 0
+        items.forEach(item => {
+            saleQty += parseFloat(item.qty)
+            saleSubTotal += parseFloat(item.subTotal)
+            saleVatAmount += item.vatAmount
+            saleGrossAmount += item.subTotal + item.vatAmount
+        })
+        let saleTotals: SaleTotalsVM
+        saleTotals = {
+            qty: saleQty,
+            subTotal: saleSubTotal,
+            vatAmount: saleVatAmount,
+            grossAmount: saleGrossAmount
+        }
+        this.form.patchValue({
+            saleQty: saleTotals.qty,
+            saleSubTotal: saleTotals.subTotal,
+            saleVatAmount: saleTotals.vatAmount,
+            saleGrossAmount: saleTotals.grossAmount
+        })
+    }
 
     private flattenForm(): SaleWriteDto {
         return this.saleHelperService.flattenForm(this.form.value)
@@ -233,10 +305,10 @@ export class SaleFormComponent {
             documentTypeDescription: '',
             batch: '',
             paymentMethod: ['', [Validators.required, ValidationService.requireAutocomplete]],
-            netAmount: [0],
-            vatPercent: [0],
-            vatAmount: [0],
-            grossAmount: [0],
+            saleQty: [0],
+            saleSubTotal: [0],
+            saleVatAmount: [0],
+            saleGrossAmount: [0],
             remarks: ['', Validators.maxLength(128)],
             isEmailSent: false,
             isCancelled: false,
@@ -306,17 +378,17 @@ export class SaleFormComponent {
         }
     }
 
-    private calculateSummary(): void {
-        const grossAmount = parseFloat(this.form.value.grossAmount)
-        const vatPercent = parseFloat(this.form.value.vatPercent) / 100
-        const netAmount = grossAmount / (1 + vatPercent)
-        const vatAmount = netAmount * vatPercent
-        this.form.patchValue({
-            netAmount: netAmount.toFixed(2),
-            vatAmount: vatAmount.toFixed(2),
-            grossAmount: grossAmount.toFixed(2)
-        })
-    }
+    // private calculateTotals(): void {
+    //     const grossAmount = parseFloat(this.form.value.grossAmount)
+    //     const vatPercent = parseFloat(this.form.value.vatPercent) / 100
+    //     const netAmount = grossAmount / (1 + vatPercent)
+    //     const vatAmount = netAmount * vatPercent
+    //     this.form.patchValue({
+    //         netAmount: netAmount.toFixed(2),
+    //         vatAmount: vatAmount.toFixed(2),
+    //         grossAmount: grossAmount.toFixed(2)
+    //     })
+    // }
 
     private resetForm(): void {
         this.form.reset()
@@ -357,12 +429,12 @@ export class SaleFormComponent {
                 this.record.items.forEach(item => {
                     const control = <FormArray>this.form.get('items')
                     const newGroup = this.formBuilder.group({
-                        invoiceId: item.id,
                         code: item.code,
                         description: item.description,
                         englishDescription: item.englishDescription,
                         qty: item.qty,
-                        netAmount: item.netAmount,
+                        itemPrice: item.netAmount,
+                        subTotal: 0,
                         vatPercent: item.vatPercent,
                         vatAmount: item.vatAmount,
                         grossAmount: item.grossAmount
@@ -404,6 +476,18 @@ export class SaleFormComponent {
 
     get remarks(): AbstractControl {
         return this.form.get('remarks')
+    }
+
+    get qty(): AbstractControl {
+        return this.form.get('saleQty')
+    }
+
+    get subTotal(): AbstractControl {
+        return this.form.get('saleSubTotal')
+    }
+
+    get totalVatAmount(): AbstractControl {
+        return this.form.get('SaleVatAmount')
     }
 
     //#endregion

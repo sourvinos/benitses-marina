@@ -22,6 +22,9 @@ export class SaleHelperService {
             customerId: form.customer.id,
             documentTypeId: form.documentType.id,
             paymentMethodId: form.paymentMethod.id,
+            netAmount: form.saleSubTotal,
+            vatAmount: form.saleVatAmount,
+            grossAmount: form.saleGrossAmount,
             remarks: form.remarks,
             putAt: form.putAt,
             items: this.mapItems(form.items)
@@ -38,22 +41,22 @@ export class SaleHelperService {
     //#region private methods
 
     private mapItems(items: ItemWriteDto[]): ItemWriteDto[] {
-        const x = []
+        const z = []
         items.forEach((item: any) => {
             const x: ItemWriteDto = {
                 invoiceId: item.invoiceId,
                 code: item.code,
                 description: item.description,
                 englishDescription: item.englishDescription,
-                qty: item.quantity,
-                netAmount: item.netAmount,
+                qty: item.qty,
+                netAmount: item.subTotal,
                 vatPercent: item.vatPercent,
                 vatAmount: item.vatAmount,
                 grossAmount: item.grossAmount
             }
-            items.push(x)
+            z.push(x)
         })
-        return items
+        return z
     }
 
     //#endregion

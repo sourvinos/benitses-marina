@@ -79,6 +79,33 @@ namespace API.Features.Sales.Invoices {
             }
         }
 
+        [HttpPut]
+        [Authorize(Roles = "admin")]
+        [ServiceFilter(typeof(ModelValidationAttribute))]
+        public async Task<Response> PutAsync([FromBody] InvoiceWriteDto sale) {
+            var x = await invoiceReadRepo.GetByIdAsync(sale.InvoiceId.ToString(), false);
+            if (x != null) {
+                var z = invoiceValidation.IsValidAsync(x, sale);
+                if (await z == 200) {
+                    invoiceUpdateRepo.Update(sale.InvoiceId, mapper.Map<InvoiceWriteDto, Invoice>((InvoiceWriteDto)invoiceUpdateRepo.AttachMetadataToPutDto(x, sale)));
+                    return new Response {
+                        Code = 200,
+                        Icon = Icons.Success.ToString(),
+                        Id = x.InvoiceId.ToString(),
+                        Message = ApiMessages.OK()
+                    };
+                } else {
+                    throw new CustomException() {
+                        ResponseCode = await z
+                    };
+                }
+            } else {
+                throw new CustomException() {
+                    ResponseCode = 404
+                };
+            }
+        }
+
     }
 
 }

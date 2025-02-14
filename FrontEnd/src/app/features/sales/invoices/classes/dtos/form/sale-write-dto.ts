@@ -10,6 +10,9 @@ export interface SaleWriteDto {
     documentTypeId: number
     paymentMethodId: number
     invoiceNo: number
+    netAmount: number
+    vatAmount: number
+    grossAmount: number
     remarks: string
     items: ItemWriteDto[]
     putAt: string

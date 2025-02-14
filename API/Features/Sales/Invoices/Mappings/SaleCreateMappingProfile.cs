@@ -19,7 +19,7 @@ namespace API.Features.Sales.Invoices {
                     Description = x.Description,
                     EnglishDescription = x.EnglishDescription,
                     Remarks = x.Remarks,
-                    Quantity = x.Quantity,
+                    Qty = x.Qty,
                     NetAmount = x.NetAmount,
                     VatPercent = x.VatPercent,
                     VatAmount = x.NetAmount * (x.VatPercent / 100),

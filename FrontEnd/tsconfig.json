@@ -32,6 +32,6 @@
         "fullTemplateTypeCheck": true,
         "strictDomEventTypes": false,
         "strictInjectionParameters": true,
-        "strictTemplates": false
+        "strictTemplates": true
     }
 }

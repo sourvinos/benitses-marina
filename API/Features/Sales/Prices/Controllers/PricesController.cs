@@ -38,10 +38,28 @@ namespace API.Features.Sales.Prices {
             return await priceRepo.GetForBrowserAsync();
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("[action]/{id}")]
         [Authorize(Roles = "user, admin")]
         public async Task<ResponseWithBody> GetByIdAsync(int id) {
             var x = await priceRepo.GetByIdAsync(id, true);
+            if (x != null) {
+                return new ResponseWithBody {
+                    Code = 200,
+                    Icon = Icons.Info.ToString(),
+                    Message = ApiMessages.OK(),
+                    Body = mapper.Map<Price, PriceReadDto>(x)
+                };
+            } else {
+                throw new CustomException() {
+                    ResponseCode = 404
+                };
+            }
+        }
+
+        [HttpGet("[action]/{code}")]
+        [Authorize(Roles = "user, admin")]
+        public async Task<ResponseWithBody> GetByCodeAsync(string code) {
+            var x = await priceRepo.GetByCodeAsync(code, false);
             if (x != null) {
                 return new ResponseWithBody {
                     Code = 200,

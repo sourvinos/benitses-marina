@@ -36,7 +36,6 @@ namespace API.Features.Sales.Prices {
             return mapper.Map<IEnumerable<Price>, IEnumerable<PriceListBrowserVM>>(prices);
         }
 
-
         public async Task<Price> GetByIdAsync(int id, bool includeTables) {
             return includeTables
                 ? await context.Prices
@@ -45,6 +44,16 @@ namespace API.Features.Sales.Prices {
                 : await context.Prices
                     .AsNoTracking()
                     .SingleOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<Price> GetByCodeAsync(string code, bool includeTables) {
+            return includeTables
+                ? await context.Prices
+                    .AsNoTracking()
+                    .SingleOrDefaultAsync(x => x.Code == code)
+                : await context.Prices
+                    .AsNoTracking()
+                    .SingleOrDefaultAsync(x => x.Code == code);
         }
 
     }

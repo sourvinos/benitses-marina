@@ -5,6 +5,7 @@ import { HttpDataService } from 'src/app/shared/services/http-data.service'
 import { environment } from 'src/environments/environment'
 import { PriceListBrowserStorageVM } from '../view-models/price-list-browser-storage-vm'
 import { Observable } from 'rxjs'
+import { PriceReadDto } from '../dtos/price-read-dto'
 
 @Injectable({ providedIn: 'root' })
 
@@ -16,6 +17,10 @@ export class PriceHttpService extends HttpDataService {
 
     public getForBrowser(): Observable<PriceListBrowserStorageVM[]> {
         return this.http.get<PriceListBrowserStorageVM[]>(environment.apiUrl + '/prices/getForBrowser')
+    }
+
+    public getByCode(code: string): Observable<any> {
+        return this.http.get<any>(environment.apiUrl + '/prices/getByCode/' + code)
     }
 
 }

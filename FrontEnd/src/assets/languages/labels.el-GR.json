@@ -1833,6 +1833,10 @@
                 "description": "Τιμή μονάδος"
             },
             {
+                "id": "item-sub-total",
+                "description": "Μερικό σύνολο"
+            },
+            {
                 "id": "item-vat-percent",
                 "description": "Ποσοστό ΦΠΑ"
             },
@@ -1843,6 +1847,22 @@
             {
                 "id": "item-gross-amount",
                 "description": "Συνολική αξία"
+            },
+            {
+                "id": "sale-qty",
+                "description": "Ποσότητα"
+            },
+            {
+                "id": "sale-sub-total",
+                "description": "Μερικό σύνολο"
+            },
+            {
+                "id": "sale-vat-amount",
+                "description": "Αξία ΦΠΑ"
+            },
+            {
+                "id": "sale-gross-amount",
+                "description": "Συνολική ΦΠΑ"
             }
         ]
     }
