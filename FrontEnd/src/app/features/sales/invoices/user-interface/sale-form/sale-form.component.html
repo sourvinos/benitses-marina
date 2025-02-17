@@ -98,89 +98,98 @@
                     </div>
                 </mat-tab>
                 <mat-tab label="{{ getLabel('tab2') }}">
-                    <div formArrayName="items">
-                        <div *ngFor="let item of itemsArray; let i = index">
-                            <div class="group-input-field" [formGroupName]="i">
-                                <div class="boo" style="width: 7rem;">
-                                    <mat-form-field>
-                                        <mat-label>{{ getLabel("item-code") }}</mat-label>
-                                        <input (blur)="onSeekItem($event,i)" [inputTabStop]="input" formControlName="code" matInput>
-                                    </mat-form-field>
-                                </div>
-                                <div class="boo" style="width: 28rem;">
-                                    <mat-form-field>
-                                        <mat-label>{{ getLabel("item-description") }}</mat-label>
-                                        <input formControlName="description" matInput readonly>
-                                    </mat-form-field>
-                                </div>
-                                <div class="boo" style="width: 6rem;">
-                                    <mat-form-field>
-                                        <mat-label>{{ getLabel("item-qty") }}</mat-label>
-                                        <input (blur)="onCalculateLine(i)" [inputTabStop]="input" currencyMask formControlName="qty" matInput>
-                                    </mat-form-field>
-                                </div>
-                                <div class="boo" style="width: 7rem;">
-                                    <mat-form-field>
-                                        <mat-label>{{ getLabel("item-price") }}</mat-label>
-                                        <input (blur)="onCalculateLine(i)" [inputTabStop]="input" currencyMask formControlName="itemPrice" matInput>
-                                    </mat-form-field>
-                                </div>
-                                <div class="boo" style="width: 8rem;">
-                                    <mat-form-field>
-                                        <mat-label>{{ getLabel("item-sub-total") }}</mat-label>
-                                        <input currencyMask formControlName="subTotal" matInput readonly>
-                                    </mat-form-field>
-                                </div>
-                                <div class="boo" style="width: 8rem;">
-                                    <mat-form-field>
-                                        <mat-label>{{ getLabel("item-vat-percent") }}</mat-label>
-                                        <input (blur)="onCalculateLine(i)" [inputTabStop]="input" currencyMask formControlName="vatPercent" matInput>
-                                    </mat-form-field>
-                                </div>
-                                <div class="boo" style="width: 8rem;">
-                                    <mat-form-field>
-                                        <mat-label>{{ getLabel("item-vat-amount") }}</mat-label>
-                                        <input [inputTabStop]="input" currencyMask formControlName="vatAmount" matInput readonly>
-                                    </mat-form-field>
-                                </div>
-                                <div class="boo" style="width: 8rem;">
-                                    <mat-form-field>
-                                        <mat-label>{{ getLabel("item-gross-amount") }}</mat-label>
-                                        <input (blur)="onCalculateLine(i)" [inputTabStop]="input" currencyMask formControlName="grossAmount" matInput>
-                                    </mat-form-field>
-                                </div>
-                                <div class="boo" style="display: flex; width: 3rem;">
-                                    <div matSuffix style="display:flex; margin-top: 4px;">
-                                        <button [disabled]="itemsArray.length == 1" (click)="onRemoveItem(i)" mat-icon-button tabindex="-1" type="button">
-                                            <mat-icon class="input-suffix material-icons-outlined">delete</mat-icon>
-                                        </button>
+                    <div id="item-tab">
+                        <div formArrayName="items">
+                            <div *ngFor="let item of itemsArray; let i = index">
+                                <div class="group-input-field" [formGroupName]="i">
+                                    <div class="boo" style="width: 9rem;">
+                                        <mat-form-field>
+                                            <mat-label>{{ getLabel("item-code") }}</mat-label>
+                                            <input (blur)="onSeekItem($event,i)" [inputTabStop]="input" class="tabable" formControlName="code" matInput>
+                                            <mat-error>{{ getHint("required") }}</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="boo" style="width: 28rem;">
+                                        <mat-form-field>
+                                            <mat-label>{{ getLabel("item-description") }}</mat-label>
+                                            <input formControlName="description" matInput readonly>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="boo" style="width: 9rem;">
+                                        <mat-form-field>
+                                            <mat-label>{{ getLabel("item-qty") }}</mat-label>
+                                            <input (blur)="onCalculateLine(i)" [inputTabStop]="input" class="tabable" currencyMask formControlName="qty" matInput>
+                                            <mat-error>{{ getHint("required") }}</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="boo" style="width: 9rem;">
+                                        <mat-form-field>
+                                            <mat-label>{{ getLabel("item-price") }}</mat-label>
+                                            <input (blur)="onCalculateLine(i)" [inputTabStop]="input" class="tabable" currencyMask formControlName="itemPrice" matInput>
+                                            <mat-error>{{ getHint("required") }}</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="boo" style="width: 8rem;">
+                                        <mat-form-field>
+                                            <mat-label>{{ getLabel("item-sub-total") }}</mat-label>
+                                            <input currencyMask formControlName="subTotal" matInput readonly>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="boo" style="width: 9rem;">
+                                        <mat-form-field>
+                                            <mat-label>{{ getLabel("item-vat-percent") }}</mat-label>
+                                            <input (blur)="onCalculateLine(i)" [inputTabStop]="input" class="tabable" currencyMask formControlName="vatPercent" matInput>
+                                            <mat-error>{{ getHint("required") }}</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="boo" style="width: 8rem;">
+                                        <mat-form-field>
+                                            <mat-label>{{ getLabel("item-vat-amount") }}</mat-label>
+                                            <input [inputTabStop]="input" currencyMask formControlName="vatAmount" matInput readonly>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="boo" style="width: 9rem;">
+                                        <mat-form-field>
+                                            <mat-label>{{ getLabel("item-gross-amount") }}</mat-label>
+                                            <input (blur)="onCalculateLine(i)" [inputTabStop]="input" class="tabable" currencyMask formControlName="grossAmount" matInput>
+                                            <mat-error>{{ getHint("required") }}</mat-error>                                            
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="boo" style="display: flex; width: 3rem;">
+                                        <div matSuffix style="display:flex; margin-top: 4px;">
+                                            <button [disabled]="itemsArray.length == 1" (click)="onRemoveItem(i)" mat-icon-button tabindex="-1" type="button">
+                                                <mat-icon class="input-suffix material-icons-outlined">delete</mat-icon>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div matSuffix style="display:flex; margin-top: 4px;">
-                        <button (click)="onAddItem()" mat-icon-button tabindex="-1" type="button">
-                            <mat-icon class="input-suffix material-icons-outlined">add</mat-icon>
-                        </button>
-                    </div>
-                    <div id="sale-totals">
-                        <mat-form-field>
-                            <mat-label>{{ getLabel("qty") }}</mat-label>
-                            <input currencyMask formControlName="saleQty" matInput readonly tabindex="-1">
-                        </mat-form-field>
-                        <mat-form-field>
-                            <mat-label>{{ getLabel("sub-total") }}</mat-label>
-                            <input currencyMask formControlName="saleSubTotal" matInput readonly tabindex="-1">
-                        </mat-form-field>
-                        <mat-form-field>
-                            <mat-label>{{ getLabel("vat-amount") }}</mat-label>
-                            <input currencyMask formControlName="saleVatAmount" matInput readonly tabindex="-1">
-                        </mat-form-field>
-                        <mat-form-field>
-                            <mat-label>{{ getLabel("vat-amount") }}</mat-label>
-                            <input currencyMask formControlName="saleGrossAmount" matInput readonly tabindex="-1">
-                        </mat-form-field>
+                        <div matSuffix style="display:flex; margin-top: 4px;">
+                            <button (click)="onAddItem()" mat-icon-button tabindex="-1" type="button">
+                                <mat-icon class="input-suffix material-icons-outlined">add</mat-icon>
+                            </button>
+                        </div>
+                        <div class="align-bottom">
+                            <div id="sale-totals">
+                                <mat-form-field class="hide-hint">
+                                    <mat-label>{{ getLabel("sale-qty") }}</mat-label>
+                                    <input currencyMask formControlName="saleQty" matInput readonly tabindex="-1">
+                                </mat-form-field>
+                                <mat-form-field class="hide-hint">
+                                    <mat-label>{{ getLabel("sale-sub-total") }}</mat-label>
+                                    <input currencyMask formControlName="saleSubTotal" matInput readonly tabindex="-1">
+                                </mat-form-field>
+                                <mat-form-field class="hide-hint">
+                                    <mat-label>{{ getLabel("sale-vat-amount") }}</mat-label>
+                                    <input currencyMask formControlName="saleVatAmount" matInput readonly tabindex="-1">
+                                </mat-form-field>
+                                <mat-form-field class="hide-hint">
+                                    <mat-label>{{ getLabel("sale-gross-amount") }}</mat-label>
+                                    <input currencyMask formControlName="saleGrossAmount" matInput readonly tabindex="-1">
+                                </mat-form-field>
+                            </div>
+                        </div>
                     </div>
                 </mat-tab>
             </mat-tab-group>

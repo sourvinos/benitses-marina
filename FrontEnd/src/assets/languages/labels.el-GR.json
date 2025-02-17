@@ -1862,7 +1862,7 @@
             },
             {
                 "id": "sale-gross-amount",
-                "description": "Συνολική ΦΠΑ"
+                "description": "Συνολική αξία"
             }
         ]
     }

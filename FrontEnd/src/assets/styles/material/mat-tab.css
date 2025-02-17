@@ -28,6 +28,8 @@
 }
 
 .mat-mdc-tab-body-content, .mat-mdc-tab-body-wrapper {
+    display: flex;
+    flex-direction: column;
     height: 100% !important;
     overflow: hidden !important;
 }

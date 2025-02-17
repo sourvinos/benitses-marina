@@ -1,5 +1,5 @@
 import { FormGroup } from '@angular/forms'
-import { Injectable } from '@angular/core'
+import { ElementRef, Injectable, Renderer2 } from '@angular/core'
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete'
 import { Observable, Subject, defer, finalize } from 'rxjs'
 import { Router } from '@angular/router'
@@ -38,6 +38,21 @@ export class HelperService {
     constructor(private dialogService: DialogService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService, private titleService: Title) { }
 
     //#region public methods
+
+    public addTabIndexToInput(elementRef: ElementRef, renderer: Renderer2): void {
+        setTimeout(() => {
+            let z = 0;
+            elementRef.nativeElement.querySelectorAll('.tabable').forEach(
+                (x: { tabIndex: number; tagName: { [Symbol.match](string: string): RegExpMatchArray | null } }) => {
+                    x.tabIndex = -1;
+                    if ("INPUT".match(x.tagName)) {
+                        z = z + 1;
+                        renderer.setAttribute(x, "dataTabIndex", z.toString())
+                    }
+                }
+            )
+        }, 1000)
+    }
 
     public leftAlignLastTab(): void {
         const tabs = document.getElementsByClassName('mat-mdc-tab') as HTMLCollectionOf<HTMLElement>

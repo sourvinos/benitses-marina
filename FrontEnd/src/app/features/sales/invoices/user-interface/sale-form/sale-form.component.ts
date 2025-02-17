@@ -1,6 +1,6 @@
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
-import { Component } from '@angular/core'
+import { Component, DestroyRef, ElementRef, Renderer2 } from '@angular/core'
 import { DateAdapter } from '@angular/material/core'
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete'
 import { Observable, map, startWith } from 'rxjs'
@@ -62,7 +62,7 @@ export class SaleFormComponent {
 
     //#endregion
 
-    constructor(private activatedRoute: ActivatedRoute, private dateAdapter: DateAdapter<any>, private debugDialogService: DebugDialogService, private dexieService: DexieService, private dialogService: DialogService, private documentTypeHttpService: DocumentTypeHttpService, private formBuilder: FormBuilder, private helperService: HelperService, private priceHttpService: PriceHttpService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private router: Router, private saleHelperService: SaleHelperService, private saleHttpInvoice: SaleHttpDataService) { }
+    constructor(private destroyRef: DestroyRef, private activatedRoute: ActivatedRoute, private dateAdapter: DateAdapter<any>, private debugDialogService: DebugDialogService, private dexieService: DexieService, private dialogService: DialogService, private documentTypeHttpService: DocumentTypeHttpService, private elementRef: ElementRef, private formBuilder: FormBuilder, private helperService: HelperService, private priceHttpService: PriceHttpService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private renderer: Renderer2, private router: Router, private saleHelperService: SaleHelperService, private saleHttpInvoice: SaleHttpDataService) { }
 
     //#region lifecycle hooks
 
@@ -73,6 +73,7 @@ export class SaleFormComponent {
         this.getRecord()
         this.populateFields()
         this.setLocale()
+        this.addItem()
     }
 
     //#endregion
@@ -102,9 +103,9 @@ export class SaleFormComponent {
     public onAddItem(): void {
         const control = <FormArray>this.form.get('items')
         const newGroup = this.formBuilder.group({
-            code: 'code',
-            description: 'description',
-            englishDescription: 'english description',
+            code: ['', Validators.required],
+            description: '',
+            englishDescription: '',
             qty: [0, Validators.required],
             itemPrice: [0, Validators.required],
             subTotal: 0,
@@ -114,35 +115,37 @@ export class SaleFormComponent {
         })
         control.push(newGroup)
         this.itemsArray.push(this.form.controls.items.value)
+        this.helperService.addTabIndexToInput(this.elementRef, this.renderer)
     }
 
     public onRemoveItem(itemIndex: number): void {
-        const items = <FormArray>this.form.get('items')
-        items.removeAt(itemIndex)
-        this.itemsArray.splice(itemIndex, 1)
+        this.removeItem(itemIndex)
+        this.addTabIndexToInput()
         this.calculateTotals()
     }
 
     public onSeekItem(event: Event, index: number): void {
         const x = (event.target as HTMLInputElement).value
-        this.priceHttpService.getByCode(x).subscribe({
-            next: (response) => {
-                const items = (<FormArray>this.form.get("items")).at(index);
-                items.patchValue({
-                    code: response.body.code,
-                    description: response.body.description,
-                    itemPrice: response.body.netAmount
-                })
-            },
-            error: () => {
-                const items = (<FormArray>this.form.get("items")).at(index);
-                items.patchValue({
-                    code: '',
-                    description: '',
-                    itemPrice: 0
-                })
-            }
-        })
+        if (x != '') {
+            this.priceHttpService.getByCode(x).subscribe({
+                next: (response) => {
+                    const items = (<FormArray>this.form.get("items")).at(index);
+                    items.patchValue({
+                        code: response.body.code,
+                        description: response.body.description,
+                        itemPrice: response.body.netAmount
+                    })
+                },
+                error: () => {
+                    const items = (<FormArray>this.form.get("items")).at(index);
+                    items.patchValue({
+                        code: '',
+                        description: '',
+                        itemPrice: 0
+                    })
+                }
+            })
+        }
     }
 
     public onDoSubmitTasks(): void {
@@ -223,6 +226,16 @@ export class SaleFormComponent {
     //#endregion
 
     //#region private methods
+
+    private addItem(): void {
+        if (this.record == undefined) {
+            this.onAddItem()
+        }
+    }
+
+    private addTabIndexToInput() {
+        this.helperService.addTabIndexToInput(this.elementRef, this.renderer)
+    }
 
     private calculateLine(index: number): LineItemVM {
         const qty = parseFloat(this.form.value.items[index].qty)
@@ -378,18 +391,6 @@ export class SaleFormComponent {
         }
     }
 
-    // private calculateTotals(): void {
-    //     const grossAmount = parseFloat(this.form.value.grossAmount)
-    //     const vatPercent = parseFloat(this.form.value.vatPercent) / 100
-    //     const netAmount = grossAmount / (1 + vatPercent)
-    //     const vatAmount = netAmount * vatPercent
-    //     this.form.patchValue({
-    //         netAmount: netAmount.toFixed(2),
-    //         vatAmount: vatAmount.toFixed(2),
-    //         grossAmount: grossAmount.toFixed(2)
-    //     })
-    // }
-
     private resetForm(): void {
         this.form.reset()
     }
@@ -450,6 +451,12 @@ export class SaleFormComponent {
         }
     }
 
+    private removeItem(itemIndex: number) {
+        const items = <FormArray>this.form.get('items')
+        items.removeAt(itemIndex)
+        this.itemsArray.splice(itemIndex, 1)
+    }
+
     //#endregion
 
     //#region getters
@@ -492,4 +499,8 @@ export class SaleFormComponent {
 
     //#endregion
 
+
+    public getErrorMessage(i: number): number {
+        return i
+    }
 }

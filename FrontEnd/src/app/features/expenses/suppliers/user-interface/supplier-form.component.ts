@@ -1,6 +1,7 @@
 import { ActivatedRoute, Router } from '@angular/router'
-import { Component } from '@angular/core'
+import { Component, ElementRef, Renderer2 } from '@angular/core'
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms'
+import { map, Observable, startWith } from 'rxjs'
 // Custom
 import { CryptoService } from 'src/app/shared/services/crypto.service'
 import { DexieService } from 'src/app/shared/services/dexie.service'
@@ -18,7 +19,6 @@ import { SupplierHttpService } from '../classes/services/supplier-http.service'
 import { SupplierReadDto } from '../classes/dtos/supplier-read-dto'
 import { SupplierWriteDto } from '../classes/dtos/supplier-write-dto'
 import { ValidationService } from 'src/app/shared/services/validation.service'
-import { map, Observable, startWith } from 'rxjs'
 
 @Component({
     selector: 'supplier-form',
@@ -48,7 +48,7 @@ export class SupplierFormComponent {
 
     //#endregion
 
-    constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dexieService: DexieService, private dialogService: DialogService, private formBuilder: FormBuilder, private helperService: HelperService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService, private supplierHttpService: SupplierHttpService) { }
+    constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dexieService: DexieService, private dialogService: DialogService, private elementRef: ElementRef, private formBuilder: FormBuilder, private helperService: HelperService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private renderer: Renderer2, private router: Router, private sessionStorageService: SessionStorageService, private supplierHttpService: SupplierHttpService) { }
 
     //#region lifecycle hooks
 
@@ -62,6 +62,7 @@ export class SupplierFormComponent {
 
     ngAfterViewInit(): void {
         this.focusOnField()
+        this.addTabIndexToInput()
     }
 
     //#endregion
@@ -123,6 +124,10 @@ export class SupplierFormComponent {
     //#endregion
 
     //#region private methods
+
+    private addTabIndexToInput(): void {
+        this.helperService.addTabIndexToInput(this.elementRef, this.renderer)
+    }
 
     private filterAutocomplete(array: string, field: string, value: any): any[] {
         if (typeof value !== 'object') {

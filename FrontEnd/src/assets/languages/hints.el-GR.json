@@ -54,7 +54,7 @@
         },
         {
             "id": "required",
-            "description": "Αυτό το πεδίο είναι υποχρεωτικό"
+            "description": "Υποχρεωτικό πεδίο"
         },
         {
             "id": "shouldBeEmptyPlusOrMinus",
