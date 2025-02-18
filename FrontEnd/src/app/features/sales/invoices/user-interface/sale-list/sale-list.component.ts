@@ -1,6 +1,5 @@
 import { Component, ViewChild } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
-import { MenuItem } from 'primeng/api'
 import { Router } from '@angular/router'
 import { Table } from 'primeng/table'
 import { formatNumber } from '@angular/common'
@@ -17,6 +16,7 @@ import { SaleHttpDataService } from '../../classes/services/sale-http-data.servi
 import { SaleListCriteriaVM } from '../../classes/view-models/criteria/sale-list-criteria-vm'
 import { SaleListVM } from '../../classes/view-models/list/sale-list-vm'
 import { SessionStorageService } from '../../../../../shared/services/session-storage.service'
+import { SalesCriteriaDialogComponent } from '../criteria/sales-criteria.component'
 
 @Component({
     selector: 'sale-list',
@@ -52,7 +52,7 @@ export class SaleListComponent {
 
     //#endregion
 
-    constructor(private dateHelperService: DateHelperService, private dialogService: DialogService, private emojiService: EmojiService, private helperService: HelperService,private saleHttpService: SaleHttpDataService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService, public dialog: MatDialog) { }
+    constructor(private dateHelperService: DateHelperService, private dialogService: DialogService, private emojiService: EmojiService, private helperService: HelperService, private saleHttpService: SaleHttpDataService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService, public dialog: MatDialog) { }
 
     //#region lifecycle hooks
 
@@ -186,7 +186,7 @@ export class SaleListComponent {
     // }
 
     public onShowCriteriaDialog(): void {
-        const dialogRef = this.dialog.open(DateRangePickerComponent, {
+        const dialogRef = this.dialog.open(SalesCriteriaDialogComponent, {
             data: 'saleListCriteria',
             height: '36.0625rem',
             panelClass: 'dialog',

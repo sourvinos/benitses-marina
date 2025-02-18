@@ -10,7 +10,7 @@
             <!-- Company -->
             <mat-form-field>
                 <mat-label>{{ getLabel('company') }}</mat-label>
-                <input #inputAutoComplete #triggerCompany="matAutocompleteTrigger" (keydown)="enableOrDisableAutoComplete($event)" (keyup)="checkForEmptyAutoComplete($event)" [inputTabStop]="input" [matAutocompleteDisabled]="isAutoCompleteDisabled" [matAutocomplete]="companies" dataTabIndex="1" formControlName="company" matInput>
+                <input #inputAutoComplete #triggerCompany="matAutocompleteTrigger" (keydown)="enableOrDisableAutoComplete($event)" (keyup)="checkForEmptyAutoComplete($event)" [inputTabStop]="input" [matAutocompleteDisabled]="isAutoCompleteDisabled" [matAutocomplete]="companies" class="tabable" formControlName="company" matInput>
                 <div matSuffix style="display:flex">
                     <button (click)="openOrCloseAutoComplete(triggerCompany, 'company')" mat-icon-button type="button">
                         <mat-icon class="input-suffix material-icons-outlined">expand_more</mat-icon>
@@ -18,18 +18,6 @@
                 </div>
                 <mat-error *ngIf="company.hasError('required')">{{ getHint("required") }}</mat-error>
                 <mat-error *ngIf="!company.hasError('required') && company.hasError('incorrect')">{{ getHint("invalid") }}</mat-error>
-            </mat-form-field>
-            <!-- Balance filter criteria -->
-            <mat-form-field>
-                <mat-label>{{ getLabel('records') }}</mat-label>
-                <input #inputAutoComplete #triggerBalanceFilters="matAutocompleteTrigger" (keydown)="enableOrDisableAutoComplete($event)" (keyup)="checkForEmptyAutoComplete($event)" [inputTabStop]="input" [matAutocompleteDisabled]="isAutoCompleteDisabled" [matAutocomplete]="balanceFilters" dataTabIndex="2" formControlName="balanceFilter" matInput>
-                <div matSuffix style="display:flex">
-                    <button (click)="openOrCloseAutoComplete(triggerBalanceFilters, 'balanceFilters')" mat-icon-button type="button">
-                        <mat-icon class="input-suffix material-icons-outlined">expand_more</mat-icon>
-                    </button>
-                </div>
-                <mat-error *ngIf="balanceFilter.hasError('required')">{{ getHint("required") }}</mat-error>
-                <mat-error *ngIf="!balanceFilter.hasError('required') && balanceFilter.hasError('incorrect')">{{ getHint("invalid") }}</mat-error>
             </mat-form-field>
             <!-- Dates -->
             <date-range-picker [parentDateRange]="getDateRange()" (outputValues)="patchFormWithSelectedDateRange($event)"></date-range-picker>
@@ -52,12 +40,6 @@
 
 <mat-autocomplete #companies="matAutocomplete" [displayWith]="autocompleteFields.bind(this, 'description')" autoActiveFirstOption>
     <mat-option *ngFor="let option of dropdownCompanies | async" [value]="option">
-        {{ option.description }}
-    </mat-option>
-</mat-autocomplete>
-
-<mat-autocomplete #balanceFilters="matAutocomplete" [displayWith]="autocompleteFields.bind(this, 'description')" autoActiveFirstOption>
-    <mat-option *ngFor="let option of dropdownBalanceFilters | async" [value]="option">
         {{ option.description }}
     </mat-option>
 </mat-autocomplete>

@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog'
 // Custom
 import { DateHelperService } from '../../../../../shared/services/date-helper.service'
 import { HelperService } from '../../../../../shared/services/helper.service'
-
 import { LedgerCriteriaDialogComponent } from '../criteria/ledger-criteria.component'
 import { LedgerCriteriaVM } from '../../classes/view-models/criteria/ledger-criteria-vm'
 import { LedgerFormCriteriaVM } from '../../classes/view-models/criteria/ledger-form-criteria-vm'
@@ -31,7 +30,7 @@ export class LedgerParentBillingComponent {
 
     //#endregion
 
-    constructor(private dateHelperService: DateHelperService, private helperService: HelperService,private ledgerHttpService: LedgerHttpService, private messageLabelService: MessageLabelService, private sessionStorageService: SessionStorageService, public dialog: MatDialog) { }
+    constructor(private dateHelperService: DateHelperService, private helperService: HelperService, private ledgerHttpService: LedgerHttpService, private messageLabelService: MessageLabelService, private sessionStorageService: SessionStorageService, public dialog: MatDialog) { }
 
     //#region lifecycle hooks
 
@@ -41,7 +40,7 @@ export class LedgerParentBillingComponent {
     }
 
     ngOnDestroy(): void {
-        this.sessionStorageService.deleteItems([{ 'item': 'ledgerCriteria', 'when': 'production' }])
+        
     }
 
     //#endregion
@@ -49,12 +48,8 @@ export class LedgerParentBillingComponent {
     //#region public methods
 
     public getCriteria(): string {
-        if (this.sessionStorageService.getItem('ledgerCriteria')) {
-            this.criteriaForm = JSON.parse(this.sessionStorageService.getItem('ledgerCriteria')) ? JSON.parse(this.sessionStorageService.getItem('ledgerCriteria')) : null
-            return this.criteriaForm ?
-                this.criteriaForm.company.description + ', ' + this.criteriaForm.supplier.description + ', ' + this.dateHelperService.formatISODateToLocale(this.criteriaForm.fromDate) + ' - ' + this.dateHelperService.formatISODateToLocale(this.criteriaForm.toDate)
-                : ''
-        }
+        const z = this.sessionStorageService.getItem('ledgerCriteria') ? JSON.parse(this.sessionStorageService.getItem('ledgerCriteria')) : ''
+        return z ? z.company.description + ' - ' + z.supplier.description + ' - ' + this.dateHelperService.formatISODateToLocale(z.fromDate) + ' - ' + this.dateHelperService.formatISODateToLocale(z.toDate) : ''
     }
 
     public getLabel(id: string): string {

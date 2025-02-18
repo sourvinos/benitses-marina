@@ -1,8 +1,9 @@
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { Component, EventEmitter, Input, Output } from '@angular/core'
+import { Component, ElementRef, EventEmitter, Input, Output, Renderer2 } from '@angular/core'
 import { DateAdapter } from '@angular/material/core'
 // Custom
 import { DateHelperService } from '../../services/date-helper.service'
+import { HelperService } from '../../services/helper.service'
 import { InputTabStopDirective } from '../../directives/input-tabstop.directive'
 import { LocalStorageService } from '../../services/local-storage.service'
 import { MatDatepickerInputEvent } from '@angular/material/datepicker'
@@ -20,7 +21,6 @@ export class DateRangePickerComponent {
     //#region variables
 
     @Input() parentDateRange: string[]
-    @Input() initTabIndex: number
     @Output() outputValues = new EventEmitter()
 
     public feature = 'date-range-picker'
@@ -30,7 +30,7 @@ export class DateRangePickerComponent {
 
     //#endregion
 
-    constructor(private dateAdapter: DateAdapter<any>, private dateHelperService: DateHelperService, private formBuilder: FormBuilder, private localStorageService: LocalStorageService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService) { }
+    constructor(private dateAdapter: DateAdapter<any>, private dateHelperService: DateHelperService, private elementRef: ElementRef, private formBuilder: FormBuilder, private helperService: HelperService, private localStorageService: LocalStorageService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private renderer: Renderer2) { }
 
     //#region lifecycle hooks
 
@@ -66,10 +66,6 @@ export class DateRangePickerComponent {
 
     public getLabel(id: string): string {
         return this.messageLabelService.getDescription(this.feature, id)
-    }
-
-    public getInitTabIndex(): number {
-        return 3
     }
 
     public isInvalidDateRange(): boolean {

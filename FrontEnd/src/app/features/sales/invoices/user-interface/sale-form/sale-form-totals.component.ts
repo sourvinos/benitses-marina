@@ -1,4 +1,4 @@
-import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms'
+import { FormBuilder, FormGroup } from '@angular/forms'
 import { Component, EventEmitter, Input, Output } from '@angular/core'
 // Custom
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
@@ -12,13 +12,19 @@ import { SaleTotalsVM } from '../../classes/view-models/form/sale-totals-vm'
 
 export class SaleFormTotalsComponent {
 
+    //#region variables
+
     public form: FormGroup
     public feature = 'saleForm'
 
     @Input() saleTotals: SaleTotalsVM
     @Output() exportTotals = new EventEmitter()
 
-    constructor(private messageLabelService: MessageLabelService, private formBuilder: FormBuilder) { }
+    //#endregion
+
+    constructor(private formBuilder: FormBuilder, private messageLabelService: MessageLabelService) { }
+
+    //#region lifecycle hooks
 
     ngOnInit(): void {
         this.form = this.formBuilder.group({
@@ -33,21 +39,14 @@ export class SaleFormTotalsComponent {
         this.exportTotals.emit()
     }
 
+    //#endregion
+
+    //#region public methods
+
     public getLabel(id: string): string {
         return this.messageLabelService.getDescription(this.feature, id)
     }
 
-    get qty(): AbstractControl {
-        return this.form.get('saleQty')
-    }
-
-    get subTotal(): AbstractControl {
-        return this.form.get('saleSubTotal')
-    }
-
-    get totalVatAmount(): AbstractControl {
-        return this.form.get('SaleVatAmount')
-    }
-
-
+    //#endregion
+ 
 }

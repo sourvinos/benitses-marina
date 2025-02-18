@@ -3,12 +3,10 @@ import { MatDialog } from '@angular/material/dialog'
 // Custom
 import { BalanceSheetCriteriaDialogComponent } from '../criteria/balanceSheet-criteria.component'
 import { BalanceSheetCriteriaVM } from '../../classes/view-models/criteria/balanceSheet-criteria-vm'
-import { BalanceSheetFormCriteriaVM } from '../../classes/view-models/criteria/balanceSheet-form-criteria-vm'
 import { BalanceSheetHttpService } from '../../classes/services/balanceSheet-http.service'
 import { BalanceSheetVM } from '../../classes/view-models/list/balanceSheet-vm'
 import { DateHelperService } from 'src/app/shared/services/date-helper.service'
 import { HelperService } from '../../../../../shared/services/helper.service'
-
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
 
 @Component({
@@ -22,7 +20,6 @@ export class BalanceSheetParentComponent {
     //#region variables
 
     public criteria: BalanceSheetCriteriaVM
-    public criteriaForm: BalanceSheetFormCriteriaVM
     public feature = 'balanceSheetParent'
     public featureIcon = 'balanceSheet'
     public parentUrl = '/home'
@@ -32,7 +29,7 @@ export class BalanceSheetParentComponent {
 
     //#endregion
 
-    constructor(private balanceSheetHttpService: BalanceSheetHttpService, private dateHelperService: DateHelperService, private helperService: HelperService,private messageLabelService: MessageLabelService, public dialog: MatDialog) { }
+    constructor(private balanceSheetHttpService: BalanceSheetHttpService, private dateHelperService: DateHelperService, private helperService: HelperService, private messageLabelService: MessageLabelService, public dialog: MatDialog) { }
 
     //#region lifecycle hooks
 
@@ -46,22 +43,11 @@ export class BalanceSheetParentComponent {
     //#region public methods
 
     public getCriteria(): string {
-        return this.criteria
-            ? this.dateHelperService.formatISODateToLocale(this.criteria.fromDate) + ' - ' + this.dateHelperService.formatISODateToLocale(this.criteria.toDate)
-            : ''
+        return this.criteria ? this.dateHelperService.formatISODateToLocale(this.criteria.fromDate) + ' - ' + this.dateHelperService.formatISODateToLocale(this.criteria.toDate) : ''
     }
 
     public getLabel(id: string): string {
         return this.messageLabelService.getDescription(this.feature, id)
-    }
-
-    public onSelectedTabChange(): void {
-        setTimeout(() => {
-            const x = document.getElementsByClassName('table-wrapper') as HTMLCollectionOf<HTMLInputElement>
-            for (let i = 0; i < x.length; i++) {
-                x[i].style.height = document.getElementById('content').offsetHeight - 150 + 'px'
-            }
-        }, 100)
     }
 
     public onShowCriteriaDialog(): void {
@@ -91,7 +77,6 @@ export class BalanceSheetParentComponent {
     private buildCriteriaVM(event: BalanceSheetCriteriaVM): void {
         this.criteria = {
             companyId: event.companyId,
-            balanceFilterId: event.companyId,
             fromDate: event.fromDate,
             toDate: event.toDate,
         }
@@ -100,7 +85,6 @@ export class BalanceSheetParentComponent {
     private loadRecords(criteria: BalanceSheetCriteriaVM): void {
         const x: BalanceSheetCriteriaVM = {
             companyId: criteria.companyId,
-            balanceFilterId: criteria.balanceFilterId,
             fromDate: criteria.fromDate,
             toDate: criteria.toDate
         }

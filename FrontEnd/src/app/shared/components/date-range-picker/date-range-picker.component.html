@@ -3,8 +3,8 @@
     <mat-form-field>
         <mat-label>{{ getLabel('date') }}</mat-label>
         <mat-date-range-input [rangePicker]="picker">
-            <input (dateChange)="emitFormValues($event)" [inputTabStop]="input" dataTabIndex=3 formControlName="fromDate" matStartDate>
-            <input (dateChange)="emitFormValues($event)" [inputTabStop]="input" dataTabIndex=4 formControlName="toDate" matEndDate>
+            <input (dateChange)="emitFormValues($event)" [inputTabStop]="input" class="tabable" formControlName="fromDate" matStartDate>
+            <input (dateChange)="emitFormValues($event)" [inputTabStop]="input" class="tabable" formControlName="toDate" matEndDate>
         </mat-date-range-input>
         <mat-date-range-picker #picker></mat-date-range-picker>
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>

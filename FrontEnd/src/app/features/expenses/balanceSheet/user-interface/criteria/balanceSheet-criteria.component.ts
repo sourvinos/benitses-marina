@@ -1,5 +1,5 @@
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { Component, EventEmitter, Inject, NgZone, Output } from '@angular/core'
+import { Component, ElementRef, EventEmitter, Inject, NgZone, Output, Renderer2 } from '@angular/core'
 import { MatDialogRef } from '@angular/material/dialog'
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete'
 import { Observable, map, startWith } from 'rxjs'
@@ -45,7 +45,7 @@ export class BalanceSheetCriteriaDialogComponent {
 
     //#endregion
 
-    constructor(private dateHelperService: DateHelperService, private dexieService: DexieService, private dialogRef: MatDialogRef<BalanceSheetCriteriaDialogComponent>, private formBuilder: FormBuilder, private helperService: HelperService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private ngZone: NgZone, private sessionStorageService: SessionStorageService,) { }
+    constructor(private dateHelperService: DateHelperService, private dexieService: DexieService, private dialogRef: MatDialogRef<BalanceSheetCriteriaDialogComponent>, private elementRef: ElementRef, private formBuilder: FormBuilder, private helperService: HelperService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private ngZone: NgZone, private renderer: Renderer2, private sessionStorageService: SessionStorageService) { }
 
     //#region lifecycle hooks
 
@@ -53,6 +53,7 @@ export class BalanceSheetCriteriaDialogComponent {
         this.initForm()
         this.populateFormFromStoredFields(this.getCriteriaFromStorage())
         this.populateDropdowns()
+        this.addTabIndexToInput()
     }
 
     //#endregion
@@ -65,10 +66,6 @@ export class BalanceSheetCriteriaDialogComponent {
 
     public checkForEmptyAutoComplete(event: { target: { value: any } }): void {
         if (event.target.value == '') this.isAutoCompleteDisabled = true
-    }
-
-    public doDateTasks(event: any): void {
-        this.updateFormControls(event)
     }
 
     public enableOrDisableAutoComplete(event: any): void {
@@ -116,6 +113,10 @@ export class BalanceSheetCriteriaDialogComponent {
 
     //#region private methods
 
+    private addTabIndexToInput() {
+        this.helperService.addTabIndexToInput(this.elementRef, this.renderer)
+    }
+
     private filterAutocomplete(array: string, field: string, value: any): any[] {
         if (typeof value !== 'object') {
             const filtervalue = value.toLowerCase()
@@ -131,7 +132,6 @@ export class BalanceSheetCriteriaDialogComponent {
     private initForm(): void {
         this.form = this.formBuilder.group({
             company: ['', [Validators.required, ValidationService.requireAutocomplete]],
-            balanceFilter: ['', [Validators.required, ValidationService.requireAutocomplete]],
             fromDate: ['', [Validators.required]],
             toDate: ['', [Validators.required]],
         })
@@ -140,7 +140,6 @@ export class BalanceSheetCriteriaDialogComponent {
     private createCriteriaObject(criteria: BalanceSheetFormCriteriaVM): BalanceSheetCriteriaVM {
         return {
             companyId: criteria.company.id,
-            balanceFilterId: criteria.company.id,
             fromDate: criteria.fromDate,
             toDate: criteria.toDate
         }
@@ -148,7 +147,6 @@ export class BalanceSheetCriteriaDialogComponent {
 
     private populateDropdowns(): void {
         this.populateDropdownFromDexieDB('companiesCriteria', 'dropdownCompanies', 'company', 'description', 'description')
-        this.populateDropdownFromDexieDB('balanceFilters', 'dropdownBalanceFilters', 'balanceFilter', 'description', 'description')
     }
 
     private populateDropdownFromDexieDB(dexieTable: string, filteredTable: string, formField: string, modelProperty: string, orderBy: string): void {
@@ -184,14 +182,6 @@ export class BalanceSheetCriteriaDialogComponent {
 
     get balanceFilter(): AbstractControl {
         return this.form.get('balanceFilter')
-    }
-
-    get fromDate(): AbstractControl {
-        return this.form.get('fromDate')
-    }
-
-    get toDate(): AbstractControl {
-        return this.form.get('toDate')
     }
 
     //#endregion

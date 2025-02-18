@@ -94,7 +94,6 @@ export class StatisticsParentComponent {
     private buildCriteriaVM(event: StatisticsCriteriaVM): void {
         this.criteria = {
             companyId: event.companyId,
-            balanceFilterId: event.companyId,
             fromDate: event.fromDate,
             toDate: event.toDate,
         }
@@ -104,7 +103,6 @@ export class StatisticsParentComponent {
         return new Promise((resolve) => {
             const x: StatisticsCriteriaVM = {
                 companyId: criteria.companyId,
-                balanceFilterId: criteria.balanceFilterId,
                 fromDate: criteria.fromDate,
                 toDate: criteria.toDate
             }

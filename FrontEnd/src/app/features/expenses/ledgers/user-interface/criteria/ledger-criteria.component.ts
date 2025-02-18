@@ -1,5 +1,5 @@
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { Component, EventEmitter, NgZone, Output } from '@angular/core'
+import { Component, ElementRef, EventEmitter, NgZone, Output, Renderer2 } from '@angular/core'
 import { MatDialogRef } from '@angular/material/dialog'
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete'
 import { Observable, map, startWith } from 'rxjs'
@@ -45,7 +45,7 @@ export class LedgerCriteriaDialogComponent {
 
     //#endregion
 
-    constructor(private dateHelperService: DateHelperService, private dexieService: DexieService, private dialogRef: MatDialogRef<LedgerCriteriaDialogComponent>, private formBuilder: FormBuilder, private helperService: HelperService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private ngZone: NgZone, private sessionStorageService: SessionStorageService,) { }
+    constructor(private dateHelperService: DateHelperService, private dexieService: DexieService, private dialogRef: MatDialogRef<LedgerCriteriaDialogComponent>, private elementRef: ElementRef, private formBuilder: FormBuilder, private helperService: HelperService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private ngZone: NgZone, private renderer: Renderer2, private sessionStorageService: SessionStorageService,) { }
 
     //#region lifecycle hooks
 
@@ -53,6 +53,7 @@ export class LedgerCriteriaDialogComponent {
         this.initForm()
         this.populateFormFromStoredFields(this.getCriteriaFromStorage())
         this.populateDropdowns()
+        this.addTabIndexToInput()
     }
 
     //#endregion
@@ -65,10 +66,6 @@ export class LedgerCriteriaDialogComponent {
 
     public checkForEmptyAutoComplete(event: { target: { value: any } }): void {
         if (event.target.value == '') this.isAutoCompleteDisabled = true
-    }
-
-    public doDateTasks(event: any): void {
-        this.updateFormControls(event)
     }
 
     public enableOrDisableAutoComplete(event: any): void {
@@ -115,6 +112,10 @@ export class LedgerCriteriaDialogComponent {
     //#endregion
 
     //#region private methods
+
+    private addTabIndexToInput() {
+        this.helperService.addTabIndexToInput(this.elementRef, this.renderer)
+    }
 
     private filterAutocomplete(array: string, field: string, value: any): any[] {
         if (typeof value !== 'object') {
@@ -184,14 +185,6 @@ export class LedgerCriteriaDialogComponent {
 
     get supplier(): AbstractControl {
         return this.form.get('supplier')
-    }
-
-    get fromDate(): AbstractControl {
-        return this.form.get('fromDate')
-    }
-
-    get toDate(): AbstractControl {
-        return this.form.get('toDate')
     }
 
     //#endregion

@@ -4,13 +4,15 @@ import { SaleFormComponent } from '../../user-interface/sale-form/sale-form.comp
 import { SaleFormTotalsComponent } from '../../user-interface/sale-form/sale-form-totals.component'
 import { SaleListComponent } from '../../user-interface/sale-list/sale-list.component'
 import { SaleRoutingModule } from './sale.routing.module'
+import { SalesCriteriaDialogComponent } from '../../user-interface/criteria/sales-criteria.component'
 import { SharedModule } from '../../../../../shared/modules/shared.module'
 
 @NgModule({
     declarations: [
         SaleListComponent,
         SaleFormComponent,
-        SaleFormTotalsComponent
+        SaleFormTotalsComponent,
+        SalesCriteriaDialogComponent
     ],
     imports: [
         SharedModule,
