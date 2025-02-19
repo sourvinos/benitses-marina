@@ -14,13 +14,13 @@ namespace API.Features.Sales.Invoices {
 
         private readonly IInvoiceDataUpRepository dataUpRepo;
         private readonly IInvoiceReadRepository invoiceReadRepo;
-        private readonly HttpClient httpClient;
+        // private readonly HttpClient httpClient;
 
         #endregion
 
-        public SalesDataUpController(IInvoiceReadRepository invoiceReadRepo, IInvoiceDataUpRepository dataUpRepo, HttpClient httpClient) {
+        public SalesDataUpController(IInvoiceReadRepository invoiceReadRepo, IInvoiceDataUpRepository dataUpRepo) {
             this.dataUpRepo = dataUpRepo;
-            this.httpClient = httpClient;
+            // this.httpClient = httpClient;
             this.invoiceReadRepo = invoiceReadRepo;
         }
 
@@ -31,8 +31,6 @@ namespace API.Features.Sales.Invoices {
             if (x != null) {
                 var json = dataUpRepo.CreateJsonFileAsync(x);
                 var dataUpResponse = dataUpRepo.UploadJsonAsync(json);
-                // var json = dataUpRepo.CreateJsonFileAsync(x);
-                // var dataUpResponse = dataUpRepo.UploadHardCodedJsonAsync();
                 return new ResponseWithBody {
                     Code = 200,
                     Icon = Icons.Info.ToString(),

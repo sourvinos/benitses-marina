@@ -87,6 +87,11 @@ export class BalanceSheetCriteriaDialogComponent {
         return this.messageLabelService.getDescription(this.feature, id)
     }
 
+    public isNotValidDatePeriod(): boolean {
+        const days = this.dateHelperService.calculateDays(this.dateHelperService.createDateFromString(this.form.value.fromDate), this.dateHelperService.createDateFromString(this.form.value.toDate))
+        return days < 0 || isNaN(days)
+    }
+
     public onClose(): void {
         this.dialogRef.close()
     }

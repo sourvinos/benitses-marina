@@ -21,7 +21,7 @@ namespace API.Features.Sales.Invoices {
         public DataUpJsonCounterPartVM CounterPart { get; set; }
 
         [JsonPropertyName("lines")]
-        public IEnumerable<DataUpJsonLineVM> LineItems { get; set; }
+        public IEnumerable<DataUpJsonLineVM> Lines { get; set; }
 
     }
 

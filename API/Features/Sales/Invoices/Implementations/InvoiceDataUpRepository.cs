@@ -32,8 +32,8 @@ namespace API.Features.Sales.Invoices {
                 },
                 CounterPart = new() {
                     Name = invoice.Customer.Description,
-                    Firstname = "first_name",
-                    Lastname = "last_name",
+                    Firstname = "",
+                    Lastname = "",
                     Vat_number = invoice.Customer.VatNumber,
                     Country = invoice.Customer.Nationality.Code,
                     Branch = invoice.Customer.Branch.ToString(),
@@ -44,7 +44,7 @@ namespace API.Features.Sales.Invoices {
                         Street = invoice.Customer.Street
                     }
                 },
-                LineItems = AddLineItems(invoice.Items)
+                Lines = AddLineItems(invoice.Items)
             };
             return json;
         }
@@ -63,12 +63,12 @@ namespace API.Features.Sales.Invoices {
             var x = new List<DataUpJsonLineVM>();
             foreach (var lineItem in lineItems) {
                 var z = new DataUpJsonLineVM() {
-                    Title = "title",
-                    Description = "description",
+                    Title = lineItem.Description,
+                    Description = lineItem.EnglishDescription,
                     Tax_code = "1",
-                    Quantity = 1,
-                    Net_price = 100,
-                    Gross_price = 124
+                    Quantity = lineItem.Quantity,
+                    Net_price = lineItem.NetAmount,
+                    Gross_price = lineItem.GrossAmount
                 };
                 x.Add(z);
             }
