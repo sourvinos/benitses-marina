@@ -32,19 +32,3 @@
     transition: all var(--theme-delay);
     width: 6.25rem;
 }
-
-.blue {
-    color: #34cbc5;
-}
-
-.green {
-    color: green;
-}
-
-.orange {
-    color: orange;
-}
-
-.red {
-    color: red;
-}

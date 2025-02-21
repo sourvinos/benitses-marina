@@ -10,6 +10,7 @@ export interface InvoiceListVM {
     supplier: SimpleEntity
     documentNo: string
     amount: number
+    putAt: string
     hasDocument: boolean
 
 }

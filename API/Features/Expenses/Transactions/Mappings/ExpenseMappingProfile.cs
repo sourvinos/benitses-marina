@@ -27,6 +27,7 @@ namespace API.Features.Expenses.Transactions {
                     Id = x.Supplier.Id,
                     Description = x.Supplier.Description
                 }))
+                .ForMember(x => x.PutAt, x => x.MapFrom(x => x.PutAt.Substring(0, 10)))
                 .ForMember(x => x.HasDocument, x => x.MapFrom(x => ExpenseHelpers.HasDocument(x)));
             // GetById
             CreateMap<Expense, ExpenseReadDto>()

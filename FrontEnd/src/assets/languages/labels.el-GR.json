@@ -918,6 +918,10 @@
             {
                 "id": "contextMenuEdit",
                 "description": "Μεταβολή"
+            },
+            {
+                "id": "today",
+                "description": "Εμφάνιση σημερινών καταχωρήσεων"
             }
         ]
     },

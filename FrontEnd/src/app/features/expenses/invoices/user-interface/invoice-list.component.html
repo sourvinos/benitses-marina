@@ -4,6 +4,9 @@
 
         <div id="header">
             <home-button-and-title [featureIcon]="featureIcon" [feature]="feature" [icon]="icon" [parentUrl]="parentUrl"></home-button-and-title>
+            <button (click)="onFilterTodayRecords()" [matTooltip]="getLabel('today')" class="fab fab-with-no-background" id="today" mat-icon-button matTooltipPosition="left">
+                <span class="material-symbols-outlined">today</span>
+            </button>
         </div>
 
         <div id="table-wrapper">

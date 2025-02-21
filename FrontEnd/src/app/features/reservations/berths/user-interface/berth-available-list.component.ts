@@ -111,9 +111,9 @@ export class BerthAvailableListComponent {
     public getColor(boatName: string, isDryDock: boolean): string {
         switch (boatName) {
             case 'AVAILABLE':
-                return 'green'
+                return 'color-green'
             default:
-                return isDryDock ? 'orange' : 'red'
+                return isDryDock ? 'color-orange' : 'color-red'
         }
     }
 

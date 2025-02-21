@@ -154,14 +154,18 @@ p {
     width: 0 !important;
 }
 
-.blue {
-    color: var(--color-blue);
+.color-blue {
+    color: #a3c6f4;
 }
 
-.green {
-    color: var(--color-green);
+.color-green {
+    color: #8fbc8f;
 }
 
-.orange {
-    color: var(--color-orange);
+.color-orange {
+    color: #ff8c00;
+}
+
+.color-red {
+    color: #ff0000;
 }

@@ -70,6 +70,11 @@ export class InvoiceListComponent {
 
     //#region public methods
 
+    public onFilterTodayRecords(): void {
+        this.helperService.clearTableTextFilters(this.table, ['date', 'no', 'amount'])
+        this.table.filter(this.dateHelperService.formatDateToIso(new Date()), 'putAt', 'equals')
+    }
+
     public formatDateToLocale(date: string, showWeekday = false, showYear = false, returnEmptyString = false): string {
         return returnEmptyString && date == '2199-12-31' ? '' : this.dateHelperService.formatISODateToLocale(date, showWeekday, showYear)
     }
@@ -115,7 +120,7 @@ export class InvoiceListComponent {
     }
 
     public onResetTableFilters(): void {
-        this.helperService.clearTableTextFilters(this.table, ['description', 'email', 'phones'])
+        this.helperService.clearTableTextFilters(this.table, ['date', 'no', 'amount'])
     }
 
     //#endregion

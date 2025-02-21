@@ -101,11 +101,11 @@ export class ReservationListComponent {
     public getPaymentDescriptionColor(paymentStatusDescription: string): string {
         switch (paymentStatusDescription) {
             case 'NONE':
-                return 'red'
+                return 'color-red'
             case 'PARTIAL':
-                return 'yellow'
+                return 'color-orange'
             case 'FULL':
-                return 'green'
+                return 'color-green'
         }
     }
 

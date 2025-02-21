@@ -13,6 +13,7 @@ namespace API.Features.Expenses.Transactions {
         public string DocumentNo { get; set; }
         public decimal Amount { get; set; }
         public bool HasDocument { get; set; }
+        public string PutAt { get; set; }
 
     }
 
