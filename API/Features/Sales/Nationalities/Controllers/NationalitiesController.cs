@@ -7,11 +7,7 @@ namespace API.Features.Sales.Nationalities {
     [Route("api/[controller]")]
     public class NationalitiesController : ControllerBase {
 
-        #region variables
-
         private readonly INationalityRepository nationalityRepo;
-
-        #endregion
 
         public NationalitiesController(INationalityRepository nationalityRepo) {
             this.nationalityRepo = nationalityRepo;

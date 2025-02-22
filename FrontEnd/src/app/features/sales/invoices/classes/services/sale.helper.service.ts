@@ -48,7 +48,7 @@ export class SaleHelperService {
                 code: item.code,
                 description: item.description,
                 englishDescription: item.englishDescription,
-                qty: item.qty,
+                quantity: item.quantity,
                 netAmount: item.subTotal,
                 vatPercent: item.vatPercent,
                 vatAmount: item.vatAmount,

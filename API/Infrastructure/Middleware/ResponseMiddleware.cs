@@ -78,14 +78,12 @@ namespace API.Infrastructure.Middleware {
             return httpResponseCode switch {
                 401 => ApiMessages.AuthenticationFailed(),
                 404 => ApiMessages.RecordNotFound(),
-                405 => ApiMessages.InvalidIssueDate(),
                 415 => ApiMessages.ConcurrencyError(),
                 450 => ApiMessages.InvalidCustomer(),
                 465 => ApiMessages.InvalidDocumentType(),
                 468 => ApiMessages.InvalidPaymentMethod(),
                 491 => ApiMessages.RecordInUse(),
                 498 => ApiMessages.EmailNotSent(),
-                443 => ApiMessages.InvoiceAutoNumberingHasErrors(),
                 _ => ApiMessages.UnknownError(),
             };
         }

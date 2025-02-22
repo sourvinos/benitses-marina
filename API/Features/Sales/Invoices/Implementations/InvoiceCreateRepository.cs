@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Options;
-using System.Threading.Tasks;
 using API.Infrastructure.Helpers;
 
 namespace API.Features.Sales.Invoices {
@@ -60,14 +59,8 @@ namespace API.Features.Sales.Invoices {
             DisposeOrCommit(transaction);
         }
 
-        public async Task<int> IncreaseInvoiceNoAsync(InvoiceCreateDto invoice) {
-            var lastInvoiceNo = await context.Sales
-                .AsNoTracking()
-                .Where(x => invoice.Date.Year == DateHelpers.GetLocalDateTime().Year && x.DocumentTypeId == invoice.DocumentTypeId)
-                .OrderBy(x => x.InvoiceNo)
-                .Select(x => x.InvoiceNo)
-                .LastOrDefaultAsync();
-            return lastInvoiceNo += 1;
+        public DateTime GetToday() {
+            return DateHelpers.GetLocalDateTime();
         }
 
         private void DisposeOrCommit(IDbContextTransaction transaction) {

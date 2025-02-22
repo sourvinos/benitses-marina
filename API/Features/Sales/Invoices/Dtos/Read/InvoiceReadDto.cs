@@ -13,7 +13,6 @@ namespace API.Features.Sales.Invoices {
         public DateTime Date { get; set; }
         public int InvoiceNo { get; set; }
         public decimal NetAmount { get; set; }
-        public decimal VatPercent { get; set; }
         public decimal VatAmount { get; set; }
         public decimal GrossAmount { get; set; }
         public string Remarks { get; set; }

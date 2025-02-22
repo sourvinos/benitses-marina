@@ -117,8 +117,8 @@
                                     </div>
                                     <div class="boo" style="width: 9rem;">
                                         <mat-form-field>
-                                            <mat-label>{{ getLabel("item-qty") }}</mat-label>
-                                            <input (blur)="onCalculateLine(i)" [inputTabStop]="input" class="tabable" currencyMask formControlName="qty" matInput>
+                                            <mat-label>{{ getLabel("item-quantity") }}</mat-label>
+                                            <input (blur)="onCalculateLine(i)" [inputTabStop]="input" class="tabable" currencyMask formControlName="quantity" matInput>
                                             <mat-error>{{ getHint("required") }}</mat-error>
                                         </mat-form-field>
                                     </div>
@@ -152,7 +152,7 @@
                                         <mat-form-field>
                                             <mat-label>{{ getLabel("item-gross-amount") }}</mat-label>
                                             <input (blur)="onCalculateLine(i)" [inputTabStop]="input" class="tabable" currencyMask formControlName="grossAmount" matInput>
-                                            <mat-error>{{ getHint("required") }}</mat-error>                                            
+                                            <mat-error>{{ getHint("required") }}</mat-error>
                                         </mat-form-field>
                                     </div>
                                     <div class="boo" style="display: flex; width: 3rem;">
@@ -173,12 +173,8 @@
                         <div class="align-bottom">
                             <div id="sale-totals">
                                 <mat-form-field class="hide-hint">
-                                    <mat-label>{{ getLabel("sale-qty") }}</mat-label>
-                                    <input currencyMask formControlName="saleQty" matInput readonly tabindex="-1">
-                                </mat-form-field>
-                                <mat-form-field class="hide-hint">
-                                    <mat-label>{{ getLabel("sale-sub-total") }}</mat-label>
-                                    <input currencyMask formControlName="saleSubTotal" matInput readonly tabindex="-1">
+                                    <mat-label>{{ getLabel("sale-net-amount") }}</mat-label>
+                                    <input currencyMask formControlName="saleNetAmount" matInput readonly tabindex="-1">
                                 </mat-form-field>
                                 <mat-form-field class="hide-hint">
                                     <mat-label>{{ getLabel("sale-vat-amount") }}</mat-label>
@@ -202,8 +198,8 @@
             <span class="material-icons-outlined">pest_control</span>
         </button>
         <div id="align-right">
-            <button (click)="onSave()" [disabled]="!form.valid" class="primary" mat-flat-button>
-                <mat-icon *ngIf="!form.valid" class="material-icons-outlined">lock</mat-icon>
+            <button (click)="onSave()" [disabled]="!form.valid || form.value.invoiceId != ''" class="primary" mat-flat-button>
+                <mat-icon *ngIf="!form.valid || form.value.invoiceId != ''" class="material-icons-outlined">lock</mat-icon>
                 <span>{{ getLabel("saveButton") | uppercase }}</span>
             </button>
         </div>

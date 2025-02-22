@@ -62,7 +62,7 @@ namespace API.Features.Sales.Invoices {
         [Authorize(Roles = "admin")]
         [ServiceFilter(typeof(ModelValidationAttribute))]
         public async Task<Response> PostAsync([FromBody] InvoiceCreateDto invoice) {
-            invoice.InvoiceNo = await invoiceUpdateRepo.IncreaseInvoiceNoAsync(invoice);
+            invoice.Date = invoiceUpdateRepo.GetToday();
             var x = invoiceValidation.IsValidAsync(null, invoice);
             if (await x == 200) {
                 var z = invoiceUpdateRepo.Create(mapper.Map<InvoiceCreateDto, Invoice>((InvoiceCreateDto)invoiceUpdateRepo.AttachMetadataToPostDto(invoice)));
@@ -75,33 +75,6 @@ namespace API.Features.Sales.Invoices {
             } else {
                 throw new CustomException() {
                     ResponseCode = await x
-                };
-            }
-        }
-
-        [HttpPut]
-        [Authorize(Roles = "admin")]
-        [ServiceFilter(typeof(ModelValidationAttribute))]
-        public async Task<Response> PutAsync([FromBody] InvoiceWriteDto sale) {
-            var x = await invoiceReadRepo.GetByIdAsync(sale.InvoiceId.ToString(), false);
-            if (x != null) {
-                var z = invoiceValidation.IsValidAsync(x, sale);
-                if (await z == 200) {
-                    invoiceUpdateRepo.Update(sale.InvoiceId, mapper.Map<InvoiceWriteDto, Invoice>((InvoiceWriteDto)invoiceUpdateRepo.AttachMetadataToPutDto(x, sale)));
-                    return new Response {
-                        Code = 200,
-                        Icon = Icons.Success.ToString(),
-                        Id = x.InvoiceId.ToString(),
-                        Message = ApiMessages.OK()
-                    };
-                } else {
-                    throw new CustomException() {
-                        ResponseCode = await z
-                    };
-                }
-            } else {
-                throw new CustomException() {
-                    ResponseCode = 404
                 };
             }
         }

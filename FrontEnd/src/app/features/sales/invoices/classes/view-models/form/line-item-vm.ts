@@ -1,6 +1,6 @@
 export interface LineItemVM {
 
-    qty: number
+    quantity: number
     itemPrice: number
     vatPercent: number
     subTotal: number

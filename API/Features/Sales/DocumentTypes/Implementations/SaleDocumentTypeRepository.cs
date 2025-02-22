@@ -9,18 +9,15 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using API.Infrastructure.Helpers;
 
 namespace API.Features.Sales.DocumentTypes {
 
     public class SaleDocumentTypeRepository : Repository<SaleDocumentType>, ISaleDocumentTypeRepository {
 
         private readonly IMapper mapper;
-        private readonly TestingEnvironment testingEnvironment;
 
         public SaleDocumentTypeRepository(AppDbContext appDbContext, IHttpContextAccessor httpContext, IMapper mapper, IOptions<TestingEnvironment> testingEnvironment, UserManager<UserExtended> userManager) : base(appDbContext, httpContext, testingEnvironment, userManager) {
             this.mapper = mapper;
-            this.testingEnvironment = testingEnvironment.Value;
         }
 
         public async Task<IEnumerable<SaleDocumentTypeListVM>> GetAsync() {
@@ -50,16 +47,6 @@ namespace API.Features.Sales.DocumentTypes {
             return await context.SaleDocumentTypes
                 .AsNoTracking()
                 .SingleOrDefaultAsync(x => x.Id == id);
-        }
-
-        public async Task<int> GetLastDocumentTypeNoAsync(int documentTypeId) {
-            var lastInvoiceNo = await context.Sales
-                .AsNoTracking()
-                .Where(x => x.Date.Year == DateHelpers.GetLocalDateTime().Year && x.DocumentTypeId == documentTypeId)
-                .OrderBy(x => x.InvoiceNo)
-                .Select(x => x.InvoiceNo)
-                .LastOrDefaultAsync();
-            return lastInvoiceNo;
         }
 
     }

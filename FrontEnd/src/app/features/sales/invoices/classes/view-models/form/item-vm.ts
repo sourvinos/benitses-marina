@@ -4,7 +4,7 @@ export interface ItemVM {
     code: string
     description: string
     englishDescription: string
-    qty: number
+    quantity: number
     netAmount: number
     vatPercent: number
     vatAmount: number

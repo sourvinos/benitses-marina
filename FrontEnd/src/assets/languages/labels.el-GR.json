@@ -1854,7 +1854,7 @@
                 "description": "Περιγραφή"
             },
             {
-                "id": "item-qty",
+                "id": "item-quantity",
                 "description": "Ποσότητα"
             },
             {
@@ -1878,11 +1878,7 @@
                 "description": "Συνολική αξία"
             },
             {
-                "id": "sale-qty",
-                "description": "Ποσότητα"
-            },
-            {
-                "id": "sale-sub-total",
+                "id": "sale-net-amount",
                 "description": "Μερικό σύνολο"
             },
             {

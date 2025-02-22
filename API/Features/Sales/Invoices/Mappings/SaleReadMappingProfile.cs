@@ -31,7 +31,7 @@ namespace API.Features.Sales.Invoices {
                     Description = x.Description,
                     EnglishDescription = x.EnglishDescription,
                     Remarks = x.Remarks,
-                    Qty = x.Quantity,
+                    Quantity = x.Quantity,
                     NetAmount = x.NetAmount,
                     VatPercent = x.VatPercent,
                     VatAmount = x.VatAmount,

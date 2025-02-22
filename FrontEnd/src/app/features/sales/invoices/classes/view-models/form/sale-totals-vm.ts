@@ -1,7 +1,6 @@
 export interface SaleTotalsVM {
 
-    qty: number
-    subTotal: number
+    netAmount: number
     vatAmount: number
     grossAmount: number
 
