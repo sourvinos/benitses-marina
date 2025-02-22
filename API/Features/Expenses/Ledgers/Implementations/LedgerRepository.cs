@@ -125,7 +125,8 @@ namespace API.Features.Expenses.Ledgers {
                 InvoiceNo = "",
                 Debit = debit,
                 Credit = credit,
-                Balance = balance
+                Balance = balance,
+                PutAt = ""
             };
             return total;
         }

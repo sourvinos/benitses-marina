@@ -16,6 +16,7 @@ namespace API.Features.Expenses.Ledgers {
         public decimal Debit { get; set; }
         public decimal Credit { get; set; }
         public decimal Balance { get; set; }
+        public string PutAt { get; set; }
 
     }
 

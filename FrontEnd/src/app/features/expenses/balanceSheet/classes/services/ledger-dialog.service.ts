@@ -7,7 +7,6 @@ import { LedgerCriteriaVM } from '../../../ledgers/classes/view-models/criteria/
 import { LedgerHttpService } from '../../../ledgers/classes/services/ledger-http.service'
 import { LedgerModalDialogComponent } from '../../user-interface/ledger-modal-dialog/ledger-modal-dialog.component'
 import { LedgerVM } from '../../../ledgers/classes/view-models/list/ledger-vm'
-import { BalanceSheetCriteriaVM } from '../view-models/criteria/balanceSheet-criteria-vm'
 
 @Injectable({ providedIn: 'root' })
 
@@ -42,6 +41,7 @@ export class LedgerDialogService {
                 this.records = response
                 this.records.forEach(record => {
                     record.formattedDate = this.dateHelperService.formatISODateToLocale(record.date)
+                    record.formattedPutAt = this.dateHelperService.formatISODateToLocale((record.putAt), false, false)
                 })
                 resolve()
             })
@@ -51,7 +51,7 @@ export class LedgerDialogService {
     private openDialog(records: object, iconStyle: string, actions: string[]): Observable<boolean> {
         this.response = this.dialog.open(LedgerModalDialogComponent, {
             height: '40rem',
-            width: '60rem',
+            width: '66rem',
             data: {
                 message: records,
                 iconStyle: iconStyle,

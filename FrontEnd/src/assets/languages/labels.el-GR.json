@@ -1062,6 +1062,10 @@
             {
                 "id": "headerBalance",
                 "description": "Υπόλοιπο"
+            },
+            {
+                "id": "headerPutAt",
+                "description": "Καταχώρηση"
             }
         ]
     },

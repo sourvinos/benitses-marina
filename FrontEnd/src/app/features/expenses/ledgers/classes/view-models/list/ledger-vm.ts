@@ -13,5 +13,7 @@ export interface LedgerVM {
     debit: number
     credit: number
     balance: number
+    putAt: string
+    formattedPutAt: string
 
 }

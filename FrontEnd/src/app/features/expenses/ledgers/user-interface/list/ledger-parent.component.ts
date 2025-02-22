@@ -40,7 +40,7 @@ export class LedgerParentBillingComponent {
     }
 
     ngOnDestroy(): void {
-        
+
     }
 
     //#endregion
@@ -94,6 +94,7 @@ export class LedgerParentBillingComponent {
             this.records = response
             this.records.forEach(record => {
                 record.formattedDate = this.dateHelperService.formatISODateToLocale(record.date)
+                record.formattedPutAt = this.dateHelperService.formatISODateToLocale(record.putAt, false, false)
             })
         })
     }
