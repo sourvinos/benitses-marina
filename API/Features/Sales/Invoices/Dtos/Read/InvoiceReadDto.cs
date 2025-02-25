@@ -21,7 +21,7 @@ namespace API.Features.Sales.Invoices {
         // Child tables
         public List<InvoiceItemReadDto> Items { get; set; }
         // Navigation
-        public SimpleEntity Customer { get; set; }
+        public InvoiceCustomerVM Customer { get; set; }
         public DocumentTypeVM DocumentType { get; set; }
         public SimpleEntity PaymentMethod { get; set; }
         // Metadata

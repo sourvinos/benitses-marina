@@ -1,5 +1,6 @@
 import { Guid } from 'guid-typescript'
 // Custom
+import { CustomerAutoCompleteVM } from 'src/app/features/sales/customers/classes/view-models/customer-autocomplete-vm'
 import { DocumentTypeVM } from '../../view-models/form/documentType-vm'
 import { ItemReadDto } from './item-read-dto'
 import { Metadata } from 'src/app/shared/classes/metadata'
@@ -10,7 +11,7 @@ export interface SaleReadDto extends Metadata {
     invoiceId: Guid
     date: string
     invoiceNo: number
-    customer: SimpleEntity
+    customer: CustomerAutoCompleteVM 
     documentType: DocumentTypeVM
     paymentMethod: SimpleEntity
     items: ItemReadDto[]

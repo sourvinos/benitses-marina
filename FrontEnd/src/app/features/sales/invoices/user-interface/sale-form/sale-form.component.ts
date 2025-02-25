@@ -88,6 +88,19 @@ export class SaleFormComponent {
         if (event.target.value == '') this.isAutoCompleteDisabled = true
     }
 
+    public getDocumentTypeDescription(): string[] {
+        const x = []
+        x.push(this.form.value.documentTypeDescription + ' ')
+        x.push(this.form.value.documentTypeDescription ? 'ΣΕΙΡΑ ' + this.form.value.batch + ' ' : '')
+        x.push(this.form.value.documentTypeDescription ? 'NO ' + this.form.value.invoiceNo : '')
+        return x
+    }
+
+    public getItemDescription(itemIndex: number) {
+        const item = (<FormArray>this.form.get("items")).at(itemIndex);
+        return item.value.code != '' && item.value.description != '' ? item.value.description : '·'
+    }
+
     public onCalculateLine(index: number): void {
         const x = this.calculateLine(index)
         const items = this.form.get('items') as FormArray
@@ -109,7 +122,7 @@ export class SaleFormComponent {
             quantity: [0, Validators.required],
             itemPrice: [0, Validators.required],
             subTotal: 0,
-            vatPercent: [0, Validators.required],
+            vatPercent: [this.form.value.customer.vatPercent || 0, Validators.required],
             vatAmount: 0,
             grossAmount: [0, Validators.required],
         })
@@ -133,7 +146,8 @@ export class SaleFormComponent {
                     items.patchValue({
                         code: response.body.code,
                         description: response.body.description,
-                        itemPrice: response.body.netAmount
+                        itemPrice: response.body.netAmount,
+                        vatPercent: this.form.value.customer.vatPercent || 0
                     })
                 },
                 error: () => {
@@ -141,7 +155,8 @@ export class SaleFormComponent {
                     items.patchValue({
                         code: '',
                         description: '',
-                        itemPrice: 0
+                        itemPrice: 0,
+                        vatPercent: 0
                     })
                 }
             })
@@ -168,7 +183,7 @@ export class SaleFormComponent {
         return this.messageLabelService.getDescription(this.feature, id)
     }
 
-    public isEditingAllowed(): boolean {
+    public isEditingNotAllowed(): boolean {
         return this.invoiceId == undefined
     }
 
@@ -184,12 +199,9 @@ export class SaleFormComponent {
         this.documentTypeHttpService.getSingle(value.id).subscribe({
             next: (response) => {
                 const x: DocumentTypeReadDto = response.body
-                this.getLastDocumentTypeNo(value.id).subscribe(response => {
-                    this.form.patchValue({
-                        documentTypeDescription: x.description,
-                        invoiceNo: response.body + 1,
-                        batch: x.batch
-                    })
+                this.form.patchValue({
+                    documentTypeDescription: x.description,
+                    batch: x.batch
                 })
             },
             error: (errorFromInterceptor) => {
@@ -316,10 +328,6 @@ export class SaleFormComponent {
         })
     }
 
-    private getLastDocumentTypeNo(id: number): Observable<any> {
-        return this.documentTypeHttpService.getLastDocumentTypeNo(id)
-    }
-
     private isCustomerDataValid(): Promise<any> {
         return new Promise((resolve) => {
             this.saleHttpInvoice.validateCustomerData(this.form.value.customer.id).subscribe({
@@ -352,7 +360,7 @@ export class SaleFormComponent {
             this.form.patchValue({
                 invoiceId: this.record.invoiceId,
                 date: this.record.date,
-                customer: { 'id': this.record.customer.id, 'description': this.record.customer.description },
+                customer: { 'id': this.record.customer.id, 'description': this.record.customer.description, 'vatPercent': this.record.customer.vatPercent },
                 documentType: { 'id': this.record.documentType.id, 'abbreviation': this.record.documentType.abbreviation },
                 documentTypeDescription: this.record.documentType.description,
                 invoiceNo: this.record.invoiceNo,

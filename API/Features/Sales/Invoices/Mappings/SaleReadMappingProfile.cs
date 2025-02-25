@@ -10,9 +10,10 @@ namespace API.Features.Sales.Invoices {
         public SaleReadMappingProfile() {
             CreateMap<Invoice, InvoiceReadDto>()
                 .ForMember(x => x.Date, x => x.MapFrom(x => DateHelpers.DateToISOString(x.Date)))
-                .ForMember(x => x.Customer, x => x.MapFrom(x => new SimpleEntity {
+                .ForMember(x => x.Customer, x => x.MapFrom(x => new InvoiceCustomerVM {
                     Id = x.Customer.Id,
-                    Description = x.Customer.Description
+                    Description = x.Customer.Description,
+                    VatPercent = x.Customer.VatPercent
                 }))
                 .ForMember(x => x.DocumentType, x => x.MapFrom(x => new DocumentTypeVM {
                     Id = x.DocumentType.Id,
