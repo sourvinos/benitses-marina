@@ -1,41 +1,39 @@
 import { ActivatedRoute, Router } from '@angular/router'
 import { Component, ViewChild } from '@angular/core'
-import { MenuItem } from 'primeng/api'
 import { Table } from 'primeng/table'
 // Custom
 import { CryptoService } from 'src/app/shared/services/crypto.service'
 import { DialogService } from 'src/app/shared/services/modal-dialog.service'
-import { DocumentTypeListVM } from '../classes/view-models/documentType-list-vm'
 import { EmojiService } from 'src/app/shared/services/emoji.service'
 import { HelperService } from 'src/app/shared/services/helper.service'
-
 import { ListResolved } from '../../../../shared/classes/list-resolved'
 import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
 import { SessionStorageService } from 'src/app/shared/services/session-storage.service'
+import { BankListVM } from '../classes/view-models/bank-list-vm'
 
 @Component({
-    selector: 'documentType-list',
-    templateUrl: './documentType-list.component.html',
+    selector: 'bank-list',
+    templateUrl: './bank-list.component.html',
     styleUrls: ['../../../../../assets/styles/custom/lists.css']
 })
 
-export class DocumentTypeListComponent {
+export class BankListComponent {
 
     //#region variables
 
     @ViewChild('table') table: Table
 
-    private url = 'saleDocumentTypes'
+    private url = 'banks'
     private virtualElement: any
-    public feature = 'saleDocumentTypeList'
-    public featureIcon = 'documentTypes'
+    public feature = 'bankList'
+    public featureIcon = 'banks'
     public icon = 'home'
     public parentUrl = '/home'
-    public records: DocumentTypeListVM[]
+    public records: BankListVM[] = []
     public recordsFilteredCount: number
-    public recordsFiltered: DocumentTypeListVM[]
-    public selectedRecords: DocumentTypeListVM[] = []
+    public recordsFiltered: BankListVM[]
+    public selectedRecords: BankListVM[] = []
     public selectedIds: number[] = []
 
     //#endregion
@@ -102,7 +100,7 @@ export class DocumentTypeListComponent {
     }
 
     public onResetTableFilters(): void {
-        this.helperService.clearTableTextFilters(this.table, ['description', 'batch'])
+        this.helperService.clearTableTextFilters(this.table, ['description', 'longDescription', 'vatNumber', 'email', 'phones'])
     }
 
     //#endregion

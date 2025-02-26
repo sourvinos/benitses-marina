@@ -12,6 +12,7 @@ import { DialogService } from 'src/app/shared/services/modal-dialog.service'
 import { DocumentTypeHttpService } from '../../../documentTypes/classes/services/documentType-http.service'
 import { DocumentTypeListVM } from '../../../documentTypes/classes/view-models/documentType-list-vm'
 import { DocumentTypeReadDto } from '../../../documentTypes/classes/dtos/documentType-read-dto'
+import { DocumentTypeVM } from '../../classes/view-models/form/documentType-vm'
 import { FormResolved } from 'src/app/shared/classes/form-resolved'
 import { HelperService } from 'src/app/shared/services/helper.service'
 import { InputTabStopDirective } from 'src/app/shared/directives/input-tabstop.directive'
@@ -57,7 +58,7 @@ export class SaleFormComponent {
 
     public isAutoCompleteDisabled = true
     public dropdownCustomers: Observable<CustomerAutoCompleteVM[]>
-    public dropdownDocumentTypes: Observable<DocumentTypeListVM[]>
+    public dropdownDocumentTypes: Observable<DocumentTypeVM[]>
     public dropdownPaymentMethods: Observable<SimpleEntity[]>
 
     //#endregion
@@ -350,7 +351,7 @@ export class SaleFormComponent {
 
     private populateDropdowns(): void {
         this.populateDropdownFromDexieDB('customers', 'dropdownCustomers', 'customer', 'description', 'description')
-        this.populateDropdownFromDexieDB('saleDocumentTypes', 'dropdownDocumentTypes', 'documentType', 'description', 'description')
+        this.populateDropdownFromDexieDB('saleDocumentTypes', 'dropdownDocumentTypes', 'documentType', 'abbreviationEn', 'abbreviationEn')
         this.populateDropdownFromDexieDB('paymentMethods', 'dropdownPaymentMethods', 'paymentMethod', 'description', 'description')
         this.populateDropdownFromDexieDB('prices', 'dropdownItems', 'items.code', 'code', 'code')
     }
@@ -361,7 +362,7 @@ export class SaleFormComponent {
                 invoiceId: this.record.invoiceId,
                 date: this.record.date,
                 customer: { 'id': this.record.customer.id, 'description': this.record.customer.description, 'vatPercent': this.record.customer.vatPercent },
-                documentType: { 'id': this.record.documentType.id, 'abbreviation': this.record.documentType.abbreviation },
+                documentType: { 'id': this.record.documentType.id, 'abbreviationEn': this.record.documentType.abbreviationEn },
                 documentTypeDescription: this.record.documentType.description,
                 invoiceNo: this.record.invoiceNo,
                 batch: this.record.documentType.batch,

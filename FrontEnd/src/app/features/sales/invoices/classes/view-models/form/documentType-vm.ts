@@ -1,7 +1,7 @@
 export interface DocumentTypeVM {
 
     id: number
-    abbreviation: string
+    abbreviationEn: string
     description: string
     batch: string
 

@@ -1,8 +1,7 @@
 export interface DocumentTypeListVM {
 
     id: number
-    abbreviation: string
-    description: string
+    abbreviationEn: string
     batch: string
     isActive: boolean
 

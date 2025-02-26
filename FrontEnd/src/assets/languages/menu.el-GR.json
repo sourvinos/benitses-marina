@@ -78,5 +78,9 @@
     {
         "id": "saleStatistics",
         "description": "Τζίροι πελατών"
+    },
+    {
+        "id": "banks",
+        "description": "Τράπεζες"
     }
 ]

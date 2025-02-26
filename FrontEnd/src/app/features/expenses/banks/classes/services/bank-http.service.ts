@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
 // Custom
-import { BankAutoCompleteVM } from '../view-models/bank-autocomplete-vm'
+import { BankBrowserStorageVM } from '../view-models/bank-browser-storage-vm'
 import { HttpDataService } from 'src/app/shared/services/http-data.service'
 import { environment } from 'src/environments/environment'
 
@@ -14,12 +14,8 @@ export class BankHttpService extends HttpDataService {
         super(httpClient, environment.apiUrl + '/banks')
     }
 
-    //#region public methods
-
-    public getForBrowser(): Observable<BankAutoCompleteVM[]> {
-        return this.http.get<BankAutoCompleteVM[]>(environment.apiUrl + '/banks/getForBrowser')
+    public getForBrowser(): Observable<BankBrowserStorageVM[]> {
+        return this.http.get<BankBrowserStorageVM[]>(environment.apiUrl + '/banks/getForBrowser')
     }
-
-    //#endregion
 
 }

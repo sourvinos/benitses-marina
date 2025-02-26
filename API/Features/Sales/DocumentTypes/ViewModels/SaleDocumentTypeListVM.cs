@@ -13,10 +13,6 @@ namespace API.Features.Sales.DocumentTypes {
         public bool IsActive { get; set; }
         public string Customers { get; set; }
         public string Suppliers { get; set; }
-        public bool IsMyData { get; set; }
-        public string Table8_1 { get; set; }
-        public string Table8_8 { get; set; }
-        public string Table8_9 { get; set; }
 
     }
 

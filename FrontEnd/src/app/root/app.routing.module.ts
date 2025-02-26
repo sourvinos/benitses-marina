@@ -26,13 +26,14 @@ const appRoutes: Routes = [
     { path: 'reservations', loadChildren: () => import('../features/reservations/reservations/classes/modules/reservation.module').then(m => m.ReservationModule) },
     { path: 'upcomingLeaseTerminations', loadChildren: () => import('../features/reservations/leases/classes/modules/upcoming-lease-termination.module').then(m => m.UpcomingLeaseTerminationModule) },
     // Expenses
-    { path: 'documentTypes', loadChildren: () => import('../features/expenses/documentTypes/classes/modules/documentType.module').then(m => m.DocumentTypeModule) },
     { path: 'balanceSheet', loadChildren: () => import('../features/expenses/balanceSheet/classes/modules/balanceSheet.module').then(m => m.BalanceSheetModule) },
+    { path: 'banks', loadChildren: () => import('../features/expenses/banks/classes/modules/bank.module').then(m => m.BankModule) },
+    { path: 'documentTypes', loadChildren: () => import('../features/expenses/documentTypes/classes/modules/documentType.module').then(m => m.DocumentTypeModule) },
+    { path: 'expenseDocumentTypes', loadChildren: () => import('../features/expenses/documentTypes/classes/modules/documentType.module').then(m => m.DocumentTypeModule) },
     { path: 'invoices', loadChildren: () => import('../features/expenses/invoices/classes/modules/invoice.module').then(m => m.InvoiceModule) },
     { path: 'ledgers', loadChildren: () => import('../features/expenses/ledgers/classes/modules/ledger.module').then(m => m.LedgerModule) },
-    { path: 'suppliers', loadChildren: () => import('../features/expenses/suppliers/classes/modules/supplier.module').then(m => m.SupplierModule) },
     { path: 'statistics', loadChildren: () => import('../features/expenses/statistics/classes/modules/statistics.module').then(m => m.StatisticsModule) },
-    { path: 'expenseDocumentTypes', loadChildren: () => import('../features/expenses/documentTypes/classes/modules/documentType.module').then(m => m.DocumentTypeModule) },
+    { path: 'suppliers', loadChildren: () => import('../features/expenses/suppliers/classes/modules/supplier.module').then(m => m.SupplierModule) },
     // Sales
     { path: 'prices', loadChildren: () => import('../features/sales/prices/classes/modules/price.module').then(m => m.PriceModule) },
     { path: 'customers', loadChildren: () => import('../features/sales/customers/classes/modules/customer.module').then(m => m.CustomerModule) },

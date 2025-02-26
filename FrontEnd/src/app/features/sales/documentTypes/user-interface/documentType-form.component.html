@@ -7,87 +7,69 @@
         </div>
 
         <form [formGroup]="form" id="form">
-            <mat-tab-group mat-stretch-tabs="false">
-                <mat-tab label="{{ getLabel('tab1') }}">
-                    <div class="group-input-field">
-                        <!-- Abbreviation -->
-                        <mat-form-field style="width: 40%;">
-                            <mat-label>{{ getLabel('abbreviation') }}</mat-label>
-                            <input [inputTabStop]="input" dataTabIndex="1" formControlName="abbreviation" matInput>
-                            <mat-error *ngIf="abbreviation.hasError('required')">{{ getHint("required") }}</mat-error>
-                        </mat-form-field>
-                        <!-- Description -->
-                        <mat-form-field>
-                            <mat-label>{{ getLabel('description') }}</mat-label>
-                            <input [inputTabStop]="input" dataTabIndex="2" formControlName="description" matInput>
-                            <mat-error *ngIf="description.hasError('required')">{{ getHint("required") }}</mat-error>
-                        </mat-form-field>
-                    </div>
-                    <div class="group-input-field">
-                        <!-- Batch -->
-                        <mat-form-field style="width:40%;">
-                            <mat-label>{{ getLabel('batch') }}</mat-label>
-                            <input [inputTabStop]="input" dataTabIndex="3" formControlName="batch" matInput>
-                            <mat-error *ngIf="batch.hasError('required')">{{ getHint("required") }}</mat-error>
-                        </mat-form-field>
-                        <!-- Customers -->
-                        <mat-form-field>
-                            <mat-label>{{ getLabel('customers') }}</mat-label>
-                            <input [inputTabStop]="input" dataTabIndex="4" formControlName="customers" matInput>
-                            <mat-error *ngIf="customers.hasError('shouldBeEmptyPlusOrMinus')">{{ getHint("shouldBeEmptyPlusOrMinus") }}</mat-error>
-                        </mat-form-field>
-                    </div>
-                    <div class="stacked-checkboxes">
-                        <div class="stacked-checkboxes">
-                            <!-- Discriminator -->
-                            <mat-radio-group formControlName="discriminatorId">
-                                <mat-radio-button value=1>{{ getLabel("refersToInvoice") }}</mat-radio-button>
-                                <mat-radio-button value=2>{{ getLabel("refersToReceipt") }}</mat-radio-button>
-                            </mat-radio-group>
-                        </div>
-                        <div class="stacked-checkboxes">
-                            <!-- isStatistic -->
-                            <mat-checkbox formControlName="isStatistic">
-                                <span>{{ getLabel("isStatistic") }}</span>
-                            </mat-checkbox>
-                            <!-- Default -->
-                            <mat-checkbox formControlName="isDefault">
-                                <span>{{ getLabel("isDefault") }}</span>
-                            </mat-checkbox>
-                            <!-- Active -->
-                            <mat-checkbox formControlName="isActive">
-                                <span>{{ getLabel("isActive") }}</span>
-                            </mat-checkbox>
-                        </div>
-                    </div>
-                </mat-tab>
-                <mat-tab label="{{ getLabel('tab2') }}">
-                    <!-- Table8_1 -->
-                    <mat-form-field>
-                        <mat-label>{{ getLabel('table8_1') }}</mat-label>
-                        <input [inputTabStop]="input" dataTabIndex="1" formControlName="table8_1" matInput>
-                        <mat-error *ngIf="table8_1.hasError('required')">{{ getHint("required") }}</mat-error>
-                    </mat-form-field>
-                    <!-- Table8_8 -->
-                    <mat-form-field>
-                        <mat-label>{{ getLabel('table8_8') }}</mat-label>
-                        <input [inputTabStop]="input" dataTabIndex="2" formControlName="table8_8" matInput>
-                        <mat-error *ngIf="table8_8.hasError('required')">{{ getHint("required") }}</mat-error>
-                    </mat-form-field>
-                    <!-- Table8_9 -->
-                    <mat-form-field>
-                        <mat-label>{{ getLabel('table8_9') }}</mat-label>
-                        <input [inputTabStop]="input" dataTabIndex="3" formControlName="table8_9" matInput>
-                        <mat-error *ngIf="table8_9.hasError('required')">{{ getHint("required") }}</mat-error>
-                    </mat-form-field>
-                    <div class="stacked-checkboxes">
-                        <!-- myData -->
-                        <mat-checkbox formControlName="isMyData">
-                            <span>{{ getLabel("isMyData") }}</span>
-                        </mat-checkbox>
-                    </div>
-                </mat-tab>
-            </mat-tab-group>
+            <div class="group-input-field">
+                <!-- Abbreviation -->
+                <mat-form-field style="width: 40%;">
+                    <mat-label>{{ getLabel('abbreviation') }}</mat-label>
+                    <input [inputTabStop]="input" dataTabIndex="1" formControlName="abbreviation" matInput>
+                    <mat-error *ngIf="abbreviation.hasError('required')">{{ getHint("required") }}</mat-error>
+                </mat-form-field>
+                <!-- AbbreviationEn -->
+                <mat-form-field style="width: 40%;">
+                    <mat-label>{{ getLabel('abbreviationEn') }}</mat-label>
+                    <input [inputTabStop]="input" dataTabIndex="2" formControlName="abbreviationEn" matInput>
+                    <mat-error *ngIf="abbreviationEn.hasError('required')">{{ getHint("required") }}</mat-error>
+                </mat-form-field>
+                <!-- AbbreviationDataUp -->
+                <mat-form-field style="width: 40%;">
+                    <mat-label>{{ getLabel('abbreviationDataUp') }}</mat-label>
+                    <input [inputTabStop]="input" dataTabIndex="3" formControlName="abbreviationDataUp" matInput>
+                    <mat-error *ngIf="abbreviationDataUp.hasError('required')">{{ getHint("required") }}</mat-error>
+                </mat-form-field>
+                <!-- Description -->
+                <mat-form-field>
+                    <mat-label>{{ getLabel('description') }}</mat-label>
+                    <input [inputTabStop]="input" dataTabIndex="4" formControlName="description" matInput>
+                    <mat-error *ngIf="description.hasError('required')">{{ getHint("required") }}</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="group-input-field">
+                <!-- Batch -->
+                <mat-form-field style="width:40%;">
+                    <mat-label>{{ getLabel('batch') }}</mat-label>
+                    <input [inputTabStop]="input" dataTabIndex="5" formControlName="batch" matInput>
+                    <mat-error *ngIf="batch.hasError('required')">{{ getHint("required") }}</mat-error>
+                </mat-form-field>
+                <!-- Customers -->
+                <mat-form-field>
+                    <mat-label>{{ getLabel('customers') }}</mat-label>
+                    <input [inputTabStop]="input" dataTabIndex="6" formControlName="customers" matInput>
+                    <mat-error *ngIf="customers.hasError('shouldBeEmptyPlusOrMinus')">{{ getHint("shouldBeEmptyPlusOrMinus") }}</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="stacked-checkboxes">
+                <div class="stacked-checkboxes">
+                    <!-- Discriminator -->
+                    <mat-radio-group formControlName="discriminatorId">
+                        <mat-radio-button value=1>{{ getLabel("refersToInvoice") }}</mat-radio-button>
+                        <mat-radio-button value=2>{{ getLabel("refersToReceipt") }}</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+                <div class="stacked-checkboxes">
+                    <!-- isStatistic -->
+                    <mat-checkbox formControlName="isStatistic">
+                        <span>{{ getLabel("isStatistic") }}</span>
+                    </mat-checkbox>
+                    <!-- Default -->
+                    <mat-checkbox formControlName="isDefault">
+                        <span>{{ getLabel("isDefault") }}</span>
+                    </mat-checkbox>
+                    <!-- Active -->
+                    <mat-checkbox formControlName="isActive">
+                        <span>{{ getLabel("isActive") }}</span>
+                    </mat-checkbox>
+                </div>
+            </div>
             <div class="align-bottom">
                 <!-- Metadata -->
                 <metadata-panel [feature]="feature" [postAt]="form.value.postAt" [postUser]="form.value.postUser" [putAt]="form.value.putAt" [putUser]="form.value.putUser"></metadata-panel>

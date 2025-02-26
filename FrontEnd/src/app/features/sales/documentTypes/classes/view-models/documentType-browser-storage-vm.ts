@@ -2,7 +2,7 @@ export interface DocumentTypeBrowserStorageVM {
 
     id: number
     discriminatorId: number
-    abbreviation: string
+    abbreviationEn: string
     description: string
     batch: string
     isActive: boolean

@@ -2,18 +2,18 @@ import { ActivatedRouteSnapshot } from '@angular/router'
 import { Injectable } from '@angular/core'
 import { catchError, map, of } from 'rxjs'
 // Custom
+import { BankHttpService } from '../services/bank-http.service'
 import { FormResolved } from 'src/app/shared/classes/form-resolved'
-import { PriceHttpService } from '../services/price-http.service'
 
 @Injectable({ providedIn: 'root' })
 
-export class PriceFormResolver {
+export class BankFormResolver {
 
-    constructor(private priceService: PriceHttpService) { }
+    constructor(private bankHttpService: BankHttpService) { }
 
     resolve(route: ActivatedRouteSnapshot): any {
-        return this.priceService.getById(route.params.id).pipe(
-            map((priceForm) => new FormResolved(priceForm)),
+        return this.bankHttpService.getSingle(route.params.id).pipe(
+            map((form) => new FormResolved(form)),
             catchError((err: any) => of(new FormResolved(null, err)))
         )
     }

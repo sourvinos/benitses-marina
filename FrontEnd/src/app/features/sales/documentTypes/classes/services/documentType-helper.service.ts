@@ -14,7 +14,7 @@ export class DocumentTypeHelperService {
         this.dexieService.update(table, {
             id: vm.id,
             discriminatorId: vm.discriminatorId,
-            abbreviation: vm.abbreviation,
+            abbreviation: vm.abbreviationEn,
             description: vm.description,
             batch: vm.batch,
             isActive: vm.isActive

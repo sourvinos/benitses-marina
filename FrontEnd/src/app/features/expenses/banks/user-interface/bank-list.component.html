@@ -7,27 +7,24 @@
         </div>
 
         <div id="table-wrapper">
-            <p-table #table (onFilter)="onFilterRecords($event)" [(selection)]="selectedRecords" [scrollable]="true" [value]="records" [virtualScrollItemSize]="32" [virtualScroll]="true" dataKey="id" scrollHeight="flex" selectionMode="multiple" sortMode="multiple" stateKey="saleDocumentTypeList-filters" stateStorage="session">
+            <p-table #table (onFilter)="onFilterRecords($event)" [(selection)]="selectedRecords" [scrollable]="true" [value]="records" [virtualScrollItemSize]="32" [virtualScroll]="true" dataKey="id" scrollHeight="flex" selectionMode="multiple" sortMode="multiple" stateKey="customerList-filters" stateStorage="session">
                 <ng-template pTemplate="header">
                     <tr>
                         <th class="no-border-bottom width-3"></th>
                         <th class="no-border-bottom width-5" pSortableColumn="isActive">{{ getLabel("headerIsActive") }}</th>
-                        <th class="no-border-bottom width-20" pSortableColumn="description">{{ getLabel("headerDescription") }}</th>
-                        <th class="no-border-bottom width-5" pSortableColumn="batch">{{ getLabel("headerBatch") }}</th>
+                        <th class="no-border-bottom width-auto" pSortableColumn="description">{{ getLabel("headerDescription") }}</th>
                     </tr>
                     <tr>
                         <th class="no-border-top width-3"><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
                         <th class="no-border-top width-5"><p-columnFilter field="isActive" type="boolean"></p-columnFilter></th>
-                        <th class="no-border-top width-20"><input (input)="table.filter($event.target.value, 'description', 'contains')" [value]="$any(table).filters['description']?.value" class="p-inputtext"></th>
-                        <th class="no-border-top width-5"><input (input)="table.filter($event.target.value, 'batch', 'contains')" [value]="$any(table).filters['batch']?.value" class="center p-inputtext no-overflow"></th>
+                        <th class="no-border-top width-auto"><p-columnFilter (input)="onFilter($event.target.value,'description','contains')" field="description"></p-columnFilter></th>
                     </tr>
                 </ng-template>
                 <ng-template let-record pTemplate="body">
-                    <tr (click)="onHighlightRow(record.id)" (dblclick)="onEditRecord(record.id)" [attr.id]=record.id style="height: 32px;">
+                    <tr (click)="onHighlightRow(record.id)" (contextmenu)="onHighlightRow(record.id)" (dblclick)="onEditRecord(record.id)" [attr.id]=record.id [pContextMenuRow]="record" style="height: 32px;">
                         <td class="width-3"><span class="center no-overflow" style="padding-top: 0.25rem !important;"><p-tableCheckbox [value]="record"></p-tableCheckbox></span></td>
                         <td class="width-5"><span class="center no-left-padding no-overflow" style="font-size: 0.5rem; padding-top: 0 !important;">{{ getEmoji(record.isActive) }}</span></td>
-                        <td class="width-20"><span>{{ record.description }}</span></td>
-                        <td class="width-5"><span class="center no-overflow">{{ record.batch }}</span></td>
+                        <td class="width-auto"><span>{{ record.description }}</span></td>
                     </tr>
                 </ng-template>
             </p-table>
@@ -36,7 +33,7 @@
     </div>
 
     <div id="footer">
-        <table-total-filtered-records (resetTableFilters)="onResetTableFilters()" [filteredRecordCount]="recordsFilteredCount" [recordCount]="records.length"></table-total-filtered-records>
+        <table-total-filtered-records (resetTableFilters)="onResetTableFilters()" [filteredRecordCount]="recordsFilteredCount" [mustShowSelectedFilteredCount]="true" [recordCount]="records.length" [selectedRecordCount]="selectedRecords.length"></table-total-filtered-records>
         <div id="align-right">
             <button (click)="onNewRecord()" [disabled]="!isAdmin()" class="primary" mat-flat-button>{{ getLabel("newRecord") | uppercase }}</button>
         </div>

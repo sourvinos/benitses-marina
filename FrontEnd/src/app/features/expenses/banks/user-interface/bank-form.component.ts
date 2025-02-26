@@ -1,43 +1,53 @@
 import { ActivatedRoute, Router } from '@angular/router'
-import { Component } from '@angular/core'
+import { Component, ElementRef, Renderer2 } from '@angular/core'
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms'
+import { map, Observable, startWith } from 'rxjs'
 // Custom
+import { CryptoService } from 'src/app/shared/services/crypto.service'
 import { DexieService } from 'src/app/shared/services/dexie.service'
 import { DialogService } from 'src/app/shared/services/modal-dialog.service'
-import { DocumentTypeHelperService } from '../classes/services/documentType-helper.service'
-import { DocumentTypeHttpService } from '../classes/services/documentType-http.service'
-import { DocumentTypeReadDto } from '../classes/dtos/documentType-read-dto'
-import { DocumentTypeWriteDto } from '../classes/dtos/documentType-write-dto'
 import { FormResolved } from 'src/app/shared/classes/form-resolved'
 import { HelperService } from 'src/app/shared/services/helper.service'
 import { InputTabStopDirective } from 'src/app/shared/directives/input-tabstop.directive'
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete'
 import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
 import { MessageInputHintService } from 'src/app/shared/services/message-input-hint.service'
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
-import { ValidationService } from 'src/app/shared/services/validation.service'
+import { SessionStorageService } from 'src/app/shared/services/session-storage.service'
+import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
+import { BankHttpService } from '../classes/services/bank-http.service'
+import { BankReadDto } from '../classes/dtos/bank-read-dto'
+import { BankWriteDto } from '../classes/dtos/bank-write-dto'
 
 @Component({
-    selector: 'documentType-form',
-    templateUrl: './documentType-form.component.html',
-    styleUrls: ['../../../../../assets/styles/custom/forms.css']
+    selector: 'bank-form',
+    templateUrl: './bank-form.component.html',
+    styleUrls: ['../../../../../assets/styles/custom/forms.css', './bank-form.component.css']
 })
 
-export class DocumentTypeFormComponent {
+export class BankFormComponent {
 
     //#region common
 
-    private record: DocumentTypeReadDto
-    private recordId: string
-    public feature = 'saleDocumentTypeForm'
-    public featureIcon = 'documentTypes'
+    private record: BankReadDto
+    private recordId: number
+    public feature = 'bankForm'
+    public featureIcon = 'banks'
     public form: FormGroup
     public icon = 'arrow_back'
     public input: InputTabStopDirective
-    public parentUrl = '/saleDocumentTypes'
+    public parentUrl = '/banks'
 
     //#endregion
 
-    constructor(private activatedRoute: ActivatedRoute, private documentTypeHelperService: DocumentTypeHelperService, private documentTypeHttpService: DocumentTypeHttpService, private dexieService: DexieService, private dialogService: DialogService, private formBuilder: FormBuilder, private helperService: HelperService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private router: Router) { }
+    //#region autocompletes
+
+    public dropdownBanks: Observable<SimpleEntity[]>
+    public isAutoCompleteDisabled = true
+
+    //#endregion
+
+    constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dexieService: DexieService, private dialogService: DialogService, private elementRef: ElementRef, private formBuilder: FormBuilder, private helperService: HelperService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private renderer: Renderer2, private router: Router, private sessionStorageService: SessionStorageService, private bankHttpService: BankHttpService) { }
 
     //#region lifecycle hooks
 
@@ -46,10 +56,12 @@ export class DocumentTypeFormComponent {
         this.setRecordId()
         this.getRecord()
         this.populateFields()
+        this.populateDropdowns()
     }
 
     ngAfterViewInit(): void {
         this.focusOnField()
+        this.addTabIndexToInput()
     }
 
     //#endregion
@@ -60,6 +72,14 @@ export class DocumentTypeFormComponent {
         return object ? object[fieldName] : undefined
     }
 
+    public checkForEmptyAutoComplete(event: { target: { value: any } }): void {
+        if (event.target.value == '') this.isAutoCompleteDisabled = true
+    }
+
+    public enableOrDisableAutoComplete(event: any): void {
+        this.isAutoCompleteDisabled = this.helperService.enableOrDisableAutoComplete(event)
+    }
+
     public getHint(id: string, minmax = 0): string {
         return this.messageHintService.getDescription(id, minmax)
     }
@@ -68,12 +88,20 @@ export class DocumentTypeFormComponent {
         return this.messageLabelService.getDescription(this.feature, id)
     }
 
+    public getRemarksLength(): any {
+        return this.form.value.remarks != null ? this.form.value.remarks.length : 0
+    }
+
+    public isAdmin(): boolean {
+        return this.cryptoService.decrypt(this.sessionStorageService.getItem('isAdmin')) == 'true' ? true : false
+    }
+
     public onDelete(): void {
         this.dialogService.open(this.messageDialogService.confirmDelete(), 'question', ['abort', 'ok']).subscribe(response => {
             if (response) {
-                this.documentTypeHttpService.delete(this.form.value.id).subscribe({
+                this.bankHttpService.delete(this.form.value.id).subscribe({
                     complete: () => {
-                        this.dexieService.remove('saleDocumentTypes', this.form.value.id)
+                        this.dexieService.remove('banks', this.form.value.id)
                         this.helperService.doPostSaveFormTasks(this.messageDialogService.success(), 'ok', this.parentUrl, true)
                     },
                     error: (errorFromInterceptor) => {
@@ -88,22 +116,30 @@ export class DocumentTypeFormComponent {
         this.saveRecord(this.flattenForm())
     }
 
+    public openOrCloseAutoComplete(trigger: MatAutocompleteTrigger, element: any): void {
+        this.helperService.openOrCloseAutocomplete(this.form, element, trigger)
+    }
+
     //#endregion
 
     //#region private methods
 
-    private flattenForm(): DocumentTypeWriteDto {
+    private addTabIndexToInput(): void {
+        this.helperService.addTabIndexToInput(this.elementRef, this.renderer)
+    }
+
+    private filterAutocomplete(array: string, field: string, value: any): any[] {
+        if (typeof value !== 'object') {
+            const filtervalue = value.toLowerCase()
+            return this[array].filter((element: { [x: string]: string; }) =>
+                element[field].toLowerCase().startsWith(filtervalue))
+        }
+    }
+
+    private flattenForm(): BankWriteDto {
         return {
-            id: this.form.value.id != '' ? this.form.value.id : null,
-            discriminatorId: parseInt(this.form.value.discriminatorId),
-            abbreviation: this.form.value.abbreviation,
-            abbreviationEn: this.form.value.abbreviationEn,
-            abbreviationDataUp: this.form.value.abbreviationDataUp,
+            id: this.form.value.id,
             description: this.form.value.description,
-            batch: this.form.value.batch,
-            customers: this.form.value.customers,
-            isDefault: this.form.value.isDefault,
-            isStatistic: this.form.value.isStatistic,
             isActive: this.form.value.isActive,
             putAt: this.form.value.putAt
         }
@@ -116,7 +152,7 @@ export class DocumentTypeFormComponent {
     private getRecord(): Promise<any> {
         if (this.recordId != undefined) {
             return new Promise((resolve) => {
-                const formResolved: FormResolved = this.activatedRoute.snapshot.data['saleDocumentTypeForm']
+                const formResolved: FormResolved = this.activatedRoute.snapshot.data['bankForm']
                 if (formResolved.error == null) {
                     this.record = formResolved.record.body
                     resolve(this.record)
@@ -136,16 +172,8 @@ export class DocumentTypeFormComponent {
 
     private initForm(): void {
         this.form = this.formBuilder.group({
-            id: '',
-            discriminatorId: ['', [Validators.required]],
-            abbreviation: ['', [Validators.required, Validators.maxLength(16)]],
-            abbreviationEn: ['', [Validators.required, Validators.maxLength(16)]],
-            abbreviationDataUp: ['', [Validators.required, Validators.maxLength(16)]],
+            id: 0,
             description: ['', [Validators.required, Validators.maxLength(128)]],
-            batch: ['', [Validators.required, Validators.maxLength(5)]],
-            customers: ['', [Validators.maxLength(1), ValidationService.shouldBeEmptyPlusOrMinus]],
-            isStatistic: false,
-            isDefault: true,
             isActive: true,
             postAt: [''],
             postUser: [''],
@@ -154,20 +182,23 @@ export class DocumentTypeFormComponent {
         })
     }
 
+    private populateDropdownFromDexieDB(dexieTable: string, filteredTable: string, formField: string, modelProperty: string, orderBy: string): void {
+        this.dexieService.table(dexieTable).orderBy(orderBy).toArray().then((response) => {
+            this[dexieTable] = this.recordId == undefined ? response.filter(x => x.isActive) : response
+            this[filteredTable] = this.form.get(formField).valueChanges.pipe(startWith(''), map(value => this.filterAutocomplete(dexieTable, modelProperty, value)))
+        })
+    }
+
+    private populateDropdowns(): void {
+        this.populateDropdownFromDexieDB('banks', 'dropdownBanks', 'bank', 'description', 'description')
+    }
+
     private populateFields(): void {
         if (this.record != undefined) {
             this.form.setValue({
-                abbreviation: this.record.abbreviation,
-                abbreviationEn: this.record.abbreviationEn,
-                abbreviationDataUp: this.record.abbreviationDataUp,
-                batch: this.record.batch,
-                customers: this.record.customers,
-                description: this.record.description,
-                discriminatorId: this.record.discriminatorId.toString(),
                 id: this.record.id,
+                description: this.record.description,
                 isActive: this.record.isActive,
-                isDefault: this.record.isDefault,
-                isStatistic: this.record.isStatistic,
                 postAt: this.record.postAt,
                 postUser: this.record.postUser,
                 putAt: this.record.putAt,
@@ -180,11 +211,21 @@ export class DocumentTypeFormComponent {
         this.form.reset()
     }
 
-    private saveRecord(documentType: DocumentTypeWriteDto): void {
-        this.documentTypeHttpService.save(documentType).subscribe({
+    private saveRecord(bank: BankWriteDto): void {
+        this.bankHttpService.save(bank).subscribe({
             next: (response) => {
-                this.documentTypeHelperService.updateBrowserStorageAfterApiUpdate('saleDocumentTypes', response.body)
-                this.helperService.doPostSaveFormTasks(this.messageDialogService.success(), 'ok', this.parentUrl, true)
+                this.dexieService.update('banks', {
+                    'id': parseInt(response.body.id),
+                    'description': response.body.description,
+                    'email': response.body.email,
+                    'vatPercent': response.body.vatPercent,
+                    'isActive': response.body.isActive
+                })
+                this.helperService.doPostSaveFormTasks(
+                    this.messageDialogService.success(),
+                    'ok',
+                    this.parentUrl,
+                    true)
             },
             error: (errorFromInterceptor) => {
                 this.dialogService.open(this.messageDialogService.filterResponse(errorFromInterceptor), 'error', ['ok'])
@@ -202,28 +243,8 @@ export class DocumentTypeFormComponent {
 
     //#region getters
 
-    get abbreviation(): AbstractControl {
-        return this.form.get('abbreviation')
-    }
-
-    get abbreviationEn(): AbstractControl {
-        return this.form.get('abbreviationEn')
-    }
-
-    get abbreviationDataUp(): AbstractControl {
-        return this.form.get('abbreviationDataUp')
-    }
-
     get description(): AbstractControl {
         return this.form.get('description')
-    }
-
-    get batch(): AbstractControl {
-        return this.form.get('batch')
-    }
-
-    get customers(): AbstractControl {
-        return this.form.get('customers')
     }
 
     get postAt(): AbstractControl {

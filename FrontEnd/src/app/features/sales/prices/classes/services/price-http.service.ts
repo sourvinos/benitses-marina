@@ -19,6 +19,10 @@ export class PriceHttpService extends HttpDataService {
         return this.http.get<PriceListBrowserStorageVM[]>(environment.apiUrl + '/prices/getForBrowser')
     }
 
+    public getById(id: number): Observable<any> {
+        return this.http.get<any>(environment.apiUrl + '/prices/getById/' + id)
+    }
+
     public getByCode(code: string): Observable<any> {
         return this.http.get<any>(environment.apiUrl + '/prices/getByCode/' + code)
     }

@@ -20,7 +20,7 @@ export class ExpensesMenuComponent {
 
     //#endregion
 
-    constructor(private cryptoService: CryptoService,private messageMenuService: MessageMenuService, private router: Router, private sessionStorageService: SessionStorageService) { }
+    constructor(private cryptoService: CryptoService, private messageMenuService: MessageMenuService, private router: Router, private sessionStorageService: SessionStorageService) { }
 
     //#region lifecycle hooks
 
