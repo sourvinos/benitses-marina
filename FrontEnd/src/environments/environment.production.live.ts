@@ -1,10 +1,10 @@
 // ng build --output-path="release" --configuration=production-live
 
 export const environment = {
-    apiUrl: 'https://appsourvinos.com/api',
-    url: 'https://appsourvinos.com',
+    apiUrl: 'https://appbenitsesmarina.com/api',
+    url: 'https://appbenitsesmarina.com',
     appName: 'Benitses Marina',
-    clientUrl: 'https://appsourvinos.com',
+    clientUrl: 'https://appbenitsesmarina.com',
     defaultLanguage: 'el-GR',
     featuresIconDirectory: 'assets/images/features/',
     cssUserSelect: 'auto',
