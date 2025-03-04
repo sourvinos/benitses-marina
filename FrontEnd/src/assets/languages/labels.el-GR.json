@@ -1734,14 +1734,6 @@
                 "description": "Παραστατικό πώλησης"
             },
             {
-                "id": "tab1",
-                "description": "Γενικά"
-            },
-            {
-                "id": "tab2",
-                "description": "Είδη & υπηρεσίες"
-            },
-            {
                 "id": "date",
                 "description": "Ημερομηνία έκδοσης"
             },
@@ -1810,20 +1802,8 @@
                 "description": "Αποθηκευση"
             },
             {
-                "id": "printInvoice",
-                "description": "Εκτύπωση"
-            },
-            {
-                "id": "emailInvoice",
-                "description": "Αποστολή με email"
-            },
-            {
-                "id": "submitInvoice",
-                "description": "Επανυποβολή"
-            },
-            {
-                "id": "cancelInvoice",
-                "description": "Ακύρωση"
+                "id": "saveAndUpload",
+                "description": "Αποθηκευση & υποβολη"
             },
             {
                 "id": "item-code",

@@ -9,9 +9,6 @@ import { CustomerAutoCompleteVM } from '../../../customers/classes/view-models/c
 import { DebugDialogService } from 'src/app/shared/services/debug-dialog.service'
 import { DexieService } from 'src/app/shared/services/dexie.service'
 import { DialogService } from 'src/app/shared/services/modal-dialog.service'
-import { DocumentTypeHttpService } from '../../../documentTypes/classes/services/documentType-http.service'
-import { DocumentTypeListVM } from '../../../documentTypes/classes/view-models/documentType-list-vm'
-import { DocumentTypeReadDto } from '../../../documentTypes/classes/dtos/documentType-read-dto'
 import { DocumentTypeVM } from '../../classes/view-models/form/documentType-vm'
 import { FormResolved } from 'src/app/shared/classes/form-resolved'
 import { HelperService } from 'src/app/shared/services/helper.service'
@@ -63,7 +60,7 @@ export class SaleFormComponent {
 
     //#endregion
 
-    constructor(private activatedRoute: ActivatedRoute, private dateAdapter: DateAdapter<any>, private debugDialogService: DebugDialogService, private dexieService: DexieService, private dialogService: DialogService, private documentTypeHttpService: DocumentTypeHttpService, private elementRef: ElementRef, private formBuilder: FormBuilder, private helperService: HelperService, private priceHttpService: PriceHttpService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private renderer: Renderer2, private router: Router, private saleHelperService: SaleHelperService, private saleHttpInvoice: SaleHttpDataService) { }
+    constructor(private activatedRoute: ActivatedRoute, private dateAdapter: DateAdapter<any>, private debugDialogService: DebugDialogService, private dexieService: DexieService, private dialogService: DialogService, private elementRef: ElementRef, private formBuilder: FormBuilder, private helperService: HelperService, private priceHttpService: PriceHttpService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private renderer: Renderer2, private router: Router, private saleHelperService: SaleHelperService, private saleHttpInvoice: SaleHttpDataService) { }
 
     //#region lifecycle hooks
 
@@ -89,17 +86,21 @@ export class SaleFormComponent {
         if (event.target.value == '') this.isAutoCompleteDisabled = true
     }
 
-    public getDocumentTypeDescription(): string[] {
+    public getDocumentTypeDetails(): string[] {
         const x = []
-        x.push(this.form.value.documentTypeDescription + ' ')
-        x.push(this.form.value.documentTypeDescription ? 'ΣΕΙΡΑ ' + this.form.value.batch + ' ' : '')
-        x.push(this.form.value.documentTypeDescription ? 'NO ' + this.form.value.invoiceNo : '')
+        x.push(this.form.value.documentType.description ? this.form.value.documentType.description + ' ' : '')
+        x.push(this.form.value.documentType.description ? 'ΣΕΙΡΑ ' + this.form.value.documentType.batch + ' ' : '')
+        x.push(this.form.value.invoiceNo != 0 ? 'NO ' + this.form.value.invoiceNo : '')
         return x
     }
 
     public getItemDescription(itemIndex: number) {
         const item = (<FormArray>this.form.get("items")).at(itemIndex);
-        return item.value.code != '' && item.value.description != '' ? item.value.description : '·'
+        return item.value.code != '' && item.value.description != '' ? item.value.description : ''
+    }
+
+    public isFormInvalid(): boolean {
+        return this.form.valid == false || this.form.value.items.length == 0 || this.form.value.invoiceId != '' || parseFloat(this.form.value.saleGrossAmount) == 0
     }
 
     public onCalculateLine(index: number): void {
@@ -196,32 +197,8 @@ export class SaleFormComponent {
         this.saveRecord(this.flattenForm())
     }
 
-    public updateFieldsAfterDocumentTypeSelection(value: DocumentTypeListVM): void {
-        this.documentTypeHttpService.getSingle(value.id).subscribe({
-            next: (response) => {
-                const x: DocumentTypeReadDto = response.body
-                this.form.patchValue({
-                    documentTypeDescription: x.description,
-                    batch: x.batch
-                })
-            },
-            error: (errorFromInterceptor) => {
-                this.dialogService.open(this.messageDialogService.filterResponse(errorFromInterceptor), 'error', ['ok'])
-            }
-        })
-    }
-
     public openOrCloseAutoComplete(trigger: MatAutocompleteTrigger, element: any): void {
         this.helperService.openOrCloseAutocomplete(this.form, element, trigger)
-    }
-
-    public async updateFieldsAfterCustomerSelection(value: SimpleEntity): Promise<void> {
-        await this.dexieService.getById('customers', value.id).then(response => {
-            this.form.patchValue({
-                vatPercent: response.vatPercent
-            })
-            // this.calculateTotals()
-        })
     }
 
     //#endregion
@@ -309,11 +286,9 @@ export class SaleFormComponent {
         this.form = this.formBuilder.group({
             invoiceId: '',
             date: [new Date(), [Validators.required]],
-            invoiceNo: 0,
             customer: ['', [Validators.required, ValidationService.requireAutocomplete]],
             documentType: ['', [Validators.required, ValidationService.requireAutocomplete]],
-            documentTypeDescription: '',
-            batch: '',
+            invoiceNo: 0,
             paymentMethod: ['', [Validators.required, ValidationService.requireAutocomplete]],
             saleNetAmount: [0],
             saleVatAmount: [0],
@@ -362,10 +337,13 @@ export class SaleFormComponent {
                 invoiceId: this.record.invoiceId,
                 date: this.record.date,
                 customer: { 'id': this.record.customer.id, 'description': this.record.customer.description, 'vatPercent': this.record.customer.vatPercent },
-                documentType: { 'id': this.record.documentType.id, 'abbreviationEn': this.record.documentType.abbreviationEn },
-                documentTypeDescription: this.record.documentType.description,
+                documentType: {
+                    'id': this.record.documentType.id,
+                    'abbreviationEn': this.record.documentType.abbreviationEn,
+                    'description': this.record.documentType.description,
+                    'batch': this.record.documentType.batch
+                },
                 invoiceNo: this.record.invoiceNo,
-                batch: this.record.documentType.batch,
                 paymentMethod: { 'id': this.record.paymentMethod.id, 'description': this.record.paymentMethod.description },
                 remarks: this.record.remarks,
                 isEmailSent: this.record.isEmailSent,

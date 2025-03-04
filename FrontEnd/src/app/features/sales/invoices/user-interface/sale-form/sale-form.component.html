@@ -5,7 +5,7 @@
         <div id="header">
             <home-button-and-title [feature]="feature" [featureIcon]="featureIcon" [icon]="icon" [parentUrl]="parentUrl"></home-button-and-title>
             <div id="document-type-description">
-                <p>{{ getDocumentTypeDescription()[0] }}{{ getDocumentTypeDescription()[1] }}{{ getDocumentTypeDescription()[2] }}</p>
+                <p>{{ getDocumentTypeDetails()[0] }}{{ getDocumentTypeDetails()[1] }}{{ getDocumentTypeDetails()[2] }}</p>
             </div>
             <div id="header-buttons">
                 <button class="fab fab-with-no-background transparent" mat-icon-button>
@@ -139,8 +139,8 @@
                                 </div>
                                 <div style="display: flex; width: 3rem;">
                                     <div matSuffix style="display:flex; margin-top: 4px;">
-                                        <button [disabled]="itemsArray.length == 1 || !isEditingNotAllowed()" (click)="onRemoveItem(i)" mat-icon-button tabindex="-1" type="button">
-                                            <mat-icon class="input-suffix material-icons-outlined">delete</mat-icon>
+                                        <button [disabled]="!isEditingNotAllowed()" (click)="onRemoveItem(i)" mat-icon-button tabindex="-1" type="button">
+                                            <mat-icon class="red input-suffix material-icons-outlined">delete</mat-icon>
                                         </button>
                                     </div>
                                 </div>
@@ -186,23 +186,28 @@
             <span class="material-icons-outlined">pest_control</span>
         </button>
         <div id="align-right">
-            <button (click)="onSave()" [disabled]="!form.valid || form.value.invoiceId != ''" class="primary" mat-flat-button>
-                <mat-icon *ngIf="!form.valid || form.value.invoiceId != ''" class="material-icons-outlined">lock</mat-icon>
+            <button (click)="onSave()" [disabled]="isFormInvalid()" class="no-right-border-radius primary" mat-flat-button>
+                <mat-icon *ngIf="isFormInvalid()" class="material-icons-outlined">lock</mat-icon>
                 <span>{{ getLabel("saveButton") | uppercase }}</span>
             </button>
+            <button [disabled]="isFormInvalid()" [matMenuTriggerFor]="saveMenu" class="no-left-border-radius primary-darker" mat-flat-button>
+                <mat-icon class="big material-symbols-outlined">expand_less</mat-icon>
+            </button>
+            <mat-menu #saveMenu="matMenu" class="primary">
+                <ng-container *ngTemplateOutlet="saveMenuTemplate"></ng-container>
+            </mat-menu>
         </div>
     </div>
 
 </div>
 
-<!-- <mat-autocomplete #customers="matAutocomplete" (optionSelected)="updateFieldsAfterCustomerSelection($event.option.value) " autoActiveFirstOption [displayWith]="autocompleteFields.bind(this, 'description')"> -->
 <mat-autocomplete #customers="matAutocomplete" autoActiveFirstOption [displayWith]="autocompleteFields.bind(this, 'description')">
     <mat-option *ngFor="let option of dropdownCustomers | async" [value]="option">
         {{ option.description }}
     </mat-option>
 </mat-autocomplete>
 
-<mat-autocomplete #documentTypes="matAutocomplete" (optionSelected)="updateFieldsAfterDocumentTypeSelection($event.option.value)" [displayWith]="autocompleteFields.bind(this, 'abbreviationEn')" autoActiveFirstOption>
+<mat-autocomplete #documentTypes="matAutocomplete" [displayWith]="autocompleteFields.bind(this, 'abbreviationEn')" autoActiveFirstOption>
     <mat-option *ngFor="let option of dropdownDocumentTypes | async" [value]="option">
         <div class="autocomplete-document-type">
             <span>{{ option.abbreviationEn }}</span>
@@ -223,5 +228,11 @@
     </button>
     <button (click)="onDoSubmitTasks()" mat-menu-item>
         <span>{{ getLabel('submitInvoice') }}</span>
+    </button>
+</ng-template>
+
+<ng-template #saveMenuTemplate xPosition="before">
+    <button (click)="onSave()" mat-menu-item>
+        <span>{{ getLabel('saveAndUpload') }}</span>
     </button>
 </ng-template>

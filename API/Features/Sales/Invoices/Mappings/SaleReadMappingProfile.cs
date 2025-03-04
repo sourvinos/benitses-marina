@@ -17,7 +17,7 @@ namespace API.Features.Sales.Invoices {
                 }))
                 .ForMember(x => x.DocumentType, x => x.MapFrom(x => new DocumentTypeVM {
                     Id = x.DocumentType.Id,
-                    Abbreviation = x.DocumentType.Abbreviation,
+                    AbbreviationEn = x.DocumentType.AbbreviationEn,
                     Description = x.DocumentType.Description,
                     Batch = x.DocumentType.Batch
                 }))
