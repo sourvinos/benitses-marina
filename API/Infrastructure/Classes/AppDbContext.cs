@@ -22,6 +22,7 @@ using API.Features.Sales.TaxOffices;
 using API.Features.Sales.DocumentTypes;
 using API.Features.Sales.Invoices;
 using API.Features.Sales.Transactions;
+using API.Features.Cashiers.Transactions;
 
 namespace API.Infrastructure.Classes {
 
@@ -63,6 +64,12 @@ namespace API.Infrastructure.Classes {
 
         #endregion
 
+        #region cashiers
+
+        public DbSet<Cashier> Cashiers { get; set; }
+
+        #endregion
+
         #region sales
 
         public DbSet<Customer> Customers { get; set; }
@@ -100,6 +107,9 @@ namespace API.Infrastructure.Classes {
             #region common
             modelBuilder.ApplyConfiguration(new PaymentMethodConfig());
             modelBuilder.ApplyConfiguration(new UserConfig());
+            #endregion
+            #region cashiers
+            modelBuilder.ApplyConfiguration(new CashierConfig());
             #endregion
             #region sales
             modelBuilder.ApplyConfiguration(new CustomerConfig());

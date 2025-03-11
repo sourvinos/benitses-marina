@@ -9,6 +9,8 @@ import { StatisticsCriteriaVM } from '../../classes/view-models/criteria/statist
 import { StatisticsFormCriteriaVM } from '../../classes/view-models/criteria/statisticss-form-criteria-vm'
 import { StatisticsHttpService } from '../../classes/services/statistics-http.service'
 import { StatisticsVM } from '../../classes/view-models/list/statistics-vm'
+import { StatisticsExportVM } from '../../classes/view-models/export/statistics-export-vm'
+import { StatisticsExportService } from '../../classes/services/statistics-export-service'
 
 @Component({
     selector: 'statistics',
@@ -31,7 +33,14 @@ export class StatisticsParentComponent {
 
     //#endregion
 
-    constructor(private statisticsHttpService: StatisticsHttpService, private dateHelperService: DateHelperService, private helperService: HelperService,private messageLabelService: MessageLabelService, public dialog: MatDialog) { }
+    constructor(
+        private dateHelperService: DateHelperService,
+        private helperService: HelperService,
+        private messageLabelService: MessageLabelService,
+        private statisticsExportService: StatisticsExportService,
+        private statisticsHttpService: StatisticsHttpService,
+        public dialog: MatDialog
+    ) { }
 
     //#region lifecycle hooks
 
@@ -54,13 +63,12 @@ export class StatisticsParentComponent {
         return this.messageLabelService.getDescription(this.feature, id)
     }
 
-    public onSelectedTabChange(): void {
-        setTimeout(() => {
-            const x = document.getElementsByClassName('table-wrapper') as HTMLCollectionOf<HTMLInputElement>
-            for (let i = 0; i < x.length; i++) {
-                x[i].style.height = document.getElementById('content').offsetHeight - 150 + 'px'
-            }
-        }, 100)
+    public noRecords(): boolean {
+        return this.filteredRecords.length == 0
+    }
+
+    public onExportTasks(): void {
+        this.statisticsExportService.exportToExcel(this.statisticsExportService.buildVM(this.filteredRecords))
     }
 
     public onShowCriteriaDialog(): void {

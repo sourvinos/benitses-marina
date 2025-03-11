@@ -869,6 +869,14 @@
             {
                 "id": "revenuesSubTitle",
                 "description": "Εμφανίστε την πορεία των εσόδων και κάντε συγκρίσεις μεταξύ περιόδων."
+            },
+            {
+                "id": "cashierTitle",
+                "description": "Ταμείο"
+            },
+            {
+                "id": "cashierSubTitle",
+                "description": "Διαχειριστείτε τα χρηματικά διαθέσιμα και κάντε ταμειακές εγγραφές."
             }
         ]
     },
@@ -1439,6 +1447,10 @@
             {
                 "id": "zeroBalanceRowVisibility",
                 "description": "Εμφάνιση μηδενικών υπολοίπων"
+            },
+            {
+                "id": "exportButton",
+                "description": "Εξαγωγη σε αρχειο xls"
             }
         ]
     },
@@ -1734,6 +1746,14 @@
                 "description": "Παραστατικό πώλησης"
             },
             {
+                "id": "tab1",
+                "description": "Γενικά"
+            },
+            {
+                "id": "tab2",
+                "description": "Είδη & υπηρεσίες"
+            },
+            {
                 "id": "date",
                 "description": "Ημερομηνία έκδοσης"
             },
@@ -1802,8 +1822,20 @@
                 "description": "Αποθηκευση"
             },
             {
-                "id": "saveAndUpload",
-                "description": "Αποθηκευση & υποβολη"
+                "id": "printInvoice",
+                "description": "Εκτύπωση"
+            },
+            {
+                "id": "emailInvoice",
+                "description": "Αποστολή με email"
+            },
+            {
+                "id": "submitInvoice",
+                "description": "Επανυποβολή"
+            },
+            {
+                "id": "cancelInvoice",
+                "description": "Ακύρωση"
             },
             {
                 "id": "item-code",
@@ -1902,6 +1934,51 @@
             {
                 "id": "saveButton",
                 "description": "Αποθηκευση"
+            }
+        ]
+    },
+    {
+        "feature": "cashierList",
+        "labels": [
+            {
+                "id": "header",
+                "description": "Ημερολόγιο ταμείων"
+            },
+            {
+                "id": "headerDate",
+                "description": "Ημερομηνία"
+            },
+            {
+                "id": "headerCompany",
+                "description": "Εταιρία"
+            },
+            {
+                "id": "headerAmount",
+                "description": "Αξία"
+            },
+            {
+                "id": "headerRemarks",
+                "description": "Παρατηρήσεις"
+            },
+            {
+                "id": "headerHasDocument",
+                "description": "Pdf"
+            },
+            {
+                "id": "newRecord",
+                "description": "Νεα εγγραφη"
+            },
+            {
+                "id": "noDataHeader",
+                "description": "Δεν βρήκαμε εγγραφές για να εμφανίσουμε."
+            },
+            {
+                "id": "noDataSubHeader",
+                "description": "Ισως πρέπει να δώσετε διαφορετικά κριτήρια."
+            },
+            {
+                "id": "contextMenuEdit",
+                "description": "Επεξεργασία"
             }
         ]
     }

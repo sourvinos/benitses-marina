@@ -24,6 +24,8 @@ using API.Features.Sales.TaxOffices;
 using API.Features.Sales.Nationalities;
 using API.Features.Sales.DocumentTypes;
 using API.Features.Sales.Invoices;
+using API.Features.Cashiers.Transactions;
+using API.Features.Cashiers.Ledgers;
 
 namespace API.Infrastructure.Extensions {
 
@@ -84,7 +86,11 @@ namespace API.Infrastructure.Extensions {
             services.AddTransient<IPaymentMethodValidation, PaymentMethodValidation>();
             services.AddTransient<IUserRepository, UserRepository>();
             #endregion
-
+            #region cashiers
+            services.AddTransient<ICashierLedgerRepository, CashierLedgerRepository>();
+            services.AddTransient<ICashierRepository, CashierRepository>();
+            services.AddTransient<ICashierValidation, CashierValidation>();
+            #endregion
         }
 
     }

@@ -29,6 +29,12 @@
                 <ng-container *ngTemplateOutlet="utilityMenu"></ng-container>
             </mat-menu>
         </div>
+        <div id="align-right">
+            <button [disabled]="noRecords()" (click)="onExportTasks()" class="primary" mat-flat-button>
+                <mat-icon *ngIf="noRecords()" class="material-icons-outlined">lock</mat-icon>
+                <span>{{ getLabel("exportButton") | uppercase }}</span>
+            </button>
+        </div>
     </div>
 
 </div>
