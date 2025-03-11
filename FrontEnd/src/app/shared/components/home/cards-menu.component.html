@@ -97,4 +97,14 @@
             </mat-card>
         </div>
     </mat-tab>
+    <mat-tab label="Χρηματικά διαθέσιμα">
+        <div id="cards-menu">
+            <mat-card (click)="doNavigation('cashiers',isDevelopment())">
+                <img (load)="loadImage()" [ngClass]="imageIsLoading()" [src]="getIcon('money-bag')" style="height: 6.25rem; margin-left: 1rem; width: 6.25rem">
+                <mat-card-title>{{ getLabel("cashierTitle") }}</mat-card-title>
+                <mat-divider inset></mat-divider>
+                <mat-card-subtitle>{{ getLabel("cashierSubTitle") }}</mat-card-subtitle>
+            </mat-card>
+        </div>
+    </mat-tab>
 </mat-tab-group>

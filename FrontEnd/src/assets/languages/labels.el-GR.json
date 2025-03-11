@@ -869,6 +869,14 @@
             {
                 "id": "revenuesSubTitle",
                 "description": "Εμφανίστε την πορεία των εσόδων και κάντε συγκρίσεις μεταξύ περιόδων."
+            },
+            {
+                "id": "cashierTitle",
+                "description": "Ταμείο"
+            },
+            {
+                "id": "cashierSubTitle",
+                "description": "Διαχειριστείτε τα χρηματικά διαθέσιμα και κάντε ταμειακές εγγραφές."
             }
         ]
     },
@@ -1922,6 +1930,51 @@
             {
                 "id": "saveButton",
                 "description": "Αποθηκευση"
+            }
+        ]
+    },
+    {
+        "feature": "cashierList",
+        "labels": [
+            {
+                "id": "header",
+                "description": "Ημερολόγιο ταμείων"
+            },
+            {
+                "id": "headerDate",
+                "description": "Ημερομηνία"
+            },
+            {
+                "id": "headerCompany",
+                "description": "Εταιρία"
+            },
+            {
+                "id": "headerAmount",
+                "description": "Αξία"
+            },
+            {
+                "id": "headerRemarks",
+                "description": "Παρατηρήσεις"
+            },
+            {
+                "id": "headerHasDocument",
+                "description": "Pdf"
+            },
+            {
+                "id": "newRecord",
+                "description": "Νεα εγγραφη"
+            },
+            {
+                "id": "noDataHeader",
+                "description": "Δεν βρήκαμε εγγραφές για να εμφανίσουμε."
+            },
+            {
+                "id": "noDataSubHeader",
+                "description": "Ισως πρέπει να δώσετε διαφορετικά κριτήρια."
+            },
+            {
+                "id": "contextMenuEdit",
+                "description": "Επεξεργασία"
             }
         ]
     }
