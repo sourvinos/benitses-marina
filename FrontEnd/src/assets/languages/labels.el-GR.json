@@ -1447,6 +1447,10 @@
             {
                 "id": "zeroBalanceRowVisibility",
                 "description": "Εμφάνιση μηδενικών υπολοίπων"
+            },
+            {
+                "id": "exportButton",
+                "description": "Εξαγωγη σε αρχειο xls"
             }
         ]
     },
