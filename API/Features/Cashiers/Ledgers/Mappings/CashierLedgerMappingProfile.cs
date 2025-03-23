@@ -11,8 +11,8 @@ namespace API.Features.Cashiers.Ledgers {
                 .ForMember(x => x.Id, x => x.MapFrom(x => x.CashierId.ToString()))
                 .ForMember(x => x.Date, x => x.MapFrom(x => DateHelpers.DateToISOString(x.Date)))
                 .ForMember(x => x.Remarks, x => x.MapFrom(x => x.Remarks))
-                .ForMember(x => x.Debit, x => x.MapFrom(x => x.DiscriminatorId == 1 ? x.Amount : 0))
-                .ForMember(x => x.Credit, x => x.MapFrom(x => x.DiscriminatorId == 2 ? x.Amount : 0));
+                .ForMember(x => x.Debit, x => x.MapFrom(x => x.Entry == "+" ? x.Amount : 0))
+                .ForMember(x => x.Credit, x => x.MapFrom(x => x.Entry == "-" ? x.Amount : 0));
         }
 
     }

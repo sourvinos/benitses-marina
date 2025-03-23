@@ -57,6 +57,11 @@ export class ValidationService {
         }
     }
 
+    static shouldBePlusOrMinus(control: AbstractControl): { [key: string]: any } {
+        const pattern = /[+-]/
+        return pattern.test(control.value) ? null : { shouldBePlusOrMinus: true }
+    }
+
     static requireAutocomplete(control: AbstractControl): any {
         const selection: any = control.value
         if (typeof selection === 'string') {

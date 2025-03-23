@@ -63,6 +63,10 @@
         {
             "id": "spacesNotAllowed",
             "description": "Αυτό το πεδίο δεν μπορεί να περιέχει κενά"
+        },
+        {
+            "id": "shouldBePlusOrMinus",
+            "description": "Αυτό το πεδίο επιτρέπεται να έχει το σύμβολο + ή -"
         }
     ]
 }

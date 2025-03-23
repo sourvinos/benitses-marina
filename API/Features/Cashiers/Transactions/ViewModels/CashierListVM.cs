@@ -6,6 +6,7 @@ namespace API.Features.Cashiers.Transactions {
 
         public string CashierId { get; set; }
         public SimpleEntity Company { get; set; }
+        public SimpleEntity Safe { get; set; }
         public string Date { get; set; }
         public decimal Amount { get; set; }
         public bool IsCredit { get; set; }

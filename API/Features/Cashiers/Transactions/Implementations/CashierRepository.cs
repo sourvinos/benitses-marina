@@ -32,6 +32,7 @@ namespace API.Features.Cashiers.Transactions {
                 .Where(x => companyId == null || x.CompanyId == companyId)
                 .Where(x => x.IsDeleted == false)
                 .Include(x => x.Company)
+                .Include(x => x.Safe)
                 .OrderBy(x => x.Date)
                 .ToListAsync();
             return mapper.Map<IEnumerable<Cashier>, IEnumerable<CashierListVM>>(cashiers);
@@ -42,6 +43,7 @@ namespace API.Features.Cashiers.Transactions {
                 ? await context.Cashiers
                     .AsNoTracking()
                     .Include(x => x.Company)
+                    .Include(x => x.Safe)
                     .Where(x => x.CashierId.ToString() == cashierId)
                     .SingleOrDefaultAsync()
                : await context.Cashiers

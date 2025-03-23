@@ -24,6 +24,7 @@ import { SessionStorageService } from 'src/app/shared/services/session-storage.s
 import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 import { ValidationService } from 'src/app/shared/services/validation.service'
 import { environment } from 'src/environments/environment'
+import { DebugDialogService } from 'src/app/shared/services/debug-dialog.service'
 
 @Component({
     selector: 'cashier-form',
@@ -50,9 +51,7 @@ export class CashierFormComponent {
     //#region autocompletes
 
     public dropdownCompanies: Observable<SimpleEntity[]>
-    public dropdownDocumentTypes: Observable<SimpleEntity[]>
-    public dropdownPaymentMethods: Observable<SimpleEntity[]>
-    public dropdownSuppliers: Observable<SimpleEntity[]>
+    public dropdownSafes: Observable<SimpleEntity[]>
     public isAutoCompleteDisabled = true
 
     //#endregion upload
@@ -64,7 +63,7 @@ export class CashierFormComponent {
 
     // #endregion
 
-    constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateAdapter: DateAdapter<any>, private dateHelperService: DateHelperService, private dexieService: DexieService, private dialogService: DialogService, private formBuilder: FormBuilder, private helperService: HelperService, private cashierHttpService: CashierHttpService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService) { }
+    constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateAdapter: DateAdapter<any>, private dateHelperService: DateHelperService, private debugDialogService: DebugDialogService, private dexieService: DexieService, private dialogService: DialogService, private formBuilder: FormBuilder, private helperService: HelperService, private cashierHttpService: CashierHttpService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService) { }
 
     //#region lifecycle hooks
 
@@ -111,10 +110,6 @@ export class CashierFormComponent {
         return this.messageLabelService.getDescription(this.feature, id)
     }
 
-    public getNewOrEditHeader(): string {
-        return this.form.value.cashierId == '' ? 'headerNew' : 'headerEdit'
-    }
-
     public getRemarksLength(): any {
         return this.form.value.remarks != null ? this.form.value.remarks.length : 0
     }
@@ -148,6 +143,10 @@ export class CashierFormComponent {
                 })
             }
         })
+    }
+
+    public onShowFormValue(): void {
+        this.debugDialogService.open(this.form.value, '', ['ok'])
     }
 
     public onSoftDelete(): void {
@@ -226,9 +225,10 @@ export class CashierFormComponent {
     private flattenForm(): CashierWriteDto {
         return {
             cashierId: this.form.value.cashierId != '' ? this.form.value.cashierId : null,
-            companyId: this.form.value.company.id,
-            discriminatorId: 1,
             date: this.dateHelperService.formatDateToIso(new Date(this.form.value.date)),
+            companyId: this.form.value.company.id,
+            safeId: this.form.value.safe.id,
+            entry: this.form.value.entry,
             amount: this.form.value.amount,
             remarks: this.form.value.remarks,
             isDeleted: this.form.value.isDeleted,
@@ -274,10 +274,8 @@ export class CashierFormComponent {
             cashierId: '',
             date: ['', [Validators.required]],
             company: ['', [Validators.required, ValidationService.requireAutocomplete]],
-            supplier: ['', [Validators.required, ValidationService.requireAutocomplete]],
-            documentType: ['', [Validators.required, ValidationService.requireAutocomplete]],
-            paymentMethod: ['', [Validators.required, ValidationService.requireAutocomplete]],
-            documentNo: ['', [Validators.required, Validators.maxLength(128)]],
+            safe: ['', [Validators.required, ValidationService.requireAutocomplete]],
+            entry: ['', [Validators.maxLength(1), ValidationService.shouldBePlusOrMinus]],
             amount: ['', [Validators.required, Validators.min(0), Validators.max(99999)]],
             remarks: ['', [Validators.maxLength(2048)]],
             isDeleted: '',
@@ -309,6 +307,7 @@ export class CashierFormComponent {
 
     private populateDropdowns(): void {
         this.populateDropdownFromDexieDB('companies', 'dropdownCompanies', 'company', 'description', 'description')
+        this.populateDropdownFromDexieDB('safes', 'dropdownSafes', 'safe', 'description', 'description')
     }
 
     private populateFields(): void {
@@ -317,6 +316,8 @@ export class CashierFormComponent {
                 cashierId: this.cashier.cashierId,
                 date: this.cashier.date,
                 company: { 'id': this.cashier.company.id, 'description': this.cashier.company.description },
+                safe: { 'id': this.cashier.safe.id, 'description': this.cashier.safe.description },
+                entry: this.cashier.entry,
                 amount: this.cashier.amount,
                 remarks: this.cashier.remarks,
                 isDeleted: this.cashier.isDeleted,
@@ -390,24 +391,16 @@ export class CashierFormComponent {
         return this.form.get('date')
     }
 
-    get documentType(): AbstractControl {
-        return this.form.get('documentType')
-    }
-
-    get documentNo(): AbstractControl {
-        return this.form.get('documentNo')
-    }
-
-    get paymentMethod(): AbstractControl {
-        return this.form.get('paymentMethod')
-    }
-
     get company(): AbstractControl {
         return this.form.get('company')
     }
 
-    get supplier(): AbstractControl {
-        return this.form.get('supplier')
+    get safe(): AbstractControl {
+        return this.form.get('safe')
+    }
+
+    get entry(): AbstractControl {
+        return this.form.get('entry')
     }
 
     get amount(): AbstractControl {

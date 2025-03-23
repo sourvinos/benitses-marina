@@ -23,6 +23,7 @@ import { PaymentMethodHttpService } from 'src/app/features/expenses/paymentMetho
 import { PaymentStatusHttpService } from 'src/app/features/reservations/paymentStatuses/classes/services/paymentStatus-http.service'
 import { PriceHttpService } from 'src/app/features/sales/prices/classes/services/price-http.service'
 import { ResetPasswordViewModel } from 'src/app/features/users/classes/view-models/reset-password-view-model'
+import { SafeHttpService } from 'src/app/features/cashiers/safes/classes/services/safe-http.service'
 import { SessionStorageService } from './session-storage.service'
 import { SupplierHttpService } from 'src/app/features/expenses/suppliers/classes/services/supplier-http.service'
 import { TaxOfficeHttpService } from 'src/app/features/sales/taxOffices/classes/services/taxOffice-http.service'
@@ -42,7 +43,7 @@ export class AccountService extends HttpDataService {
 
     //#endregion
 
-    constructor(httpClient: HttpClient, private balanceFilterHttpService: BalanceFilterHttpService, private bankHttpService: BankHttpService, private berthHttpService: BerthHttpService, private boatTypeHttpService: BoatTypeHttpService, private boatUsageHttpService: BoatUsageHttpService, private companyHttpService: CompanyHttpService, private cryptoService: CryptoService, private customerHttpService: CustomerHttpService, private dexieService: DexieService, private expensesDocumentTypeHttpService: ExpensesDocumentTypeHttpService, private nationalityHttpService: NationalityHttpService, private ngZone: NgZone, private paymentMethodHttpService: PaymentMethodHttpService, private paymentStatusHttpService: PaymentStatusHttpService, private router: Router, private saleDocumentHttpService: DocumentTypeHttpService, private sessionStorageService: SessionStorageService, private supplierHttpService: SupplierHttpService, private taxOfficeService: TaxOfficeHttpService, private priceHttpService: PriceHttpService) {
+    constructor(httpClient: HttpClient, private balanceFilterHttpService: BalanceFilterHttpService, private bankHttpService: BankHttpService, private berthHttpService: BerthHttpService, private boatTypeHttpService: BoatTypeHttpService, private boatUsageHttpService: BoatUsageHttpService, private safeHttpService: SafeHttpService, private companyHttpService: CompanyHttpService, private cryptoService: CryptoService, private customerHttpService: CustomerHttpService, private dexieService: DexieService, private expensesDocumentTypeHttpService: ExpensesDocumentTypeHttpService, private nationalityHttpService: NationalityHttpService, private ngZone: NgZone, private paymentMethodHttpService: PaymentMethodHttpService, private paymentStatusHttpService: PaymentStatusHttpService, private router: Router, private saleDocumentHttpService: DocumentTypeHttpService, private sessionStorageService: SessionStorageService, private supplierHttpService: SupplierHttpService, private taxOfficeService: TaxOfficeHttpService, private priceHttpService: PriceHttpService) {
         super(httpClient, environment.apiUrl)
     }
 
@@ -83,6 +84,9 @@ export class AccountService extends HttpDataService {
             { 'item': 'reservationList-filters', 'when': 'always' },
             { 'item': 'reservationList-id', 'when': 'always' },
             { 'item': 'reservationList-scrollTop', 'when': 'always' },
+            { 'item': 'safeList-filters', 'when': 'always' },
+            { 'item': 'safeList-id', 'when': 'always' },
+            { 'item': 'safeList-scrollTop', 'when': 'always' },
             { 'item': 'saleList-id', 'when': 'always' },
             { 'item': 'saleList-scrollTop', 'when': 'always' },
             { 'item': 'salesCriteria', 'when': 'always' },
@@ -92,7 +96,7 @@ export class AccountService extends HttpDataService {
             { 'item': 'supplierList-scrollTop', 'when': 'always' },
             { 'item': 'userList-filters', 'when': 'always' },
             { 'item': 'userList-id', 'when': 'always' },
-            { 'item': 'userList-scrollTop', 'when': 'always' }
+            { 'item': 'userList-scrollTop', 'when': 'always' },
         ])
     }
 
@@ -188,6 +192,8 @@ export class AccountService extends HttpDataService {
         this.dexieService.populateTable('prices', this.priceHttpService)
         this.dexieService.populateTable('saleDocumentTypes', this.saleDocumentHttpService)
         this.dexieService.populateTable('taxOffices', this.taxOfficeService)
+        // Safes
+        this.dexieService.populateTable('safes', this.safeHttpService)
     }
 
     private setDotNetVersion(response: any): void {

@@ -157,6 +157,41 @@ namespace API.Features.Cashiers.Transactions {
             };
         }
 
+        [HttpPost("rename")]
+        [Authorize(Roles = "admin")]
+        public Response Rename([FromBody] CashierRenameDocumentVM objectVM) {
+            var folderName = Path.Combine("Uploaded Cashiers");
+            var source = Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), folderName) + Path.DirectorySeparatorChar, objectVM.OldFilename);
+            var target = Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), folderName) + Path.DirectorySeparatorChar, objectVM.NewFilename);
+            Directory.Move(source, target);
+            return new Response {
+                Code = 200,
+                Icon = Icons.Info.ToString(),
+                Id = objectVM.NewFilename,
+                Message = ApiMessages.OK(),
+            };
+        }
+
+        [HttpDelete("deleteDocument/{filename}")]
+        [Authorize(Roles = "admin")]
+        public Response DeleteDocument(string filename) {
+            var folderName = Path.Combine("Uploaded Cashiers");
+            var source = Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), folderName) + Path.DirectorySeparatorChar, filename);
+            System.IO.File.Delete(source);
+            return new Response {
+                Code = 200,
+                Icon = Icons.Info.ToString(),
+                Id = "",
+                Message = ApiMessages.OK(),
+            };
+        }
+
+        [HttpGet("openDocument/{filename}")]
+        [Authorize(Roles = "user, admin")]
+        public FileStreamResult OpenDocument(string filename) {
+            return cashierRepo.OpenDocument(filename);
+        }
+
     }
 
 }

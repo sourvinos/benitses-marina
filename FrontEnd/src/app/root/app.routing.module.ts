@@ -41,6 +41,7 @@ const appRoutes: Routes = [
     { path: 'sales', loadChildren: () => import('../features/sales/invoices/classes/modules/sale.module').then(m => m.SaleModule) },
     // Cashiers
     { path: 'cashiers', loadChildren: () => import('../features/cashiers/transactions/classes/modules/cashier.module').then(m => m.CashierModule) },
+    { path: 'safes', loadChildren: () => import('../features/cashiers/safes/classes/modules/safe.module').then(m => m.SafeModule) },
     // Common
     { path: 'users', loadChildren: () => import('../features/users/classes/modules/user.module').then(m => m.UserModule) },
     // Empty

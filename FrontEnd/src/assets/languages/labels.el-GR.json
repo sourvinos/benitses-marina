@@ -871,8 +871,16 @@
                 "description": "Εμφανίστε την πορεία των εσόδων και κάντε συγκρίσεις μεταξύ περιόδων."
             },
             {
+                "id": "safeTitle",
+                "description": "Χρηματοκιβώτια"
+            },
+            {
+                "id": "safeSubTitle",
+                "description": "Διαχειριστείτε τα κασελάκια μετρητών, τα χρηματοκιβώτια, και δημιουργήστε νέα."
+            },
+            {
                 "id": "cashierTitle",
-                "description": "Ταμείο"
+                "description": "Ταμεία"
             },
             {
                 "id": "cashierSubTitle",
@@ -1953,8 +1961,16 @@
                 "description": "Εταιρία"
             },
             {
-                "id": "headerAmount",
-                "description": "Αξία"
+                "id": "headerSafe",
+                "description": "Χρηματοκιβώτιο"
+            },
+            {
+                "id": "headerDebit",
+                "description": "Χρέωση"
+            },
+            {
+                "id": "headerCredit",
+                "description": "Πίστωση"
             },
             {
                 "id": "headerRemarks",
@@ -1979,6 +1995,117 @@
             {
                 "id": "contextMenuEdit",
                 "description": "Επεξεργασία"
+            }
+        ]
+    },
+    {
+        "feature": "cashierForm",
+        "labels": [
+            {
+                "id": "header",
+                "description": "Ταμειακή εγγραφή"
+            },
+            {
+                "id": "company",
+                "description": "Εταιρία"
+            },
+            {
+                "id": "safe",
+                "description": "Χρηματοκιβώτιο"
+            },
+            {
+                "id": "entry",
+                "description": "Ταμείο"
+            },
+            {
+                "id": "date",
+                "description": "Ημερομηνία"
+            },
+            {
+                "id": "amount",
+                "description": "Ποσό"
+            },
+            {
+                "id": "isActive",
+                "description": "Ενεργή"
+            },
+            {
+                "id": "remarks",
+                "description": "Παρατηρήσεις"
+            },
+            {
+                "id": "post",
+                "description": "Αρχική καταχώρηση"
+            },
+            {
+                "id": "put",
+                "description": "Τελευταία ενημέρωση"
+            },
+            {
+                "id": "deleteButton",
+                "description": "Διαγραφη"
+            },
+            {
+                "id": "saveButton",
+                "description": "Αποθηκευση"
+            },
+            {
+                "id": "uploadButton",
+                "description": "Ανέβασμα παραστατικού"
+            }
+        ]
+    },
+    {
+        "feature": "safeList",
+        "labels": [
+            {
+                "id": "header",
+                "description": "Χρηματοκιβώτια"
+            },
+            {
+                "id": "headerIsActive",
+                "description": "Ενεργό"
+            },
+            {
+                "id": "headerDescription",
+                "description": "Περιγραφή"
+            },
+            {
+                "id": "newRecord",
+                "description": "Νεα εγγραφη"
+            }
+        ]
+    },
+    {
+        "feature": "safeForm",
+        "labels": [
+            {
+                "id": "header",
+                "description": "Χρηματοκιβώτιο"
+            },
+            {
+                "id": "description",
+                "description": "Περιγραφή"
+            },
+            {
+                "id": "isActive",
+                "description": "Ενεργό"
+            },
+            {
+                "id": "post",
+                "description": "Αρχική καταχώρηση"
+            },
+            {
+                "id": "put",
+                "description": "Τελευταία ενημέρωση"
+            },
+            {
+                "id": "deleteButton",
+                "description": "Διαγραφη"
+            },
+            {
+                "id": "saveButton",
+                "description": "Αποθηκευση"
             }
         ]
     }

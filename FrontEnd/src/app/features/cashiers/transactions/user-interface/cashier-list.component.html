@@ -16,8 +16,10 @@
                         <th class="no-border-bottom width-3"></th>
                         <th class="no-border-bottom width-7" pSortableColumn="date">{{ getLabel("headerDate") }}</th>
                         <th class="no-border-bottom width-12" pSortableColumn="company.description">{{ getLabel("headerCompany") }}</th>
+                        <th class="no-border-bottom width-12" pSortableColumn="safe.description">{{ getLabel("headerSafe") }}</th>
                         <th class="no-border-bottom width-auto" pSortableColumn="remarks">{{ getLabel("headerRemarks") }}</th>
-                        <th class="no-border-bottom width-6" pSortableColumn="amount">{{ getLabel("headerAmount") }}</th>
+                        <th class="no-border-bottom width-6" pSortableColumn="debit">{{ getLabel("headerDebit") }}</th>
+                        <th class="no-border-bottom width-6" pSortableColumn="credit">{{ getLabel("headerCredit") }}</th>
                         <th class="no-border-bottom width-3" pSortableColumn="hasDocument">{{ getLabel("headerHasDocument") }}</th>
                         <th class="no-border-bottom width-3"></th>
                     </tr>
@@ -37,7 +39,21 @@
                                 </ng-template>
                             </p-columnFilter>
                         </th>
+                        <th class="no-border-top width-12">
+                            <p-columnFilter [showMenu]="false" field="safe" matchMode="in">
+                                <ng-template let-filter="filterCallback" let-value pTemplate="filter">
+                                    <p-multiSelect (onChange)="filter($event.value)" [ngModel]="value" [options]="distinctSafes" [placeholder]="getEmoji('wildcard')" optionLabel="description">
+                                        <ng-template let-option pTemplate="item">
+                                            <div class="p-multiselect-option">
+                                                <span>{{ option.description }}</span>
+                                            </div>
+                                        </ng-template>
+                                    </p-multiSelect>
+                                </ng-template>
+                            </p-columnFilter>
+                        </th>
                         <th class="no-border-top width-auto"><p-columnFilter (input)="onFilter($event.target.value,'remarks','contains')" field="remarks"></p-columnFilter></th>
+                        <th class="no-border-top width-6"><p-columnFilter (input)="onFilter($event.target.value,'amount','contains')" field="amount"></p-columnFilter></th>
                         <th class="no-border-top width-6"><p-columnFilter (input)="onFilter($event.target.value,'amount','contains')" field="amount"></p-columnFilter></th>
                         <th class="no-border-top width-3"></th>
                         <th class="no-border-top width-3"></th>
@@ -48,8 +64,10 @@
                         <td class="width-3"><span class="center no-overflow" style="padding-right: 0 !important; padding-top: 0.25rem !important;"><p-tableCheckbox [value]="record"></p-tableCheckbox></span></td>
                         <td class="width-7"><span class="center no-overflow">{{ formatDateToLocale(record.date,false,true) }}</span></td>
                         <td class="width-12"><span>{{ record.company.description }}</span></td>
+                        <td class="width-12"><span>{{ record.safe.description }}</span></td>
                         <td class="width-auto"><span>{{ record.remarks }}</span></td>
-                        <td class="width-6"><span class="right with-right-padding">{{ formatNumberToLocale(record.amount) }}</span></td>
+                        <td class="width-6"><span class="right with-right-padding">{{ record.isDebit ? formatNumberToLocale(record.amount) : 0 }}</span></td>
+                        <td class="width-6"><span class="right with-right-padding">{{ record.isCredit ? formatNumberToLocale(record.amount) : 0 }}</span></td>
                         <td class="width-3"><span class="center no-left-padding no-overflow" style="font-size: 0.5rem; padding-top: 0 !important;">{{ getEmoji(record.hasDocument) }}</span></td>
                         <td class="width-3">
                             <span (click)="onEditRecord(record.cashierId)" class="center">
