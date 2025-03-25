@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using API.Infrastructure.Classes;
 using API.Infrastructure.Interfaces;
 
 namespace API.Features.Cashiers.Safes {
@@ -8,6 +9,7 @@ namespace API.Features.Cashiers.Safes {
 
         Task<IEnumerable<SafeListVM>> GetAsync();
         Task<IEnumerable<SafeBrowserVM>> GetForBrowserAsync();
+        Task<IEnumerable<SimpleEntity>> GetForCriteriaAsync();
         Task<SafeBrowserVM> GetByIdForBrowserAsync(int id);
         Task<Safe> GetByIdAsync(int id, bool includeTables);
 

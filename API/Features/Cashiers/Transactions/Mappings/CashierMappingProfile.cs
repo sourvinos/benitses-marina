@@ -10,9 +10,9 @@ namespace API.Features.Cashiers.Transactions {
         public CashierMappingProfile() {
             // List
             CreateMap<Cashier, CashierListVM>()
-                .ForMember(x => x.CashierId, x => x.MapFrom(x => x.CashierId.ToString()))
-                .ForMember(x => x.IsDebit, x => x.MapFrom(x => x.Entry == "1"))
-                .ForMember(x => x.IsCredit, x => x.MapFrom(x => x.Entry == "2"))
+                .ForMember(x => x.Id, x => x.MapFrom(x => x.CashierId.ToString()))
+                .ForMember(x => x.IsDebit, x => x.MapFrom(x => x.Entry == "+"))
+                .ForMember(x => x.IsCredit, x => x.MapFrom(x => x.Entry == "-"))
                 .ForMember(x => x.Date, x => x.MapFrom(x => DateHelpers.DateToISOString(x.Date)))
                 .ForMember(x => x.Company, x => x.MapFrom(x => new SimpleEntity {
                     Id = x.Company.Id,

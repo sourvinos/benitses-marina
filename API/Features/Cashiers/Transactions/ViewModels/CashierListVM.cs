@@ -4,7 +4,7 @@ namespace API.Features.Cashiers.Transactions {
 
     public class CashierListVM {
 
-        public string CashierId { get; set; }
+        public string Id { get; set; }
         public SimpleEntity Company { get; set; }
         public SimpleEntity Safe { get; set; }
         public string Date { get; set; }

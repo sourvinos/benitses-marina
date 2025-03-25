@@ -42,6 +42,7 @@ const appRoutes: Routes = [
     // Cashiers
     { path: 'cashiers', loadChildren: () => import('../features/cashiers/transactions/classes/modules/cashier.module').then(m => m.CashierModule) },
     { path: 'safes', loadChildren: () => import('../features/cashiers/safes/classes/modules/safe.module').then(m => m.SafeModule) },
+    { path: 'cashier-ledgers', loadChildren: () => import('../features/cashiers/ledgers/classes/modules/cashier-ledger.module').then(m => m.CashierLedgerModule) },
     // Common
     { path: 'users', loadChildren: () => import('../features/users/classes/modules/user.module').then(m => m.UserModule) },
     // Empty

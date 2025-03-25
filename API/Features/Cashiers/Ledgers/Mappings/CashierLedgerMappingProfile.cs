@@ -9,6 +9,7 @@ namespace API.Features.Cashiers.Ledgers {
 
         public CashierLedgerMappingProfile() {
             CreateMap<Cashier, CashierLedgerVM>()
+                .ForMember(x => x.Id, x => x.MapFrom(x => x.CashierId.ToString()))
                 .ForMember(x => x.Date, x => x.MapFrom(x => DateHelpers.DateToISOString(x.Date)))
                 .ForMember(x => x.Company, x => x.MapFrom(x => new SimpleEntity {
                     Id = x.Company.Id,
@@ -18,9 +19,8 @@ namespace API.Features.Cashiers.Ledgers {
                     Id = x.Safe.Id,
                     Description = x.Safe.Description
                 }))
-                .ForMember(x => x.CashierId, x => x.MapFrom(x => x.CashierId.ToString()))
-                .ForMember(x => x.Debit, x => x.MapFrom(x => x.Entry == "1" ? x.Amount : 0))
-                .ForMember(x => x.Credit, x => x.MapFrom(x => x.Entry == "2" ? x.Amount : 0))
+                .ForMember(x => x.Debit, x => x.MapFrom(x => x.Entry == "+" ? x.Amount : 0))
+                .ForMember(x => x.Credit, x => x.MapFrom(x => x.Entry == "-" ? x.Amount : 0))
                 .ForMember(x => x.Date, x => x.MapFrom(x => DateHelpers.DateToISOString(x.Date)))
                 .ForMember(x => x.Company, x => x.MapFrom(x => new SimpleEntity {
                     Id = x.Company.Id,

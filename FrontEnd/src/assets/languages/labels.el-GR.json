@@ -885,6 +885,14 @@
             {
                 "id": "cashierSubTitle",
                 "description": "Διαχειριστείτε τα χρηματικά διαθέσιμα και κάντε ταμειακές εγγραφές."
+            },
+            {
+                "id": "cashierLedgersTitle",
+                "description": "Καρτέλες"
+            },
+            {
+                "id": "cashierLedgersSubTitle",
+                "description": "Εμφανίστε τις λογιστιμές καρτέλες των ταμείων σας."
             }
         ]
     },
@@ -1974,7 +1982,7 @@
             },
             {
                 "id": "headerRemarks",
-                "description": "Παρατηρήσεις"
+                "description": "Αιτιολογία"
             },
             {
                 "id": "headerHasDocument",
@@ -2031,7 +2039,7 @@
             },
             {
                 "id": "remarks",
-                "description": "Παρατηρήσεις"
+                "description": "Αιτιολογία"
             },
             {
                 "id": "post",
@@ -2106,6 +2114,77 @@
             {
                 "id": "saveButton",
                 "description": "Αποθηκευση"
+            }
+        ]
+    },
+    {
+        "feature": "cashier-ledger-parent",
+        "labels": [
+            {
+                "id": "header",
+                "description": "Καρτέλα ταμείου"
+            },
+            {
+                "id": "noDataHeader",
+                "description": "Δεν βρήκαμε εγγραφές για να εμφανίσουμε."
+            },
+            {
+                "id": "noDataSubHeader",
+                "description": "Ισως πρέπει να δώσετε διαφορετικά κριτήρια."
+            }
+        ]
+    },
+    {
+        "feature": "cashier-ledger-criteria",
+        "labels": [
+            {
+                "id": "header",
+                "description": "Καρτέλα ταμείου"
+            },
+            {
+                "id": "subHeader",
+                "description": "Δώστε τα κριτήρια με τα οποία θα γίνει η αναζήτηση"
+            },
+            {
+                "id": "company",
+                "description": "Εταιρία"
+            },
+            {
+                "id": "safe",
+                "description": "Χρηματοκιβώτιο"
+            },
+            {
+                "id": "cancelButton",
+                "description": "Ακυρο"
+            },
+            {
+                "id": "okButton",
+                "description": "Συνεχεια"
+            }
+        ]
+    },
+    {
+        "feature": "cashier-ledger",
+        "labels": [
+            {
+                "id": "headerDate",
+                "description": "Ημερομηνία"
+            },
+            {
+                "id": "headerRemarks",
+                "description": "Αιτιολογία"
+            },
+            {
+                "id": "headerDebit",
+                "description": "Χρέωση"
+            },
+            {
+                "id": "headerCredit",
+                "description": "Πίστωση"
+            },
+            {
+                "id": "headerBalance",
+                "description": "Υπόλοιπο"
             }
         ]
     }

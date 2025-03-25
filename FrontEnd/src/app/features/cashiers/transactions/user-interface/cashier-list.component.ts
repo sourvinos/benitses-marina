@@ -95,10 +95,10 @@ export class CashierListComponent {
         return this.cryptoService.decrypt(this.sessionStorageService.getItem('isAdmin')) == 'true' ? true : false
     }
 
-    public onEditRecord(cashierId: string): void {
+    public onEditRecord(id: string): void {
         this.storeScrollTop()
-        this.storeSelectedId(cashierId)
-        this.navigateToRecord(cashierId)
+        this.storeSelectedId(id)
+        this.navigateToRecord(id)
     }
 
     public onFilter(event: any, column: string, matchMode: string): void {

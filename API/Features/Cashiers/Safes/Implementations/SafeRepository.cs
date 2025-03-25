@@ -36,19 +36,19 @@ namespace API.Features.Cashiers.Safes {
             return mapper.Map<IEnumerable<Safe>, IEnumerable<SafeBrowserVM>>(Safes);
         }
 
+        public async Task<IEnumerable<SimpleEntity>> GetForCriteriaAsync() {
+            var safes = await context.Safes
+                .AsNoTracking()
+                .OrderBy(x => x.Description)
+                .ToListAsync();
+            return mapper.Map<IEnumerable<Safe>, IEnumerable<SimpleEntity>>(safes);
+        }
+
         public async Task<SafeBrowserVM> GetByIdForBrowserAsync(int id) {
             var record = await context.Safes
                 .AsNoTracking()
                 .SingleOrDefaultAsync(x => x.Id == id);
             return mapper.Map<Safe, SafeBrowserVM>(record);
-        }
-
-        public async Task<IEnumerable<SimpleEntity>> GetForCriteriaAsync() {
-            var Safes = await context.Safes
-                .AsNoTracking()
-                .OrderBy(x => x.Description)
-                .ToListAsync();
-            return mapper.Map<IEnumerable<Safe>, IEnumerable<SimpleEntity>>(Safes);
         }
 
         public async Task<Safe> GetByIdAsync(int id, bool includeTables) {

@@ -23,6 +23,7 @@ export class DexieService extends Dexie {
             paymentStatuses: 'id, description',
             prices: 'id, code, description',
             safes: 'id, description',
+            safesCriteria: 'id, description',
             saleDocumentTypes: 'id, abbreviationEn',
             suppliers: 'id, description',
             suppliersCriteria: 'id, description',

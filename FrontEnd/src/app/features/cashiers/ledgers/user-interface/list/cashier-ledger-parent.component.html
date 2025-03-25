@@ -1,0 +1,27 @@
+<div id="list-wrapper">
+
+    <div id="content">
+
+        <div id="header">
+            <home-button-and-title [featureIcon]="featureIcon" [feature]="feature" [icon]="featureIcon" [parentUrl]="parentUrl"></home-button-and-title>
+            <div id="header-right">
+                <span id="criteria-caption">{{ getCriteria() }}</span>
+                <button (click)="onShowCriteriaDialog()" class="fab fab-with-no-background" mat-icon-button>
+                    <mat-icon class="material-icons-outlined">filter_alt</mat-icon>
+                </button>
+            </div>
+        </div>
+
+        <ng-template [ngIf]="records.length > 0" [ngIfElse]="noData">
+            <div id="table-wrapper">
+                <cashier-ledger-company-table [records]="records" [criteria]="criteria"></cashier-ledger-company-table>
+            </div>
+        </ng-template>
+
+    </div>
+
+</div>
+
+<ng-template #noData>
+    <cat-page icon="face" [header]="getLabel('noDataHeader')" [subHeader]="getLabel('noDataSubHeader')"></cat-page>
+</ng-template>

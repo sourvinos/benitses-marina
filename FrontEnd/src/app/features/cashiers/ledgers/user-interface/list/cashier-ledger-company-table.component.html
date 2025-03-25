@@ -1,0 +1,24 @@
+<div class="table-wrapper" style="overflow-y: scroll;">
+    <p-table #table [scrollable]="true" [value]="records" [virtualScrollItemSize]="32" [virtualScroll]="true" dataKey="id" scrollHeight="flex">
+        <ng-template pTemplate="header">
+            <tr>
+                <th class="border-bottom border-top width-9">{{ getLabel("headerDate") }}</th>
+                <th class="border-bottom width-3" pSortableColumn="hasDocument">{{ getLabel("headerHasDocument") }}</th>
+                <th class="border-bottom width-auto">{{ getLabel("headerRemarks") }}</th>
+                <th class="border-bottom width-7">{{ getLabel("headerDebit") }}</th>
+                <th class="border-bottom width-7">{{ getLabel("headerCredit") }}</th>
+                <th class="border-bottom width-7">{{ getLabel("headerBalance") }}</th>
+            </tr>
+        </ng-template>
+        <ng-template let-record pTemplate="body">
+            <tr (click)="onHighlightRow(record.id)" [attr.id]=record.id style="height: 32px;">
+                <td class="width-9"><span class="center">{{ record.formattedDate }}</span></td>
+                <td class="width-3"><span class="center no-left-padding no-overflow" style="font-size: 0.5rem; padding-top: 0 !important;">{{ getEmoji(record.hasDocument) }}</span></td>
+                <td class="width-auto"><span>{{ record.remarks }}</span></td>
+                <td class="width-7"><span class="number right with-right-padding">{{ formatNumberToLocale(record.debit) }}</span></td>
+                <td class="width-7"><span class="number right with-right-padding">{{ formatNumberToLocale(record.credit) }}</span></td>
+                <td class="width-7"><span class="number right with-right-padding">{{ formatNumberToLocale(record.balance) }}</span></td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

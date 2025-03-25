@@ -97,6 +97,10 @@ export class AccountService extends HttpDataService {
             { 'item': 'userList-filters', 'when': 'always' },
             { 'item': 'userList-id', 'when': 'always' },
             { 'item': 'userList-scrollTop', 'when': 'always' },
+            { 'item': 'cashier-ledger-criteria', 'when': 'always' },
+            { 'item': 'cashier-ledger-scrollTop', 'when': 'always' },
+            { 'item': 'cashierList-id', 'when': 'always' },
+            { 'item': 'cashierList-scrollTop', 'when': 'always' },
         ])
     }
 
@@ -190,10 +194,11 @@ export class AccountService extends HttpDataService {
         this.dexieService.populateTable('customers', this.customerHttpService)
         this.dexieService.populateTable('nationalities', this.nationalityHttpService)
         this.dexieService.populateTable('prices', this.priceHttpService)
-        this.dexieService.populateTable('saleDocumentTypes', this.saleDocumentHttpService)
+        // this.dexieService.populateTable('saleDocumentTypes', this.saleDocumentHttpService)
         this.dexieService.populateTable('taxOffices', this.taxOfficeService)
         // Safes
         this.dexieService.populateTable('safes', this.safeHttpService)
+        this.dexieService.populateCriteria('safesCriteria', this.safeHttpService)
     }
 
     private setDotNetVersion(response: any): void {
