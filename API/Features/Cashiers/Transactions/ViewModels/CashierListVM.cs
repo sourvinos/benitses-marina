@@ -8,6 +8,7 @@ namespace API.Features.Cashiers.Transactions {
         public SimpleEntity Company { get; set; }
         public SimpleEntity Safe { get; set; }
         public string Date { get; set; }
+        public string Entry { get; set; }
         public decimal Amount { get; set; }
         public bool IsCredit { get; set; }
         public bool IsDebit { get; set; }
