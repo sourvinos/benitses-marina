@@ -53,8 +53,8 @@
                             </p-columnFilter>
                         </th>
                         <th class="no-border-top width-auto"><p-columnFilter (input)="onFilter($event.target.value,'remarks','contains')" field="remarks"></p-columnFilter></th>
-                        <th class="no-border-top width-6"><p-columnFilter (input)="onFilter($event.target.value,'amount','contains')" field="amount"></p-columnFilter></th>
-                        <th class="no-border-top width-6"><p-columnFilter (input)="onFilter($event.target.value,'amount','contains')" field="amount"></p-columnFilter></th>
+                        <th class="no-border-top width-6"><p-columnFilter (input)="onFilter($event.target.value,'debit','contains')" field="debit"></p-columnFilter></th>
+                        <th class="no-border-top width-6"><p-columnFilter (input)="onFilter($event.target.value,'credit','contains')" field="credit"></p-columnFilter></th>
                         <th class="no-border-top width-3"></th>
                         <th class="no-border-top width-3"></th>
                     </tr>
@@ -66,8 +66,8 @@
                         <td class="width-12"><span>{{ record.company.description }}</span></td>
                         <td class="width-12"><span>{{ record.safe.description }}</span></td>
                         <td class="width-auto"><span>{{ record.remarks }}</span></td>
-                        <td class="width-6"><span class="right with-right-padding">{{ record.isDebit ? formatNumberToLocale(record.amount) : 0 }}</span></td>
-                        <td class="width-6"><span class="right with-right-padding">{{ record.isCredit ? formatNumberToLocale(record.amount) : 0 }}</span></td>
+                        <td class="width-6"><span class="right with-right-padding">{{ formatNumberToLocale(record.debit) }}</span></td>
+                        <td class="width-6"><span class="right with-right-padding">{{ formatNumberToLocale(record.credit) }}</span></td>
                         <td class="width-3"><span class="center no-left-padding no-overflow" style="font-size: 0.5rem; padding-top: 0 !important;">{{ getEmoji(record.hasDocument) }}</span></td>
                         <td class="width-3">
                             <span (click)="onEditRecord(record.id)" class="center">

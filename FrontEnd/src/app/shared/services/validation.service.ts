@@ -28,6 +28,11 @@ export class ValidationService {
         return pattern.test(control.value) ? null : { doesNotContainUpperCase: true }
     }
 
+    static dateIsInFuture(control: AbstractControl): { [key: string]: any } {
+        const x = new Date()
+        return control.value <= x ? null : { dateIsInFuture: true }
+    }
+
     static doesNotContainLowerCase(control: AbstractControl): { [key: string]: any } {
         const pattern = /[a-z]/
         return pattern.test(control.value) ? null : { doesNotContainLowerCase: true }

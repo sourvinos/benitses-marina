@@ -7,9 +7,8 @@ export interface CashierListVM {
     company: SimpleEntity
     safe: SimpleEntity
     remarks: string
-    isDebit: string
-    isCredit: string
-    amount: number
+    debit: string
+    credit: string
     putAt: string
     hasDocument: boolean
 

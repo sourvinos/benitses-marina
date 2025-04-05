@@ -66,7 +66,6 @@ export class CashierLedgerParentComponent {
             if (criteria !== undefined) {
                 this.buildCriteriaVM(criteria)
                 this.loadRecords(this.criteria)
-                console.log(this.records)
             }
         })
     }

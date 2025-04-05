@@ -80,6 +80,7 @@ namespace API.Infrastructure.Middleware {
                 404 => ApiMessages.RecordNotFound(),
                 415 => ApiMessages.ConcurrencyError(),
                 450 => ApiMessages.InvalidCustomer(),
+                453 => ApiMessages.FutureDate(),
                 465 => ApiMessages.InvalidDocumentType(),
                 468 => ApiMessages.InvalidPaymentMethod(),
                 491 => ApiMessages.RecordInUse(),

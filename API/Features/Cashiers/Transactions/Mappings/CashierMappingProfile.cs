@@ -11,8 +11,8 @@ namespace API.Features.Cashiers.Transactions {
             // List
             CreateMap<Cashier, CashierListVM>()
                 .ForMember(x => x.Id, x => x.MapFrom(x => x.CashierId.ToString()))
-                .ForMember(x => x.IsDebit, x => x.MapFrom(x => x.Entry == "+"))
-                .ForMember(x => x.IsCredit, x => x.MapFrom(x => x.Entry == "-"))
+                .ForMember(x => x.Debit, x => x.MapFrom(x => x.Entry == "+" ? x.Amount : 0))
+                .ForMember(x => x.Credit, x => x.MapFrom(x => x.Entry == "-" ? x.Amount : 0))
                 .ForMember(x => x.Date, x => x.MapFrom(x => DateHelpers.DateToISOString(x.Date)))
                 .ForMember(x => x.Company, x => x.MapFrom(x => new SimpleEntity {
                     Id = x.Company.Id,
@@ -24,7 +24,7 @@ namespace API.Features.Cashiers.Transactions {
                 }))
                 .ForMember(x => x.Remarks, x => x.MapFrom(x => x.Remarks ?? ""))
                 .ForMember(x => x.PutAt, x => x.MapFrom(x => x.PutAt.Substring(0, 10)))
-                .ForMember(x => x.HasDocument, x => x.MapFrom(x => CashierHelpers.HasDocument(x)));;
+                .ForMember(x => x.HasDocument, x => x.MapFrom(x => CashierHelpers.HasDocument(x))); ;
             // GetById
             CreateMap<Cashier, CashierReadDto>()
                 .ForMember(x => x.Date, x => x.MapFrom(x => DateHelpers.DateToISOString(x.Date)))

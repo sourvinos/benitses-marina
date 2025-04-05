@@ -67,6 +67,10 @@
         {
             "id": "shouldBePlusOrMinus",
             "description": "Αυτό το πεδίο επιτρέπεται να έχει το σύμβολο + ή -"
+        },
+        {
+            "id": "dateShouldNotBeFuture",
+            "description": "Η ημερομηνία δεν μπορεί να είναι μεγαλύτερη της σημερινής"
         }
     ]
 }
