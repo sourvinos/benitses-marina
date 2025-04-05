@@ -23,7 +23,7 @@ namespace API.Features.Sales.Invoices {
                 Vessel_name = "vessel_name",
                 Invoice = new() {
                     Issue_date = DateHelpers.DateToISOString(invoice.Date),
-                    Series = invoice.DocumentType.Abbreviation,
+                    Series = invoice.DocumentType.AbbreviationDataUp,
                     Gross_price = invoice.GrossAmount,
                     Payment_type = invoice.PaymentMethod.MyDataId.ToString(),
                     Branch = "0",
@@ -38,7 +38,7 @@ namespace API.Features.Sales.Invoices {
                     Country = invoice.Customer.Nationality.Code,
                     Branch = invoice.Customer.Branch.ToString(),
                     Address = new() {
-                        PostCode = invoice.Customer.PostalCode,
+                        Postal_Code = invoice.Customer.PostalCode,
                         City = invoice.Customer.City,
                         Number = invoice.Customer.Number,
                         Street = invoice.Customer.Street
