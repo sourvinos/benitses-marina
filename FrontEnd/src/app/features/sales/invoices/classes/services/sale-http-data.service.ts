@@ -29,12 +29,8 @@ export class SaleHttpDataService extends HttpDataService {
             : this.http.put<any>(this.url, formData)
     }
 
-    public patchSalesWithEmailPending(invoiceIds: string[]): Observable<any> {
-        return this.http.patch<any>(this.url + '/patchSalesWithEmailPending', invoiceIds)
-    }
-
-    public patchSaleWithIsCancelled(invoiceId: string): Observable<any> {
-        return this.http.patch<any>(this.url + '/isCancelled/' + invoiceId, null)
+    public submitDataUp(invoiceId: string): Observable<any> {
+        return this.http.get(environment.apiUrl + '/salesdataup/' + invoiceId)
     }
 
 }

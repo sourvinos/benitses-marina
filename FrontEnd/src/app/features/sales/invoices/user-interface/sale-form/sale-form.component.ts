@@ -366,10 +366,17 @@ export class SaleFormComponent {
 
     private saveRecord(sale: SaleWriteDto): void {
         this.saleHttpInvoice.save(sale).subscribe({
-            next: () => {
-                this.helperService.doPostSaveFormTasks(this.messageDialogService.success(), 'ok', this.parentUrl, true)
+            next: (response) => {
+                this.saleHttpInvoice.submitDataUp(response.id).subscribe({
+                    next: (x) => {
+                        this.helperService.doPostSaveFormTasks(this.messageDialogService.success(), 'ok', this.parentUrl, true)
+                    },
+                    error: (errorFromInterceptor: any) => {
+                        this.dialogService.open(this.messageDialogService.filterResponse(errorFromInterceptor), 'error', ['ok'])
+                    }
+                })
             },
-            error: (errorFromInterceptor: any) => {
+            error: (errorFromInterceptor) => {
                 this.dialogService.open(this.messageDialogService.filterResponse(errorFromInterceptor), 'error', ['ok'])
             }
         })

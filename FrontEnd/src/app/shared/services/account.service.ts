@@ -194,7 +194,7 @@ export class AccountService extends HttpDataService {
         this.dexieService.populateTable('customers', this.customerHttpService)
         this.dexieService.populateTable('nationalities', this.nationalityHttpService)
         this.dexieService.populateTable('prices', this.priceHttpService)
-        // this.dexieService.populateTable('saleDocumentTypes', this.saleDocumentHttpService)
+        this.dexieService.populateTable('saleDocumentTypes', this.saleDocumentHttpService)
         this.dexieService.populateTable('taxOffices', this.taxOfficeService)
         // Safes
         this.dexieService.populateTable('safes', this.safeHttpService)

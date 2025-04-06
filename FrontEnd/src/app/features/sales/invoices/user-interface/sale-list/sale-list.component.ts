@@ -139,52 +139,6 @@ export class SaleListComponent {
         this.router.navigate([this.url + '/new'])
     }
 
-    public addSelectedRecordsToEmailQueue(): void {
-        if (this.isAnyRowSelected()) {
-            const ids = []
-            this.selectedRecords.forEach(record => {
-                ids.push(record.invoiceId)
-            })
-            this.saleHttpService.patchSalesWithEmailPending(ids).subscribe({
-                next: () => {
-                    this.onRefreshList()
-                    this.helperService.doPostSaveFormTasks(this.messageDialogService.success(), 'ok', this.parentUrl, false)
-                },
-                error: (errorFromInterceptor) => {
-                    this.dialogService.open(this.messageDialogService.filterResponse(errorFromInterceptor), 'error', ['ok'])
-                }
-            })
-        }
-    }
-
-    // public buildAndOpenSelectedRecords(): void {
-    //     if (this.isAnyRowSelected()) {
-    //         const ids = []
-    //         this.selectedRecords.forEach(record => {
-    //             ids.push(record.invoiceId)
-    //         })
-    //         this.saleHttpPdfService.buildPdf(ids).subscribe({
-    //             next: () => {
-    //                 ids.forEach(id => {
-    //                     this.saleHttpPdfService.openPdf(id + '.pdf').subscribe({
-    //                         next: (response) => {
-    //                             const blob = new Blob([response], { type: 'application/pdf' })
-    //                             const fileURL = URL.createObjectURL(blob)
-    //                             window.open(fileURL, '_blank')
-    //                         },
-    //                         error: (errorFromInterceptor) => {
-    //                             this.dialogService.open(this.messageDialogService.filterResponse(errorFromInterceptor), 'error', ['ok'])
-    //                         }
-    //                     })
-    //                 })
-    //             },
-    //             error: (errorFromInterceptor) => {
-    //                 this.dialogService.open(this.messageDialogService.filterResponse(errorFromInterceptor), 'error', ['ok'])
-    //             }
-    //         })
-    //     }
-    // }
-
     public onShowCriteriaDialog(): void {
         const dialogRef = this.dialog.open(SalesCriteriaDialogComponent, {
             data: 'saleListCriteria',
