@@ -2,21 +2,15 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using API.Features.Expenses.Companies;
 using API.Infrastructure.Helpers;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
 
 namespace API.Features.Sales.Invoices {
 
     public class InvoiceDataUpRepository : IInvoiceDataUpRepository {
 
-        private readonly DataUpSettings dataUpSettings;
-
-        public InvoiceDataUpRepository(IOptions<DataUpSettings> dataUpSettings) {
-            this.dataUpSettings = dataUpSettings.Value;
-        }
-
-        public DataUpJsonVM CreateJsonFileAsync(Invoice invoice) {
+        public DataUpJsonVM CreateJsonFileAsync(Company company, Invoice invoice) {
             DataUpJsonVM json = new() {
                 Contract = invoice.InvoiceId.ToString(),
                 Position = "position",
@@ -27,7 +21,7 @@ namespace API.Features.Sales.Invoices {
                     Gross_price = invoice.GrossAmount,
                     Payment_type = invoice.PaymentMethod.MyDataId.ToString(),
                     Branch = "0",
-                    Issuer_vat_number = "801515394",
+                    Issuer_vat_number = company.TaxNo,
                     Mydata_transmit = "true"
                 },
                 CounterPart = new() {
@@ -49,11 +43,12 @@ namespace API.Features.Sales.Invoices {
             return json;
         }
 
-        public async Task<JObject> UploadJsonAsync(DataUpJsonVM json) {
+        public async Task<JObject> UploadJsonAsync(Company company, DataUpJsonVM json) {
             var client = new HttpClient();
             var request = new HttpRequestMessage(HttpMethod.Post, "https://dataup-uat.gr/api/docking/invoice/add");
             var content = new StringContent(JsonSerializer.Serialize(json), System.Text.Encoding.UTF8, "application/json");
-            request.Headers.Add("Authorization", "Bearer " + dataUpSettings.Token);
+            var token = company.IsDemoMyData ? company.DemoToken : company.LiveToken;
+            request.Headers.Add("Authorization", "Bearer " + token);
             request.Content = content;
             var response = await client.SendAsync(request);
             return JObject.Parse(await response.Content.ReadAsStringAsync());

@@ -1,7 +1,9 @@
-﻿using API.Infrastructure.Helpers;
+﻿using API.Infrastructure.Classes;
+using API.Infrastructure.Helpers;
 using API.Infrastructure.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace API.Features.Sales.Invoices {
@@ -11,12 +13,14 @@ namespace API.Features.Sales.Invoices {
 
         #region variables
 
+        private readonly AppDbContext context;
         private readonly IInvoiceDataUpRepository dataUpRepo;
         private readonly IInvoiceReadRepository invoiceReadRepo;
 
         #endregion
 
-        public SalesDataUpController(IInvoiceReadRepository invoiceReadRepo, IInvoiceDataUpRepository dataUpRepo) {
+        public SalesDataUpController(AppDbContext context, IInvoiceReadRepository invoiceReadRepo, IInvoiceDataUpRepository dataUpRepo) {
+            this.context = context;
             this.dataUpRepo = dataUpRepo;
             this.invoiceReadRepo = invoiceReadRepo;
         }
@@ -26,8 +30,9 @@ namespace API.Features.Sales.Invoices {
         public async Task<ResponseWithBody> CreateJsonFile(string invoiceId) {
             var x = await invoiceReadRepo.GetByIdAsync(invoiceId, true);
             if (x != null) {
-                var json = dataUpRepo.CreateJsonFileAsync(x);
-                var dataUpResponse = dataUpRepo.UploadJsonAsync(json);
+                var company = this.context.Companies.First(x => x.TaxNo == "801515394");
+                var json = dataUpRepo.CreateJsonFileAsync(company, x);
+                var dataUpResponse = dataUpRepo.UploadJsonAsync(company,json);
                 return new ResponseWithBody {
                     Code = 200,
                     Icon = Icons.Info.ToString(),
