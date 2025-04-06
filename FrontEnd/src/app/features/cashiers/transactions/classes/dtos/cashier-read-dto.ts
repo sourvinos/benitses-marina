@@ -5,10 +5,11 @@ import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 
 export interface CashierReadDto extends Metadata {
 
-    cashierId: Guid
-    company: SimpleEntity
-    discriminatorId: number
     date: string
+    cashierId: string
+    company: SimpleEntity
+    safe: SimpleEntity
+    entry: string
     amount: number
     remarks: string
     isDeleted: boolean

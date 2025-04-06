@@ -22,11 +22,12 @@ namespace API.Features.Cashiers.Ledgers {
             this.mapper = mapper;
         }
 
-        public async Task<IEnumerable<CashierLedgerVM>> GetForLedger(int companyId, string fromDate, string toDate) {
+        public async Task<IEnumerable<CashierLedgerVM>> GetForLedger(int companyId, int safeId, string fromDate, string toDate) {
             var records = await context.Cashiers
                 .AsNoTracking()
-                .Where(x => x.CompanyId == companyId && x.Date <= Convert.ToDateTime(toDate))
-                .Where(x => x.IsDeleted == false)
+                .Where(x => x.CompanyId == companyId && x.SafeId == safeId && x.Date <= Convert.ToDateTime(toDate) && x.IsDeleted == false)
+                .Include(x => x.Company)
+                .Include(x => x.Safe)
                 .OrderBy(x => x.Date)
                 .ToListAsync();
             return mapper.Map<IEnumerable<Cashier>, IEnumerable<CashierLedgerVM>>(records);

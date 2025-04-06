@@ -10,7 +10,8 @@ namespace API.Features.Cashiers.Transactions {
             entity.Property(x => x.CashierId).IsFixedLength().HasMaxLength(36).IsRequired(true);
             // Fields
             entity.Property(x => x.Date).HasColumnType("date").IsRequired(true);
-            entity.Property(x => x.DiscriminatorId).IsRequired(true);
+            entity.Property(x => x.CompanyId).IsRequired(true);
+            entity.Property(x => x.SafeId).IsRequired(true);
             entity.Property(x => x.Amount).IsRequired(true);
             // Metadata
             entity.Property(x => x.PostAt).HasMaxLength(19).IsRequired(true);

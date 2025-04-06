@@ -5,7 +5,7 @@ namespace API.Features.Sales.Invoices {
     public class DataUpJsonAddressVM {
 
         [JsonPropertyName("postal_code")]
-        public string PostCode { get; set; }
+        public string Postal_Code { get; set; }
         
         [JsonPropertyName("city")]
         public string City { get; set; }

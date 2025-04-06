@@ -871,12 +871,28 @@
                 "description": "Εμφανίστε την πορεία των εσόδων και κάντε συγκρίσεις μεταξύ περιόδων."
             },
             {
+                "id": "safeTitle",
+                "description": "Χρηματοκιβώτια"
+            },
+            {
+                "id": "safeSubTitle",
+                "description": "Διαχειριστείτε τα κασελάκια μετρητών, τα χρηματοκιβώτια, και δημιουργήστε νέα."
+            },
+            {
                 "id": "cashierTitle",
-                "description": "Ταμείο"
+                "description": "Ταμεία"
             },
             {
                 "id": "cashierSubTitle",
                 "description": "Διαχειριστείτε τα χρηματικά διαθέσιμα και κάντε ταμειακές εγγραφές."
+            },
+            {
+                "id": "cashierLedgersTitle",
+                "description": "Καρτέλες"
+            },
+            {
+                "id": "cashierLedgersSubTitle",
+                "description": "Εμφανίστε τις λογιστιμές καρτέλες των ταμείων σας."
             }
         ]
     },
@@ -1953,12 +1969,20 @@
                 "description": "Εταιρία"
             },
             {
-                "id": "headerAmount",
-                "description": "Αξία"
+                "id": "headerSafe",
+                "description": "Χρηματοκιβώτιο"
+            },
+            {
+                "id": "headerDebit",
+                "description": "Χρέωση"
+            },
+            {
+                "id": "headerCredit",
+                "description": "Πίστωση"
             },
             {
                 "id": "headerRemarks",
-                "description": "Παρατηρήσεις"
+                "description": "Αιτιολογία"
             },
             {
                 "id": "headerHasDocument",
@@ -1979,6 +2003,188 @@
             {
                 "id": "contextMenuEdit",
                 "description": "Επεξεργασία"
+            }
+        ]
+    },
+    {
+        "feature": "cashierForm",
+        "labels": [
+            {
+                "id": "header",
+                "description": "Ταμειακή εγγραφή"
+            },
+            {
+                "id": "company",
+                "description": "Εταιρία"
+            },
+            {
+                "id": "safe",
+                "description": "Χρηματοκιβώτιο"
+            },
+            {
+                "id": "entry",
+                "description": "Ταμείο"
+            },
+            {
+                "id": "date",
+                "description": "Ημερομηνία"
+            },
+            {
+                "id": "amount",
+                "description": "Ποσό"
+            },
+            {
+                "id": "isActive",
+                "description": "Ενεργή"
+            },
+            {
+                "id": "remarks",
+                "description": "Αιτιολογία"
+            },
+            {
+                "id": "post",
+                "description": "Αρχική καταχώρηση"
+            },
+            {
+                "id": "put",
+                "description": "Τελευταία ενημέρωση"
+            },
+            {
+                "id": "deleteButton",
+                "description": "Διαγραφη"
+            },
+            {
+                "id": "saveButton",
+                "description": "Αποθηκευση"
+            },
+            {
+                "id": "uploadButton",
+                "description": "Ανέβασμα παραστατικού"
+            }
+        ]
+    },
+    {
+        "feature": "safeList",
+        "labels": [
+            {
+                "id": "header",
+                "description": "Χρηματοκιβώτια"
+            },
+            {
+                "id": "headerIsActive",
+                "description": "Ενεργό"
+            },
+            {
+                "id": "headerDescription",
+                "description": "Περιγραφή"
+            },
+            {
+                "id": "newRecord",
+                "description": "Νεα εγγραφη"
+            }
+        ]
+    },
+    {
+        "feature": "safeForm",
+        "labels": [
+            {
+                "id": "header",
+                "description": "Χρηματοκιβώτιο"
+            },
+            {
+                "id": "description",
+                "description": "Περιγραφή"
+            },
+            {
+                "id": "isActive",
+                "description": "Ενεργό"
+            },
+            {
+                "id": "post",
+                "description": "Αρχική καταχώρηση"
+            },
+            {
+                "id": "put",
+                "description": "Τελευταία ενημέρωση"
+            },
+            {
+                "id": "deleteButton",
+                "description": "Διαγραφη"
+            },
+            {
+                "id": "saveButton",
+                "description": "Αποθηκευση"
+            }
+        ]
+    },
+    {
+        "feature": "cashier-ledger-parent",
+        "labels": [
+            {
+                "id": "header",
+                "description": "Καρτέλα ταμείου"
+            },
+            {
+                "id": "noDataHeader",
+                "description": "Δεν βρήκαμε εγγραφές για να εμφανίσουμε."
+            },
+            {
+                "id": "noDataSubHeader",
+                "description": "Ισως πρέπει να δώσετε διαφορετικά κριτήρια."
+            }
+        ]
+    },
+    {
+        "feature": "cashier-ledger-criteria",
+        "labels": [
+            {
+                "id": "header",
+                "description": "Καρτέλα ταμείου"
+            },
+            {
+                "id": "subHeader",
+                "description": "Δώστε τα κριτήρια με τα οποία θα γίνει η αναζήτηση"
+            },
+            {
+                "id": "company",
+                "description": "Εταιρία"
+            },
+            {
+                "id": "safe",
+                "description": "Χρηματοκιβώτιο"
+            },
+            {
+                "id": "cancelButton",
+                "description": "Ακυρο"
+            },
+            {
+                "id": "okButton",
+                "description": "Συνεχεια"
+            }
+        ]
+    },
+    {
+        "feature": "cashier-ledger",
+        "labels": [
+            {
+                "id": "headerDate",
+                "description": "Ημερομηνία"
+            },
+            {
+                "id": "headerRemarks",
+                "description": "Αιτιολογία"
+            },
+            {
+                "id": "headerDebit",
+                "description": "Χρέωση"
+            },
+            {
+                "id": "headerCredit",
+                "description": "Πίστωση"
+            },
+            {
+                "id": "headerBalance",
+                "description": "Υπόλοιπο"
             }
         ]
     }

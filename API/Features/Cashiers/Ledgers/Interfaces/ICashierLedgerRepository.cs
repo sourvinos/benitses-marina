@@ -5,7 +5,7 @@ namespace API.Features.Cashiers.Ledgers {
 
     public interface ICashierLedgerRepository {
 
-        Task<IEnumerable<CashierLedgerVM>> GetForLedger(int companyId, string fromDate, string toDate);
+        Task<IEnumerable<CashierLedgerVM>> GetForLedger(int companyId, int safeId, string fromDate, string toDate);
         IEnumerable<CashierLedgerVM> BuildBalanceForLedger(IEnumerable<CashierLedgerVM> records);
         CashierLedgerVM BuildPrevious(IEnumerable<CashierLedgerVM> records, string fromDate);
         List<CashierLedgerVM> BuildRequested(IEnumerable<CashierLedgerVM> records, string fromDate);

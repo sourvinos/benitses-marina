@@ -3,6 +3,7 @@ import { Component, ViewChild } from '@angular/core'
 import { Table } from 'primeng/table'
 import { formatNumber } from '@angular/common'
 // Custom
+import { CashierListVM } from '../classes/view-models/cashier-list-vm'
 import { CryptoService } from 'src/app/shared/services/crypto.service'
 import { DateHelperService } from 'src/app/shared/services/date-helper.service'
 import { DialogService } from 'src/app/shared/services/modal-dialog.service'
@@ -14,7 +15,6 @@ import { MessageDialogService } from 'src/app/shared/services/message-dialog.ser
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
 import { SessionStorageService } from 'src/app/shared/services/session-storage.service'
 import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
-import { CashierListVM } from '../classes/view-models/cashier-list-vm'
 
 @Component({
     selector: 'cashier-list',
@@ -39,6 +39,7 @@ export class CashierListComponent {
 
     public selectedRecords: CashierListVM[] = []
     public distinctCompanies: SimpleEntity[] = []
+    public distinctSafes: SimpleEntity[] = []
 
     //#endregion
 
@@ -94,10 +95,10 @@ export class CashierListComponent {
         return this.cryptoService.decrypt(this.sessionStorageService.getItem('isAdmin')) == 'true' ? true : false
     }
 
-    public onEditRecord(cashierId: string): void {
+    public onEditRecord(id: string): void {
         this.storeScrollTop()
-        this.storeSelectedId(cashierId)
-        this.navigateToRecord(cashierId)
+        this.storeSelectedId(id)
+        this.navigateToRecord(id)
     }
 
     public onFilter(event: any, column: string, matchMode: string): void {
@@ -169,6 +170,7 @@ export class CashierListComponent {
 
     private populateDropdownFilters(): void {
         this.distinctCompanies = this.helperService.getDistinctRecords(this.records, 'company', 'description')
+        this.distinctSafes = this.helperService.getDistinctRecords(this.records, 'safe', 'description')
     }
 
     private scrollToSavedPosition(): void {

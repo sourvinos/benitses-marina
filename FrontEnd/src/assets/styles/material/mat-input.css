@@ -171,7 +171,7 @@
     color: var(--color-input-error) !important;
     font-family: var(--font-family-asty) !important;
     font-weight: 300;
-    padding: 0 0.5rem !important;
+    padding: 0 0.5rem 0 1rem !important;
     transition: background-color var(--theme-delay);
 }
 

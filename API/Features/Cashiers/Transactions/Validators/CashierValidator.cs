@@ -5,7 +5,7 @@ namespace API.Features.Cashiers.Transactions {
     public class CashierValidator : AbstractValidator<CashierWriteDto> {
 
         public CashierValidator() {
-            RuleFor(x => x.DiscriminatorId).InclusiveBetween(1, 2);
+            RuleFor(x => x.Entry).NotNull().MaximumLength(1).Matches(@"^[+|\-]*$");
         }
 
     }

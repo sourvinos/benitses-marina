@@ -25,7 +25,7 @@ namespace API.Features.Cashiers.Ledgers {
         }
 
         private async Task<List<CashierLedgerVM>> ProcessLedger(CashierLedgerCriteria criteria) {
-            var records = repo.BuildBalanceForLedger(await repo.GetForLedger(criteria.CompanyId, criteria.FromDate, criteria.ToDate));
+            var records = repo.BuildBalanceForLedger(await repo.GetForLedger(criteria.CompanyId, criteria.SafeId, criteria.FromDate, criteria.ToDate));
             var previous = repo.BuildPrevious(records, criteria.FromDate);
             var requested = repo.BuildRequested(records, criteria.FromDate);
             var total = repo.BuildTotal(records);

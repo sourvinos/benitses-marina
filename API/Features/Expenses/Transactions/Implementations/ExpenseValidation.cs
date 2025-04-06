@@ -7,6 +7,7 @@ using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
 using System;
 using Microsoft.EntityFrameworkCore;
+using API.Infrastructure.Helpers;
 
 namespace API.Features.Expenses.Transactions {
 
@@ -17,6 +18,7 @@ namespace API.Features.Expenses.Transactions {
         public async Task<int> IsValidAsync(Expense z, ExpenseWriteDto expense) {
             return true switch {
                 var x when x == !await IsValidSupplier(expense) => 452,
+                var x when x == IsDateInFuture(expense) => 453,
                 var x when x == IsAlreadyUpdated(z, expense) => 415,
                 _ => 200,
             };
@@ -31,6 +33,10 @@ namespace API.Features.Expenses.Transactions {
             return await context.Suppliers
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Id == expense.SupplierId) != null;
+        }
+
+        private static bool IsDateInFuture(ExpenseWriteDto expense) {
+            return DateHelpers.StringToDate(expense.Date) > DateTime.Now;
         }
 
         private static bool IsAlreadyUpdated(Expense z, ExpenseWriteDto expense) {

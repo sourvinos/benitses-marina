@@ -119,6 +119,10 @@ export class InvoiceFormComponent {
         return this.form.value.remarks != null ? this.form.value.remarks.length : 0
     }
 
+    public getToday(): Date {
+        return new Date()
+    }
+
     public imageIsLoading(): any {
         return this.imgIsLoaded ? '' : 'skeleton'
     }
@@ -275,7 +279,7 @@ export class InvoiceFormComponent {
     private initForm(): void {
         this.form = this.formBuilder.group({
             expenseId: '',
-            date: ['', [Validators.required]],
+            date: ['', [Validators.required, ValidationService.dateIsInFuture,]],
             company: ['', [Validators.required, ValidationService.requireAutocomplete]],
             supplier: ['', [Validators.required, ValidationService.requireAutocomplete]],
             documentType: ['', [Validators.required, ValidationService.requireAutocomplete]],

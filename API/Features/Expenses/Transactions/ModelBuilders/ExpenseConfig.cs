@@ -9,7 +9,7 @@ namespace API.Features.Expenses.Transactions {
             // PK
             entity.Property(x => x.ExpenseId).IsFixedLength().HasMaxLength(36).IsRequired(true);
             // Fields
-            entity.Property(x => x.Date).HasColumnType("date").IsRequired(true);
+            entity.Property(x => x.Date).HasColumnType("date");
             entity.Property(x => x.DocumentNo).HasMaxLength(16).IsRequired(true);
             // Metadata
             entity.Property(x => x.PostAt).HasMaxLength(19).IsRequired(true);

@@ -23,6 +23,7 @@ using API.Features.Sales.DocumentTypes;
 using API.Features.Sales.Invoices;
 using API.Features.Sales.Transactions;
 using API.Features.Cashiers.Transactions;
+using API.Features.Cashiers.Safes;
 
 namespace API.Infrastructure.Classes {
 
@@ -67,6 +68,7 @@ namespace API.Infrastructure.Classes {
         #region cashiers
 
         public DbSet<Cashier> Cashiers { get; set; }
+        public DbSet<Safe> Safes { get; set; }
 
         #endregion
 

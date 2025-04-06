@@ -26,6 +26,7 @@ using API.Features.Sales.DocumentTypes;
 using API.Features.Sales.Invoices;
 using API.Features.Cashiers.Transactions;
 using API.Features.Cashiers.Ledgers;
+using API.Features.Cashiers.Safes;
 
 namespace API.Infrastructure.Extensions {
 
@@ -90,6 +91,8 @@ namespace API.Infrastructure.Extensions {
             services.AddTransient<ICashierLedgerRepository, CashierLedgerRepository>();
             services.AddTransient<ICashierRepository, CashierRepository>();
             services.AddTransient<ICashierValidation, CashierValidation>();
+            services.AddTransient<ISafeRepository, SafeRepository>();
+            services.AddTransient<ISafeValidation, SafeValidation>();
             #endregion
         }
 

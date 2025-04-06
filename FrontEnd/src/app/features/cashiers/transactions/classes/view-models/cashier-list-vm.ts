@@ -5,8 +5,10 @@ export interface CashierListVM {
     cashierId: string
     date: string
     company: SimpleEntity
+    safe: SimpleEntity
     remarks: string
-    amount: number
+    debit: string
+    credit: string
     putAt: string
     hasDocument: boolean
 

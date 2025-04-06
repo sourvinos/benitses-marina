@@ -31,6 +31,7 @@ namespace API.Infrastructure.Helpers {
         public static string CustomerDataIsInvalid() { return "Customer data is invalid."; }
         public static string InvoiceAlreadyExists() { return "Invoice already exists."; }
         public static string InvoiceAutoNumberingHasErrors() { return "Invoice auto-numbering has errors."; }
+        public static string FutureDate() { return "Date should not be in the future."; }
 
         #endregion
 
