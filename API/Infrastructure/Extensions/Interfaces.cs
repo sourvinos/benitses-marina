@@ -27,6 +27,8 @@ using API.Features.Sales.Invoices;
 using API.Features.Cashiers.Transactions;
 using API.Features.Cashiers.Ledgers;
 using API.Features.Cashiers.Safes;
+using API.Featuers.Sales.SeasonTypes;
+using API.Featuers.Sales.HullTypes;
 
 namespace API.Infrastructure.Extensions {
 
@@ -68,6 +70,8 @@ namespace API.Infrastructure.Extensions {
             services.AddTransient<ICustomerAadeRepository, CustomerAadeRepository>();
             services.AddTransient<ICustomerRepository, CustomerRepository>();
             services.AddTransient<ICustomerValidation, CustomerValidation>();
+            services.AddTransient<IHullTypeRepository, HullTypeRepository>();
+            services.AddTransient<IHullTypeValidation, HullTypeValidator>();
             services.AddTransient<IInvoiceCreateRepository, InvoiceCreateRepository>();
             services.AddTransient<IInvoiceDataUpRepository, InvoiceDataUpRepository>();
             services.AddTransient<IInvoiceReadRepository, InvoiceReadRepository>();
@@ -77,6 +81,8 @@ namespace API.Infrastructure.Extensions {
             services.AddTransient<IPriceValidation, PriceValidation>();
             services.AddTransient<ISaleDocumentTypeRepository, SaleDocumentTypeRepository>();
             services.AddTransient<ISaleDocumentTypeValidation, SaleDocumentTypeValidation>();
+            services.AddTransient<ISeasonTypeRepository, SeasonTypeRepository>();
+            services.AddTransient<ISeasonTypeValidation, SeasonTypeValidator>();
             services.AddTransient<ITaxOfficeRepository, TaxOfficeRepository>();
             services.AddTransient<ITaxOfficeValidation, TaxOfficeValidator>();
             #endregion

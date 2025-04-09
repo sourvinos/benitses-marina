@@ -23,6 +23,8 @@ namespace API.Features.Sales.Prices {
         public async Task<IEnumerable<PriceListVM>> GetAsync() {
             var prices = await context.Prices
                 .AsNoTracking()
+                .Include(x => x.HullType)
+                .Include(x => x.SeasonType)
                 .OrderBy(x => x.Description)
                 .ToListAsync();
             return mapper.Map<IEnumerable<Price>, IEnumerable<PriceListVM>>(prices);
@@ -39,6 +41,8 @@ namespace API.Features.Sales.Prices {
         public async Task<Price> GetByIdAsync(int id, bool includeTables) {
             return includeTables
                 ? await context.Prices
+                    .Include(x => x.HullType)
+                    .Include(x => x.SeasonType)
                     .AsNoTracking()
                     .SingleOrDefaultAsync(x => x.Id == id)
                 : await context.Prices
@@ -49,6 +53,8 @@ namespace API.Features.Sales.Prices {
         public async Task<Price> GetByCodeAsync(string code, bool includeTables) {
             return includeTables
                 ? await context.Prices
+                    .Include(x => x.HullType)
+                    .Include(x => x.SeasonType)
                     .AsNoTracking()
                     .SingleOrDefaultAsync(x => x.Code == code)
                 : await context.Prices

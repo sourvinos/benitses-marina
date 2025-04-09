@@ -7,65 +7,47 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Features.Sales.Prices {
+namespace API.Featuers.Sales.SeasonTypes {
 
     [Route("api/[controller]")]
-    public class PricesController : ControllerBase {
+    public class SeasonTypesController : ControllerBase {
 
         #region variables
 
+        private readonly ISeasonTypeRepository seasonTypeRepo;
+        private readonly ISeasonTypeValidation seasonTypeValidation;
         private readonly IMapper mapper;
-        private readonly IPriceRepository priceRepo;
-        private readonly IPriceValidation priceValidation;
 
         #endregion
 
-        public PricesController(IMapper mapper, IPriceRepository priceRepo, IPriceValidation priceValidation) {
+        public SeasonTypesController(ISeasonTypeRepository seasonTypeRepo, ISeasonTypeValidation seasonTypeValidation, IMapper mapper) {
+            this.seasonTypeRepo = seasonTypeRepo;
+            this.seasonTypeValidation = seasonTypeValidation;
             this.mapper = mapper;
-            this.priceRepo = priceRepo;
-            this.priceValidation = priceValidation;
         }
 
         [HttpGet]
-        [Authorize(Roles = "user, admin")]
-        public async Task<IEnumerable<PriceListVM>> GetAsync() {
-            return await priceRepo.GetAsync();
+        [Authorize(Roles = "admin")]
+        public async Task<IEnumerable<SeasonTypeListVM>> GetAsync() {
+            return await seasonTypeRepo.GetAsync();
         }
 
         [HttpGet("[action]")]
         [Authorize(Roles = "user, admin")]
-        public async Task<IEnumerable<PriceListBrowserVM>> GetForBrowserAsync() {
-            return await priceRepo.GetForBrowserAsync();
+        public async Task<IEnumerable<SeasonTypeBrowserVM>> GetForBrowserAsync() {
+            return await seasonTypeRepo.GetForBrowserAsync();
         }
 
-        [HttpGet("[action]/{id}")]
-        [Authorize(Roles = "user, admin")]
+        [HttpGet("{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<ResponseWithBody> GetByIdAsync(int id) {
-            var x = await priceRepo.GetByIdAsync(id, true);
+            var x = await seasonTypeRepo.GetByIdAsync(id);
             if (x != null) {
                 return new ResponseWithBody {
                     Code = 200,
                     Icon = Icons.Info.ToString(),
                     Message = ApiMessages.OK(),
-                    Body = mapper.Map<Price, PriceReadDto>(x)
-                };
-            } else {
-                throw new CustomException() {
-                    ResponseCode = 404
-                };
-            }
-        }
-
-        [HttpGet("[action]/{code}")]
-        [Authorize(Roles = "user, admin")]
-        public async Task<ResponseWithBody> GetByCodeAsync(string code) {
-            var x = await priceRepo.GetByCodeAsync(code, true);
-            if (x != null) {
-                return new ResponseWithBody {
-                    Code = 200,
-                    Icon = Icons.Info.ToString(),
-                    Message = ApiMessages.OK(),
-                    Body = mapper.Map<Price, PriceReadDto>(x)
+                    Body = mapper.Map<SeasonType, SeasonTypeReadDto>(x)
                 };
             } else {
                 throw new CustomException() {
@@ -77,14 +59,14 @@ namespace API.Features.Sales.Prices {
         [HttpPost]
         [Authorize(Roles = "admin")]
         [ServiceFilter(typeof(ModelValidationAttribute))]
-        public Response Post([FromBody] PriceWriteDto price) {
-            var x = priceValidation.IsValid(null, price);
+        public Response Post([FromBody] SeasonTypeWriteDto SeasonType) {
+            var x = seasonTypeValidation.IsValid(null, SeasonType);
             if (x == 200) {
-                var z = priceRepo.Create(mapper.Map<PriceWriteDto, Price>((PriceWriteDto)priceRepo.AttachMetadataToPostDto(price)));
+                var z = seasonTypeRepo.Create(mapper.Map<SeasonTypeWriteDto, SeasonType>((SeasonTypeWriteDto)seasonTypeRepo.AttachMetadataToPostDto(SeasonType)));
                 return new Response {
                     Code = 200,
                     Icon = Icons.Success.ToString(),
-                    Id = priceRepo.GetByIdAsync(z.Id, false).Id.ToString(),
+                    Id = z.Id.ToString(),
                     Message = ApiMessages.OK()
                 };
             } else {
@@ -97,16 +79,16 @@ namespace API.Features.Sales.Prices {
         [HttpPut]
         [Authorize(Roles = "admin")]
         [ServiceFilter(typeof(ModelValidationAttribute))]
-        public async Task<Response> PutAsync([FromBody] PriceWriteDto price) {
-            var x = await priceRepo.GetByIdAsync(price.Id, false);
+        public async Task<Response> Put([FromBody] SeasonTypeWriteDto SeasonType) {
+            var x = await seasonTypeRepo.GetByIdAsync(SeasonType.Id);
             if (x != null) {
-                var z = priceValidation.IsValid(x, price);
+                var z = seasonTypeValidation.IsValid(x, SeasonType);
                 if (z == 200) {
-                    priceRepo.Update(mapper.Map<PriceWriteDto, Price>((PriceWriteDto)priceRepo.AttachMetadataToPutDto(x, price)));
+                    seasonTypeRepo.Update(mapper.Map<SeasonTypeWriteDto, SeasonType>((SeasonTypeWriteDto)seasonTypeRepo.AttachMetadataToPutDto(x, SeasonType)));
                     return new Response {
                         Code = 200,
                         Icon = Icons.Success.ToString(),
-                        Id = price.Id.ToString(),
+                        Id = x.Id.ToString(),
                         Message = ApiMessages.OK()
                     };
                 } else {
@@ -124,9 +106,9 @@ namespace API.Features.Sales.Prices {
         [HttpDelete("{id}")]
         [Authorize(Roles = "admin")]
         public async Task<Response> Delete([FromRoute] int id) {
-            var x = await priceRepo.GetByIdAsync(id, false);
+            var x = await seasonTypeRepo.GetByIdAsync(id);
             if (x != null) {
-                priceRepo.Delete(x);
+                seasonTypeRepo.Delete(x);
                 return new Response {
                     Code = 200,
                     Icon = Icons.Success.ToString(),
