@@ -13,8 +13,8 @@ namespace API.Features.Sales.Prices {
         public string Code { get; set; }
         public string Description { get; set; }
         public string EnglishDescription { get; set; }
-        public int Length { get; set; }
         public bool IsIndividual { get; set; }
+        public int Length { get; set; }
         public decimal NetAmount { get; set; }
         public decimal VatPercent { get; set; }
         public string PostAt { get; set; }

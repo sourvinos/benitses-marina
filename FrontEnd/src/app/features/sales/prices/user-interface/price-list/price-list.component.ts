@@ -13,6 +13,7 @@ import { MessageDialogService } from '../../../../../shared/services/message-dia
 import { MessageLabelService } from '../../../../../shared/services/message-label.service'
 import { PriceListVM } from '../../classes/view-models/price-list-vm'
 import { SessionStorageService } from '../../../../../shared/services/session-storage.service'
+import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 
 @Component({
     selector: 'price-list',
@@ -37,6 +38,7 @@ export class PriceListComponent {
     public recordsFiltered: PriceListVM[]
     public selectedRecords: PriceListVM[] = []
     public selectedIds: number[] = []
+    public distinctHullTypes: SimpleEntity[] = []
 
     //#endregion
 
@@ -49,6 +51,7 @@ export class PriceListComponent {
             this.setTabTitle()
             this.setLocale()
             this.setSidebarsHeight()
+            this.populateDropdownFilters()
         })
     }
 
@@ -156,6 +159,10 @@ export class PriceListComponent {
         this.router.navigate([this.url, id])
     }
 
+    private populateDropdownFilters(): void {
+        this.distinctHullTypes = this.helperService.getDistinctRecords(this.records, 'hullType', 'description')
+    }
+
     private scrollToSavedPosition(): void {
         this.helperService.scrollToSavedPosition(this.virtualElement, this.feature)
     }
@@ -175,10 +182,6 @@ export class PriceListComponent {
     private storeScrollTop(): void {
         this.sessionStorageService.saveItem(this.feature + '-scrollTop', this.virtualElement.scrollTop)
     }
-
-    //#endregion
-
-    //#region private specific methods
 
     private setLocale(): void {
         this.dateAdapter.setLocale(this.localStorageService.getLanguage())

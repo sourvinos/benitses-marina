@@ -11,6 +11,7 @@
                 <ng-template pTemplate="header">
                     <tr>
                         <th class="no-border-bottom width-3"></th>
+                        <th class="no-border-bottom width-10" pSortableColumn="hullType.description">{{ getLabel('headerHullType') }}</th>
                         <th class="no-border-bottom width-auto" pSortableColumn="description">{{ getLabel("headerDescription") }}</th>
                         <th class="no-border-bottom width-auto" pSortableColumn="englishDescription">{{ getLabel("headerEnglishDescription") }}</th>
                         <th class="no-border-bottom width-8" pSortableColumn="netAmount">{{ getLabel("headerNetAmount") }}</th>
@@ -19,6 +20,19 @@
                     </tr>
                     <tr>
                         <th class="no-border-top width-3"><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
+                        <th class="no-border-top width-10">
+                            <p-columnFilter [showMenu]="false" field="hullType" matchMode="in">
+                                <ng-template let-filter="filterCallback" let-value pTemplate="filter">
+                                    <p-multiSelect (onChange)="filter($event.value)" [ngModel]="value" [options]="distinctHullTypes" [placeholder]="getEmoji('wildcard')" optionLabel="description">
+                                        <ng-template let-option pTemplate="item">
+                                            <div class="p-multiselect-option">
+                                                <span>{{ option.description }}</span>
+                                            </div>
+                                        </ng-template>
+                                    </p-multiSelect>
+                                </ng-template>
+                            </p-columnFilter>
+                        </th>
                         <th class="no-border-top width-auto"><p-columnFilter (input)="onFilter($event.target.value,'description','contains')" field="description"></p-columnFilter></th>
                         <th class="no-border-top width-auto"><p-columnFilter (input)="onFilter($event.target.value,'englishDescription','contains')" field="englishDescription"></p-columnFilter></th>
                         <th class="no-border-top width-8"><p-columnFilter (input)="onFilter($event.target.value,'netAmount','contains')" field="netAmount"></p-columnFilter></th>
@@ -29,6 +43,7 @@
                 <ng-template let-record pTemplate="body">
                     <tr (click)="onHighlightRow(record.id)" (dblclick)="onEditRecord(record.id)" [attr.id]=record.id style="height: 32px;">
                         <td class="width-3"><span class="center no-overflow" style="padding-top: 0.25rem !important;"><p-tableCheckbox [value]="record"></p-tableCheckbox></span></td>
+                        <td class="width-10"><span>{{ record.hullType.description }}</span></td>
                         <td class="width-auto"><span>{{ record.description }}</span></td>
                         <td class="width-auto"><span>{{ record.englishDescription }}</span></td>
                         <td class="width-8"><span class="number right with-right-padding">{{ formatNumberToLocale(record.netAmount) }}</span></td>

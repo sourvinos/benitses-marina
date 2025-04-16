@@ -18,6 +18,7 @@ export class DexieService extends Dexie {
             companiesCriteria: 'id, description',
             customers: 'id, description',
             expenseDocumentTypes: 'id, description',
+            hullTypes: 'id, description',
             nationalities: 'id, description',
             paymentMethods: 'id, description',
             paymentStatuses: 'id, description',
@@ -25,6 +26,7 @@ export class DexieService extends Dexie {
             safes: 'id, description',
             safesCriteria: 'id, description',
             saleDocumentTypes: 'id, abbreviationEn',
+            seasonTypes: 'id, description',
             suppliers: 'id, description',
             suppliersCriteria: 'id, description',
             taxOffices: 'id, description'

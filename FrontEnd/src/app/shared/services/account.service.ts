@@ -18,12 +18,14 @@ import { DocumentTypeHttpService } from 'src/app/features/sales/documentTypes/cl
 import { DotNetVersion } from '../classes/dotnet-version'
 import { ExpensesDocumentTypeHttpService } from 'src/app/features/expenses/documentTypes/classes/services/documentType-http.service'
 import { HttpDataService } from './http-data.service'
+import { HullTypeHttpService } from 'src/app/features/sales/hullTypes/classes/services/hullType-http.service'
 import { NationalityHttpService } from 'src/app/features/sales/nationalities/classes/services/nationality-http.service'
 import { PaymentMethodHttpService } from 'src/app/features/expenses/paymentMethods/classes/services/paymentMethod-http.service'
 import { PaymentStatusHttpService } from 'src/app/features/reservations/paymentStatuses/classes/services/paymentStatus-http.service'
 import { PriceHttpService } from 'src/app/features/sales/prices/classes/services/price-http.service'
 import { ResetPasswordViewModel } from 'src/app/features/users/classes/view-models/reset-password-view-model'
 import { SafeHttpService } from 'src/app/features/cashiers/safes/classes/services/safe-http.service'
+import { SeasonTypeHttpService } from 'src/app/features/sales/seasonTypes/classes/services/seasonType-http.service'
 import { SessionStorageService } from './session-storage.service'
 import { SupplierHttpService } from 'src/app/features/expenses/suppliers/classes/services/supplier-http.service'
 import { TaxOfficeHttpService } from 'src/app/features/sales/taxOffices/classes/services/taxOffice-http.service'
@@ -43,7 +45,7 @@ export class AccountService extends HttpDataService {
 
     //#endregion
 
-    constructor(httpClient: HttpClient, private balanceFilterHttpService: BalanceFilterHttpService, private bankHttpService: BankHttpService, private berthHttpService: BerthHttpService, private boatTypeHttpService: BoatTypeHttpService, private boatUsageHttpService: BoatUsageHttpService, private safeHttpService: SafeHttpService, private companyHttpService: CompanyHttpService, private cryptoService: CryptoService, private customerHttpService: CustomerHttpService, private dexieService: DexieService, private expensesDocumentTypeHttpService: ExpensesDocumentTypeHttpService, private nationalityHttpService: NationalityHttpService, private ngZone: NgZone, private paymentMethodHttpService: PaymentMethodHttpService, private paymentStatusHttpService: PaymentStatusHttpService, private router: Router, private saleDocumentHttpService: DocumentTypeHttpService, private sessionStorageService: SessionStorageService, private supplierHttpService: SupplierHttpService, private taxOfficeService: TaxOfficeHttpService, private priceHttpService: PriceHttpService) {
+    constructor(httpClient: HttpClient, private seasonTypeHttpService: SeasonTypeHttpService, private balanceFilterHttpService: BalanceFilterHttpService, private bankHttpService: BankHttpService, private berthHttpService: BerthHttpService, private boatTypeHttpService: BoatTypeHttpService, private boatUsageHttpService: BoatUsageHttpService, private safeHttpService: SafeHttpService, private companyHttpService: CompanyHttpService, private cryptoService: CryptoService, private customerHttpService: CustomerHttpService, private dexieService: DexieService, private expensesDocumentTypeHttpService: ExpensesDocumentTypeHttpService, private hullTypeHttpService: HullTypeHttpService, private nationalityHttpService: NationalityHttpService, private ngZone: NgZone, private paymentMethodHttpService: PaymentMethodHttpService, private paymentStatusHttpService: PaymentStatusHttpService, private router: Router, private saleDocumentHttpService: DocumentTypeHttpService, private sessionStorageService: SessionStorageService, private supplierHttpService: SupplierHttpService, private taxOfficeService: TaxOfficeHttpService, private priceHttpService: PriceHttpService) {
         super(httpClient, environment.apiUrl)
     }
 
@@ -192,9 +194,11 @@ export class AccountService extends HttpDataService {
         this.dexieService.populateTable('paymentStatuses', this.paymentStatusHttpService)
         // Sales
         this.dexieService.populateTable('customers', this.customerHttpService)
+        this.dexieService.populateTable('hullTypes', this.hullTypeHttpService)
         this.dexieService.populateTable('nationalities', this.nationalityHttpService)
         this.dexieService.populateTable('prices', this.priceHttpService)
         this.dexieService.populateTable('saleDocumentTypes', this.saleDocumentHttpService)
+        this.dexieService.populateTable('seasonTypes', this.seasonTypeHttpService)
         this.dexieService.populateTable('taxOffices', this.taxOfficeService)
         // Safes
         this.dexieService.populateTable('safes', this.safeHttpService)

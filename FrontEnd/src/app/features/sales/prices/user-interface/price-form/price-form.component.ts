@@ -131,9 +131,13 @@ export class PriceFormComponent {
     private flattenForm(): PriceWriteDto {
         return {
             id: this.form.value.id != '' ? this.form.value.id : null,
+            hullTypeId: this.form.value.hullTypeId,
+            seasonTypeId: this.form.value.seasonTypeId,
             code: this.form.value.code,
             description: this.form.value.description,
             englishDescription: this.form.value.englishDescription,
+            isIndividual: this.form.value.isIndividual,
+            length: this.form.value.length,
             netAmount: this.form.value.netAmount,
             vatPercent: this.form.value.vatPercent,
             putAt: this.form.value.putAt
