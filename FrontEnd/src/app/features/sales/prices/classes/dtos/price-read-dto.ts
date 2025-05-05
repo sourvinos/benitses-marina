@@ -5,6 +5,7 @@ export interface PriceReadDto extends Metadata {
 
     id: number
     hullType: SimpleEntity
+    periodType: SimpleEntity
     seasonType: SimpleEntity
     code: string
     description: string

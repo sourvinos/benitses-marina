@@ -39,6 +39,8 @@ export class PriceListComponent {
     public selectedRecords: PriceListVM[] = []
     public selectedIds: number[] = []
     public distinctHullTypes: SimpleEntity[] = []
+    public distinctPeriodTypes: SimpleEntity[] = []
+    public distinctSeasonTypes: SimpleEntity[] = []
 
     //#endregion
 
@@ -66,7 +68,7 @@ export class PriceListComponent {
 
     //#endregion
 
-    //#region public common methods
+    //#region public
 
     public onEditRecord(id: number): void {
         this.storeScrollTop()
@@ -85,6 +87,10 @@ export class PriceListComponent {
 
     public formatNumberToLocale(number: number, decimals = true): string {
         return formatNumber(number, this.localStorageService.getItem('language'), decimals ? '1.2' : '1.0')
+    }
+
+    public getBooleanDescription(isIndividual: boolean): string {
+        return isIndividual ? 'YES' : ''
     }
 
     public getEmoji(anything: any): string {
@@ -115,7 +121,7 @@ export class PriceListComponent {
 
     //#endregion
 
-    //#region private common methods
+    //#region private
 
     private enableDisableFilters(): void {
         this.records.length == 0 ? this.helperService.disableTableFilters() : this.helperService.enableTableFilters()
@@ -161,6 +167,8 @@ export class PriceListComponent {
 
     private populateDropdownFilters(): void {
         this.distinctHullTypes = this.helperService.getDistinctRecords(this.records, 'hullType', 'description')
+        this.distinctPeriodTypes = this.helperService.getDistinctRecords(this.records, 'periodType', 'description')
+        this.distinctSeasonTypes = this.helperService.getDistinctRecords(this.records, 'seasonType', 'description')
     }
 
     private scrollToSavedPosition(): void {

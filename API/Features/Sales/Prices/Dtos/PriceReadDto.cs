@@ -19,6 +19,7 @@ namespace API.Features.Sales.Prices {
         public decimal GrossAmount { get; set; }
         // Navigation
         public SimpleEntity HullType { get; set; }
+        public SimpleEntity PeriodType { get; set; }
         public SimpleEntity SeasonType { get; set; }
         // Metadata
         public string PostAt { get; set; }

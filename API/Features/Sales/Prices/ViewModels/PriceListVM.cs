@@ -6,6 +6,7 @@ namespace API.Features.Sales.Prices {
 
         public int Id { get; set; }
         public SimpleEntity HullType { get; set; }
+        public SimpleEntity PeriodType { get; set; }
         public SimpleEntity SeasonType { get; set; }
         public string Code { get; set; }
         public string Description { get; set; }

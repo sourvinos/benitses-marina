@@ -8,6 +8,7 @@ namespace API.Features.Sales.Prices {
         public int Id { get; set; }
         // FKs
         public int HullTypeId { get; set; }
+        public int PeriodTypeId { get; set; }
         public int SeasonTypeId { get; set; }
         // Fields
         public string Code { get; set; }

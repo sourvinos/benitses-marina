@@ -1,20 +1,25 @@
 import { ActivatedRoute, Router } from '@angular/router'
-import { Component } from '@angular/core'
+import { Component, ElementRef, Renderer2 } from '@angular/core'
 import { DateAdapter } from '@angular/material/core'
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms'
+import { map, Observable, startWith } from 'rxjs'
 // Custom
+import { DebugDialogService } from 'src/app/shared/services/debug-dialog.service'
+import { DexieService } from 'src/app/shared/services/dexie.service'
 import { DialogService } from '../../../../../shared/services/modal-dialog.service'
 import { FormResolved } from 'src/app/shared/classes/form-resolved'
 import { HelperService } from 'src/app/shared/services/helper.service'
 import { InputTabStopDirective } from 'src/app/shared/directives/input-tabstop.directive'
-
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service'
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete'
 import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
 import { MessageInputHintService } from 'src/app/shared/services/message-input-hint.service'
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
 import { PriceHttpService } from '../../classes/services/price-http.service'
 import { PriceReadDto } from '../../classes/dtos/price-read-dto'
 import { PriceWriteDto } from '../../classes/dtos/price-write-dto'
+import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
+import { ValidationService } from 'src/app/shared/services/validation.service'
 
 @Component({
     selector: 'price-form',
@@ -37,7 +42,16 @@ export class PriceFormComponent {
 
     //#endregion
 
-    constructor(private activatedRoute: ActivatedRoute, private dateAdapter: DateAdapter<any>, private dialogService: DialogService, private formBuilder: FormBuilder, private helperService: HelperService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private priceService: PriceHttpService, private router: Router) { }
+    //#region autocompletes
+
+    public dropdownHullTypes: Observable<SimpleEntity[]>
+    public dropdownPeriodTypes: Observable<SimpleEntity[]>
+    public dropdownSeasonTypes: Observable<SimpleEntity[]>
+    public isAutoCompleteDisabled = true
+
+    //#endregion
+
+    constructor(private activatedRoute: ActivatedRoute, private dateAdapter: DateAdapter<any>, private debugDialogService: DebugDialogService, private dexieService: DexieService, private dialogService: DialogService, private elementRef: ElementRef, private formBuilder: FormBuilder, private helperService: HelperService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private priceService: PriceHttpService, private renderer: Renderer2, private router: Router) { }
 
     //#region lifecycle hooks
 
@@ -46,7 +60,9 @@ export class PriceFormComponent {
         this.setRecordId()
         this.getRecord()
         this.populateFields()
+        this.populateDropdowns()
         this.setLocale()
+        this.addTabIndexToInput()
     }
 
     ngAfterViewInit(): void {
@@ -56,6 +72,18 @@ export class PriceFormComponent {
     //#endregion
 
     //#region public methods
+
+    public autocompleteFields(fieldName: any, object: any): any {
+        return object ? object[fieldName] : undefined
+    }
+
+    public checkForEmptyAutoComplete(event: { target: { value: any } }): void {
+        if (event.target.value == '') this.isAutoCompleteDisabled = true
+    }
+
+    public enableOrDisableAutoComplete(event: any): void {
+        this.isAutoCompleteDisabled = this.helperService.enableOrDisableAutoComplete(event)
+    }
 
     public calculateGrossAmountBasedOnNetAmount(fieldName: string, digits: number): void {
         this.patchNumericFieldsWithZeroIfNullOrEmpty(fieldName, digits)
@@ -124,15 +152,36 @@ export class PriceFormComponent {
         this.saveRecord(this.flattenForm())
     }
 
+    public onShowFormValue(): void {
+        this.debugDialogService.open(this.form.value, '', ['ok'])
+    }
+
+    public openOrCloseAutoComplete(trigger: MatAutocompleteTrigger, element: any): void {
+        this.helperService.openOrCloseAutocomplete(this.form, element, trigger)
+    }
+
     //#endregion
 
     //#region private methods
 
+    private addTabIndexToInput() {
+        this.helperService.addTabIndexToInput(this.elementRef, this.renderer)
+    }
+
+    private filterAutocomplete(array: string, field: string, value: any): any[] {
+        if (typeof value !== 'object') {
+            const filtervalue = value.toLowerCase()
+            return this[array].filter((element: { [x: string]: string; }) =>
+                element[field].toLowerCase().startsWith(filtervalue))
+        }
+    }
+
     private flattenForm(): PriceWriteDto {
         return {
             id: this.form.value.id != '' ? this.form.value.id : null,
-            hullTypeId: this.form.value.hullTypeId,
-            seasonTypeId: this.form.value.seasonTypeId,
+            hullTypeId: this.form.value.hullType.id,
+            periodTypeId: this.form.value.periodType.id,
+            seasonTypeId: this.form.value.seasonType.id,
             code: this.form.value.code,
             description: this.form.value.description,
             englishDescription: this.form.value.englishDescription,
@@ -173,12 +222,17 @@ export class PriceFormComponent {
         this.form = this.formBuilder.group({
             id: '',
             code: ['', [Validators.required]],
+            hullType: ['', [Validators.required, ValidationService.requireAutocomplete]],
+            periodType: ['', [Validators.required, ValidationService.requireAutocomplete]],
+            seasonType: ['', [Validators.required, ValidationService.requireAutocomplete]],
             description: ['', [Validators.required]],
             englishDescription: ['', [Validators.required]],
             netAmount: [0, [Validators.required, Validators.min(0), Validators.max(99999.99)]],
             vatPercent: [0, [Validators.required, Validators.min(0), Validators.max(999.99)]],
             vatAmount: [0],
             grossAmount: [0],
+            length: [0, [Validators.required, Validators.min(0), Validators.max(30)]],
+            isIndividual: false,
             postAt: [''],
             postUser: [''],
             putAt: [''],
@@ -192,17 +246,35 @@ export class PriceFormComponent {
         }
     }
 
+    private populateDropdownFromDexieDB(dexieTable: string, filteredTable: string, formField: string, modelProperty: string, orderBy: string): void {
+        this.dexieService.table(dexieTable).orderBy(orderBy).toArray().then((response) => {
+            this[dexieTable] = this.form.value.id == undefined ? response.filter(x => x.isActive) : response
+            this[filteredTable] = this.form.get(formField).valueChanges.pipe(startWith(''), map(value => this.filterAutocomplete(dexieTable, modelProperty, value)))
+        })
+    }
+
+    private populateDropdowns(): void {
+        this.populateDropdownFromDexieDB('hullTypes', 'dropdownHullTypes', 'hullType', 'description', 'description')
+        this.populateDropdownFromDexieDB('periodTypes', 'dropdownPeriodTypes', 'periodType', 'description', 'description')
+        this.populateDropdownFromDexieDB('seasonTypes', 'dropdownSeasonTypes', 'seasonType', 'description', 'description')
+    }
+
     private populateFields(): void {
         if (this.record != undefined) {
             this.form.setValue({
                 id: this.record.id,
                 code: this.record.code,
+                hullType: { 'id': this.record.hullType.id, 'description': this.record.hullType.description },
+                periodType: { 'id': this.record.periodType.id, 'description': this.record.periodType.description },
+                seasonType: { 'id': this.record.seasonType.id, 'description': this.record.seasonType.description },
                 description: this.record.description,
                 englishDescription: this.record.englishDescription,
+                length: this.record.length,
                 netAmount: this.record.netAmount.toFixed(2),
                 vatPercent: this.record.vatPercent.toFixed(2),
                 vatAmount: this.record.vatAmount.toFixed(2),
                 grossAmount: this.record.grossAmount.toFixed(2),
+                isIndividual: this.record.isIndividual,
                 postAt: this.record.postAt,
                 postUser: this.record.postUser,
                 putAt: this.record.putAt,
@@ -242,6 +314,18 @@ export class PriceFormComponent {
 
     get code(): AbstractControl {
         return this.form.get('code')
+    }
+
+    get hullType(): AbstractControl {
+        return this.form.get('hullType')
+    }
+
+    get seasonType(): AbstractControl {
+        return this.form.get('seasonType')
+    }
+
+    get periodType(): AbstractControl {
+        return this.form.get('periodType')
     }
 
     get description(): AbstractControl {

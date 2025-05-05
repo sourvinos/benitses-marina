@@ -1346,6 +1346,18 @@
                 "description": "Τύπος"
             },
             {
+                "id": "headerPeriodType",
+                "description": "Διάστημα"
+            },
+            {
+                "id": "headerSeasonType",
+                "description": "Περίοδος"
+            },
+            {
+                "id": "headerLength",
+                "description": "Μήκος"
+            },
+            {
                 "id": "headerEnglishDescription",
                 "description": "Περιγραφή"
             },
@@ -1360,6 +1372,10 @@
             {
                 "id": "headerGrossAmount",
                 "description": "Συνολική αξία"
+            },
+            {
+                "id": "headerIsIndividual",
+                "description": "Ιδιώτης"
             },
             {
                 "id": "newRecord",
@@ -1379,8 +1395,24 @@
                 "description": "Κωδικός"
             },
             {
+                "id": "hullType",
+                "description": "Τύπος σκάφους"
+            },
+            {
+                "id": "seasonType",
+                "description": "Περίοδος"
+            },
+            {
+                "id": "periodType",
+                "description": "Διάστημα"
+            },
+            {
                 "id": "description",
                 "description": "Περιγραφή"
+            },
+            {
+                "id": "length",
+                "description": "Μήκος"
             },
             {
                 "id": "englishDescription",
@@ -1401,6 +1433,10 @@
             {
                 "id": "grossAmount",
                 "description": "Συνολική αξία"
+            },
+            {
+                "id": "isIndividual",
+                "description": "Ιδιώτης"
             },
             {
                 "id": "post",

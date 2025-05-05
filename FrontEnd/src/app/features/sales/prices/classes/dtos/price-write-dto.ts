@@ -2,6 +2,7 @@ export interface PriceWriteDto {
 
     id: number
     hullTypeId: number
+    periodTypeId: number
     seasonTypeId: number
     code: string
     description: string

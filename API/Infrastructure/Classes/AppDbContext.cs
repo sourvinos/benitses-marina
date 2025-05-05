@@ -26,6 +26,7 @@ using API.Features.Cashiers.Transactions;
 using API.Features.Cashiers.Safes;
 using API.Featuers.Sales.SeasonTypes;
 using API.Featuers.Sales.HullTypes;
+using API.Featuers.Sales.PeriodTypes;
 
 namespace API.Infrastructure.Classes {
 
@@ -81,6 +82,7 @@ namespace API.Infrastructure.Classes {
         public DbSet<Invoice> Invoices { get; set; }
         public DbSet<InvoiceItem> InvoicesItems { get; set; }
         public DbSet<Nationality> Nationalities { get; set; }
+        public DbSet<PeriodType> PeriodTypes { get; set; }
         public DbSet<Price> Prices { get; set; }
         public DbSet<SaleDocumentType> SaleDocumentTypes { get; set; }
         public DbSet<SeasonType> SeasonTypes { get; set; }

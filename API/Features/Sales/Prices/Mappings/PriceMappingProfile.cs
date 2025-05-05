@@ -11,6 +11,10 @@ namespace API.Features.Sales.Prices {
                     Id = x.HullType.Id,
                     Description = x.HullType.Description
                 }))
+                .ForMember(x => x.PeriodType, x => x.MapFrom(x => new SimpleEntity {
+                    Id = x.PeriodType.Id,
+                    Description = x.PeriodType.Description
+                }))
                 .ForMember(x => x.SeasonType, x => x.MapFrom(x => new SimpleEntity {
                     Id = x.SeasonType.Id,
                     Description = x.SeasonType.Description
@@ -22,6 +26,10 @@ namespace API.Features.Sales.Prices {
                 .ForMember(x => x.HullType, x => x.MapFrom(x => new SimpleEntity {
                     Id = x.HullType.Id,
                     Description = x.HullType.Description
+                }))
+                .ForMember(x => x.PeriodType, x => x.MapFrom(x => new SimpleEntity {
+                    Id = x.PeriodType.Id,
+                    Description = x.PeriodType.Description
                 }))
                 .ForMember(x => x.SeasonType, x => x.MapFrom(x => new SimpleEntity {
                     Id = x.SeasonType.Id,

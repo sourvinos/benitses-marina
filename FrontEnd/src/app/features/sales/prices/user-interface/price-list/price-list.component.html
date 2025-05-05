@@ -11,7 +11,11 @@
                 <ng-template pTemplate="header">
                     <tr>
                         <th class="no-border-bottom width-3"></th>
-                        <th class="no-border-bottom width-10" pSortableColumn="hullType.description">{{ getLabel('headerHullType') }}</th>
+                        <th class="no-border-bottom width-6" pSortableColumn="isIndividual">{{ getLabel("headerIsIndividual") }}</th>
+                        <th class="no-border-bottom width-9" pSortableColumn="hullType.description">{{ getLabel('headerHullType') }}</th>
+                        <th class="no-border-bottom width-9" pSortableColumn="periodType.description">{{ getLabel('headerPeriodType') }}</th>
+                        <th class="no-border-bottom width-9" pSortableColumn="seasonType.description">{{ getLabel('headerSeasonType') }}</th>
+                        <th class="no-border-bottom width-5" pSortableColumn="length">{{ getLabel("headerLength") }}</th>
                         <th class="no-border-bottom width-auto" pSortableColumn="description">{{ getLabel("headerDescription") }}</th>
                         <th class="no-border-bottom width-auto" pSortableColumn="englishDescription">{{ getLabel("headerEnglishDescription") }}</th>
                         <th class="no-border-bottom width-8" pSortableColumn="netAmount">{{ getLabel("headerNetAmount") }}</th>
@@ -20,7 +24,8 @@
                     </tr>
                     <tr>
                         <th class="no-border-top width-3"><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
-                        <th class="no-border-top width-10">
+                        <th class="no-border-top width-6"><p-columnFilter field="isIndividual" type="boolean"></p-columnFilter></th>
+                        <th class="no-border-top width-9">
                             <p-columnFilter [showMenu]="false" field="hullType" matchMode="in">
                                 <ng-template let-filter="filterCallback" let-value pTemplate="filter">
                                     <p-multiSelect (onChange)="filter($event.value)" [ngModel]="value" [options]="distinctHullTypes" [placeholder]="getEmoji('wildcard')" optionLabel="description">
@@ -33,6 +38,33 @@
                                 </ng-template>
                             </p-columnFilter>
                         </th>
+                        <th class="no-border-top width-9">
+                            <p-columnFilter [showMenu]="false" field="periodType" matchMode="in">
+                                <ng-template let-filter="filterCallback" let-value pTemplate="filter">
+                                    <p-multiSelect (onChange)="filter($event.value)" [ngModel]="value" [options]="distinctPeriodTypes" [placeholder]="getEmoji('wildcard')" optionLabel="description">
+                                        <ng-template let-option pTemplate="item">
+                                            <div class="p-multiselect-option">
+                                                <span>{{ option.description }}</span>
+                                            </div>
+                                        </ng-template>
+                                    </p-multiSelect>
+                                </ng-template>
+                            </p-columnFilter>
+                        </th>
+                        <th class="no-border-top width-9">
+                            <p-columnFilter [showMenu]="false" field="seasonType" matchMode="in">
+                                <ng-template let-filter="filterCallback" let-value pTemplate="filter">
+                                    <p-multiSelect (onChange)="filter($event.value)" [ngModel]="value" [options]="distinctSeasonTypes" [placeholder]="getEmoji('wildcard')" optionLabel="description">
+                                        <ng-template let-option pTemplate="item">
+                                            <div class="p-multiselect-option">
+                                                <span>{{ option.description }}</span>
+                                            </div>
+                                        </ng-template>
+                                    </p-multiSelect>
+                                </ng-template>
+                            </p-columnFilter>
+                        </th>
+                        <th class="no-border-top width-5"><p-columnFilter (input)="onFilter($event.target.value,'length','equals')" field="length"></p-columnFilter></th>
                         <th class="no-border-top width-auto"><p-columnFilter (input)="onFilter($event.target.value,'description','contains')" field="description"></p-columnFilter></th>
                         <th class="no-border-top width-auto"><p-columnFilter (input)="onFilter($event.target.value,'englishDescription','contains')" field="englishDescription"></p-columnFilter></th>
                         <th class="no-border-top width-8"><p-columnFilter (input)="onFilter($event.target.value,'netAmount','contains')" field="netAmount"></p-columnFilter></th>
@@ -43,7 +75,11 @@
                 <ng-template let-record pTemplate="body">
                     <tr (click)="onHighlightRow(record.id)" (dblclick)="onEditRecord(record.id)" [attr.id]=record.id style="height: 32px;">
                         <td class="width-3"><span class="center no-overflow" style="padding-top: 0.25rem !important;"><p-tableCheckbox [value]="record"></p-tableCheckbox></span></td>
-                        <td class="width-10"><span>{{ record.hullType.description }}</span></td>
+                        <td class="width-6"><span class="center no-left-padding no-overflow color-red" style="font-size: 0.75rem; padding-top: 0 !important;">{{ getBooleanDescription(record.isIndividual) }}</span></td>
+                        <td class="width-9"><span>{{ record.hullType.description }}</span></td>
+                        <td class="width-9"><span>{{ record.periodType.description }}</span></td>
+                        <td class="width-9"><span>{{ record.seasonType.description }}</span></td>
+                        <td class="width-5"><span class="number right with-right-padding">{{ record.length }}</span></td>
                         <td class="width-auto"><span>{{ record.description }}</span></td>
                         <td class="width-auto"><span>{{ record.englishDescription }}</span></td>
                         <td class="width-8"><span class="number right with-right-padding">{{ formatNumberToLocale(record.netAmount) }}</span></td>

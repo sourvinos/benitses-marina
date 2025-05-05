@@ -1,4 +1,6 @@
+
 using API.Featuers.Sales.HullTypes;
+using API.Featuers.Sales.PeriodTypes;
 using API.Featuers.Sales.SeasonTypes;
 using API.Infrastructure.Interfaces;
 
@@ -10,6 +12,7 @@ namespace API.Features.Sales.Prices {
         public int Id { get; set; }
         // FKs
         public int HullTypeId { get; set; }
+        public int PeriodTypeId { get; set; }
         public int SeasonTypeId { get; set; }
         // Fields
         public string Code { get; set; }
@@ -25,6 +28,7 @@ namespace API.Features.Sales.Prices {
         public string PutUser { get; set; }
         // Navigation
         public HullType HullType { get; set; }
+        public PeriodType PeriodType { get; set; }
         public SeasonType SeasonType { get; set; }
 
     }

@@ -11,6 +11,7 @@ import { CashierReadDto } from '../classes/dtos/cashier-read-dto'
 import { CashierWriteDto } from '../classes/dtos/cashier-write-dto'
 import { CryptoService } from 'src/app/shared/services/crypto.service'
 import { DateHelperService } from 'src/app/shared/services/date-helper.service'
+import { DebugDialogService } from 'src/app/shared/services/debug-dialog.service'
 import { DexieService } from 'src/app/shared/services/dexie.service'
 import { DialogService } from 'src/app/shared/services/modal-dialog.service'
 import { FormResolved } from 'src/app/shared/classes/form-resolved'
@@ -24,7 +25,6 @@ import { SessionStorageService } from 'src/app/shared/services/session-storage.s
 import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 import { ValidationService } from 'src/app/shared/services/validation.service'
 import { environment } from 'src/environments/environment'
-import { DebugDialogService } from 'src/app/shared/services/debug-dialog.service'
 
 @Component({
     selector: 'cashier-form',
@@ -54,7 +54,7 @@ export class CashierFormComponent {
     public dropdownSafes: Observable<SimpleEntity[]>
     public isAutoCompleteDisabled = true
 
-    //#endregion upload
+    //#endregion
 
     //#region documents
 

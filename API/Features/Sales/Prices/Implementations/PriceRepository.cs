@@ -24,6 +24,7 @@ namespace API.Features.Sales.Prices {
             var prices = await context.Prices
                 .AsNoTracking()
                 .Include(x => x.HullType)
+                .Include(x => x.PeriodType)
                 .Include(x => x.SeasonType)
                 .OrderBy(x => x.Description)
                 .ToListAsync();
@@ -42,6 +43,7 @@ namespace API.Features.Sales.Prices {
             return includeTables
                 ? await context.Prices
                     .Include(x => x.HullType)
+                    .Include(x => x.PeriodType)
                     .Include(x => x.SeasonType)
                     .AsNoTracking()
                     .SingleOrDefaultAsync(x => x.Id == id)
@@ -54,6 +56,7 @@ namespace API.Features.Sales.Prices {
             return includeTables
                 ? await context.Prices
                     .Include(x => x.HullType)
+                    .Include(x => x.PeriodType)
                     .Include(x => x.SeasonType)
                     .AsNoTracking()
                     .SingleOrDefaultAsync(x => x.Code == code)

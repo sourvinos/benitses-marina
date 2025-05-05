@@ -29,6 +29,7 @@ using API.Features.Cashiers.Ledgers;
 using API.Features.Cashiers.Safes;
 using API.Featuers.Sales.SeasonTypes;
 using API.Featuers.Sales.HullTypes;
+using API.Featuers.Sales.PeriodTypes;
 
 namespace API.Infrastructure.Extensions {
 
@@ -77,6 +78,8 @@ namespace API.Infrastructure.Extensions {
             services.AddTransient<IInvoiceReadRepository, InvoiceReadRepository>();
             services.AddTransient<IInvoiceValidation, InvoiceValidation>();
             services.AddTransient<INationalityRepository, NationalityRepository>();
+            services.AddTransient<IPeriodTypeRepository, PeriodTypeRepository>();
+            services.AddTransient<IPeriodTypeValidation, PeriodTypeValidator>();
             services.AddTransient<IPriceRepository, PriceRepository>();
             services.AddTransient<IPriceValidation, PriceValidation>();
             services.AddTransient<ISaleDocumentTypeRepository, SaleDocumentTypeRepository>();
