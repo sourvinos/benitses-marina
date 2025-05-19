@@ -22,19 +22,19 @@ namespace API.Features.Expenses.Suppliers {
         }
 
         public async Task<IEnumerable<SupplierListVM>> GetAsync() {
-            var Suppliers = await context.Suppliers
+            var suppliers = await context.Suppliers
                 .AsNoTracking()
                 .OrderBy(x => x.Description)
                 .ToListAsync();
-            return mapper.Map<IEnumerable<Supplier>, IEnumerable<SupplierListVM>>(Suppliers);
+            return mapper.Map<IEnumerable<Supplier>, IEnumerable<SupplierListVM>>(suppliers);
         }
 
         public async Task<IEnumerable<SupplierBrowserVM>> GetForBrowserAsync() {
-            var Suppliers = await context.Suppliers
+            var suppliers = await context.Suppliers
                 .AsNoTracking()
                 .OrderBy(x => x.Description)
                 .ToListAsync();
-            return mapper.Map<IEnumerable<Supplier>, IEnumerable<SupplierBrowserVM>>(Suppliers);
+            return mapper.Map<IEnumerable<Supplier>, IEnumerable<SupplierBrowserVM>>(suppliers);
         }
 
         public async Task<IEnumerable<SimpleEntity>> GetForCriteriaAsync() {

@@ -19,4 +19,8 @@ export class CashierLedgerHttpService extends HttpDataService {
         return this.http.request<CashierLedgerVM[]>('post', this.url + '/buildLedger', { body: criteria })
     }
 
+    public openDocument(filename: string): Observable<any> {
+        return this.http.get(this.url + '/openDocument/' + filename, { responseType: 'arraybuffer' })
+    }
+
 }

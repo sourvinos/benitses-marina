@@ -13,6 +13,9 @@ namespace API.Features.Sales.Invoices {
         [JsonPropertyName("tax_code")]
         public string Tax_code { get; set; }
 
+        [JsonPropertyName("tax_exception")]
+        public string Tax_Exception { get; set; }
+
         [JsonPropertyName("quantity")]
         public int Quantity { get; set; }
 

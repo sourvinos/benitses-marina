@@ -32,6 +32,12 @@ namespace API.Features.Cashiers.Ledgers {
             return repo.MergePreviousRequestedAndTotal(previous, requested, total);
         }
 
+        [HttpGet("openDocument/{filename}")]
+        [Authorize(Roles = "user, admin")]
+        public FileStreamResult OpenDocument(string filename) {
+            return repo.OpenDocument(filename);
+        }
+
     }
 
 }

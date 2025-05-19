@@ -31,7 +31,8 @@ namespace API.Features.Cashiers.Ledgers {
                     Description = x.Safe.Description
                 }))
                 .ForMember(x => x.Remarks, x => x.MapFrom(x => x.Remarks ?? ""))
-                .ForMember(x => x.HasDocument, x => x.MapFrom(x => CashierHelpers.HasDocument(x)));
+                .ForMember(x => x.HasDocument, x => x.MapFrom(x => CashierHelpers.HasDocument(x)))
+                .ForMember(x => x.DocumentName, x => x.MapFrom(x => CashierHelpers.DocumentName(x) ?? ""));
         }
 
     }

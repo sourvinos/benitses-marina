@@ -18,12 +18,14 @@ namespace API.Features.Sales.Invoices {
                     Code = x.Code,
                     Description = x.Description,
                     EnglishDescription = x.EnglishDescription,
-                    Remarks = x.Remarks ?? "",
+                    TaxCode = x.TaxCode,
+                    TaxException = x.TaxException,
                     Quantity = x.Quantity,
                     NetAmount = x.NetAmount,
                     VatPercent = x.VatPercent,
                     VatAmount = x.NetAmount * (x.VatPercent / 100),
-                    GrossAmount = x.NetAmount + x.VatAmount
+                    GrossAmount = x.NetAmount + x.VatAmount,
+                    Remarks = x.Remarks ?? "",
                 })));
             CreateMap<InvoiceItemWriteDto, InvoiceItem>();
         }

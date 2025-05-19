@@ -3,9 +3,12 @@ import { HelperService } from 'src/app/shared/services/helper.service'
 import { formatNumber } from '@angular/common'
 // Custom
 import { CashierLedgerCriteriaVM } from '../../classes/view-models/criteria/cashier-ledger-criteria-vm'
+import { CashierLedgerHttpService } from '../../classes/services/cashier-ledger-http.service'
 import { CashierLedgerVM } from '../../classes/view-models/list/cashier-ledger-vm'
+import { DialogService } from 'src/app/shared/services/modal-dialog.service'
 import { EmojiService } from 'src/app/shared/services/emoji.service'
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service'
+import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
 
 @Component({
@@ -25,7 +28,7 @@ export class CashierLedgerCompanyTableComponent {
 
     //#endregion
 
-    constructor(private emojiService: EmojiService, private helperService: HelperService, private localStorageService: LocalStorageService, private messageLabelService: MessageLabelService) { }
+    constructor(private cashierLedgerHttpService: CashierLedgerHttpService, private dialogService: DialogService, private emojiService: EmojiService, private helperService: HelperService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageLabelService: MessageLabelService) { }
 
     //#region lifecycle hooks
 
@@ -55,20 +58,20 @@ export class CashierLedgerCompanyTableComponent {
         this.helperService.highlightRow(id)
     }
 
-    // public onOpenDocument(filename: string): void {
-    //     if (filename) {
-    //         this.invoiceHttpService.openDocument(filename).subscribe({
-    //             next: (response) => {
-    //                 const blob = new Blob([response], { type: 'application/pdf' })
-    //                 const fileURL = URL.createObjectURL(blob)
-    //                 window.open(fileURL, '_blank')
-    //             },
-    //             error: (errorFromInterceptor) => {
-    //                 this.dialogService.open(this.messageDialogService.filterResponse(errorFromInterceptor), 'error', ['ok'])
-    //             }
-    //         })
-    //     }
-    // }
+    public onOpenDocument(filename: string): void {
+        if (filename) {
+            this.cashierLedgerHttpService.openDocument(filename).subscribe({
+                next: (response) => {
+                    const blob = new Blob([response], { type: 'application/pdf' })
+                    const fileURL = URL.createObjectURL(blob)
+                    window.open(fileURL, '_blank')
+                },
+                error: (errorFromInterceptor) => {
+                    this.dialogService.open(this.messageDialogService.filterResponse(errorFromInterceptor), 'error', ['ok'])
+                }
+            })
+        }
+    }
 
     //#endregion
 

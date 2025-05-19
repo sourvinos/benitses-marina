@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Features.Cashiers.Ledgers {
 
@@ -12,6 +13,7 @@ namespace API.Features.Cashiers.Ledgers {
         CashierLedgerVM BuildTotal(IEnumerable<CashierLedgerVM> records);
         List<CashierLedgerVM> MergePreviousRequestedAndTotal(CashierLedgerVM previousPeriod, List<CashierLedgerVM> requestedPeriod, CashierLedgerVM total);
         Task<IEnumerable<CashierLedgerVM>> GetForBalanceAsync(int supplierId);
+        FileStreamResult OpenDocument(string filename);
 
     }
 

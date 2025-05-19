@@ -92,7 +92,7 @@ namespace API.Features.Expenses.Suppliers {
             if (x != null) {
                 var z = supplierValidation.IsValid(x, supplier);
                 if (z == 200) {
-                    supplierRepo.Update(mapper.Map<SupplierWriteDto, Supplier>((SupplierWriteDto)supplierRepo.AttachMetadataToPutDto((Infrastructure.Interfaces.IMetadata)x, supplier)));
+                    supplierRepo.Update(mapper.Map<SupplierWriteDto, Supplier>((SupplierWriteDto)supplierRepo.AttachMetadataToPutDto(x, supplier)));
                     return new ResponseWithBody {
                         Code = 200,
                         Icon = Icons.Success.ToString(),

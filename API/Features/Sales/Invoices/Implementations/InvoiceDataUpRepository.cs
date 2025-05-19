@@ -28,7 +28,9 @@ namespace API.Features.Sales.Invoices {
                     Name = invoice.Customer.Description,
                     Firstname = "",
                     Lastname = "",
-                    Vat_number = invoice.Customer.VatNumber,
+                    Vat_Number = invoice.Customer.VatNumber,
+                    Tax_Code = invoice.Customer.VatPercentId,
+                    Tax_Exception = invoice.Customer.VatExemptionId,
                     Country = invoice.Customer.Nationality.Code,
                     Branch = invoice.Customer.Branch.ToString(),
                     Address = new() {
@@ -60,7 +62,8 @@ namespace API.Features.Sales.Invoices {
                 var z = new DataUpJsonLineVM() {
                     Title = lineItem.Description,
                     Description = lineItem.EnglishDescription,
-                    Tax_code = "1",
+                    Tax_code = lineItem.TaxCode,
+                    Tax_Exception = lineItem.TaxException,
                     Quantity = lineItem.Quantity,
                     Net_price = lineItem.NetAmount,
                     Gross_price = lineItem.GrossAmount

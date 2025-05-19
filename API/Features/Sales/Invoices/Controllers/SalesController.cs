@@ -1,4 +1,5 @@
-﻿using API.Infrastructure.Extensions;
+﻿using API.Features.Sales.Customers;
+using API.Infrastructure.Extensions;
 using API.Infrastructure.Helpers;
 using API.Infrastructure.Responses;
 using AutoMapper;
@@ -14,14 +15,16 @@ namespace API.Features.Sales.Invoices {
 
         #region variables
 
-        private readonly IInvoiceReadRepository invoiceReadRepo;
+        private readonly ICustomerRepository customerRepo;
         private readonly IInvoiceCreateRepository invoiceUpdateRepo;
+        private readonly IInvoiceReadRepository invoiceReadRepo;
         private readonly IInvoiceValidation invoiceValidation;
         private readonly IMapper mapper;
 
         #endregion
 
-        public SalesController(IInvoiceReadRepository invoiceReadRepo, IInvoiceCreateRepository invoiceUpdateRepo, IInvoiceValidation invoiceValidation, IMapper mapper) {
+        public SalesController(ICustomerRepository customerRepo, IInvoiceCreateRepository invoiceUpdateRepo, IInvoiceReadRepository invoiceReadRepo, IInvoiceValidation invoiceValidation, IMapper mapper) {
+            this.customerRepo = customerRepo;
             this.invoiceReadRepo = invoiceReadRepo;
             this.invoiceUpdateRepo = invoiceUpdateRepo;
             this.invoiceValidation = invoiceValidation;
@@ -65,6 +68,11 @@ namespace API.Features.Sales.Invoices {
             invoice.Date = invoiceUpdateRepo.GetToday();
             var x = invoiceValidation.IsValidAsync(null, invoice);
             if (await x == 200) {
+                var i = customerRepo.GetByIdAsync(invoice.CustomerId, false).Result;
+                foreach (var item in invoice.Items) {
+                    item.TaxCode = i.VatPercentId;
+                    item.TaxException = i.VatExemptionId;
+                }
                 var z = invoiceUpdateRepo.Create(mapper.Map<InvoiceCreateDto, Invoice>((InvoiceCreateDto)invoiceUpdateRepo.AttachMetadataToPostDto(invoice)));
                 return new Response {
                     Code = 200,

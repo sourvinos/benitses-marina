@@ -11,6 +11,8 @@ using Microsoft.Extensions.Options;
 using AutoMapper;
 using System.Threading.Tasks;
 using API.Features.Cashiers.Transactions;
+using Microsoft.AspNetCore.Mvc;
+using System.IO;
 
 namespace API.Features.Cashiers.Ledgers {
 
@@ -97,6 +99,13 @@ namespace API.Features.Cashiers.Ledgers {
             }
             final.Add(total);
             return final;
+        }
+
+          public FileStreamResult OpenDocument(string filename) {
+            var fullpathname = Path.Combine("Uploaded Cashiers" + Path.DirectorySeparatorChar + filename);
+            byte[] byteArray = File.ReadAllBytes(fullpathname);
+            MemoryStream memoryStream = new(byteArray);
+            return new FileStreamResult(memoryStream, "application/pdf");
         }
 
         public async Task<IEnumerable<CashierLedgerVM>> GetForBalanceAsync(int companyId) {

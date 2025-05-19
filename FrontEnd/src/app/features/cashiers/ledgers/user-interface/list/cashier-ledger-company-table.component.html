@@ -11,7 +11,7 @@
             </tr>
         </ng-template>
         <ng-template let-record pTemplate="body">
-            <tr (click)="onHighlightRow(record.id)" [attr.id]=record.id style="height: 32px;">
+            <tr (click)="onHighlightRow(record.id)" (dblclick)="onOpenDocument(record.documentName)" [attr.id]=record.id style="height: 32px;">
                 <td class="width-9"><span class="center">{{ record.formattedDate }}</span></td>
                 <td class="width-3"><span class="center no-left-padding no-overflow" style="font-size: 0.5rem; padding-top: 0 !important;">{{ getEmoji(record.hasDocument) }}</span></td>
                 <td class="width-auto"><span>{{ record.remarks }}</span></td>

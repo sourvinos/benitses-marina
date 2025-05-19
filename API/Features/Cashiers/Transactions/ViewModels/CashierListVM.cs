@@ -14,6 +14,7 @@ namespace API.Features.Cashiers.Transactions {
         public decimal Credit { get; set; }
         public string Remarks { get; set; }
         public bool HasDocument { get; set; }
+        public string DocumentName { get; set; }
         public string PutAt { get; set; }
 
     }

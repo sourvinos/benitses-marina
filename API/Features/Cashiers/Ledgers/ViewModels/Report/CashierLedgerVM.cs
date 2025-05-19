@@ -13,6 +13,7 @@ namespace API.Features.Cashiers.Ledgers {
         public decimal Credit { get; set; }
         public decimal Balance { get; set; }
         public bool HasDocument { get; set; }
+        public string DocumentName { get; set; }
 
     }
 
