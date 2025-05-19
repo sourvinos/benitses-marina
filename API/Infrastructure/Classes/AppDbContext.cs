@@ -12,7 +12,6 @@ using API.Features.Expenses.Transactions;
 using API.Features.Expenses.DocumentTypes;
 using API.Features.Expenses.Companies;
 using API.Features.Expenses.Banks;
-using API.Features.Expenses.BalanceFilters;
 using API.Features.Expenses.Suppliers;
 using API.Features.Reservations.Transactions;
 using API.Features.Common.PaymentMethods;
@@ -36,7 +35,6 @@ namespace API.Infrastructure.Classes {
 
         #region expenses
 
-        public DbSet<BalanceFilter> BalanceFilters { get; set; }
         public DbSet<Bank> Banks { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<ExpenseDocumentType> ExpenseDocumentTypes { get; set; }

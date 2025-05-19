@@ -279,7 +279,7 @@ export class InvoiceFormComponent {
     private initForm(): void {
         this.form = this.formBuilder.group({
             expenseId: '',
-            date: ['', [Validators.required, ValidationService.dateIsInFuture,]],
+            date: ['', [Validators.required]],
             company: ['', [Validators.required, ValidationService.requireAutocomplete]],
             supplier: ['', [Validators.required, ValidationService.requireAutocomplete]],
             documentType: ['', [Validators.required, ValidationService.requireAutocomplete]],

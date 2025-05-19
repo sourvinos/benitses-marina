@@ -114,6 +114,10 @@ export class CashierFormComponent {
         return this.form.value.remarks != null ? this.form.value.remarks.length : 0
     }
 
+    public getToday(): Date {
+        return new Date()
+    }
+
     public imageIsLoading(): any {
         return this.imgIsLoaded ? '' : 'skeleton'
     }

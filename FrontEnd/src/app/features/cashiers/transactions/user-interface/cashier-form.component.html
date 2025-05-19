@@ -19,10 +19,11 @@
                 <!-- Date -->
                 <mat-form-field>
                     <mat-label>{{ getLabel('date') }}</mat-label>
-                    <input [inputTabStop]="input" [matDatepicker]="datePicker" dataTabIndex="1" formControlName="date" matInput>
+                    <input [inputTabStop]="input" [matDatepicker]="datePicker" [max]="getToday()" dataTabIndex="1" formControlName="date" matInput>
                     <mat-datepicker-toggle matIconSuffix [for]="datePicker"></mat-datepicker-toggle>
                     <mat-datepicker #datePicker></mat-datepicker>
                     <mat-error *ngIf="date.hasError('required')">{{ getHint("required") }}</mat-error>
+                    <mat-error *ngIf="date.hasError('matDatepickerMax')">{{ getHint("dateShouldNotBeFuture") }}</mat-error>
                 </mat-form-field>
                 <!-- Company -->
                 <mat-form-field>

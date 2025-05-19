@@ -2,6 +2,7 @@ import { AbstractControl, FormControl, FormGroup, ValidatorFn } from '@angular/f
 
 export class ValidationService {
 
+
     static childrenEqual: ValidatorFn = (formGroup: FormGroup) => {
         const [firstControlName, ...otherControlNames] = Object.keys(formGroup.controls || {})
         const isValid = otherControlNames.every(controlName => formGroup.get(controlName).value === formGroup.get(firstControlName).value)
@@ -26,11 +27,6 @@ export class ValidationService {
     static doesNotContainUpperCase(control: AbstractControl): { [key: string]: any } {
         const pattern = /[A-Z]/
         return pattern.test(control.value) ? null : { doesNotContainUpperCase: true }
-    }
-
-    static dateIsInFuture(control: AbstractControl): { [key: string]: any } {
-        const x = new Date()
-        return control.value <= x ? null : { dateIsInFuture: true }
     }
 
     static doesNotContainLowerCase(control: AbstractControl): { [key: string]: any } {
