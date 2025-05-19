@@ -88,9 +88,7 @@ export class BalanceSheetCompanyTableComponent {
             fromDate: criteria.fromDate,
             toDate: criteria.toDate
         }
-        this.ledgerDialogService.open(x, '', ['ok']).subscribe(() => {
-            // Nothing here
-        })
+        this.ledgerDialogService.open(x, '', ['ok'])
     }
 
     //#endregion
