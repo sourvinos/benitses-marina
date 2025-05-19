@@ -15,11 +15,11 @@ export class BalanceFilterHttpService extends HttpDataService {
         super(httpClient, environment.apiUrl + '/balanceFilters')
     }
 
-    public getForBrowser(): Observable<BalanceFilterBrowserStorageVM[]> {
+    public getForBrowsers(): Observable<BalanceFilterBrowserStorageVM[]> {
         return this.http.get<BalanceFilterBrowserStorageVM[]>(environment.apiUrl + '/balanceFilters/getForBrowser')
     }
 
-    public getForCriteria(): Observable<SimpleCriteriaEntity[]> {
+    public getForCriterias(): Observable<SimpleCriteriaEntity[]> {
         return this.http.get<SimpleCriteriaEntity[]>(environment.apiUrl + '/balanceFilters/getForCriteria')
     }
 

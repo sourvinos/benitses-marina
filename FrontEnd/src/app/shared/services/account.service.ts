@@ -46,33 +46,7 @@ export class AccountService extends HttpDataService {
 
     //#endregion
 
-    constructor(
-        httpClient: HttpClient,
-        private balanceFilterHttpService: BalanceFilterHttpService,
-        private bankHttpService: BankHttpService,
-        private berthHttpService: BerthHttpService,
-        private boatTypeHttpService: BoatTypeHttpService,
-        private boatUsageHttpService: BoatUsageHttpService,
-        private companyHttpService: CompanyHttpService,
-        private cryptoService: CryptoService,
-        private customerHttpService: CustomerHttpService,
-        private dexieService: DexieService,
-        private expensesDocumentTypeHttpService: ExpensesDocumentTypeHttpService,
-        private hullTypeHttpService: HullTypeHttpService,
-        private nationalityHttpService: NationalityHttpService,
-        private ngZone: NgZone,
-        private paymentMethodHttpService: PaymentMethodHttpService,
-        private paymentStatusHttpService: PaymentStatusHttpService,
-        private priceHttpService: PriceHttpService,
-        private periodTypeHttpService: PeriodTypeHttpService,
-        private router: Router,
-        private safeHttpService: SafeHttpService,
-        private saleDocumentHttpService: DocumentTypeHttpService,
-        private seasonTypeHttpService: SeasonTypeHttpService,
-        private sessionStorageService: SessionStorageService,
-        private supplierHttpService: SupplierHttpService,
-        private taxOfficeService: TaxOfficeHttpService,
-    ) {
+    constructor(httpClient: HttpClient, private balanceFilterHttpService: BalanceFilterHttpService, private bankHttpService: BankHttpService, private berthHttpService: BerthHttpService, private boatTypeHttpService: BoatTypeHttpService, private boatUsageHttpService: BoatUsageHttpService, private companyHttpService: CompanyHttpService, private cryptoService: CryptoService, private customerHttpService: CustomerHttpService, private dexieService: DexieService, private expensesDocumentTypeHttpService: ExpensesDocumentTypeHttpService, private hullTypeHttpService: HullTypeHttpService, private nationalityHttpService: NationalityHttpService, private ngZone: NgZone, private paymentMethodHttpService: PaymentMethodHttpService, private paymentStatusHttpService: PaymentStatusHttpService, private periodTypeHttpService: PeriodTypeHttpService, private priceHttpService: PriceHttpService, private router: Router, private safeHttpService: SafeHttpService, private saleDocumentHttpService: DocumentTypeHttpService, private seasonTypeHttpService: SeasonTypeHttpService, private sessionStorageService: SessionStorageService, private supplierHttpService: SupplierHttpService, private taxOfficeService: TaxOfficeHttpService) {
         super(httpClient, environment.apiUrl)
     }
 

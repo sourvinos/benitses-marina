@@ -19,7 +19,7 @@ namespace API.Features.Sales.Invoices {
                     Issue_date = DateHelpers.DateToISOString(invoice.Date),
                     Series = invoice.DocumentType.AbbreviationDataUp,
                     Gross_price = invoice.GrossAmount,
-                    Payment_type = invoice.PaymentMethod.MyDataId.ToString(),
+                    Payment_type = invoice.PaymentMethod.ToString(),
                     Branch = "0",
                     Issuer_vat_number = company.TaxNo,
                     Mydata_transmit = "true"

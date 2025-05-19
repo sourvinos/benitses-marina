@@ -15,8 +15,8 @@ namespace API.Features.Sales.DocumentTypes {
         public string Batch { get; set; }
         public string Customers { get; set; }
         public bool IsDefault { get; set; }
-        public bool IsActive { get; set; }
         public bool IsStatistic { get; set; }
+        public bool IsActive { get; set; }
         // Metadata
         public string PostAt { get; set; }
         public string PostUser { get; set; }

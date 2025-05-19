@@ -10,6 +10,7 @@ namespace API.Features.Common.PaymentMethods {
             entity.Property(x => x.Id).ValueGeneratedOnAdd();
             // Fields
             entity.Property(x => x.Description).HasMaxLength(128).IsRequired(true);
+            entity.Property(x => x.Batch).HasMaxLength(5).IsRequired(true);
             entity.Property(x => x.IsActive);
             // Metadata
             entity.Property(x => x.PostAt).HasMaxLength(19).IsRequired(true);

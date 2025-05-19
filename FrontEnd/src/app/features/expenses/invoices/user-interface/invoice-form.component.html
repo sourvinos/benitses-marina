@@ -35,7 +35,7 @@
                     <mat-datepicker-toggle matIconSuffix [for]="datePicker"></mat-datepicker-toggle>
                     <mat-datepicker #datePicker></mat-datepicker>
                     <mat-error *ngIf="date.hasError('required')">{{ getHint("required") }}</mat-error>
-                    <mat-error *ngIf="date.hasError('dateIsInFuture')">{{ getHint("dateShouldNotBeFuture") }}</mat-error>
+                    <mat-error *ngIf="date.hasError('matDatepickerMax')">{{ getHint("dateShouldNotBeFuture") }}</mat-error>
                 </mat-form-field>
             </div>
             <div class="group-input-field">
