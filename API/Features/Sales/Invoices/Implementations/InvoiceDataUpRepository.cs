@@ -1,9 +1,12 @@
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Threading.Tasks;
 using API.Features.Expenses.Companies;
 using API.Infrastructure.Helpers;
+using AutoMapper;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace API.Features.Sales.Invoices {
@@ -19,7 +22,7 @@ namespace API.Features.Sales.Invoices {
                     Issue_date = DateHelpers.DateToISOString(invoice.Date),
                     Series = invoice.DocumentType.AbbreviationDataUp,
                     Gross_price = invoice.GrossAmount,
-                    Payment_type = invoice.PaymentMethod.ToString(),
+                    Payment_type = invoice.PaymentMethod.MyDataId.ToString(),
                     Branch = "0",
                     Issuer_vat_number = company.TaxNo,
                     Mydata_transmit = "true"
@@ -45,14 +48,14 @@ namespace API.Features.Sales.Invoices {
             return json;
         }
 
-        public async Task<JObject> UploadJsonAsync(Company company, DataUpJsonVM json) {
+        public async Task<JObject> UploadJsonAsync(Company company, DataUpJsonVM values) {
             var client = new HttpClient();
-            var request = new HttpRequestMessage(HttpMethod.Post, "https://dataup-uat.gr/api/docking/invoice/add");
-            var content = new StringContent(JsonSerializer.Serialize(json), System.Text.Encoding.UTF8, "application/json");
+            var json = JsonConvert.SerializeObject(values, Formatting.Indented);
+            var stringContent = new StringContent(json);
             var token = company.IsDemoMyData ? company.DemoToken : company.LiveToken;
-            request.Headers.Add("Authorization", "Bearer " + token);
-            request.Content = content;
-            var response = await client.SendAsync(request);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            var response = await client.PostAsync("https://dataup-uat.gr/api/docking/invoice/add", stringContent);
             return JObject.Parse(await response.Content.ReadAsStringAsync());
         }
 

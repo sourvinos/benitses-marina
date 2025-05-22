@@ -1,19 +1,19 @@
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace API.Features.Sales.Invoices {
 
     public class DataUpJsonAddressVM {
 
-        [JsonPropertyName("postal_code")]
+        [JsonProperty("postal_code")]
         public string Postal_Code { get; set; }
         
-        [JsonPropertyName("city")]
+        [JsonProperty("city")]
         public string City { get; set; }
 
-        [JsonPropertyName("number")]
+        [JsonProperty("number")]
         public string Number { get; set; }
 
-        [JsonPropertyName("street")]
+        [JsonProperty("street")]
         public string Street { get; set; }
 
     }

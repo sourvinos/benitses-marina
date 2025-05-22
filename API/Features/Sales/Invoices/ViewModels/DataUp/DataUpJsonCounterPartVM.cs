@@ -1,31 +1,31 @@
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace API.Features.Sales.Invoices {
 
     public class DataUpJsonCounterPartVM {
 
-        [JsonPropertyName("name")]
+        [JsonProperty("name")]
         public string Name { get; set; }
 
-        [JsonPropertyName("firstname")]
+        [JsonProperty("firstname")]
         public string Firstname { get; set; }
 
-        [JsonPropertyName("lastname")]
+        [JsonProperty("lastname")]
         public string Lastname { get; set; }
 
-        [JsonPropertyName("vat_number")]
+        [JsonProperty("vat_number")]
         public string Vat_Number { get; set; }
 
-        [JsonPropertyName("tax_code")]
+        [JsonProperty("tax_code")]
         public int Tax_Code { get; set; }
 
-        [JsonPropertyName("tax_exception")]
+        [JsonProperty("tax_exception")]
         public int Tax_Exception { get; set; }
 
-        [JsonPropertyName("country")]
+        [JsonProperty("country")]
         public string Country { get; set; }
 
-        [JsonPropertyName("branch")]
+        [JsonProperty("branch")]
         public string Branch { get; set; }
 
         public DataUpJsonAddressVM Address { get; set; }

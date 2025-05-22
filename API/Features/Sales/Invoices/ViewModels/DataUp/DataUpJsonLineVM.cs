@@ -1,28 +1,28 @@
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace API.Features.Sales.Invoices {
 
     public class DataUpJsonLineVM {
 
-        [JsonPropertyName("title")]
+        [JsonProperty("title")]
         public string Title { get; set; }
 
-        [JsonPropertyName("description")]
+        [JsonProperty("description")]
         public string Description { get; set; }
         
-        [JsonPropertyName("tax_code")]
+        [JsonProperty("tax_code")]
         public string Tax_code { get; set; }
 
-        [JsonPropertyName("tax_exception")]
+        [JsonProperty("tax_exception")]
         public string Tax_Exception { get; set; }
 
-        [JsonPropertyName("quantity")]
+        [JsonProperty("quantity")]
         public int Quantity { get; set; }
 
-        [JsonPropertyName("net_price")]
+        [JsonProperty("net_price")]
         public decimal Net_price { get; set; }
 
-        [JsonPropertyName("gross_price")]
+        [JsonProperty("gross_price")]
         public decimal Gross_price { get; set; }
 
     }

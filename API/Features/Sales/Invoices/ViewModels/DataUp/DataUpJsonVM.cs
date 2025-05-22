@@ -1,26 +1,26 @@
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace API.Features.Sales.Invoices {
 
     public class DataUpJsonVM {
 
-        [JsonPropertyName("contract")]
+        [JsonProperty("contract")]
         public string Contract { get; set; }
 
-        [JsonPropertyName("position")]
+        [JsonProperty("position")]
         public string Position { get; set; }
 
-        [JsonPropertyName("vessel_name")]
+        [JsonProperty("vessel_name")]
         public string Vessel_name { get; set; }
 
-        [JsonPropertyName("invoice")]
+        [JsonProperty("invoice")]
         public DataUpJsonInvoiceVM Invoice { get; set; }
 
-        [JsonPropertyName("counterpart")]
+        [JsonProperty("counterpart")]
         public DataUpJsonCounterPartVM CounterPart { get; set; }
 
-        [JsonPropertyName("lines")]
+        [JsonProperty("lines")]
         public IEnumerable<DataUpJsonLineVM> Lines { get; set; }
 
     }
