@@ -27,17 +27,15 @@ namespace API.Features.Sales.Invoices {
 
         [HttpGet("{invoiceId}")]
         [Authorize(Roles = "admin")]
-        public async Task<ResponseWithBody> CreateJsonFile(string invoiceId) {
+        public async Task<ResponseWithBody> GetByIdAsync(string invoiceId) {
             var x = await invoiceReadRepo.GetByIdAsync(invoiceId, true);
             if (x != null) {
-                var company = this.context.Companies.First(x => x.TaxNo == "801515394");
-                var json = dataUpRepo.CreateJsonFileAsync(company, x);
-                var dataUpResponse = dataUpRepo.UploadJsonAsync(company,json);
+                var response = dataUpRepo.UploadJsonInvoiceAsync(dataUpRepo.SaveJsonInvoice(dataUpRepo.CreateJsonInvoice(this.context.Companies.First(x => x.TaxNo == "801515394"), x)), this.context.Companies.First(x => x.TaxNo == "801515394"));
                 return new ResponseWithBody {
                     Code = 200,
                     Icon = Icons.Info.ToString(),
                     Message = ApiMessages.OK(),
-                    Body = dataUpResponse.Result
+                    Body = dataUpRepo.ShowResponseAfterUploadJsonInvoice(response.Result)
                 };
             } else {
                 throw new CustomException() {
