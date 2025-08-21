@@ -283,8 +283,8 @@ export class ReservationFormComponent {
         this.berthsArray.splice(berthIndex, 1)
     }
 
-    public onSave(): void {
-        this.saveRecord(this.flattenForm())
+    public onSave(closeForm: boolean): void {
+        this.saveRecord(this.flattenForm(), closeForm)
     }
 
     public onUploadAndRenameFile(file: File): void {
@@ -609,14 +609,20 @@ export class ReservationFormComponent {
         this.form.reset()
     }
 
-    private saveRecord(reservation: ReservationWriteDto): void {
+    private saveRecord(reservation: ReservationWriteDto, closeForm: boolean): void {
         this.reservationHttpService.saveReservation(reservation).subscribe({
             next: (response) => {
                 this.helperService.doPostSaveFormTasks(
                     response.code == 200 ? this.messageDialogService.success() : '',
                     response.code == 200 ? 'ok' : 'ok',
                     this.parentUrl,
-                    true)
+                    closeForm)
+                this.form.patchValue(
+                    {
+                        reservationId: response.body.reservationId,
+                        postAt: response.body.postAt,
+                        putAt: response.body.putAt
+                    })
             },
             error: (errorFromInterceptor) => {
                 this.dialogService.open(this.messageDialogService.filterResponse(errorFromInterceptor), 'error', ['ok'])

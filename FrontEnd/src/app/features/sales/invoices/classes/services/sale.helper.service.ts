@@ -22,7 +22,7 @@ export class SaleHelperService {
             customerId: form.customer.id,
             documentTypeId: form.documentType.id,
             paymentMethodId: form.paymentMethod.id,
-            netAmount: form.saleSubTotal,
+            netAmount: form.saleNetAmount,
             vatAmount: form.saleVatAmount,
             grossAmount: form.saleGrossAmount,
             remarks: form.remarks,
@@ -49,7 +49,7 @@ export class SaleHelperService {
                 description: item.description,
                 englishDescription: item.englishDescription,
                 quantity: item.quantity,
-                netAmount: item.subTotal,
+                netAmount: item.itemPrice,
                 vatPercent: item.vatPercent,
                 vatAmount: item.vatAmount,
                 grossAmount: item.grossAmount

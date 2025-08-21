@@ -68,14 +68,14 @@ namespace API.Features.Reservations.Transactions {
         [HttpPost]
         [Authorize(Roles = "admin")]
         [ServiceFilter(typeof(ModelValidationAttribute))]
-        public async Task<Response> PostAsync([FromBody] ReservationWriteDto reservation) {
+        public async Task<ResponseWithBody> PostAsync([FromBody] ReservationWriteDto reservation) {
             var z = reservationValidation.IsValidAsync(null, reservation);
             if (await z == 200) {
                 var x = reservationRepo.Create(mapper.Map<ReservationWriteDto, Reservation>((ReservationWriteDto)reservationRepo.AttachMetadataToPostDto(reservation)));
-                return new Response {
+                return new ResponseWithBody {
                     Code = 200,
                     Icon = Icons.Success.ToString(),
-                    Id = x.ReservationId.ToString(),
+                    Body = x,
                     Message = ApiMessages.OK()
                 };
             } else {
@@ -88,16 +88,16 @@ namespace API.Features.Reservations.Transactions {
         [HttpPut]
         [Authorize(Roles = "admin")]
         [ServiceFilter(typeof(ModelValidationAttribute))]
-        public async Task<Response> PutAsync([FromBody] ReservationWriteDto reservation) {
+        public async Task<ResponseWithBody> PutAsync([FromBody] ReservationWriteDto reservation) {
             var x = await reservationRepo.GetByIdAsync(reservation.ReservationId.ToString(), false);
             if (x != null) {
                 var z = reservationValidation.IsValidAsync(x, reservation);
                 if (await z == 200) {
-                    reservationRepo.Update(reservation.ReservationId, mapper.Map<ReservationWriteDto, Reservation>((ReservationWriteDto)reservationRepo.AttachMetadataToPutDto(x, reservation)));
-                    return new Response {
+                    var i = reservationRepo.Update(reservation.ReservationId, mapper.Map<ReservationWriteDto, Reservation>((ReservationWriteDto)reservationRepo.AttachMetadataToPutDto(x, reservation)));
+                    return new ResponseWithBody {
                         Code = 200,
                         Icon = Icons.Success.ToString(),
-                        Id = x.ReservationId.ToString(),
+                        Body = i,
                         Message = ApiMessages.OK()
                     };
                 } else {

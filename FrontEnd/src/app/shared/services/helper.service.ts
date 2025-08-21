@@ -59,10 +59,10 @@ export class HelperService {
         tabs[tabs.length - 1].style.marginLeft = 'auto'
     }
 
-    public doPostSaveFormTasks(message: string, iconType: string, returnUrl: string, goBack: boolean): Promise<any> {
+    public doPostSaveFormTasks(message: string, iconType: string, returnUrl: string, closeForm: boolean): Promise<any> {
         const promise = new Promise((resolve) => {
             this.dialogService.open(message, iconType, ['ok']).subscribe(() => {
-                goBack ? this.router.navigate([returnUrl]) : null
+                closeForm ? this.router.navigate([returnUrl]) : null
                 resolve(null)
             })
         })
