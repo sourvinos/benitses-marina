@@ -2104,6 +2104,10 @@
             {
                 "id": "uploadButton",
                 "description": "Ανέβασμα παραστατικού"
+            },
+            {
+                "id": "saveAndLeaveFormOpen",
+                "description": "Αποθήκευση και παραμονή στη φόρμα"
             }
         ]
     },

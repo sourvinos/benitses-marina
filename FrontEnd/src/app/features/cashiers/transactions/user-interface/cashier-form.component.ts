@@ -194,8 +194,8 @@ export class CashierFormComponent {
         })
     }
 
-    public onSave(): void {
-        this.saveRecord(this.flattenForm())
+    public onSave(closeForm: boolean): void {
+        this.saveRecord(this.flattenForm(), closeForm)
     }
 
     public onUploadAndRenameFile(file: File): void {
@@ -245,8 +245,8 @@ export class CashierFormComponent {
     }
 
     private getDocuments(): void {
-        if (this.cashierId != undefined) {
-            this.cashierHttpService.getDocuments(this.cashierId).subscribe((x) => {
+        if (this.form.value.cashierId != '') {
+            this.cashierHttpService.getDocuments(this.form.value.cashierId).subscribe((x) => {
                 this.documents = Array.from(x.body)
             })
         }
@@ -349,14 +349,20 @@ export class CashierFormComponent {
         this.form.reset()
     }
 
-    private saveRecord(cashier: CashierWriteDto): void {
+    private saveRecord(cashier: CashierWriteDto, closeForm: boolean): void {
         this.cashierHttpService.saveCashier(cashier).subscribe({
             next: (response) => {
                 this.helperService.doPostSaveFormTasks(
                     response.code == 200 ? this.messageDialogService.success() : '',
                     response.code == 200 ? 'ok' : 'ok',
                     this.parentUrl,
-                    true)
+                    closeForm)
+                this.form.patchValue(
+                    {
+                        cashierId: response.body.cashierId,
+                        postAt: response.body.postAt,
+                        putAt: response.body.putAt
+                    })
             },
             error: (errorFromInterceptor) => {
                 this.dialogService.open(this.messageDialogService.filterResponse(errorFromInterceptor), 'error', ['ok'])

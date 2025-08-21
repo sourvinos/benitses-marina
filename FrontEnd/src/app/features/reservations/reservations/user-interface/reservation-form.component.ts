@@ -342,8 +342,8 @@ export class ReservationFormComponent {
     }
 
     private getDocuments(): void {
-        if (this.reservationId != undefined) {
-            this.reservationHttpService.getDocuments(this.reservationId).subscribe((x) => {
+        if (this.form.value.reservationId != '') {
+            this.reservationHttpService.getDocuments(this.form.value.reservationId).subscribe((x) => {
                 this.documents = Array.from(x.body)
             })
         }

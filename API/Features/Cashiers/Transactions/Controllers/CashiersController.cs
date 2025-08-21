@@ -62,14 +62,14 @@ namespace API.Features.Cashiers.Transactions {
         [HttpPost]
         [Authorize(Roles = "admin")]
         [ServiceFilter(typeof(ModelValidationAttribute))]
-        public Response Post([FromBody] CashierWriteDto cashier) {
+        public ResponseWithBody Post([FromBody] CashierWriteDto cashier) {
             var z = cashierValidation.IsValid(null, cashier);
             if (z == 200) {
                 var x = cashierRepo.Create(mapper.Map<CashierWriteDto, Cashier>((CashierWriteDto)cashierRepo.AttachMetadataToPostDto(cashier)));
-                return new Response {
+                return new ResponseWithBody {
                     Code = 200,
                     Icon = Icons.Success.ToString(),
-                    Id = x.CashierId.ToString(),
+                    Body = x,
                     Message = ApiMessages.OK()
                 };
             } else {
@@ -82,16 +82,16 @@ namespace API.Features.Cashiers.Transactions {
         [HttpPut]
         [Authorize(Roles = "admin")]
         [ServiceFilter(typeof(ModelValidationAttribute))]
-        public async Task<Response> PutAsync([FromBody] CashierWriteDto cashier) {
+        public async Task<ResponseWithBody> PutAsync([FromBody] CashierWriteDto cashier) {
             var x = await cashierRepo.GetByIdAsync(cashier.CashierId.ToString(), false);
             if (x != null) {
                 var z = cashierValidation.IsValid(x, cashier);
                 if (z == 200) {
-                    cashierRepo.Update(cashier.CashierId, mapper.Map<CashierWriteDto, Cashier>((CashierWriteDto)cashierRepo.AttachMetadataToPutDto(x, cashier)));
-                    return new Response {
+                    var i = cashierRepo.Update(cashier.CashierId, mapper.Map<CashierWriteDto, Cashier>((CashierWriteDto)cashierRepo.AttachMetadataToPutDto(x, cashier)));
+                    return new ResponseWithBody {
                         Code = 200,
                         Icon = Icons.Success.ToString(),
-                        Id = x.CashierId.ToString(),
+                        Body = i,
                         Message = ApiMessages.OK()
                     };
                 } else {
