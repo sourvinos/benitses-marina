@@ -287,9 +287,14 @@
                     </mat-form-field>
                     <div id="documents">
                         <div *ngFor="let document of showDocuments()" class="document">
-                            <img (click)="onOpenDocument(document)" (load)="loadImage()" [ngClass]="imageIsLoading()" [src]="getIcon('pdf')" style="height: 2.125rem; margin-left: 1rem; width: 2.125rem">
-                            <button (click)="onDeleteDocument(document)">
-                                <mat-icon class="input-suffix material-icons-outlined">close</mat-icon>
+                            <mat-checkbox (change)="toggleSelectedDocuments(document,$event)"></mat-checkbox>
+                            <img (load)="loadImage()" [ngClass]="imageIsLoading()" [src]="getIcon('pdf')" style="height: 2.125rem; width: 2.125rem">
+                            <div><span>{{ trimFilename(document) }}</span></div>
+                            <button (click)="onOpenDocument(document,$event)">
+                                <mat-icon class="input-suffix material-icons-outlined">visibility</mat-icon>
+                            </button>
+                            <button (click)="onDeleteDocument(document,$event)">
+                                <mat-icon class="input-suffix material-icons-outlined">delete</mat-icon>
                             </button>
                         </div>
                     </div>

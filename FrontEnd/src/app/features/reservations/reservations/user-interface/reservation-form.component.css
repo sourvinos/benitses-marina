@@ -74,12 +74,22 @@
 
 #documents {
     display: flex;
-    flex-direction: row;
-    margin: 1rem 1rem auto 0;
+    flex-direction: column;
+    gap: 2rem;
+    margin: 1rem 0 auto 0;
 }
 
 .document {
     align-items: center;
-    cursor: pointer;
+    column-gap: 0.5rem;
     display: flex;
+    margin: 0 0 0 1rem;
+}
+
+.document span {
+    margin: 0 1rem 0 0;
+}
+
+.mdc-label {
+    display: none !important;
 }

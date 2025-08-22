@@ -71,6 +71,7 @@ export class ReservationFormComponent {
     //#region documents
 
     private documents = []
+    private selectedDocuments = []
     private renameDocumentForm: FormGroup
 
     // #endregion
@@ -251,7 +252,8 @@ export class ReservationFormComponent {
         })
     }
 
-    public onDeleteDocument = (filename: string): any => {
+    public onDeleteDocument = (filename: string, event: PointerEvent): any => {
+        event.stopPropagation()
         this.dialogService.open(this.messageDialogService.confirmDelete(), 'question', ['abort', 'ok']).subscribe(response => {
             if (response) {
                 return new Promise<void>((resolve) => {
@@ -264,7 +266,8 @@ export class ReservationFormComponent {
         })
     }
 
-    public onOpenDocument(filename: string): void {
+    public onOpenDocument(filename: string, event: PointerEvent): void {
+        event.stopPropagation()
         this.reservationHttpService.openDocument(filename).subscribe({
             next: (response) => {
                 const blob = new Blob([response], { type: 'application/pdf' })
@@ -297,6 +300,16 @@ export class ReservationFormComponent {
 
     public openOrCloseAutoComplete(trigger: MatAutocompleteTrigger, element: any): void {
         this.helperService.openOrCloseAutocomplete(this.form, element, trigger)
+    }
+
+    public toggleSelectedDocuments(filename: string, event: any) {
+        if (!event.source.checked) {
+            console.log('unchecked')
+        }
+    }
+
+    public trimFilename(filename: string): string {
+        return filename.substring(36, filename.length - 4)
     }
 
     public showDocuments(): string[] {
