@@ -2,6 +2,7 @@ using System;
 using API.Features.Sales.Invoices;
 using API.Infrastructure.Auth;
 using API.Infrastructure.Classes;
+using API.Infrastructure.EmailServices;
 using API.Infrastructure.Extensions;
 using API.Infrastructure.Helpers;
 using API.Infrastructure.Middleware;
@@ -92,10 +93,11 @@ namespace API {
             ModelValidations.AddModelValidation(services);
             services.Configure<CookiePolicyOptions>(options => { options.CheckConsentNeeded = _ => true; options.MinimumSameSitePolicy = SameSiteMode.None; });
             services.Configure<EnvironmentSettings>(options => Configuration.GetSection("EnvironmentSettings").Bind(options));
-            services.Configure<EmailSettings>(options => Configuration.GetSection("EmailSettings").Bind(options));
-            services.Configure<EmailInvoicingSettings>(options => Configuration.GetSection("EmailInvoicingSettings").Bind(options));
+            services.Configure<EmailReservationSettings>(options => Configuration.GetSection("EmailReservationSettings").Bind(options));
+            services.Configure<EmailUserSettings>(options => Configuration.GetSection("EmailUserSettings").Bind(options));
             services.Configure<TokenSettings>(options => Configuration.GetSection("TokenSettings").Bind(options));
             services.Configure<TestingEnvironment>(options => Configuration.GetSection("TestingEnvironment").Bind(options));
+            services.AddHostedService<EmailQueueService>();
             services.AddHttpClient<SalesDataUpController>();
         }
 

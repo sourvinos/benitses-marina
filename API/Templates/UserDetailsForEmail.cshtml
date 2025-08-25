@@ -1,5 +1,3 @@
-@* New *@
-
 @model API.Infrastructure.Users.UserDetailsForEmailVM
 
 <!DOCTYPE html>
@@ -7,93 +5,27 @@
 
 <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-    <meta name="viewboatType" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <style>
-        html {
-            min-height: 100%;
-            position: relative;
-        }
-
-        body {
-            margin: 0;
-        }
-
-        #wrapper {
-            max-width: 600px;
-            padding: 0.5rem;
-        }
-
-        #header {
-            background-color: #457b9d;
-            border-radius: 1rem 1rem 0 0;
-            color: #ffffff;
-            padding: 0.5rem 0 0.5rem 2rem;
-        }
-
-        #logo {
-            font-size: 25px;
-        }
-
-        #footer {
-            align-items: center;
-            background-color: #457b9d;
-            border-radius: 0 0 1rem 1rem;
-            color: #ffffff;
-            font-size: 0.8rem;
-            justify-content: center;
-            padding: 1rem 0 1rem 0;
-        }
-
-        #footer {
-            text-align: center;
-        }
-
-        #content {
-            background-color: #caf0f8;
-            padding: 1rem 1rem 1rem 1rem;
-        }
-
-        #description {
-            margin: 0.5rem 0 0 0.5rem;
-        }
-
-        a.primary {
-            text-decoration: none;
-            background-color: orange;
-            color: #000000;
-            padding: 0.5rem 2.5rem;
-        }
-
-        #reminder {
-            margin: 0.5rem 0 0 0.5rem;
-        }
-
-        #button {
-            margin: 1rem;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 </head>
 
 <body>
     <div id="wrapper">
-        <div id="content">
-            <div>👋 Hello @Model.Displayname,</div>
-            <div id="description">
-                <span>Welcome to our reservations platform!</span>
-                <span>You are receiving this email because we have opened a new account for you.</span>
-                <span>We have also set a temporary password, which you must change before you're allowed to login. Please click on the link below and then follow the instruction.</span>
-            </div>
-            <div id=button>
-                <a class="primary" href="@Model.Url">Set new password</a>
-            </div>
-            <div id="reminder">
-                <span>As a friendly reminder, your account details are:</span>
-                <ul>
-                    <li>Username: @Model.Username</li>
-                    <li>Email: @Model.Email</li>
-                </ul>
-            </div>
-        </div>
+        <p style="font-family: Tahoma; font-size: 13px;">👋 Γεια σας, @Model.Displayname</p>
+        <div style="font-family: Tahoma; font-size: 13px;">Καλώς ήρθατε στην εφαρμογή κρατήσεων της Corfu Cruises.</div>
+        <div style="font-family: Tahoma; font-size: 13px;">Λαμβάνετε αυτό το email επειδή έχουμε ανοίξει έναν νέο λογαριασμό για εσάς.</div>
+        <div style="font-family: Tahoma; font-size: 13px;">Συμπληρωματικά, η εφαρμογή έχει δημιουργήσει έναν προσωρινό κωδικό πρόσβασης, τον οποίο πρέπει να αλλάξετε ώστε να σας επιτραπεί η είσοδος.</div>
+        <div style="font-family: Tahoma; font-size: 13px;">Παρακαλούμε κάντε κλικ στον παρακάτω σύνδεσμο και στη συνέχεια στο «Ξέχασα τον κωδικό μου» για να ορίσετε έναν νέο κωδικό πρόσβασης.</div>
+        <p></p>
+        <div style="font-family: Tahoma; font-size: 13px; text-decoration: none !important;"><a class="primary" href="@Model.Url">Ορισμός νέου κωδικού</a></div>
+        <p></p>
+        <div style="font-family: Tahoma; font-size: 13px;">Ευχαριστούμε για τη συνεργασία!</div>
+        <p></p>
+        <div style="font-family: Tahoma; font-size: 13px;">τηλέφωνα: @Model.CompanyPhones</div>
+        <div style="font-family: Tahoma; font-size: 13px;">email: corfucruises.com@gmail.com</div>
+        <div style="font-family: Tahoma; font-size: 13px;">website: www.corfucruises.com</div>
+        <div style="font-family: Tahoma; font-size: 13px;">web application: www.appcorfucruises.com</div>
+        <p></p>
+        <div style="font-family: Tahoma; font-size: 13px;">🚫 Σας παρακαλούμε μην απαντάτε σε αυτό το email επειδή δεν πρόκειται να το λάβει κανένας.</div>
     </div>
 </body>
 

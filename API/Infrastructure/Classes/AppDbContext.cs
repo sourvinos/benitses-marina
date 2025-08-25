@@ -26,6 +26,8 @@ using API.Features.Cashiers.Safes;
 using API.Featuers.Sales.SeasonTypes;
 using API.Featuers.Sales.HullTypes;
 using API.Featuers.Sales.PeriodTypes;
+using API.Features.Reservations.Parameters;
+using API.Infrastructure.EmailServices;
 
 namespace API.Infrastructure.Classes {
 
@@ -56,12 +58,14 @@ namespace API.Infrastructure.Classes {
         public DbSet<ReservationFee> ReservationFeeDetails { get; set; }
         public DbSet<ReservationInsurance> ReservationInsuranceDetails { get; set; }
         public DbSet<ReservationOwner> ReservationOwnerDetails { get; set; }
+        public DbSet<ReservationParameter> ReservationParameters { get; set; }
 
         #endregion
 
         #region common
 
         public DbSet<Token> Tokens { get; set; }
+        public DbSet<EmailQueue> EmailQueues { get; set; }
         public DbSet<PaymentMethod> PaymentMethods { get; set; }
 
         #endregion
@@ -112,7 +116,7 @@ namespace API.Infrastructure.Classes {
             #endregion
             #region common
             modelBuilder.ApplyConfiguration(new PaymentMethodConfig());
-            modelBuilder.ApplyConfiguration(new UserConfig());
+            modelBuilder.ApplyConfiguration(new UsersConfig());
             #endregion
             #region cashiers
             modelBuilder.ApplyConfiguration(new CashierConfig());

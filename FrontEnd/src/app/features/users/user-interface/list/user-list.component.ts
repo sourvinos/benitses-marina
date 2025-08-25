@@ -19,7 +19,7 @@ import { UserListVM } from '../../classes/view-models/user-list-vm'
 
 export class UserListComponent {
 
-    //#region variables
+    //#region common #9
 
     @ViewChild('table') table: Table
 
@@ -31,9 +31,6 @@ export class UserListComponent {
     public parentUrl = '/home'
     public records: UserListVM[]
     public recordsFilteredCount: number
-    public recordsFiltered: UserListVM[]
-    public selectedRecords: UserListVM[] = []
-    public selectedIds: number[] = []
 
     //#endregion
 
@@ -43,6 +40,7 @@ export class UserListComponent {
 
     ngOnInit(): void {
         this.loadRecords().then(() => {
+            this.filterTableFromStoredFilters()
             this.setTabTitle()
             this.setSidebarsHeight()
         })
@@ -60,7 +58,18 @@ export class UserListComponent {
 
     //#endregion
 
-    //#region public 
+    //#region public common methods #7
+
+    public editRecord(id: number): void {
+        this.storeScrollTop()
+        this.storeSelectedId(id)
+        this.navigateToRecord(id)
+    }
+
+    public filterRecords(event: any): void {
+        this.sessionStorageService.saveItem(this.feature + '-' + 'filters', JSON.stringify(this.table.filters))
+        this.recordsFilteredCount = event.filteredValue.length
+    }
 
     public getEmoji(anything: any): string {
         return typeof anything == 'string'
@@ -72,39 +81,43 @@ export class UserListComponent {
         return this.messageLabelService.getDescription(this.feature, id)
     }
 
-    public onEditRecord(id: string): void {
-        this.storeScrollTop()
-        this.storeSelectedId(id)
-        this.navigateToRecord(id)
-    }
-
-    public onFilter(event: any, column: string, matchMode: string): void {
-        if (event) this.table.filter(event, column, matchMode)
-    }
-
-    public onFilterRecords(event: any): void {
-        this.recordsFiltered = event.filteredValue
-        this.recordsFilteredCount = event.filteredValue.length
-    }
-
-    public onHighlightRow(id: any): void {
+    public highlightRow(id: any): void {
         this.helperService.highlightRow(id)
     }
 
-    public onNewRecord(): void {
+    public newRecord(): void {
         this.router.navigate([this.url + '/new'])
     }
 
-    public onResetTableFilters(): void {
+    public resetTableFilters(): void {
         this.helperService.clearTableTextFilters(this.table, ['userName', 'displayname', 'email'])
     }
 
     //#endregion
 
-    //#region private
+    //#region private common list methods #13
 
     private enableDisableFilters(): void {
         this.records.length == 0 ? this.helperService.disableTableFilters() : this.helperService.enableTableFilters()
+    }
+
+    private filterColumn(element: { value: any }, field: string, matchMode: string): void {
+        if (element != undefined && (element.value != null || element.value != undefined)) {
+            this.table.filter(element.value, field, matchMode)
+        }
+    }
+
+    private filterTableFromStoredFilters(): void {
+        const filters = this.sessionStorageService.getFilters(this.feature + '-' + 'filters')
+        if (filters != undefined) {
+            setTimeout(() => {
+                this.filterColumn(filters.isActive, 'isActive', 'contains')
+                this.filterColumn(filters.isAdmin, 'isAdmin', 'equals')
+                this.filterColumn(filters.userName, 'userName', 'contains')
+                this.filterColumn(filters.displayname, 'displayname', 'contains')
+                this.filterColumn(filters.email, 'email', 'contains')
+            }, 500)
+        }
     }
 
     private getVirtualElement(): void {
@@ -150,8 +163,8 @@ export class UserListComponent {
         this.helperService.setTabTitle(this.feature)
     }
 
-    private storeSelectedId(id: string): void {
-        this.sessionStorageService.saveItem(this.feature + '-id', id)
+    private storeSelectedId(id: number): void {
+        this.sessionStorageService.saveItem(this.feature + '-id', id.toString())
     }
 
     private storeScrollTop(): void {
@@ -160,7 +173,7 @@ export class UserListComponent {
 
     //#endregion
 
-    //#region private specific
+    //#region private specific list methods #1
 
     private storeReturnUrl(): void {
         this.sessionStorageService.saveItem('returnUrl', '/users')

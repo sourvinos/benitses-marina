@@ -1,13 +1,19 @@
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { Observable } from 'rxjs'
 import { Component } from '@angular/core'
+import { map, startWith } from 'rxjs/operators'
 // Custom
 import { ConfirmValidParentMatcher, ValidationService } from '../../../../shared/services/validation.service'
+import { DexieService } from 'src/app/shared/services/dexie.service'
 import { DialogService } from 'src/app/shared/services/modal-dialog.service'
+import { EmojiService } from 'src/app/shared/services/emoji.service'
 import { HelperService } from 'src/app/shared/services/helper.service'
 import { InputTabStopDirective } from 'src/app/shared/directives/input-tabstop.directive'
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete'
 import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
 import { MessageInputHintService } from 'src/app/shared/services/message-input-hint.service'
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
+import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 import { UserNewDto } from '../../classes/dtos/new-user-dto'
 import { UserService } from '../../classes/services/user.service'
 
@@ -19,7 +25,7 @@ import { UserService } from '../../classes/services/user.service'
 
 export class NewUserFormComponent {
 
-    //#region common #6
+    //#region common
 
     public feature = 'newUserForm'
     public featureIcon = 'users'
@@ -30,14 +36,14 @@ export class NewUserFormComponent {
 
     //#endregion
 
-    //#region specific #2
+    //#region specific
 
     public confirmValidParentMatcher = new ConfirmValidParentMatcher()
     public hidePassword = true
 
     //#endregion
 
-    constructor(private dialogService: DialogService, private formBuilder: FormBuilder, private helperService: HelperService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private userService: UserService) { }
+    constructor(private dexieService: DexieService, private dialogService: DialogService, private emojiService: EmojiService, private formBuilder: FormBuilder, private helperService: HelperService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private userService: UserService) { }
 
     //#region lifecycle hooks
 

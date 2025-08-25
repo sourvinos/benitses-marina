@@ -302,10 +302,8 @@ export class ReservationFormComponent {
         this.helperService.openOrCloseAutocomplete(this.form, element, trigger)
     }
 
-    public toggleSelectedDocuments(filename: string, event: any) {
-        if (!event.source.checked) {
-            console.log('unchecked')
-        }
+    public toggleSelectedDocuments(filename: string, itemIndex: number, event: any) {
+        // todo
     }
 
     public trimFilename(filename: string): string {

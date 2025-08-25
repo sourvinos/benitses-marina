@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpParams } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
 // Custom
@@ -16,6 +16,10 @@ export class UserService extends HttpDataService {
 
     //#region public methods
 
+    public getUserFromEmail(email: string): Observable<any> {
+        return this.http.get<any>(this.url + '/getByEmail/' + email)
+    }
+
     public updatePassword(formData: ChangePasswordViewModel): Observable<any> {
         return this.http.post<any>(this.url + '/changePassword/', formData)
     }
@@ -24,8 +28,9 @@ export class UserService extends HttpDataService {
         return this.http.post<any>(this.url, formData)
     }
 
-    public emailUserDetails(formData: any): Observable<any> {
-        return this.http.post<any>(this.url + '/emailUserDetails', formData)
+    public patchUserWithNewEmailPending(id: string): Observable<any> {
+        const params = new HttpParams().set('id', id)
+        return this.http.patch<any>(this.url + '/patchUserWithNewEmailPending?', null, { params: params })
     }
 
     //#endregion

@@ -29,6 +29,9 @@ using API.Features.Cashiers.Safes;
 using API.Featuers.Sales.SeasonTypes;
 using API.Featuers.Sales.HullTypes;
 using API.Featuers.Sales.PeriodTypes;
+using API.Infrastructure.Account;
+using API.Features.Reservations.Parameters;
+using API.Infrastructure.EmailServices;
 
 namespace API.Infrastructure.Extensions {
 
@@ -62,6 +65,7 @@ namespace API.Infrastructure.Extensions {
             services.AddTransient<ILeasePdfRepository, LeasePdfRepository>();
             services.AddTransient<ILeaseRepository, LeaseRepository>();
             services.AddTransient<IPaymentStatusRepository, PaymentStatusRepository>();
+            services.AddTransient<IReservationParametersRepository, ParametersRepository>();
             services.AddTransient<IReservationRepository, ReservationRepository>();
             services.AddTransient<IReservationValidation, ReservationValidation>();
             #endregion
@@ -89,10 +93,13 @@ namespace API.Infrastructure.Extensions {
             #endregion
             #region common
             services.AddScoped<Token>();
-            services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<IEmailAccountSender, EmailAccountSender>();
+            services.AddTransient<IEmailQueueRepository, EmailQueueRepository>();
+            services.AddTransient<IEmailUserDetailsSender, EmailUserDetailsSender>();
             services.AddTransient<IPaymentMethodRepository, PaymentMethodRepository>();
             services.AddTransient<IPaymentMethodValidation, PaymentMethodValidation>();
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IUserValidation<IUser>, UserValidation>();
             #endregion
             #region cashiers
             services.AddTransient<ICashierLedgerRepository, CashierLedgerRepository>();

@@ -18,7 +18,7 @@
             <!-- Username -->
             <mat-form-field>
                 <mat-label>{{ getLabel('username') }}</mat-label>
-                <mat-icon class="lock material-icons-outlined small">lock</mat-icon>
+                <mat-icon class="material-icons-outlined small">lock</mat-icon>
                 <input [inputTabStop]="input" dataTabIndex="1" formControlName="username" matInput readonly>
                 <mat-error *ngIf="username.hasError('required')">{{ getHint("required") }}</mat-error>
                 <mat-error *ngIf="username.hasError('maxlength')">{{ getHint("maxLength", username.errors.maxlength.requiredLength) }}</mat-error>
@@ -35,7 +35,7 @@
             <!-- Email -->
             <mat-form-field>
                 <mat-label>{{ getLabel('email') }}</mat-label>
-                <mat-icon *ngIf="!isAdmin()" class="lock material-icons-outlined small">lock</mat-icon>
+                <mat-icon *ngIf="!isAdmin()" class="material-icons-outlined small">lock</mat-icon>
                 <input [inputTabStop]="input" [readonly]="!isAdmin()" dataTabIndex="3" formControlName="email" matInput type="email">
                 <mat-error *ngIf="email.hasError('required')">{{ getHint("required") }}</mat-error>
                 <mat-error *ngIf="email.hasError('email')">{{ getHint("invalid") }}</mat-error>
@@ -43,17 +43,17 @@
             <div class="stacked-checkboxes">
                 <!-- Focus on first field -->
                 <mat-checkbox formControlName="isFirstFieldFocused">
-                    <mat-icon *ngIf="!isAdmin()" class="lock material-icons-outlined small">lock_open</mat-icon>
+                    <mat-icon *ngIf="!isAdmin()" class="material-icons-outlined small">lock_open</mat-icon>
                     <span>{{ getLabel("isFirstFieldFocused") }}</span>
                 </mat-checkbox>
                 <!-- Admin -->
                 <mat-checkbox [class]="!isAdmin() ? 'disabled': null" formControlName="isAdmin">
-                    <mat-icon *ngIf="!isAdmin()" class="lock material-icons-outlined small">lock</mat-icon>
+                    <mat-icon *ngIf="!isAdmin()" class="material-icons-outlined small">lock</mat-icon>
                     <span>{{ getLabel("isAdmin") }}</span>
                 </mat-checkbox>
                 <!-- Active -->
                 <mat-checkbox [class]="!isAdmin() ? 'disabled': null" formControlName="isActive">
-                    <mat-icon *ngIf="!isAdmin()" class="lock material-icons-outlined small">lock</mat-icon>
+                    <mat-icon *ngIf="!isAdmin()" class="material-icons-outlined small">lock</mat-icon>
                     <span>{{ getLabel("isActive") }}</span>
                 </mat-checkbox>
             </div>
@@ -80,7 +80,7 @@
 </div>
 
 <ng-template #contextMenu>
-    <button (click)="onEmailUserDetais()" mat-menu-item>
+    <button *ngIf="isAdmin()" (click)="onEmailUserDetais()" mat-menu-item>
         <span>{{ getLabel('emailUserDetails') }}</span>
     </button>
     <button (click)="onDeleteDexieDB()" mat-menu-item>

@@ -86,8 +86,14 @@
     margin: 0 0 0 1rem;
 }
 
-.document span {
+.document div span {
+    color: var(--color-text) !important;
+    font-family: var(--font-family-asty) !important;
+    font-size: 0.875rem !important;
+    font-variant: unicase;
+    font-weight: 300;
     margin: 0 1rem 0 0;
+    transition: color var(--theme-delay) !important;
 }
 
 .mdc-label {

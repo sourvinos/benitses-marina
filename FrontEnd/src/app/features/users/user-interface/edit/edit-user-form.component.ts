@@ -1,11 +1,12 @@
 import { ActivatedRoute, Router } from '@angular/router'
 import { Component } from '@angular/core'
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms'
-import { MatAutocompleteTrigger } from '@angular/material/autocomplete'
 // Custom
 import { CryptoService } from 'src/app/shared/services/crypto.service'
 import { DexieService } from 'src/app/shared/services/dexie.service'
 import { DialogService } from 'src/app/shared/services/modal-dialog.service'
+import { EmailQueueDto } from 'src/app/shared/classes/email-queue-dto'
+import { EmailQueueHttpService } from 'src/app/shared/services/email-queue-http.service'
 import { EmojiService } from 'src/app/shared/services/emoji.service'
 import { FormResolved } from 'src/app/shared/classes/form-resolved'
 import { HelperService } from 'src/app/shared/services/helper.service'
@@ -46,13 +47,7 @@ export class EditUserFormComponent {
 
     //#endregion
 
-    //#region autocompletes
-
-    public isAutoCompleteDisabled = true
-
-    //#endregion
-
-    constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dexieService: DexieService, private dialogService: DialogService, private emojiService: EmojiService, private formBuilder: FormBuilder, private helperService: HelperService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService, private userService: UserService) { }
+    constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dexieService: DexieService, private dialogService: DialogService, private emailQueueHttpService: EmailQueueHttpService, private emojiService: EmojiService, private formBuilder: FormBuilder, private helperService: HelperService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService, private userService: UserService) { }
 
     //#region lifecycle hooks
 
@@ -72,18 +67,6 @@ export class EditUserFormComponent {
     //#endregion
 
     //#region public methods
-
-    public autocompleteFields(fieldName: any, object: any): any {
-        return object ? object[fieldName] : undefined
-    }
-
-    public checkForEmptyAutoComplete(event: { target: { value: any } }): void {
-        if (event.target.value == '') this.isAutoCompleteDisabled = true
-    }
-
-    public enableOrDisableAutoComplete(event: any): void {
-        this.isAutoCompleteDisabled = this.helperService.enableOrDisableAutoComplete(event)
-    }
 
     public getHint(id: string, minmax = 0): string {
         return this.messageHintService.getDescription(id, minmax)
@@ -125,28 +108,31 @@ export class EditUserFormComponent {
     }
 
     public onEmailUserDetais(): void {
-        if (this.helperService.deepEqual(this.form.value, this.mirrorRecord)) {
-            this.userService.emailUserDetails(this.form.value).subscribe({
-                complete: () => {
+        this.userService.getUserFromEmail(this.form.value.email).subscribe({
+            next: (x) => {
+                if (x.body != '') {
+                    this.emailQueueHttpService.save(this.createEmailQueueObject(x)).subscribe(() => {
+                        this.helperService.doPostSaveFormTasks(this.messageDialogService.emailSent(), 'ok', this.parentUrl, true)
+                    })
+                } else {
                     this.helperService.doPostSaveFormTasks(this.messageDialogService.emailSent(), 'ok', this.parentUrl, true)
-                },
-                error: () => {
-                    this.helperService.doPostSaveFormTasks(this.messageDialogService.emailNotSent(), 'error', this.parentUrl, true)
                 }
-            })
-        } else {
-            this.mustGoBackAfterSave = false
-            this.dialogService.open(this.messageDialogService.formIsDirty(), 'error', ['ok'])
-        }
-    }
-
-    public openOrCloseAutoComplete(trigger: MatAutocompleteTrigger, element: any): void {
-        this.helperService.openOrCloseAutocomplete(this.form, element, trigger)
+            }
+        })
     }
 
     //#endregion
 
     //#region private methods
+
+    private createEmailQueueObject(z: { body: any }): EmailQueueDto {
+        return {
+            initiator: 'UserDetails',
+            entityId: z.body,
+            priority: 2,
+            isSent: false
+        }
+    }
 
     private editUserFromList(): void {
         this.parentUrl = '/users'
@@ -160,14 +146,6 @@ export class EditUserFormComponent {
 
     private cloneRecord(): void {
         this.mirrorRecord = this.form.value
-    }
-
-    private filterAutocomplete(array: string, field: string, value: any): any[] {
-        if (typeof value !== 'object') {
-            const filtervalue = value.toLowerCase()
-            return this[array].filter((element: { [x: string]: string }) =>
-                element[field].toLowerCase().startsWith(filtervalue))
-        }
     }
 
     private flattenForm(): UpdateUserDto {
