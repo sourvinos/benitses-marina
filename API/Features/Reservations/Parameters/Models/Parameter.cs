@@ -10,6 +10,7 @@ namespace API.Features.Reservations.Parameters {
         // Fields
         public string Phones { get; set; }
         public string Email { get; set; }
+        public string Website { get; set; }
         // Metadata
         public string PostAt { get; set; }
         public string PostUser { get; set; }

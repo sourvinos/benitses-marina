@@ -65,6 +65,7 @@ namespace API.Infrastructure.Extensions {
             services.AddTransient<ILeasePdfRepository, LeasePdfRepository>();
             services.AddTransient<ILeaseRepository, LeaseRepository>();
             services.AddTransient<IPaymentStatusRepository, PaymentStatusRepository>();
+            services.AddTransient<IReservationEmailSender, ReservationEmailSender>();
             services.AddTransient<IReservationParametersRepository, ParametersRepository>();
             services.AddTransient<IReservationRepository, ReservationRepository>();
             services.AddTransient<IReservationValidation, ReservationValidation>();

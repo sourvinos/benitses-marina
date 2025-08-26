@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -23,12 +24,14 @@ namespace API.Infrastructure.EmailServices {
         private readonly EnvironmentSettings environmentSettings;
         private readonly IEmailQueueRepository emailQueueRepo;
         private readonly IEmailUserDetailsSender emailUserSender;
+        private readonly IReservationEmailSender emailReservationSender;
         private readonly UserManager<UserExtended> userManager;
 
         #endregion
 
-        public EmailQueueService(IEmailAccountSender emailAccountSender, IEmailQueueRepository queueRepo, IEmailUserDetailsSender emailUserDetailsSender, IOptions<EnvironmentSettings> environmentSettings, IReservationRepository reservationRepo, UserManager<UserExtended> userManager) {
+        public EmailQueueService(IReservationEmailSender emailReservationSender, IEmailAccountSender emailAccountSender, IEmailQueueRepository queueRepo, IEmailUserDetailsSender emailUserDetailsSender, IOptions<EnvironmentSettings> environmentSettings, IReservationRepository reservationRepo, UserManager<UserExtended> userManager) {
             this.emailAccountSender = emailAccountSender;
+            this.emailReservationSender = emailReservationSender;
             this.emailQueueRepo = queueRepo;
             this.emailUserSender = emailUserDetailsSender;
             this.environmentSettings = environmentSettings.Value;
@@ -42,6 +45,7 @@ namespace API.Infrastructure.EmailServices {
                 if (x != null) {
                     if (x.Initiator == "ResetPassword") { SendResetPassword(x); }
                     if (x.Initiator == "UserDetails") { await SendUserDetailsAsync(x); }
+                    if (x.Initiator == "Reservation") { SendReservation(x); }
                 }
             }
         }
@@ -67,6 +71,15 @@ namespace API.Infrastructure.EmailServices {
                 }
             }
         }
+
+        private void SendReservation(EmailQueue emailQueue) {
+            var response = emailReservationSender.SendReservationToEmail(emailQueue, "johnsourvinos@hotmail.com");
+            if (response.Exception == null) {
+                emailQueue.IsSent = true;
+                emailQueueRepo.Update(emailQueue);
+            }
+        }
+
 
     }
 
