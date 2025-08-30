@@ -129,6 +129,7 @@ export class EditUserFormComponent {
         return {
             initiator: 'UserDetails',
             entityId: z.body,
+            filenames: '',
             priority: 2,
             isSent: false
         }

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -73,13 +72,12 @@ namespace API.Infrastructure.EmailServices {
         }
 
         private void SendReservation(EmailQueue emailQueue) {
-            var response = emailReservationSender.SendReservationToEmail(emailQueue, "johnsourvinos@hotmail.com");
+            var response = emailReservationSender.SendReservationToEmail(emailQueue);
             if (response.Exception == null) {
-                emailQueue.IsSent = true;
+                emailQueue.IsSent = false;
                 emailQueueRepo.Update(emailQueue);
             }
         }
-
 
     }
 

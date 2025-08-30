@@ -327,6 +327,10 @@
             {
                 "id": "saveAndLeaveFormOpen",
                 "description": "Αποθήκευση και παραμονή στη φόρμα"
+            },
+            {
+                "id": "addSelectedFilenamesToEmailQueue",
+                "description": "Αποστολή εγγράφων"
             }
         ]
     },

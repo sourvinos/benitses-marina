@@ -80,6 +80,7 @@ export class ForgotPasswordFormComponent {
         return {
             initiator: 'ResetPassword',
             entityId: z.body,
+            filenames: '',
             priority: 1,
             isSent: false
         }

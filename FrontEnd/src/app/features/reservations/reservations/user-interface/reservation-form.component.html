@@ -11,6 +11,7 @@
         </div>
 
         <form [formGroup]="form" id="form">
+            {{ selectedDocuments }}
             <mat-tab-group mat-stretch-tabs="false">
                 <mat-tab label="{{ getLabel('tab1') }}">
                     <div id="general-tab">
@@ -355,6 +356,7 @@
     <input type="file" #file placeholder="Choose file" (change)="onUploadAndRenameFile(file.files[0])" style="display: none;">
     <button [disabled]="isNewRecord()" (click)="file.click()" mat-menu-item>{{ getLabel("uploadButton") }}</button>
     <button [disabled]="isNewRecord()" (click)="onCreateLeaseAndOpen()" mat-menu-item><span>{{ getLabel("printLeaseButton") }}</span></button>
+    <button [disabled]="isNewRecord()" (click)="onAddSelectedFilenamesToEmailQueue()" mat-menu-item><span>{{ getLabel("addSelectedFilenamesToEmailQueue") }}</span></button>
 </ng-template>
 
 <ng-template #saveMenuTemplate>

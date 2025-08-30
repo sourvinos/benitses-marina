@@ -1,3 +1,4 @@
+import { EmailQueueDto } from 'src/app/shared/classes/email-queue-dto';
 import { ActivatedRoute, Router } from '@angular/router'
 import { Component } from '@angular/core'
 import { DateAdapter } from '@angular/material/core'
@@ -30,6 +31,8 @@ import { SessionStorageService } from 'src/app/shared/services/session-storage.s
 import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 import { ValidationService } from 'src/app/shared/services/validation.service'
 import { environment } from 'src/environments/environment'
+import { EmailQueueHttpService } from 'src/app/shared/services/email-queue-http.service'
+import { getMatFormFieldPlaceholderConflictError } from '@angular/material/form-field'
 
 @Component({
     selector: 'reservation-form',
@@ -71,12 +74,12 @@ export class ReservationFormComponent {
     //#region documents
 
     private documents = []
-    private selectedDocuments = []
+    public selectedDocuments = []
     private renameDocumentForm: FormGroup
 
     // #endregion
 
-    constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateAdapter: DateAdapter<any>, private dateHelperService: DateHelperService, private dexieService: DexieService, private dialogService: DialogService, private emojiService: EmojiService, private formBuilder: FormBuilder, private helperService: HelperService, private leasePdfHttpService: LeasePdfHttpService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private reservationHttpService: ReservationHttpService, private router: Router, private sessionStorageService: SessionStorageService) { }
+    constructor(private emailQueueHttpService: EmailQueueHttpService, private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateAdapter: DateAdapter<any>, private dateHelperService: DateHelperService, private dexieService: DexieService, private dialogService: DialogService, private emojiService: EmojiService, private formBuilder: FormBuilder, private helperService: HelperService, private leasePdfHttpService: LeasePdfHttpService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private reservationHttpService: ReservationHttpService, private router: Router, private sessionStorageService: SessionStorageService) { }
 
     //#region lifecycle hooks
 
@@ -303,7 +306,12 @@ export class ReservationFormComponent {
     }
 
     public toggleSelectedDocuments(filename: string, itemIndex: number, event: any) {
-        // todo
+        this.selectedDocuments = []
+        this.documents.forEach(record => {
+            if (event.checked && record == filename) {
+                this.selectedDocuments.push(filename.substring(37))
+            }
+        })
     }
 
     public trimFilename(filename: string): string {
@@ -313,6 +321,32 @@ export class ReservationFormComponent {
     public showDocuments(): string[] {
         return this.documents ? this.documents : []
     }
+
+    public onAddSelectedFilenamesToEmailQueue(): void {
+        if (this.isAnyRowSelected()) {
+            const x: EmailQueueDto = {
+                initiator: 'Reservation',
+                entityId: this.form.value.reservationId,
+                filenames: this.selectedDocuments[0],
+                priority: 1,
+                isSent: false
+            }
+            this.emailQueueHttpService.save(x).subscribe(() => {
+                this.dialogService.open(this.messageDialogService.success(), 'ok', ['ok']).subscribe(() => {
+                    // 
+                })
+            })
+        }
+    }
+
+    private isAnyRowSelected(): boolean {
+        if (this.selectedDocuments.length == 0) {
+            this.dialogService.open(this.messageDialogService.noRecordsSelected(), 'error', ['ok'])
+            return false
+        }
+        return true
+    }
+
 
     //#endregion
 

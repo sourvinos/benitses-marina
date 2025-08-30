@@ -9,12 +9,19 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System;
 using API.Infrastructure.Helpers;
+using API.Infrastructure.Extensions;
 
 namespace API.Infrastructure.EmailServices {
 
     public class EmailQueueRepository : Repository<EmailQueue>, IEmailQueueRepository {
 
-        public EmailQueueRepository(AppDbContext appDbContext, IHttpContextAccessor httpContext, IOptions<TestingEnvironment> settings, UserManager<UserExtended> userManager) : base(appDbContext, httpContext, settings, userManager) { }
+        private readonly IHttpContextAccessor httpContextAccessor;
+        private readonly UserManager<UserExtended> userManager;
+
+        public EmailQueueRepository(AppDbContext appDbContext, IHttpContextAccessor httpContextAccessor, IOptions<TestingEnvironment> settings, UserManager<UserExtended> userManager) : base(appDbContext, httpContextAccessor, settings, userManager) {
+            this.httpContextAccessor = httpContextAccessor;
+            this.userManager = userManager;
+        }
 
         public async Task<EmailQueue> GetFirstNotCompleted() {
             return await context.EmailQueues
@@ -32,6 +39,8 @@ namespace API.Infrastructure.EmailServices {
             return new EmailQueue {
                 EntityId = IsNotGuid(emailQueue.EntityId) ? Guid.NewGuid() : emailQueue.EntityId,
                 Initiator = emailQueue.Initiator,
+                Filenames = emailQueue.Filenames,
+                UserDisplayName = Identity.GetConnectedUserDetails(userManager, Identity.GetConnectedUserId(httpContextAccessor)).UserName,
                 Priority = emailQueue.Priority,
                 IsSent = false,
                 PostAt = DateHelpers.DateTimeToISOString(DateHelpers.GetLocalDateTime())

@@ -1,7 +1,11 @@
-using API.Features.Reservations.Parameters;
 using API.Infrastructure.EmailServices;
+using API.Infrastructure.Extensions;
 using API.Infrastructure.Helpers;
+using API.Infrastructure.Responses;
+using API.Infrastructure.Users;
 using MailKit.Net.Smtp;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using RazorLight;
@@ -16,33 +20,40 @@ namespace API.Features.Reservations.Transactions {
         #region variables
 
         private readonly EmailReservationSettings emailReservationSettings;
-        private readonly IReservationParametersRepository parametersRepo;
+        private readonly IReservationRepository reservationRepo;
+        private readonly IHttpContextAccessor httpContextAccessor;
+        private readonly UserManager<UserExtended> userManager;
 
         #endregion
 
-        public ReservationEmailSender(IOptions<EmailReservationSettings> emailReservationSettings, IReservationParametersRepository parametersRepo) {
+        public ReservationEmailSender(IHttpContextAccessor httpContextAccessor, IReservationRepository reservationRepo, IOptions<EmailReservationSettings> emailReservationSettings, UserManager<UserExtended> userManager) {
+            this.httpContextAccessor = httpContextAccessor;
             this.emailReservationSettings = emailReservationSettings.Value;
-            this.parametersRepo = parametersRepo;
+            this.reservationRepo = reservationRepo;
+            this.userManager = userManager;
         }
 
-        public async Task SendReservationToEmail(EmailQueue emailQueue, string email) {
+        public async Task SendReservationToEmail(EmailQueue emailQueue) {
             using var smtp = new SmtpClient();
             smtp.Connect(emailReservationSettings.SmtpClient, emailReservationSettings.Port);
             smtp.Authenticate(emailReservationSettings.Username, emailReservationSettings.Password);
-            await smtp.SendAsync(await BuildReservationMessage(emailQueue, email));
+            await smtp.SendAsync(await BuildReservationMessage(emailQueue));
             smtp.Disconnect(true);
         }
 
-        private async Task<MimeMessage> BuildReservationMessage(EmailQueue model, string email) {
+        private async Task<MimeMessage> BuildReservationMessage(EmailQueue model) {
+            var emailRecipients = await GetReceipientEmails(model.EntityId.ToString());
             var message = new MimeMessage { Sender = MailboxAddress.Parse(emailReservationSettings.Username) };
             message.From.Add(new MailboxAddress(emailReservationSettings.From, emailReservationSettings.Username));
-            message.To.AddRange(BuildReceivers(email));
-            message.Subject = "✨ Αποστολή παραστατικών παροχής υπηρεσιών";
-            var builder = new BodyBuilder { HtmlBody = await BuildEmailReservationTemplate() };
+            message.To.AddRange(BuildReceivers(emailRecipients));
+            message.Subject = "⚓ Invoice & lease agreement for vessel '***'";
+            var builder = new BodyBuilder { HtmlBody = await BuildEmailReservationTemplateAsync(model) };
             var filenames = model.Filenames.Split(",");
             foreach (var filename in filenames) {
-                builder.Attachments.Add(Path.Combine("Uploaded Lease Agreements" + Path.DirectorySeparatorChar + model.EntityId.ToString() + " " + filename + ".pdf"));
+                builder.Attachments.Add(Path.Combine("Uploaded Lease Agreements" + Path.DirectorySeparatorChar + model.EntityId.ToString() + " " + filename));
             }
+            builder.Attachments.Add(Path.Combine("Documents" + Path.DirectorySeparatorChar + "Pillar instructions.pdf"));
+            builder.Attachments.Add(Path.Combine("Documents" + Path.DirectorySeparatorChar + "Wi-Fi and Showers Passkeys.pdf"));
             message.Body = builder.ToMessageBody();
             return message;
         }
@@ -51,19 +62,20 @@ namespace API.Features.Reservations.Transactions {
             InternetAddressList internetAddressList = new();
             var emails = email.Split(",");
             foreach (string address in emails) {
-                internetAddressList.Add(MailboxAddress.Parse(EmailHelpers.BeValidEmailAddress(address.Trim()) ? address.Trim() : "postmaster@appcorfucruises.com"));
+                internetAddressList.Add(MailboxAddress.Parse(EmailHelpers.BeValidEmailAddress(address.Trim()) ? address.Trim() : "postmaster@appbenitsesmarina.com"));
             }
             return internetAddressList;
         }
 
-        private async Task<string> BuildEmailReservationTemplate() {
+        private static async Task<string> BuildEmailReservationTemplateAsync(EmailQueue model) {
             RazorLightEngine engine = new RazorLightEngineBuilder()
                 .UseEmbeddedResourcesProject(Assembly.GetEntryAssembly())
                 .Build();
             return await engine.CompileRenderStringAsync("key", LoadEmailReservationTemplateFromFile(), new EmailReservationTemplateVM {
-                Email = "parametersRepo.GetAsync().Result.Email",
-                CompanyPhones = "parametersRepo.GetAsync().Result.Phones",
-                Website = "parametersRepo.GetAsync().Result.Website"
+                UserDisplayname = model.UserDisplayName,
+                Email = "info@benitsesmarina.com",
+                CompanyPhones = "+30 26610 72150",
+                Website = "www.benitsesmarina.com"
             });
         }
 
@@ -73,6 +85,17 @@ namespace API.Features.Reservations.Transactions {
             string template = str.ReadToEnd();
             str.Close();
             return template;
+        }
+
+        private async Task<string> GetReceipientEmails(string reservationId) {
+            var x = await reservationRepo.GetByIdAsync(reservationId, false);
+            if (x != null) {
+                return x.Owner.Email;
+            } else {
+                throw new CustomException() {
+                    ResponseCode = 404
+                };
+            }
         }
 
     }

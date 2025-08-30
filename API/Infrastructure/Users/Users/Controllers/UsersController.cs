@@ -1,4 +1,3 @@
-using API.Features.Reservations.Parameters;
 using API.Infrastructure.Extensions;
 using API.Infrastructure.Helpers;
 using API.Infrastructure.Responses;
@@ -23,7 +22,7 @@ namespace API.Infrastructure.Users {
 
         #endregion
 
-        public UsersController(IReservationParametersRepository parametersRepo, IHttpContextAccessor httpContext, IMapper mapper, IUserRepository userRepo, IUserValidation<IUser> userValidation) {
+        public UsersController(IHttpContextAccessor httpContext, IMapper mapper, IUserRepository userRepo, IUserValidation<IUser> userValidation) {
             this.httpContext = httpContext;
             this.mapper = mapper;
             this.userRepo = userRepo;
