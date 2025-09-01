@@ -5,7 +5,7 @@ namespace API.Features.Reservations.Transactions {
 
     public interface IReservationEmailSender {
 
-        Task SendReservationToEmail(EmailQueue emailQueue);
+        Task SendReservationToEmail(EmailQueue emailQueue, string email);
 
     }
 

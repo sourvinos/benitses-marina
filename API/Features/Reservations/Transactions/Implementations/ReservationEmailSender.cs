@@ -1,11 +1,7 @@
 using API.Infrastructure.EmailServices;
-using API.Infrastructure.Extensions;
 using API.Infrastructure.Helpers;
 using API.Infrastructure.Responses;
-using API.Infrastructure.Users;
 using MailKit.Net.Smtp;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using RazorLight;
@@ -21,31 +17,26 @@ namespace API.Features.Reservations.Transactions {
 
         private readonly EmailReservationSettings emailReservationSettings;
         private readonly IReservationRepository reservationRepo;
-        private readonly IHttpContextAccessor httpContextAccessor;
-        private readonly UserManager<UserExtended> userManager;
 
         #endregion
 
-        public ReservationEmailSender(IHttpContextAccessor httpContextAccessor, IReservationRepository reservationRepo, IOptions<EmailReservationSettings> emailReservationSettings, UserManager<UserExtended> userManager) {
-            this.httpContextAccessor = httpContextAccessor;
+        public ReservationEmailSender(IReservationRepository reservationRepo, IOptions<EmailReservationSettings> emailReservationSettings) {
             this.emailReservationSettings = emailReservationSettings.Value;
             this.reservationRepo = reservationRepo;
-            this.userManager = userManager;
         }
 
-        public async Task SendReservationToEmail(EmailQueue emailQueue) {
+        public async Task SendReservationToEmail(EmailQueue emailQueue, string email) {
             using var smtp = new SmtpClient();
             smtp.Connect(emailReservationSettings.SmtpClient, emailReservationSettings.Port);
             smtp.Authenticate(emailReservationSettings.Username, emailReservationSettings.Password);
-            await smtp.SendAsync(await BuildReservationMessage(emailQueue));
+            await smtp.SendAsync(await BuildReservationMessage(emailQueue, email));
             smtp.Disconnect(true);
         }
 
-        private async Task<MimeMessage> BuildReservationMessage(EmailQueue model) {
-            var emailRecipients = await GetReceipientEmails(model.EntityId.ToString());
+        private async Task<MimeMessage> BuildReservationMessage(EmailQueue model, string email) {
             var message = new MimeMessage { Sender = MailboxAddress.Parse(emailReservationSettings.Username) };
             message.From.Add(new MailboxAddress(emailReservationSettings.From, emailReservationSettings.Username));
-            message.To.AddRange(BuildReceivers(emailRecipients));
+            message.To.AddRange(BuildReceivers(email));
             message.Subject = "⚓ Invoice & lease agreement for vessel '***'";
             var builder = new BodyBuilder { HtmlBody = await BuildEmailReservationTemplateAsync(model) };
             var filenames = model.Filenames.Split(",");

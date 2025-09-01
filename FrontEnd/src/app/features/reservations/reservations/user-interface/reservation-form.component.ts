@@ -76,10 +76,17 @@ export class ReservationFormComponent {
     private documents = []
     public selectedDocuments = []
     private renameDocumentForm: FormGroup
+    public pizzaIng: any;
 
     // #endregion
 
-    constructor(private emailQueueHttpService: EmailQueueHttpService, private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateAdapter: DateAdapter<any>, private dateHelperService: DateHelperService, private dexieService: DexieService, private dialogService: DialogService, private emojiService: EmojiService, private formBuilder: FormBuilder, private helperService: HelperService, private leasePdfHttpService: LeasePdfHttpService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private reservationHttpService: ReservationHttpService, private router: Router, private sessionStorageService: SessionStorageService) { }
+    constructor(private emailQueueHttpService: EmailQueueHttpService, private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateAdapter: DateAdapter<any>, private dateHelperService: DateHelperService, private dexieService: DexieService, private dialogService: DialogService, private emojiService: EmojiService, private formBuilder: FormBuilder, private helperService: HelperService, private leasePdfHttpService: LeasePdfHttpService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private reservationHttpService: ReservationHttpService, private router: Router, private sessionStorageService: SessionStorageService) {
+        this.pizzaIng = [
+            { name: "Pepperoni", checked: false },
+            { name: "Sasuage", checked: true },
+            { name: "Mushrooms", checked: false }
+        ];
+    }
 
     //#region lifecycle hooks
 
@@ -305,13 +312,15 @@ export class ReservationFormComponent {
         this.helperService.openOrCloseAutocomplete(this.form, element, trigger)
     }
 
-    public toggleSelectedDocuments(filename: string, itemIndex: number, event: any) {
-        this.selectedDocuments = []
-        this.documents.forEach(record => {
-            if (event.checked && record == filename) {
-                this.selectedDocuments.push(filename.substring(37))
-            }
-        })
+    public toggleSelectedDocuments(filename: string, event: any) {
+        if (event.checked) {
+            this.selectedDocuments.push(filename.substring(37))
+        } else {
+            let found = this.selectedDocuments.findIndex(z => {
+                return z == filename.substring(37);
+            });
+            this.selectedDocuments.splice(found, 1)
+        }
     }
 
     public trimFilename(filename: string): string {
@@ -327,7 +336,7 @@ export class ReservationFormComponent {
             const x: EmailQueueDto = {
                 initiator: 'Reservation',
                 entityId: this.form.value.reservationId,
-                filenames: this.selectedDocuments[0],
+                filenames: this.selectedDocuments.join(),
                 priority: 1,
                 isSent: false
             }

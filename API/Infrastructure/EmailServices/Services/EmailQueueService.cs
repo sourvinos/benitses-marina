@@ -24,15 +24,17 @@ namespace API.Infrastructure.EmailServices {
         private readonly IEmailQueueRepository emailQueueRepo;
         private readonly IEmailUserDetailsSender emailUserSender;
         private readonly IReservationEmailSender emailReservationSender;
+        private readonly IReservationRepository reservationRepository;
         private readonly UserManager<UserExtended> userManager;
 
         #endregion
 
-        public EmailQueueService(IReservationEmailSender emailReservationSender, IEmailAccountSender emailAccountSender, IEmailQueueRepository queueRepo, IEmailUserDetailsSender emailUserDetailsSender, IOptions<EnvironmentSettings> environmentSettings, IReservationRepository reservationRepo, UserManager<UserExtended> userManager) {
+        public EmailQueueService(IReservationRepository reservationRepository, IReservationEmailSender emailReservationSender, IEmailAccountSender emailAccountSender, IEmailQueueRepository queueRepo, IEmailUserDetailsSender emailUserDetailsSender, IOptions<EnvironmentSettings> environmentSettings, IReservationRepository reservationRepo, UserManager<UserExtended> userManager) {
             this.emailAccountSender = emailAccountSender;
             this.emailReservationSender = emailReservationSender;
             this.emailQueueRepo = queueRepo;
             this.emailUserSender = emailUserDetailsSender;
+            this.reservationRepository = reservationRepository;
             this.environmentSettings = environmentSettings.Value;
             this.userManager = userManager;
         }
@@ -44,7 +46,7 @@ namespace API.Infrastructure.EmailServices {
                 if (x != null) {
                     if (x.Initiator == "ResetPassword") { SendResetPassword(x); }
                     if (x.Initiator == "UserDetails") { await SendUserDetailsAsync(x); }
-                    if (x.Initiator == "Reservation") { SendReservation(x); }
+                    if (x.Initiator == "Reservation") { await SendReservationAsync(x); }
                 }
             }
         }
@@ -71,12 +73,19 @@ namespace API.Infrastructure.EmailServices {
             }
         }
 
-        private void SendReservation(EmailQueue emailQueue) {
-            var response = emailReservationSender.SendReservationToEmail(emailQueue);
-            if (response.Exception == null) {
-                emailQueue.IsSent = false;
-                emailQueueRepo.Update(emailQueue);
+        private async Task SendReservationAsync(EmailQueue emailQueue) {
+            var reservation = await reservationRepository.GetByIdAsync(emailQueue.EntityId.ToString(), true);
+            if (reservation != null) {
+                if (emailReservationSender.SendReservationToEmail(emailQueue, reservation.Owner.Email).Exception == null) {
+                    emailQueue.IsSent = true;
+                    emailQueueRepo.Update(emailQueue);
+                }
             }
+            // var response = emailReservationSender.SendReservationToEmail(emailQueue);
+            // if (response.Exception == null) {
+            //     emailQueue.IsSent = true;
+            //     emailQueueRepo.Update(emailQueue);
+            // }
         }
 
     }
