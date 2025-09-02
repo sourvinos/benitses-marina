@@ -7,6 +7,7 @@ namespace API.Infrastructure.Users {
 
         // Fields
         public string Displayname { get; set; }
+        public string Fullname { get; set; }
         public bool IsAdmin { get; set; }
         public bool IsFirstFieldFocused { get; set; }
         public bool IsActive { get; set; }

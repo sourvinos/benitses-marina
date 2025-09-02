@@ -25,19 +25,19 @@ namespace API.Features.Reservations.Transactions {
             this.reservationRepo = reservationRepo;
         }
 
-        public async Task SendReservationToEmail(EmailQueue emailQueue, string email) {
+        public async Task SendReservationToEmail(EmailQueue emailQueue, string boat, string email) {
             using var smtp = new SmtpClient();
             smtp.Connect(emailReservationSettings.SmtpClient, emailReservationSettings.Port);
             smtp.Authenticate(emailReservationSettings.Username, emailReservationSettings.Password);
-            await smtp.SendAsync(await BuildReservationMessage(emailQueue, email));
+            await smtp.SendAsync(await BuildReservationMessage(emailQueue, boat, email));
             smtp.Disconnect(true);
         }
 
-        private async Task<MimeMessage> BuildReservationMessage(EmailQueue model, string email) {
+        private async Task<MimeMessage> BuildReservationMessage(EmailQueue model, string boat, string email) {
             var message = new MimeMessage { Sender = MailboxAddress.Parse(emailReservationSettings.Username) };
             message.From.Add(new MailboxAddress(emailReservationSettings.From, emailReservationSettings.Username));
             message.To.AddRange(BuildReceivers(email));
-            message.Subject = "⚓ Invoice & lease agreement for vessel '***'";
+            message.Subject = "⚓ Invoice & lease agreement for vessel '" + boat + "'";
             var builder = new BodyBuilder { HtmlBody = await BuildEmailReservationTemplateAsync(model) };
             var filenames = model.Filenames.Split(",");
             foreach (var filename in filenames) {
@@ -63,7 +63,7 @@ namespace API.Features.Reservations.Transactions {
                 .UseEmbeddedResourcesProject(Assembly.GetEntryAssembly())
                 .Build();
             return await engine.CompileRenderStringAsync("key", LoadEmailReservationTemplateFromFile(), new EmailReservationTemplateVM {
-                UserDisplayname = model.UserDisplayName,
+                UserFullname = model.UserFullname,
                 Email = "info@benitsesmarina.com",
                 CompanyPhones = "+30 26610 72150",
                 Website = "www.benitsesmarina.com"

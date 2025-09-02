@@ -76,16 +76,11 @@ namespace API.Infrastructure.EmailServices {
         private async Task SendReservationAsync(EmailQueue emailQueue) {
             var reservation = await reservationRepository.GetByIdAsync(emailQueue.EntityId.ToString(), true);
             if (reservation != null) {
-                if (emailReservationSender.SendReservationToEmail(emailQueue, reservation.Owner.Email).Exception == null) {
+                if (emailReservationSender.SendReservationToEmail(emailQueue, reservation.Boat.Name, reservation.Owner.Email).Exception == null) {
                     emailQueue.IsSent = true;
                     emailQueueRepo.Update(emailQueue);
                 }
             }
-            // var response = emailReservationSender.SendReservationToEmail(emailQueue);
-            // if (response.Exception == null) {
-            //     emailQueue.IsSent = true;
-            //     emailQueueRepo.Update(emailQueue);
-            // }
         }
 
     }

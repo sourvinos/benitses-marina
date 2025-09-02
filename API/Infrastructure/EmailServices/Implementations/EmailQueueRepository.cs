@@ -36,11 +36,12 @@ namespace API.Infrastructure.EmailServices {
         }
 
         public EmailQueue CreateEmailQueue(EmailQueueDto emailQueue) {
+            var x = Identity.GetConnectedUserDetails(userManager, Identity.GetConnectedUserId(httpContextAccessor)).Fullname;
             return new EmailQueue {
                 EntityId = IsNotGuid(emailQueue.EntityId) ? Guid.NewGuid() : emailQueue.EntityId,
                 Initiator = emailQueue.Initiator,
                 Filenames = emailQueue.Filenames,
-                UserDisplayName = Identity.GetConnectedUserDetails(userManager, Identity.GetConnectedUserId(httpContextAccessor)).UserName,
+                UserFullname = x,
                 Priority = emailQueue.Priority,
                 IsSent = false,
                 PostAt = DateHelpers.DateTimeToISOString(DateHelpers.GetLocalDateTime())
