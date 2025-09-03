@@ -31,17 +31,16 @@ namespace API.Infrastructure.EmailServices {
         }
 
         public async Task<EmailQueue> GetByIdAsync(string entityId) {
-            return await context.EmailQueues
-                .FirstOrDefaultAsync(x => x.EntityId.ToString() == entityId);
+            return await context.EmailQueues.FirstOrDefaultAsync(x => x.EntityId.ToString() == entityId);
         }
 
         public EmailQueue CreateEmailQueue(EmailQueueDto emailQueue) {
-            var x = Identity.GetConnectedUserDetails(userManager, Identity.GetConnectedUserId(httpContextAccessor)).Fullname;
+            var userId = Identity.GetConnectedUserId(httpContextAccessor);
             return new EmailQueue {
                 EntityId = IsNotGuid(emailQueue.EntityId) ? Guid.NewGuid() : emailQueue.EntityId,
                 Initiator = emailQueue.Initiator,
                 Filenames = emailQueue.Filenames,
-                UserFullname = x,
+                UserFullname = userId != "" ? Identity.GetConnectedUserDetails(userManager, userId).Fullname : "",
                 Priority = emailQueue.Priority,
                 IsSent = false,
                 PostAt = DateHelpers.DateTimeToISOString(DateHelpers.GetLocalDateTime())

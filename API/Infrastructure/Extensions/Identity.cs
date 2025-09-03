@@ -33,11 +33,16 @@ namespace API.Infrastructure.Extensions {
         }
 
         public static string GetConnectedUserId(IHttpContextAccessor httpContextAccessor) {
-            return httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            try {
+                return httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            }
+            catch (Exception) {
+                return "";
+            }
         }
 
         public static UserExtended GetConnectedUserDetails(UserManager<UserExtended> userManager, string userId) {
-            return userManager.Users.SingleOrDefault(x => x.Id == userId);
+            return userId != "" ? userManager.Users.SingleOrDefault(x => x.Id == userId) : null;
         }
 
         public static bool IsUserAdmin(IHttpContextAccessor httpContextAccessor) {
