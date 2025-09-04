@@ -65,7 +65,7 @@ namespace API.Features.Reservations.Transactions {
             return await engine.CompileRenderStringAsync("key", LoadEmailReservationTemplateFromFile(), new EmailReservationTemplateVM {
                 UserFullname = model.UserFullname,
                 Email = "info@benitsesmarina.com",
-                CompanyPhones = "+30 26610 72150",
+                CompanyPhones = "+30 26610 72627, +30 6937 133 662",
                 Website = "www.benitsesmarina.com"
             });
         }
