@@ -44,6 +44,7 @@ export class InvoiceFormComponent {
     public imgIsLoaded = false
     public input: InputTabStopDirective
     public parentUrl = '/invoices'
+    public isRepeatedEntry: boolean
 
     //#endregion
 
@@ -75,6 +76,7 @@ export class InvoiceFormComponent {
         this.getRecord()
         this.populateFields()
         this.populateDropdowns()
+        this.setIsRepeatedEntry()
         this.setLocale()
         this.getDocuments()
     }
@@ -261,6 +263,7 @@ export class InvoiceFormComponent {
                 const formResolved: FormResolved = this.activatedRoute.snapshot.data['invoiceForm']
                 if (formResolved.error == null) {
                     this.invoice = formResolved.record.body
+                    this.sessionStorageService.saveItem('isRepeatedEntry', 'false')
                     resolve(this.invoice)
                 } else {
                     this.dialogService.open(this.messageDialogService.filterResponse(formResolved.error), 'error', ['ok']).subscribe(() => {
@@ -300,6 +303,10 @@ export class InvoiceFormComponent {
             oldfilename: '',
             newfilename: ''
         })
+    }
+
+    private setIsRepeatedEntry(): void {
+        this.isRepeatedEntry = JSON.parse(this.sessionStorageService.getItem('isRepeatedEntry'))
     }
 
     private patchFormWithSoftDelete(flattenForm: InvoiceWriteDto): InvoiceWriteDto {
@@ -355,7 +362,24 @@ export class InvoiceFormComponent {
     }
 
     private resetForm(): void {
-        this.form.reset()
+        if (this.isRepeatedEntry) {
+            this.form.patchValue({
+                expenseId: '',
+                date: '',
+                supplier: '',
+                documentType: '',
+                paymentMethod: '',
+                documentNo: '',
+                amount: '',
+                remarks: '',
+                isDeleted: '',
+                postAt: '',
+                postUser: '',
+                putAt: '',
+                putUser: ''
+            })
+            this.form.markAsUntouched()
+        }
     }
 
     private saveRecord(invoice: InvoiceWriteDto): void {
@@ -365,7 +389,9 @@ export class InvoiceFormComponent {
                     response.code == 200 ? this.messageDialogService.success() : '',
                     response.code == 200 ? 'ok' : 'ok',
                     this.parentUrl,
-                    true)
+                    this.isRepeatedEntry ? false : true)
+                this.resetForm()
+                this.focusOnField()
             },
             error: (errorFromInterceptor) => {
                 this.dialogService.open(this.messageDialogService.filterResponse(errorFromInterceptor), 'error', ['ok'])

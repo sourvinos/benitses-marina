@@ -111,7 +111,10 @@
     <div id="footer">
         <table-total-filtered-records (resetTableFilters)="onResetTableFilters()" [filteredRecordCount]="recordsFilteredCount" [mustShowSelectedFilteredCount]="true" [recordCount]="records.length" [selectedRecordCount]="selectedRecords.length"></table-total-filtered-records>
         <div id="align-right">
-            <button (click)="onNewRecord()" [disabled]="!isAdmin()" class="primary" mat-flat-button>{{ getLabel("newRecord") | uppercase }}</button>
+            <button (click)="onNewRecord(false)" [disabled]="!isAdmin()" class="no-right-border-radius primary" mat-flat-button>{{ getLabel('newRecord') | uppercase }}</button>
+            <button (click)="onNewRecord(true)" [disabled]="!isAdmin()" class="no-left-border-radius primary-darker" mat-flat-button>
+                <mat-icon class="big material-symbols-outlined">cycle</mat-icon>
+            </button>
         </div>
     </div>
 
