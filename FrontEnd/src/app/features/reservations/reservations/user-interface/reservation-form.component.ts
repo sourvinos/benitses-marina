@@ -1,4 +1,3 @@
-import { EmailQueueDto } from 'src/app/shared/classes/email-queue-dto';
 import { ActivatedRoute, Router } from '@angular/router'
 import { Component } from '@angular/core'
 import { DateAdapter } from '@angular/material/core'
@@ -9,9 +8,9 @@ import { map, Observable, startWith } from 'rxjs'
 // Custom
 import { CryptoService } from 'src/app/shared/services/crypto.service'
 import { DateHelperService } from 'src/app/shared/services/date-helper.service'
-import { DebugDialogService } from 'src/app/shared/services/debug-dialog.service'
 import { DexieService } from 'src/app/shared/services/dexie.service'
 import { DialogService } from 'src/app/shared/services/modal-dialog.service'
+import { EmailQueueDto } from 'src/app/shared/classes/email-queue-dto';
 import { EmailQueueHttpService } from 'src/app/shared/services/email-queue-http.service'
 import { EmojiService } from 'src/app/shared/services/emoji.service'
 import { FormResolved } from 'src/app/shared/classes/form-resolved'
@@ -82,7 +81,7 @@ export class ReservationFormComponent {
 
     // #endregion
 
-    constructor(private emailQueueHttpService: EmailQueueHttpService, private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateAdapter: DateAdapter<any>, private dateHelperService: DateHelperService, private debugDialogService: DebugDialogService, private dexieService: DexieService, private dialogService: DialogService, private emojiService: EmojiService, private formBuilder: FormBuilder, private helperService: HelperService, private leasePdfHttpService: LeasePdfHttpService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private reservationHttpService: ReservationHttpService, private reservationHelperService: ReservationHelperService, private router: Router, private sessionStorageService: SessionStorageService) { }
+    constructor(private emailQueueHttpService: EmailQueueHttpService, private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateAdapter: DateAdapter<any>, private dateHelperService: DateHelperService, private dexieService: DexieService, private dialogService: DialogService, private emojiService: EmojiService, private formBuilder: FormBuilder, private helperService: HelperService, private leasePdfHttpService: LeasePdfHttpService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private reservationHttpService: ReservationHttpService, private reservationHelperService: ReservationHelperService, private router: Router, private sessionStorageService: SessionStorageService) { }
 
     //#region lifecycle hooks
 
@@ -223,7 +222,7 @@ export class ReservationFormComponent {
     }
 
     public isNotNewRecord(): boolean {
-        return this.form.value.reservationId != ''
+        return this.form.value.reservationId == ''
     }
 
     public isNewRecord(): boolean {
@@ -231,9 +230,7 @@ export class ReservationFormComponent {
     }
 
     public isNotNewRecordAndIsReservationNotInStorage(): boolean {
-        var x = this.form.value.reservationId == ''
-        var z = this.localStorageService.getItem('reservation') == ''
-        return x && z
+        return this.form.value.reservationId == '' && this.localStorageService.getItem('reservation').length != 0
     }
 
     public loadImage(): void {
@@ -365,10 +362,6 @@ export class ReservationFormComponent {
 
     public onSave(closeForm: boolean): void {
         this.saveRecord(this.flattenForm(), closeForm)
-    }
-
-    public onShowFormValue(): void {
-        this.debugDialogService.open(this.form.value, '', ['ok'])
     }
 
     public onUploadAndRenameFile(file: File): void {
@@ -741,6 +734,7 @@ export class ReservationFormComponent {
                     response.code == 200 ? 'ok' : 'ok',
                     this.parentUrl,
                     closeForm)
+                this.localStorageService.deleteItem('reservation')
                 this.form.patchValue(
                     {
                         reservationId: response.body.reservationId,

@@ -17,7 +17,6 @@
         "@typescript-eslint"
     ],
     "ignorePatterns": [
-        "/cypress/**/*.*",
         "/dist/**/*.*",
         "/src/assets/fonts/*.*"
     ],
