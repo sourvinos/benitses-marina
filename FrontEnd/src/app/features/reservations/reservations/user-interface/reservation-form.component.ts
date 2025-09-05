@@ -9,8 +9,10 @@ import { map, Observable, startWith } from 'rxjs'
 // Custom
 import { CryptoService } from 'src/app/shared/services/crypto.service'
 import { DateHelperService } from 'src/app/shared/services/date-helper.service'
+import { DebugDialogService } from 'src/app/shared/services/debug-dialog.service'
 import { DexieService } from 'src/app/shared/services/dexie.service'
 import { DialogService } from 'src/app/shared/services/modal-dialog.service'
+import { EmailQueueHttpService } from 'src/app/shared/services/email-queue-http.service'
 import { EmojiService } from 'src/app/shared/services/emoji.service'
 import { FormResolved } from 'src/app/shared/classes/form-resolved'
 import { HelperService } from 'src/app/shared/services/helper.service'
@@ -22,17 +24,17 @@ import { MessageInputHintService } from 'src/app/shared/services/message-input-h
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
 import { ReservationBoatWriteDto } from '../classes/dtos/reservation-boat-write-dto'
 import { ReservationFeeDto } from '../classes/dtos/reservation-fee-dto'
+import { ReservationHelperService } from '../classes/services/reservation-helper.service';
 import { ReservationHttpService } from '../classes/services/reservation-http.service'
 import { ReservationInsuranceDto } from '../classes/dtos/reservation-insurance-dto'
 import { ReservationPersonDto } from '../classes/dtos/reservation-person-dto'
 import { ReservationReadDto } from '../classes/dtos/reservation-read-dto'
+import { ReservationStorage } from '../classes/storage/reservation-storage'
 import { ReservationWriteDto } from '../classes/dtos/reservation-write-dto'
 import { SessionStorageService } from 'src/app/shared/services/session-storage.service'
 import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 import { ValidationService } from 'src/app/shared/services/validation.service'
 import { environment } from 'src/environments/environment'
-import { EmailQueueHttpService } from 'src/app/shared/services/email-queue-http.service'
-import { getMatFormFieldPlaceholderConflictError } from '@angular/material/form-field'
 
 @Component({
     selector: 'reservation-form',
@@ -45,6 +47,7 @@ export class ReservationFormComponent {
     //#region common
 
     private reservation: ReservationReadDto
+    private storedReservation: ReservationStorage
     private reservationId: string
     public feature = 'reservationForm'
     public featureIcon = 'reservations'
@@ -76,17 +79,10 @@ export class ReservationFormComponent {
     private documents = []
     public selectedDocuments = []
     private renameDocumentForm: FormGroup
-    public pizzaIng: any;
 
     // #endregion
 
-    constructor(private emailQueueHttpService: EmailQueueHttpService, private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateAdapter: DateAdapter<any>, private dateHelperService: DateHelperService, private dexieService: DexieService, private dialogService: DialogService, private emojiService: EmojiService, private formBuilder: FormBuilder, private helperService: HelperService, private leasePdfHttpService: LeasePdfHttpService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private reservationHttpService: ReservationHttpService, private router: Router, private sessionStorageService: SessionStorageService) {
-        this.pizzaIng = [
-            { name: "Pepperoni", checked: false },
-            { name: "Sasuage", checked: true },
-            { name: "Mushrooms", checked: false }
-        ];
-    }
+    constructor(private emailQueueHttpService: EmailQueueHttpService, private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateAdapter: DateAdapter<any>, private dateHelperService: DateHelperService, private debugDialogService: DebugDialogService, private dexieService: DexieService, private dialogService: DialogService, private emojiService: EmojiService, private formBuilder: FormBuilder, private helperService: HelperService, private leasePdfHttpService: LeasePdfHttpService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private reservationHttpService: ReservationHttpService, private reservationHelperService: ReservationHelperService, private router: Router, private sessionStorageService: SessionStorageService) { }
 
     //#region lifecycle hooks
 
@@ -226,12 +222,18 @@ export class ReservationFormComponent {
         return this.cryptoService.decrypt(this.sessionStorageService.getItem('isAdmin')) == 'true' ? true : false
     }
 
-    public isNotNewRecord(): string {
-        return this.form.value.reservationId
+    public isNotNewRecord(): boolean {
+        return this.form.value.reservationId != ''
     }
 
     public isNewRecord(): boolean {
         return this.form.value.reservationId == ''
+    }
+
+    public isNotNewRecordAndIsReservationNotInStorage(): boolean {
+        var x = this.form.value.reservationId == ''
+        var z = this.localStorageService.getItem('reservation') == ''
+        return x && z
     }
 
     public loadImage(): void {
@@ -245,6 +247,71 @@ export class ReservationFormComponent {
         })
         control.push(newGroup)
         this.berthsArray.push(this.form.controls.berths.value)
+    }
+
+    public onCopyReservation(): void {
+        this.localStorageService.saveItem('reservation', JSON.stringify(this.reservationHelperService.createCachedReservation(this.form.value)))
+    }
+
+    public onPasteReservation(): void {
+        this.getCachedReservation()
+        this.populateReservationFromStorage()
+    }
+
+    private getCachedReservation(): void {
+        this.storedReservation = JSON.parse(this.localStorageService.getItem('reservation'))
+    }
+
+    private populateReservationFromStorage(): void {
+        this.form.patchValue({
+            reservationId: '',
+            boatName: this.storedReservation.boatName,
+            flag: this.storedReservation.flag,
+            loa: this.storedReservation.loa,
+            beam: this.storedReservation.beam,
+            draft: this.storedReservation.draft,
+            registryPort: this.storedReservation.registryPort,
+            registryNo: this.storedReservation.registryNo,
+            boatType: { 'id': this.storedReservation.boatType.id, 'description': this.storedReservation.boatType.description },
+            boatUsage: { 'id': this.storedReservation.boatUsage.id, 'description': this.storedReservation.boatUsage.description },
+            fromDate: this.storedReservation.fromDate,
+            toDate: this.storedReservation.toDate,
+            berths: this.storedReservation.berths,
+            remarks: this.storedReservation.remarks,
+            financialRemarks: this.storedReservation.financialRemarks,
+            paymentStatus: { 'id': this.storedReservation.paymentStatus.id, 'description': this.storedReservation.paymentStatus.description },
+            insuranceCompany: this.storedReservation.insuranceCompany,
+            policyNo: this.storedReservation.policyNo,
+            policyEnds: this.storedReservation.policyEnds,
+            netAmount: this.storedReservation.netAmount,
+            vatPercent: this.storedReservation.vatPercent,
+            vatAmount: this.storedReservation.vatAmount,
+            grossAmount: this.storedReservation.grossAmount,
+            isAthenian: this.storedReservation.isAthenian,
+            isDocked: this.storedReservation.isDocked,
+            isDryDock: this.storedReservation.isDryDock,
+            isFishingBoat: this.storedReservation.isFishingBoat,
+            isRequest: this.storedReservation.isRequest,
+            isCash: this.storedReservation.isCash,
+            ownerName: this.storedReservation.ownerName,
+            ownerAddress: this.storedReservation.ownerAddress,
+            ownerTaxNo: this.storedReservation.ownerTaxNo,
+            ownerTaxOffice: this.storedReservation.ownerTaxOffice,
+            ownerPassportNo: this.storedReservation.ownerPassportNo,
+            ownerPhones: this.storedReservation.ownerPhones,
+            ownerEmail: this.storedReservation.ownerEmail,
+            billingName: this.storedReservation.billingName,
+            billingAddress: this.storedReservation.billingAddress,
+            billingTaxNo: this.storedReservation.billingTaxNo,
+            billingTaxOffice: this.storedReservation.billingTaxOffice,
+            billingPassportNo: this.storedReservation.billingPassportNo,
+            billingPhones: this.storedReservation.billingPhones,
+            billingEmail: this.storedReservation.billingEmail,
+            postAt: this.storedReservation.postAt,
+            postUser: this.storedReservation.postUser,
+            putAt: this.storedReservation.putAt,
+            putUser: this.storedReservation.putUser
+        })
     }
 
     public onDelete(): void {
@@ -298,6 +365,10 @@ export class ReservationFormComponent {
 
     public onSave(closeForm: boolean): void {
         this.saveRecord(this.flattenForm(), closeForm)
+    }
+
+    public onShowFormValue(): void {
+        this.debugDialogService.open(this.form.value, '', ['ok'])
     }
 
     public onUploadAndRenameFile(file: File): void {
@@ -355,7 +426,6 @@ export class ReservationFormComponent {
         }
         return true
     }
-
 
     //#endregion
 

@@ -331,6 +331,14 @@
             {
                 "id": "addSelectedFilenamesToEmailQueue",
                 "description": "Αποστολή εγγράφων"
+            },
+            {
+                "id": "copyReservation",
+                "description": "Αντιγραφή εγγραφής"
+            },
+            {
+                "id": "pasteReservation",
+                "description": "Επικόλληση εγγραφής"
             }
         ]
     },
