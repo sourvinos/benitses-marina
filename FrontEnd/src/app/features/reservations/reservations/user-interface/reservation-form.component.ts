@@ -1,5 +1,5 @@
 import { ActivatedRoute, Router } from '@angular/router'
-import { Component } from '@angular/core'
+import { Component, HostListener } from '@angular/core'
 import { DateAdapter } from '@angular/material/core'
 import { FormBuilder, FormGroup, Validators, AbstractControl, FormArray } from '@angular/forms'
 import { HttpEventType } from '@angular/common/http'
@@ -80,6 +80,22 @@ export class ReservationFormComponent {
     private renameDocumentForm: FormGroup
 
     // #endregion
+
+    //#region hostlisteners
+
+    @HostListener('window:keydown.escape', ['$event']) onEscKeyDown(event: KeyboardEvent): void {
+        this.router.navigate([this.parentUrl])
+    }
+
+    @HostListener('window:keydown.control.s', ['$event']) onShiftKeyDown(event: KeyboardEvent): void {
+        this.attemptToSaveRecord(event, true)
+    }
+
+    @HostListener('window:keydown.control.shift.s', ['$event']) onCtrlShiftKeyDown(event: KeyboardEvent): void {
+        this.attemptToSaveRecord(event, false)
+    }
+
+    //#endregion
 
     constructor(private emailQueueHttpService: EmailQueueHttpService, private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateAdapter: DateAdapter<any>, private dateHelperService: DateHelperService, private dexieService: DexieService, private dialogService: DialogService, private emojiService: EmojiService, private formBuilder: FormBuilder, private helperService: HelperService, private leasePdfHttpService: LeasePdfHttpService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private reservationHttpService: ReservationHttpService, private reservationHelperService: ReservationHelperService, private router: Router, private sessionStorageService: SessionStorageService) { }
 
@@ -423,6 +439,10 @@ export class ReservationFormComponent {
     //#endregion
 
     //#region private methods
+
+    private attemptToSaveRecord(event: KeyboardEvent, closeForm: boolean): void {
+        this.form.valid ? ((): void => { this.onSave(closeForm); event.preventDefault() })() : ((): void => { event.preventDefault() })()
+    }
 
     private filterAutocomplete(array: string, field: string, value: any): any[] {
         if (typeof value !== 'object') {
