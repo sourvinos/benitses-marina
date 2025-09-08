@@ -1,5 +1,5 @@
 import { ActivatedRoute, Router } from '@angular/router'
-import { Component } from '@angular/core'
+import { Component, HostListener, Renderer2 } from '@angular/core'
 import { DateAdapter } from '@angular/material/core'
 import { FormBuilder, FormGroup, Validators, AbstractControl, FormArray } from '@angular/forms'
 import { HttpEventType } from '@angular/common/http'
@@ -65,7 +65,23 @@ export class InvoiceFormComponent {
 
     // #endregion
 
-    constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateAdapter: DateAdapter<any>, private dateHelperService: DateHelperService, private dexieService: DexieService, private dialogService: DialogService, private formBuilder: FormBuilder, private helperService: HelperService, private invoiceHttpService: InvoiceHttpService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService) { }
+    //#region hostlisteners
+
+    @HostListener('window:keydown.escape', ['$event']) onEscKeyDown(event: KeyboardEvent): void {
+        this.router.navigate([this.parentUrl])
+    }
+
+    // @HostListener('window:keydown.control.s', ['$event']) onCtrlDown(event: KeyboardEvent): void {
+    //     this.attemptToSaveRecord(event, true)
+    // }
+
+    // @HostListener('window:keydown.control.shift.s', ['$event']) onCtrlShiftKeyDown(event: KeyboardEvent): void {
+    //     this.attemptToSaveRecord(event, false)
+    // }
+
+    //#endregion
+
+    constructor(private renderer: Renderer2, private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateAdapter: DateAdapter<any>, private dateHelperService: DateHelperService, private dexieService: DexieService, private dialogService: DialogService, private formBuilder: FormBuilder, private helperService: HelperService, private invoiceHttpService: InvoiceHttpService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService) { }
 
     //#region lifecycle hooks
 
@@ -79,6 +95,7 @@ export class InvoiceFormComponent {
         this.setIsRepeatedEntry()
         this.setLocale()
         this.getDocuments()
+        this.renderer.listen(document, 'keydown.ctrl.s', this.attemptToSaveRecord(true))
     }
 
     ngAfterViewInit(): void {
@@ -197,8 +214,8 @@ export class InvoiceFormComponent {
         })
     }
 
-    public onSave(): void {
-        this.saveRecord(this.flattenForm())
+    public onSave(closeForm: boolean): void {
+        this.saveRecord(this.flattenForm(), closeForm)
     }
 
     public onUploadAndRenameFile(file: File): void {
@@ -220,6 +237,10 @@ export class InvoiceFormComponent {
     //#endregion
 
     //#region private methods
+
+    private attemptToSaveRecord(closeForm: boolean): any {
+        this.form.valid ? ((): void => { this.onSave(closeForm); })() : ((): void => event.preventDefault())()
+    }
 
     private filterAutocomplete(array: string, field: string, value: any): any[] {
         if (typeof value !== 'object') {
@@ -362,36 +383,37 @@ export class InvoiceFormComponent {
     }
 
     private resetForm(): void {
-        if (this.isRepeatedEntry) {
-            this.form.patchValue({
-                expenseId: '',
-                date: '',
-                supplier: '',
-                documentType: '',
-                paymentMethod: '',
-                documentNo: '',
-                amount: '',
-                remarks: '',
-                isDeleted: '',
-                postAt: '',
-                postUser: '',
-                putAt: '',
-                putUser: ''
-            })
-            this.form.markAsUntouched()
-        }
+        this.form.patchValue({
+            company: '',
+            expenseId: '',
+            date: '',
+            supplier: '',
+            documentType: '',
+            paymentMethod: '',
+            documentNo: '',
+            amount: '',
+            remarks: '',
+            isDeleted: '',
+            postAt: '',
+            postUser: '',
+            putAt: '',
+            putUser: ''
+        })
+        this.form.markAsUntouched()
     }
 
-    private saveRecord(invoice: InvoiceWriteDto): void {
+    private saveRecord(invoice: InvoiceWriteDto, closeForm: boolean): void {
         this.invoiceHttpService.saveExpense(invoice).subscribe({
             next: (response) => {
+                const elements = Array.prototype.slice.apply(document.querySelectorAll('input'))
+                for (let i = elements.length; i--;) {
+                    elements[i].blur()
+                }
                 this.helperService.doPostSaveFormTasks(
                     response.code == 200 ? this.messageDialogService.success() : '',
                     response.code == 200 ? 'ok' : 'ok',
                     this.parentUrl,
-                    this.isRepeatedEntry ? false : true)
-                this.resetForm()
-                this.focusOnField()
+                    closeForm)
             },
             error: (errorFromInterceptor) => {
                 this.dialogService.open(this.messageDialogService.filterResponse(errorFromInterceptor), 'error', ['ok'])

@@ -1027,6 +1027,10 @@
             {
                 "id": "put",
                 "description": "Τελευταία ενημέρωση"
+            },
+            {
+                "id": "saveAndLeaveFormOpen",
+                "description": "Αποθήκευση και παραμονή στη φόρμα"
             }
         ]
     },

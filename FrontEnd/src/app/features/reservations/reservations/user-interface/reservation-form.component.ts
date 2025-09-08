@@ -761,6 +761,7 @@ export class ReservationFormComponent {
                         postAt: response.body.postAt,
                         putAt: response.body.putAt
                     })
+                this.focusOnField()
             },
             error: (errorFromInterceptor) => {
                 this.dialogService.open(this.messageDialogService.filterResponse(errorFromInterceptor), 'error', ['ok'])

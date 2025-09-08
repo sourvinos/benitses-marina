@@ -115,10 +115,16 @@
             <button *ngIf="form.value.expenseId != ''" (click)="onSoftDelete()" [disabled]="!isAdmin()" class="delete" mat-flat-button>
                 <span>{{ getLabel('deleteButton') | uppercase }}</span>
             </button>
-            <button (click)="onSave()" [disabled]="!form.valid || !isAdmin()" class="primary" mat-flat-button>
+            <button (click)="onSave(true)" [disabled]="!form.valid " class="no-right-border-radius primary" mat-flat-button>
                 <mat-icon *ngIf="!form.valid" class="material-icons-outlined">lock</mat-icon>
                 <span>{{ getLabel("saveButton") | uppercase }}</span>
             </button>
+            <button [disabled]="!form.valid || !isNewRecord() " [matMenuTriggerFor]="saveMenu" class="no-left-border-radius primary-darker" mat-flat-button>
+                <mat-icon class="big material-symbols-outlined">expand_less</mat-icon>
+            </button>
+            <mat-menu #saveMenu="matMenu" class="primary" xPosition="before" yPosition="above">
+                <ng-container *ngTemplateOutlet="saveMenuTemplate"></ng-container>
+            </mat-menu>
         </div>
     </div>
 
@@ -152,4 +158,10 @@
 <ng-template #actionsMenu>
     <input type="file" #file placeholder="Choose file" (change)="onUploadAndRenameFile(file.files[0])" style="display: none;">
     <button [disabled]="isNewRecord()" (click)="file.click()" mat-menu-item>{{ getLabel("uploadButton") }}</button>
+</ng-template>
+
+<ng-template #saveMenuTemplate>
+    <button (click)="onSave(false)" mat-menu-item>
+        <span>{{ getLabel('saveAndLeaveFormOpen') }}</span>
+    </button>
 </ng-template>

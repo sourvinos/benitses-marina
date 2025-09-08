@@ -115,14 +115,9 @@ export class InvoiceListComponent {
         this.helperService.highlightRow(id)
     }
 
-    public onNewRecord(isRepeatedEntry: boolean): void {
-        this.sessionStorageService.saveItem('isRepeatedEntry', isRepeatedEntry.toString())
+    public onNewRecord(): void {
         this.router.navigate([this.url, 'new'])
     }
-
-    // public onNewRecord(): void {
-    //     this.router.navigate([this.url + '/new'])
-    // }
 
     public onResetTableFilters(): void {
         this.helperService.clearTableTextFilters(this.table, ['date', 'no', 'amount'])
