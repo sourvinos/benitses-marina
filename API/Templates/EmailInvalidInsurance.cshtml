@@ -1,0 +1,57 @@
+@model API.Features.Reservations.Transactions.EmailInvalidInsuranceVM
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+</head>
+
+<body>
+    <div id="wrapper">
+        <table>
+            <tr>
+                <td style="font-family: Tahoma; font-size: 13px; padding-bottom: 1rem;">👋 Greetings sailors,</td>
+            </tr>
+            <tr>
+                <td style="font-family: Tahoma; font-size: 13px;">The insurance of the vessel has expired. Kindly send us the updated insurance policy as soon as possible.</td>
+            </tr>
+            <tr>
+                <td style="font-family: Tahoma; font-size: 13px; padding-bottom: 1rem;">Please note that in case of unannounced inspection by the authorities or/and sea pollution caused by the vessel, we estimate a fine between €10.000 and €25.000 that will be claimed from the shipowner and/or the manager of the vessel.</td>
+            </tr>
+            <tr>
+                <td style="color:blue; font-family: Tahoma; font-size: 13px; padding-bottom: 1rem;">Please click <a href="mailto:info@benitsesmarina.com">here</a> to reply and send the requested documents.</td>
+            </tr>
+            <tr>
+                <td style="font-family: Tahoma; font-size: 13px;">Thank you for staying with us and best regards,</td>
+            </tr>
+            <tr>
+                <td style="font-family: Tahoma; font-size: 13px; padding-bottom: 1rem;">@Model.UserFullname</td>
+            </tr>
+            <tr>
+                <td style="font-family: Tahoma; font-size: 13px;">Phones: @Model.CompanyPhones</td>
+            </tr>
+            <tr>
+                <td style="font-family: Tahoma; font-size: 13px;">Email: <a href="mailto:info@benitsesmarina.com">@Model.Email</a></td>
+            </tr>
+            <tr>
+                <td style="font-family: Tahoma; font-size: 13px;">Website: <a href="https://www.benitsesmarina.com/">@Model.Website</a></td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <td>
+                    <img alt="" src="https://appbenitsesmarina.com/images.png">
+                </td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <td style=" font-family: Tahoma; font-size: 13px;">🚫 This email address does not accept incoming messages. Please do not reply.</td>
+            </tr>
+        </table>
+    </div>
+</body>
+
+</html>

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace API.Features.Reservations.Transactions {
 
-    public class ReservationEmailSender : IReservationEmailSender {
+    public class InvalidInsuranceEmailSender : IInvalidInsuranceEmailSender {
 
         #region variables
 
@@ -18,11 +18,11 @@ namespace API.Features.Reservations.Transactions {
 
         #endregion
 
-        public ReservationEmailSender(IOptions<EmailReservationSettings> emailReservationSettings) {
+        public InvalidInsuranceEmailSender(IOptions<EmailReservationSettings> emailReservationSettings) {
             this.emailReservationSettings = emailReservationSettings.Value;
         }
 
-        public async Task SendReservationToEmail(EmailQueue emailQueue, string boat, string email) {
+        public async Task SendInvalidInsuranceToEmail(EmailQueue emailQueue, string boat, string email) {
             using var smtp = new SmtpClient();
             smtp.Connect(emailReservationSettings.SmtpClient, emailReservationSettings.Port);
             smtp.Authenticate(emailReservationSettings.Username, emailReservationSettings.Password);
@@ -34,14 +34,8 @@ namespace API.Features.Reservations.Transactions {
             var message = new MimeMessage { Sender = MailboxAddress.Parse(emailReservationSettings.Username) };
             message.From.Add(new MailboxAddress(emailReservationSettings.From, emailReservationSettings.Username));
             message.To.AddRange(BuildReceivers(email));
-            message.Subject = "⚓ Invoice & lease agreement for vessel '" + boat + "'";
+            message.Subject = "⚓ Urgent: Invalid insurance for vessel '" + boat + "'";
             var builder = new BodyBuilder { HtmlBody = await BuildEmailReservationTemplateAsync(model) };
-            var filenames = model.Filenames.Split(",");
-            foreach (var filename in filenames) {
-                builder.Attachments.Add(Path.Combine("Uploaded Lease Agreements" + Path.DirectorySeparatorChar + model.EntityId.ToString() + " " + filename));
-            }
-            builder.Attachments.Add(Path.Combine("Documents" + Path.DirectorySeparatorChar + "Pillar instructions.pdf"));
-            builder.Attachments.Add(Path.Combine("Documents" + Path.DirectorySeparatorChar + "Wi-Fi and Showers Passkeys.pdf"));
             message.Body = builder.ToMessageBody();
             return message;
         }
@@ -59,7 +53,7 @@ namespace API.Features.Reservations.Transactions {
             RazorLightEngine engine = new RazorLightEngineBuilder()
                 .UseEmbeddedResourcesProject(Assembly.GetEntryAssembly())
                 .Build();
-            return await engine.CompileRenderStringAsync("key", LoadEmailReservationTemplateFromFile(), new EmailReservationVM {
+            return await engine.CompileRenderStringAsync("key", LoadTemplateFromFile(), new EmailInvalidInsuranceVM {
                 UserFullname = model.UserFullname,
                 Email = "info@benitsesmarina.com",
                 CompanyPhones = "+30 26610 72627, +30 6937 133 662",
@@ -67,8 +61,8 @@ namespace API.Features.Reservations.Transactions {
             });
         }
 
-        private static string LoadEmailReservationTemplateFromFile() {
-            string FilePath = Directory.GetCurrentDirectory() + "\\Templates\\EmailReservation.cshtml";
+        private static string LoadTemplateFromFile() {
+            string FilePath = Directory.GetCurrentDirectory() + "\\Templates\\EmailInvalidInsurance.cshtml";
             StreamReader str = new(FilePath);
             string template = str.ReadToEnd();
             str.Close();

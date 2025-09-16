@@ -62,6 +62,7 @@ namespace API.Infrastructure.Extensions {
             services.AddTransient<IBoatUsageRepository, BoatUsageRepository>();
             services.AddTransient<IBoatUsageValidation, BoatUsageValidation>();
             services.AddTransient<IInsurancePolicyRepository, InsurancePolicyRepository>();
+            services.AddTransient<IInvalidInsuranceEmailSender, InvalidInsuranceEmailSender>();
             services.AddTransient<ILeasePdfRepository, LeasePdfRepository>();
             services.AddTransient<ILeaseRepository, LeaseRepository>();
             services.AddTransient<IPaymentStatusRepository, PaymentStatusRepository>();

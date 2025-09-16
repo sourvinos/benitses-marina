@@ -19,23 +19,25 @@ namespace API.Infrastructure.EmailServices {
 
         #region variables
 
-        private readonly IEmailAccountSender emailAccountSender;
         private readonly EnvironmentSettings environmentSettings;
+        private readonly IEmailAccountSender emailAccountSender;
         private readonly IEmailQueueRepository emailQueueRepo;
         private readonly IEmailUserDetailsSender emailUserSender;
+        private readonly IInvalidInsuranceEmailSender emailInvalidInsuranceSender;
         private readonly IReservationEmailSender emailReservationSender;
         private readonly IReservationRepository reservationRepository;
         private readonly UserManager<UserExtended> userManager;
 
         #endregion
 
-        public EmailQueueService(IReservationRepository reservationRepository, IReservationEmailSender emailReservationSender, IEmailAccountSender emailAccountSender, IEmailQueueRepository queueRepo, IEmailUserDetailsSender emailUserDetailsSender, IOptions<EnvironmentSettings> environmentSettings, IReservationRepository reservationRepo, UserManager<UserExtended> userManager) {
+        public EmailQueueService(IEmailAccountSender emailAccountSender, IEmailQueueRepository queueRepo, IEmailUserDetailsSender emailUserDetailsSender, IInvalidInsuranceEmailSender emailInvalidInsuranceSender, IOptions<EnvironmentSettings> environmentSettings, IReservationEmailSender emailReservationSender, IReservationRepository reservationRepository, UserManager<UserExtended> userManager) {
             this.emailAccountSender = emailAccountSender;
-            this.emailReservationSender = emailReservationSender;
+            this.emailInvalidInsuranceSender = emailInvalidInsuranceSender;
             this.emailQueueRepo = queueRepo;
+            this.emailReservationSender = emailReservationSender;
             this.emailUserSender = emailUserDetailsSender;
-            this.reservationRepository = reservationRepository;
             this.environmentSettings = environmentSettings.Value;
+            this.reservationRepository = reservationRepository;
             this.userManager = userManager;
         }
 
@@ -47,6 +49,7 @@ namespace API.Infrastructure.EmailServices {
                     if (x.Initiator == "ResetPassword") { SendResetPassword(x); }
                     if (x.Initiator == "UserDetails") { await SendUserDetailsAsync(x); }
                     if (x.Initiator == "Reservation") { await SendReservationAsync(x); }
+                    if (x.Initiator == "InvalidInsurance") { await SendInvalidInsuranceAsync(x); }
                 }
             }
         }
@@ -77,6 +80,26 @@ namespace API.Infrastructure.EmailServices {
             var reservation = await reservationRepository.GetByIdAsync(emailQueue.EntityId.ToString(), true);
             if (reservation != null) {
                 if (emailReservationSender.SendReservationToEmail(emailQueue, reservation.Boat.Name, reservation.Owner.Email).Exception == null) {
+                    emailQueue.IsSent = true;
+                    emailQueueRepo.Update(emailQueue);
+                }
+            }
+        }
+
+        private async Task SendInvalidInsuranceAsync(EmailQueue emailQueue) {
+            var reservation = await reservationRepository.GetByIdAsync(emailQueue.EntityId.ToString(), true);
+            if (reservation != null) {
+                if (emailInvalidInsuranceSender.SendInvalidInsuranceToEmail(emailQueue, reservation.Boat.Name, reservation.Owner.Email).Exception == null) {
+                    emailQueue.IsSent = true;
+                    emailQueueRepo.Update(emailQueue);
+                }
+            }
+        }
+ 
+        private async Task SendEndOfLeaseNoteAsync(EmailQueue emailQueue) {
+            var reservation = await reservationRepository.GetByIdAsync(emailQueue.EntityId.ToString(), true);
+            if (reservation != null) {
+                if (emailInvalidInsuranceSender.SendInvalidInsuranceToEmail(emailQueue, reservation.Boat.Name, reservation.Owner.Email).Exception == null) {
                     emailQueue.IsSent = true;
                     emailQueueRepo.Update(emailQueue);
                 }

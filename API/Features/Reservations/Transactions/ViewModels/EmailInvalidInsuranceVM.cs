@@ -1,6 +1,8 @@
+using System;
+
 namespace API.Features.Reservations.Transactions {
 
-    public class EmailReservationTemplateVM {
+    public class EmailInvalidInsuranceVM {
 
         public string UserFullname { get; set; }
         public string Email { get; set; }
