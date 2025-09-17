@@ -21,13 +21,15 @@ namespace API.Infrastructure.EmailServices {
         private readonly IEmailUserDetailsSender emailUserSender;
         private readonly IInvalidInsuranceEmailSender emailInvalidInsuranceSender;
         private readonly IReservationEmailSender emailReservationSender;
+        private readonly IEndOfLeaseEmailSender emailEndOfLease;
         private readonly IReservationRepository reservationRepository;
         private readonly UserManager<UserExtended> userManager;
 
         #endregion
 
-        public EmailQueueService(IEmailAccountSender emailAccountSender, IEmailQueueRepository queueRepo, IEmailUserDetailsSender emailUserDetailsSender, IInvalidInsuranceEmailSender emailInvalidInsuranceSender, IOptions<EnvironmentSettings> environmentSettings, IReservationEmailSender emailReservationSender, IReservationRepository reservationRepository, UserManager<UserExtended> userManager) {
+        public EmailQueueService(IEndOfLeaseEmailSender emailEndOfLease, IEmailAccountSender emailAccountSender, IEmailQueueRepository queueRepo, IEmailUserDetailsSender emailUserDetailsSender, IInvalidInsuranceEmailSender emailInvalidInsuranceSender, IOptions<EnvironmentSettings> environmentSettings, IReservationEmailSender emailReservationSender, IReservationRepository reservationRepository, UserManager<UserExtended> userManager) {
             this.emailAccountSender = emailAccountSender;
+            this.emailEndOfLease = emailEndOfLease;
             this.emailInvalidInsuranceSender = emailInvalidInsuranceSender;
             this.emailQueueRepo = queueRepo;
             this.emailReservationSender = emailReservationSender;
@@ -46,6 +48,7 @@ namespace API.Infrastructure.EmailServices {
                     if (x.Initiator == "UserDetails") { await SendUserDetailsAsync(x); }
                     if (x.Initiator == "Reservation") { await SendReservationAsync(x); }
                     if (x.Initiator == "InvalidInsurance") { await SendInvalidInsuranceAsync(x); }
+                    if (x.Initiator == "EndOfLease") { await SendEndOfLeaseNoteAsync(x); }
                 }
             }
         }
@@ -95,8 +98,8 @@ namespace API.Infrastructure.EmailServices {
         private async Task SendEndOfLeaseNoteAsync(EmailQueue emailQueue) {
             var reservation = await reservationRepository.GetByIdAsync(emailQueue.EntityId.ToString(), true);
             if (reservation != null) {
-                if (emailInvalidInsuranceSender.SendInvalidInsuranceToEmail(emailQueue, reservation.Boat.Name, reservation.Owner.Email).Exception == null) {
-                    emailQueue.IsSent = true;
+                if (emailEndOfLease.SendEndOfLeaseToEmail(emailQueue, reservation).Exception == null) {
+                    // emailQueue.IsSent = true;
                     emailQueueRepo.Update(emailQueue);
                 }
             }
