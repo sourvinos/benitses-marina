@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using API.Infrastructure.Users;
 using API.Infrastructure.Classes;
 using API.Infrastructure.Implementations;
@@ -9,7 +6,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using System;
 
 namespace API.Features.Sales.Invoices {
 

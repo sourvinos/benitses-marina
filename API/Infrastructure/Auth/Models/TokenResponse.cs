@@ -1,5 +1,3 @@
-using System;
-
 namespace API.Infrastructure.Auth {
 
     public class TokenResponse {

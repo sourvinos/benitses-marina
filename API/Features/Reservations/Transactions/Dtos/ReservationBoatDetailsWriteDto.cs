@@ -1,5 +1,3 @@
-using System;
-
 namespace API.Features.Reservations.Transactions {
 
     public class ReservationBoatDetailsWriteDto {

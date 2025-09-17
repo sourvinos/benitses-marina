@@ -1,5 +1,3 @@
-using System;
-
 namespace API.Infrastructure.EmailServices {
 
     public class EmailQueueDto {

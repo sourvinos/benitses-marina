@@ -1,5 +1,3 @@
-using System;
-
 namespace API.Infrastructure.Responses {
 
     public class CustomException : Exception {

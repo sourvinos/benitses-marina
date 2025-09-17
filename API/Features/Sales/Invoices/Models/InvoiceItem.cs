@@ -1,5 +1,3 @@
-using System;
-
 namespace API.Features.Sales.Invoices {
 
     public class InvoiceItem {

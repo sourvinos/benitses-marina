@@ -1,8 +1,4 @@
-using System;
-using System.Linq;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using API.Features.Reservations.Transactions;
 using API.Infrastructure.Account;
 using API.Infrastructure.Helpers;
@@ -95,7 +91,7 @@ namespace API.Infrastructure.EmailServices {
                 }
             }
         }
- 
+
         private async Task SendEndOfLeaseNoteAsync(EmailQueue emailQueue) {
             var reservation = await reservationRepository.GetByIdAsync(emailQueue.EntityId.ToString(), true);
             if (reservation != null) {

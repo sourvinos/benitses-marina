@@ -1,7 +1,4 @@
 using System.Linq.Expressions;
-using System;
-using System.Linq;
-using System.Collections.Generic;
 using AutoMapper.Internal;
 
 namespace API.Infrastructure.Extensions {

@@ -1,5 +1,3 @@
-using System.Linq;
-using System.Threading.Tasks;
 using API.Infrastructure.Users;
 using API.Infrastructure.Classes;
 using API.Infrastructure.Implementations;
@@ -7,7 +5,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using System;
 using API.Infrastructure.Helpers;
 using API.Infrastructure.Extensions;
 

@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using API.Infrastructure.Interfaces;
 
 namespace API.Infrastructure.EmailServices {

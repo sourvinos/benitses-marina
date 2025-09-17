@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using API.Features.Expenses.Companies;
 using Newtonsoft.Json.Linq;
 

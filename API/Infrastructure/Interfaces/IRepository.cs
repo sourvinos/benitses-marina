@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace API.Infrastructure.Interfaces {
 
     public interface IRepository<T> where T : class {

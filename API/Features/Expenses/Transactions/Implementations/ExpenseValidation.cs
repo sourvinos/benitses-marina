@@ -4,8 +4,6 @@ using API.Infrastructure.Implementations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
-using System.Threading.Tasks;
-using System;
 using Microsoft.EntityFrameworkCore;
 using API.Infrastructure.Helpers;
 

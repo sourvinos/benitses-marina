@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using API.Infrastructure.Users;
 using API.Infrastructure.Classes;
 using API.Infrastructure.Implementations;
@@ -6,7 +5,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using System.Linq;
 
 namespace API.Features.Expenses.Suppliers {
 

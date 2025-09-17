@@ -1,5 +1,3 @@
-using System;
-
 namespace API.Features.Leases {
 
     public class LeasePdfPersonVM {
