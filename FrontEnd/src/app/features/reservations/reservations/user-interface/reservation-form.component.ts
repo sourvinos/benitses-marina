@@ -411,10 +411,10 @@ export class ReservationFormComponent {
         return this.documents ? this.documents : []
     }
 
-    public onAddSelectedFilenamesToEmailQueue(): void {
+    public onAddToEmailQueue(discriminator: string): void {
         if (this.isAnyRowSelected()) {
             const x: EmailQueueDto = {
-                initiator: 'Reservation',
+                initiator: discriminator,
                 entityId: this.form.value.reservationId,
                 filenames: this.selectedDocuments.join(),
                 priority: 1,

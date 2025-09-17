@@ -329,8 +329,16 @@
                 "description": "Αποθήκευση και παραμονή στη φόρμα"
             },
             {
-                "id": "addSelectedFilenamesToEmailQueue",
+                "id": "addReservationToEmailQueue",
                 "description": "Αποστολή εγγράφων"
+            },
+            {
+                "id": "addInvalidInsuranceToEmailQueue",
+                "description": "Αποστολή ειδοποίησης άκυρης ασφάλισης"
+            },
+            {
+                "id": "addEndOfLeaseToEmailQueue",
+                "description": "Αποστολή ειδοποίησης ανανέωσης σύμβασης"
             },
             {
                 "id": "copyReservation",

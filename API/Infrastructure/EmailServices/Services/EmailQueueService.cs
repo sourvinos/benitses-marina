@@ -99,7 +99,7 @@ namespace API.Infrastructure.EmailServices {
             var reservation = await reservationRepository.GetByIdAsync(emailQueue.EntityId.ToString(), true);
             if (reservation != null) {
                 if (emailEndOfLease.SendEndOfLeaseToEmail(emailQueue, reservation).Exception == null) {
-                    // emailQueue.IsSent = true;
+                    emailQueue.IsSent = true;
                     emailQueueRepo.Update(emailQueue);
                 }
             }
