@@ -249,6 +249,13 @@ export class ReservationFormComponent {
         return this.form.value.reservationId == '' && this.localStorageService.getItem('reservation').length != 0
     }
 
+
+    public isNewModeAndFormIsNotPristine(): boolean {
+        console.log(this.form.value.reservationId !== '')
+        console.log(this.form.pristine == true)
+        return (this.form.value.reservationId != '' && this.form.pristine == true && this.form.value.isDocked && this.expireDateMustBeInThePast(this.form.value.policyEnds))
+    }
+
     public loadImage(): void {
         this.imgIsLoaded = true
     }
@@ -412,7 +419,7 @@ export class ReservationFormComponent {
     }
 
     public onAddToEmailQueue(discriminator: string): void {
-        if (this.isAnyRowSelected()) {
+        if (discriminator == 'InvalidInsurance') {
             const x: EmailQueueDto = {
                 initiator: discriminator,
                 entityId: this.form.value.reservationId,
@@ -421,10 +428,11 @@ export class ReservationFormComponent {
                 isSent: false
             }
             this.emailQueueHttpService.save(x).subscribe(() => {
-                this.dialogService.open(this.messageDialogService.success(), 'ok', ['ok']).subscribe(() => {
-                    // 
-                })
+                this.dialogService.open(this.messageDialogService.success(), 'ok', ['ok']).subscribe(() => { })
             })
+
+            // if (this.isAnyRowSelected()) {
+            // }
         }
     }
 
@@ -790,6 +798,10 @@ export class ReservationFormComponent {
                 }
             })
         })
+    }
+
+    private expireDateMustBeInThePast(policyEnds: string): boolean {
+        return this.dateHelperService.createDateFromString(policyEnds) > this.dateHelperService.createDateFromString(this.dateHelperService.formatDateToIso(new Date())) ? false : true
     }
 
     //#endregion
