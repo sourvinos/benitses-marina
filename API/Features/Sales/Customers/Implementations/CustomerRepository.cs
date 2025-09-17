@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using System.Threading.Tasks;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace API.Features.Sales.Customers {
 

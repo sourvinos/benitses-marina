@@ -7,6 +7,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using API.Infrastructure.Helpers;
 using API.Infrastructure.Extensions;
+using System.Threading.Tasks;
+using System.Linq;
+using System;
 
 namespace API.Infrastructure.EmailServices {
 

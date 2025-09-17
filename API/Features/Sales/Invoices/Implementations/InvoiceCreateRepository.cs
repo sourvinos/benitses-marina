@@ -7,6 +7,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Options;
 using API.Infrastructure.Helpers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace API.Features.Sales.Invoices {
 

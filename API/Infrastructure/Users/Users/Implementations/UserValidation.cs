@@ -1,3 +1,4 @@
+using System.Linq;
 using API.Infrastructure.Classes;
 using API.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Http;

@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace API.Features.Sales.Invoices {
 
     public interface IInvoiceValidation {

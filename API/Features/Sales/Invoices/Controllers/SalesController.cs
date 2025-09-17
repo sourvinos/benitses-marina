@@ -1,4 +1,6 @@
-﻿using API.Features.Sales.Customers;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using API.Features.Sales.Customers;
 using API.Infrastructure.Extensions;
 using API.Infrastructure.Helpers;
 using API.Infrastructure.Responses;

@@ -4,7 +4,9 @@ using MailKit.Net.Smtp;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using RazorLight;
+using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace API.Infrastructure.Users {
 

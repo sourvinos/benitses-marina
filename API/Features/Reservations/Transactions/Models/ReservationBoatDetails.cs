@@ -1,3 +1,4 @@
+using System;
 using API.Features.BoatTypes;
 using API.Features.BoatUsages;
 

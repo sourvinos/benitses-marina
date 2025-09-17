@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace API.Infrastructure.Users {
 
     public interface IEmailUserDetailsSender {

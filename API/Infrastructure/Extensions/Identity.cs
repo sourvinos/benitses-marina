@@ -4,6 +4,8 @@ using API.Infrastructure.Classes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Linq;
 
 namespace API.Infrastructure.Extensions {
 

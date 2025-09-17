@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace API.Infrastructure.Account {
 
     public interface IEmailAccountSender {

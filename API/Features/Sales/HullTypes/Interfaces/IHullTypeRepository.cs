@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using API.Infrastructure.Interfaces;
 
 namespace API.Featuers.Sales.HullTypes {

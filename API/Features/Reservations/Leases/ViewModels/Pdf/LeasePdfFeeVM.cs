@@ -1,3 +1,5 @@
+using System;
+
 namespace API.Features.Leases {
 
     public class LeasePdfFeeVM {

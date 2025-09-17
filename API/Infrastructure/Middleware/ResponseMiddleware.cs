@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Serilog;
+using System.Threading.Tasks;
+using System;
 
 namespace API.Infrastructure.Middleware {
 
