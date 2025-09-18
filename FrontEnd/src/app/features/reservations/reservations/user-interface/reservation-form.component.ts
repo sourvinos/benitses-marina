@@ -242,18 +242,23 @@ export class ReservationFormComponent {
     }
 
     public isNewRecord(): boolean {
-        return this.form.value.reservationId == ''
+        return this.form.value.reservationId != '' && this.form.pristine == true
     }
 
     public isNotNewRecordAndIsReservationNotInStorage(): boolean {
         return this.form.value.reservationId == '' && this.localStorageService.getItem('reservation').length != 0
     }
 
+    public canSendDocuments(): boolean {
+        return (this.form.value.reservationId != '' && this.form.pristine == true && this.selectedDocuments.length != 0)
+    }
 
-    public isNewModeAndFormIsNotPristine(): boolean {
-        console.log(this.form.value.reservationId !== '')
-        console.log(this.form.pristine == true)
+    public canSendInvalidInsurance(): boolean {
         return (this.form.value.reservationId != '' && this.form.pristine == true && this.form.value.isDocked && this.expireDateMustBeInThePast(this.form.value.policyEnds))
+    }
+
+    public canSendEndOfLease(): boolean {
+        return (this.form.value.reservationId != '' && this.form.pristine == true && this.form.value.isDocked)
     }
 
     public loadImage(): void {
@@ -419,7 +424,19 @@ export class ReservationFormComponent {
     }
 
     public onAddToEmailQueue(discriminator: string): void {
-        if (discriminator == 'InvalidInsurance') {
+        if (discriminator == 'InvalidInsurance' || discriminator == 'EndOfLease') {
+            const x: EmailQueueDto = {
+                initiator: discriminator,
+                entityId: this.form.value.reservationId,
+                filenames: '',
+                priority: 1,
+                isSent: false
+            }
+            this.emailQueueHttpService.save(x).subscribe(() => {
+                this.dialogService.open(this.messageDialogService.success(), 'ok', ['ok']).subscribe(() => { })
+            })
+        }
+        if (discriminator == 'Reservation') {
             const x: EmailQueueDto = {
                 initiator: discriminator,
                 entityId: this.form.value.reservationId,
@@ -430,9 +447,6 @@ export class ReservationFormComponent {
             this.emailQueueHttpService.save(x).subscribe(() => {
                 this.dialogService.open(this.messageDialogService.success(), 'ok', ['ok']).subscribe(() => { })
             })
-
-            // if (this.isAnyRowSelected()) {
-            // }
         }
     }
 
@@ -769,6 +783,7 @@ export class ReservationFormComponent {
                         postAt: response.body.postAt,
                         putAt: response.body.putAt
                     })
+                this.form.markAsPristine()
                 this.focusOnField()
             },
             error: (errorFromInterceptor) => {

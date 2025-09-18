@@ -1,3 +1,4 @@
+import moment from 'moment'
 import { Injectable } from '@angular/core'
 // Custom
 import { LocalStorageService } from './local-storage.service'
@@ -93,13 +94,18 @@ export class DateHelperService {
      * @returns a date object
      */
     public createDateFromString(date: string): Date {
-        const day = date.substring(8, 10)
-        const month = date.substring(5, 7)
-        const year = date.substring(0, 4)
-        return new Date(
-            parseInt(year),
-            parseInt(month) - 1,
-            parseInt(day), 0, 0, 0, 0)
+        if (typeof date == 'object') {
+            date = moment(date).format('YYYY-MM-DD')
+        }
+        if (typeof date === 'string') {
+            const day = date.substring(8, 10)
+            const month = date.substring(5, 7)
+            const year = date.substring(0, 4)
+            return new Date(
+                parseInt(year),
+                parseInt(month) - 1,
+                parseInt(day), 0, 0, 0, 0)
+        }
     }
 
     /**
