@@ -32,7 +32,8 @@ namespace API.Features.Expenses.Transactions {
         [HttpGet()]
         [Authorize(Roles = "user, admin")]
         public async Task<IEnumerable<ExpenseListVM>> GetAsync() {
-            return await expenseRepo.GetAsync(null);
+            // return await expenseRepo.GetAsync(null);
+            return await expenseRepo.GetProjectedAsync(null);
         }
 
         [HttpGet("company/{companyId}")]

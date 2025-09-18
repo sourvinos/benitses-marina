@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.IO;
 using System;
+using API.Infrastructure.Helpers;
 
 namespace API.Features.Reservations.Transactions {
 
@@ -39,6 +40,40 @@ namespace API.Features.Reservations.Transactions {
                 .OrderBy(x => x.Boat.Name)
                 .ToListAsync();
             return mapper.Map<IEnumerable<Reservation>, IEnumerable<ReservationListVM>>(reservations);
+        }
+
+        public async Task<IEnumerable<ReservationListVM>> GetProjectedAsync() {
+            var reservations = await context.Reservations
+                .AsNoTracking()
+                .Include(x => x.Boat).ThenInclude(x => x.Type)
+                .Include(x => x.Insurance)
+                .Include(x => x.Owner)
+                .Include(x => x.Billing)
+                .Include(x => x.Fee)
+                .Include(x => x.PaymentStatus)
+                .Include(x => x.Berths)
+                .OrderBy(x => x.Boat.Name)
+                .Select(x => new ReservationListVM {
+                    ReservationId = x.ReservationId,
+                    BoatName = x.Boat.Name,
+                    OwnerName = x.Owner.Name,
+                    BoatLoa = x.Boat.Loa,
+                    FromDate = DateHelpers.DateToISOString(x.FromDate),
+                    ToDate = DateHelpers.DateToISOString(x.ToDate),
+                    Berths = AddBerths(x.Berths.ToList()),
+                    PaymentStatus = new SimpleEntity {
+                        Id = x.PaymentStatus.Id,
+                        Description = x.PaymentStatus.Description
+                    },
+                    IsAthenian = x.IsAthenian,
+                    IsDocked = x.IsDocked,
+                    IsDryDock = x.IsDryDock,
+                    IsFishingBoat = x.Boat.IsFishingBoat,
+                    IsOverdue = ReservationHelpers.IsOverdue(x.IsDocked, x.ToDate),
+                    IsRequest = x.IsRequest
+                })
+                .ToListAsync();
+            return reservations;
         }
 
         public async Task<IEnumerable<ReservationListVM>> GetArrivalsAsync(string date) {
@@ -100,13 +135,26 @@ namespace API.Features.Reservations.Transactions {
             return reservation;
         }
 
-         public FileStreamResult OpenDocument(string filename) {
+        public FileStreamResult OpenDocument(string filename) {
             var fullpathname = Path.Combine("Uploaded Lease Agreements" + Path.DirectorySeparatorChar + filename);
             byte[] byteArray = File.ReadAllBytes(fullpathname);
             MemoryStream memoryStream = new(byteArray);
             return new FileStreamResult(memoryStream, "application/pdf");
         }
- 
+
+        private static List<ReservationBerthVM> AddBerths(List<ReservationBerth> berths) {
+            var x = new List<ReservationBerthVM>();
+            foreach (var berth in berths) {
+                var z = new ReservationBerthVM {
+                    Id = berth.Id,
+                    ReservationId = berth.ReservationId.ToString(),
+                    Description = berth.Description
+                };
+                x.Add(z);
+            }
+            return x;
+        }
+
         private void DisposeOrCommit(IDbContextTransaction transaction) {
             if (testingEnvironment.IsTesting) {
                 transaction.Dispose();

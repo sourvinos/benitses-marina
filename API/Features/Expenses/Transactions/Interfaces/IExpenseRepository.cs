@@ -9,6 +9,7 @@ namespace API.Features.Expenses.Transactions {
     public interface IExpenseRepository : IRepository<Expense> {
 
         Task<IEnumerable<ExpenseListVM>> GetAsync(int? companyId);
+        Task<IEnumerable<ExpenseListVM>> GetProjectedAsync(int? companyId);
         Task<Expense> GetByIdAsync(string invoiceId, bool includeTables);
         Expense Update(Guid id, Expense invoice);
         FileStreamResult OpenDocument(string filename);

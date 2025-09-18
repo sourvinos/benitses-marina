@@ -13,6 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System;
 using System.IO;
+using API.Infrastructure.Helpers;
 
 namespace API.Features.Expenses.Transactions {
 
@@ -38,6 +39,42 @@ namespace API.Features.Expenses.Transactions {
                 .OrderBy(x => x.Date)
                 .ToListAsync();
             return mapper.Map<IEnumerable<Expense>, IEnumerable<ExpenseListVM>>(expenses);
+        }
+
+        public async Task<IEnumerable<ExpenseListVM>> GetProjectedAsync(int? companyId) {
+            var expenses = await context.Expenses
+                .AsNoTracking()
+                .Where(x => companyId == null || x.CompanyId == companyId)
+                .Where(x => x.IsDeleted == false)
+                .Include(x => x.Company)
+                .Include(x => x.DocumentType)
+                .Include(x => x.PaymentMethod)
+                .Include(x => x.Supplier)
+                .OrderBy(x => x.Date)
+                .Select(x => new ExpenseListVM {
+                    ExpenseId = x.ExpenseId.ToString(),
+                    Date = DateHelpers.DateToISOString(x.Date),
+                    Company = new SimpleEntity {
+                        Id = x.Company.Id,
+                        Description = x.Company.Description
+                    },
+                    DocumentType = new SimpleEntity {
+                        Id = x.DocumentType.Id,
+                        Description = x.DocumentType.Description
+                    },
+                    PaymentMethod = new SimpleEntity {
+                        Id = x.PaymentMethod.Id,
+                        Description = x.PaymentMethod.Description
+                    },
+                    Supplier = new SimpleEntity {
+                        Id = x.Supplier.Id,
+                        Description = x.Supplier.Description
+                    },
+                    HasDocument = false,
+                    PutAt = x.PutAt.Substring(0, 10)
+                })
+                .ToListAsync();
+            return expenses;
         }
 
         public async Task<Expense> GetByIdAsync(string invoiceId, bool includeTables) {

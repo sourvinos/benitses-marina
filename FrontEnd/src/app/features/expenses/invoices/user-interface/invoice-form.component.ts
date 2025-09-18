@@ -1,5 +1,5 @@
 import { ActivatedRoute, Router } from '@angular/router'
-import { Component, HostListener, Renderer2 } from '@angular/core'
+import { Component } from '@angular/core'
 import { DateAdapter } from '@angular/material/core'
 import { FormBuilder, FormGroup, Validators, AbstractControl, FormArray } from '@angular/forms'
 import { HttpEventType } from '@angular/common/http'
@@ -65,23 +65,7 @@ export class InvoiceFormComponent {
 
     // #endregion
 
-    //#region hostlisteners
-
-    @HostListener('window:keydown.escape', ['$event']) onEscKeyDown(event: KeyboardEvent): void {
-        this.router.navigate([this.parentUrl])
-    }
-
-    // @HostListener('window:keydown.control.s', ['$event']) onCtrlDown(event: KeyboardEvent): void {
-    //     this.attemptToSaveRecord(event, true)
-    // }
-
-    // @HostListener('window:keydown.control.shift.s', ['$event']) onCtrlShiftKeyDown(event: KeyboardEvent): void {
-    //     this.attemptToSaveRecord(event, false)
-    // }
-
-    //#endregion
-
-    constructor(private renderer: Renderer2, private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateAdapter: DateAdapter<any>, private dateHelperService: DateHelperService, private dexieService: DexieService, private dialogService: DialogService, private formBuilder: FormBuilder, private helperService: HelperService, private invoiceHttpService: InvoiceHttpService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService) { }
+    constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateAdapter: DateAdapter<any>, private dateHelperService: DateHelperService, private dexieService: DexieService, private dialogService: DialogService, private formBuilder: FormBuilder, private helperService: HelperService, private invoiceHttpService: InvoiceHttpService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService) { }
 
     //#region lifecycle hooks
 
@@ -95,7 +79,6 @@ export class InvoiceFormComponent {
         this.setIsRepeatedEntry()
         this.setLocale()
         this.getDocuments()
-        this.renderer.listen(document, 'keydown.ctrl.s', this.attemptToSaveRecord(true))
     }
 
     ngAfterViewInit(): void {
