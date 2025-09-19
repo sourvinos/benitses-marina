@@ -32,7 +32,7 @@ namespace API.Features.Reservations.Transactions {
         [HttpGet()]
         [Authorize(Roles = "user, admin")]
         public async Task<IEnumerable<ReservationListVM>> GetAsync() {
-            return await reservationRepo.GetAsync();
+            return await reservationRepo.GetProjectedAsync();
         }
 
         [HttpGet("arrivals/{date}")]

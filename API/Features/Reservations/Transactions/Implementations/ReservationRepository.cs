@@ -43,7 +43,7 @@ namespace API.Features.Reservations.Transactions {
         }
 
         public async Task<IEnumerable<ReservationListVM>> GetProjectedAsync() {
-            var reservations = await context.Reservations
+            return await context.Reservations
                 .AsNoTracking()
                 .Include(x => x.Boat).ThenInclude(x => x.Type)
                 .Include(x => x.Insurance)
@@ -73,7 +73,6 @@ namespace API.Features.Reservations.Transactions {
                     IsRequest = x.IsRequest
                 })
                 .ToListAsync();
-            return reservations;
         }
 
         public async Task<IEnumerable<ReservationListVM>> GetArrivalsAsync(string date) {
