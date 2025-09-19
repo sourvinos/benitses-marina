@@ -70,7 +70,9 @@ namespace API.Features.Expenses.Transactions {
                         Id = x.Supplier.Id,
                         Description = x.Supplier.Description
                     },
+                    DocumentNo = x.DocumentNo,
                     HasDocument = ExpenseHelpers.HasDocument(x),
+                    Amount = x.Amount,
                     PutAt = x.PutAt.Substring(0, 10)
                 })
                 .ToListAsync();
