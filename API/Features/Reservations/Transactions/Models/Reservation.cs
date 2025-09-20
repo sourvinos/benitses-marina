@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using API.Features.Reservations.PaymentStatuses;
 using API.Infrastructure.Interfaces;
+using AutoMapper.Configuration.Annotations;
 
 namespace API.Features.Reservations.Transactions {
 
