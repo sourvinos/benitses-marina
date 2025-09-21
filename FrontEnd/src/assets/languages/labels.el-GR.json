@@ -265,12 +265,24 @@
                 "description": "Καθαρή αξία"
             },
             {
-                "id": "vatAmount",
-                "description": "Ποσό ΦΠΑ"
+                "id": "discountPercent",
+                "description": "% Έκπτωση"
+            },
+            {
+                "id": "discountAmount",
+                "description": "Ποσό έκπτωσης"
+            },
+            {
+                "id": "netAmountAfterDiscount",
+                "description": "Υπόλοιπο αξίας"
             },
             {
                 "id": "vatPercent",
                 "description": "Ποσοστό ΦΠΑ"
+            },
+            {
+                "id": "vatAmount",
+                "description": "Ποσό ΦΠΑ"
             },
             {
                 "id": "grossAmount",

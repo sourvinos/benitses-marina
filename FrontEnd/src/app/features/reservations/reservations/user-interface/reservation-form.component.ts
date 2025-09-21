@@ -148,38 +148,56 @@ export class ReservationFormComponent {
         })
     }
 
-    public calculateVatAmountAndGrossAmountBasedOnNetAmount(fieldName: string, digits: number): void {
+    public calculateFee(fieldName: string, digits: number): void {
         this.patchNumericFieldsWithZeroIfNullOrEmpty(fieldName, digits)
         const netAmount = parseFloat(this.form.value.netAmount)
-        const vatPercent = this.form.value.vatPercent
-        const vatAmount = netAmount * (vatPercent / 100)
-        const grossAmount = netAmount + vatAmount
-        this.form.patchValue(
-            {
-                netAmount: netAmount.toFixed(2),
-                vatAmount: vatAmount.toFixed(2),
-                grossAmount: grossAmount.toFixed(2)
-            })
+        const discountPercent = parseFloat(this.form.value.discountPercent)
+        const discountAmount = netAmount * (discountPercent / 100)
+        const netAmountAfterDiscount = netAmount - discountAmount
+        const vatAmount = netAmountAfterDiscount * (this.form.value.vatPercent / 100)
+        const grossAmount = netAmountAfterDiscount + vatAmount
+        this.form.patchValue({
+            netAmount: netAmount.toFixed(2),
+            discountPercent: discountPercent.toFixed(2),
+            discountAmount: discountAmount.toFixed(2),
+            netAmountAfterDiscount: netAmountAfterDiscount.toFixed(2),
+            vatAmount: vatAmount,
+            grossAmount: grossAmount
+        })
+
+        // const discountPercent = this.form.value.discountPercent
+        // const discountAmount = this.form.value.discountAmount
+        // const netAmountAfterDiscount = parseFloat(this.form.value.netAmountAfterDiscount)
+        // const vatAmount = netAmountAfterDiscount * (vatPercent / 100)
+        // const grossAmount = netAmountAfterDiscount + vatAmount
+        // this.form.patchValue({
+        //     netAmount: netAmount.toFixed(2),
+        //     discountPercent: discountPercent.toFixed(2),
+        //     discountAmount: discountAmount.toFixed(2),
+        //     netAmountAfterDiscount: netAmountAfterDiscount.toFixed(2),
+        //     vatAmount: vatAmount.toFixed(2),
+        //     grossAmount: grossAmount.toFixed(2)
+        // })
     }
 
     public calculateNetAndGrossAmountBasedOnVatPercent(fieldName: string, digits: number): void {
         this.patchNumericFieldsWithZeroIfNullOrEmpty(fieldName, digits)
-        this.calculateVatAmountAndGrossAmountBasedOnNetAmount(fieldName, digits)
+        this.calculateFee(fieldName, digits)
     }
 
-    public calculateNetAmountBasedOnGrossAmount(fieldName: string, digits: number): void {
-        this.patchNumericFieldsWithZeroIfNullOrEmpty(fieldName, digits)
-        const netAmount = this.form.value.grossAmount / (1 + (this.form.value.vatPercent / 100))
-        const vatPercent = this.form.value.vatPercent
-        const vatAmount = netAmount * (vatPercent / 100)
-        const grossAmount = parseFloat(this.form.value.grossAmount)
-        this.form.patchValue(
-            {
-                netAmount: netAmount.toFixed(2),
-                vatAmount: vatAmount.toFixed(2),
-                grossAmount: grossAmount.toFixed(2)
-            })
-    }
+    // public calculateNetAmountBasedOnGrossAmount(fieldName: string, digits: number): void {
+    //     this.patchNumericFieldsWithZeroIfNullOrEmpty(fieldName, digits)
+    //     const netAmount = this.form.value.grossAmount / (1 + (this.form.value.vatPercent / 100))
+    //     const vatPercent = this.form.value.vatPercent
+    //     const vatAmount = netAmount * (vatPercent / 100)
+    //     const grossAmount = parseFloat(this.form.value.grossAmount)
+    //     this.form.patchValue(
+    //         {
+    //             netAmount: netAmount.toFixed(2),
+    //             vatAmount: vatAmount.toFixed(2),
+    //             grossAmount: grossAmount.toFixed(2)
+    //         })
+    // }
 
     public copyOwnerToBilling(): void {
         this.form.patchValue({
@@ -309,6 +327,9 @@ export class ReservationFormComponent {
             policyNo: this.storedReservation.policyNo,
             policyEnds: this.storedReservation.policyEnds,
             netAmount: this.storedReservation.netAmount,
+            discountPercent: this.storedReservation.discountPercent,
+            discountAmount: this.storedReservation.discountAmount,
+            netAmountAfterDiscount: this.storedReservation.netAmountAfterDiscount,
             vatPercent: this.storedReservation.vatPercent,
             vatAmount: this.storedReservation.vatAmount,
             grossAmount: this.storedReservation.grossAmount,
@@ -551,6 +572,9 @@ export class ReservationFormComponent {
             policyNo: '',
             policyEnds: ['', [Validators.required]],
             netAmount: ['', [Validators.required, Validators.min(0), Validators.max(99999)]],
+            discountPercent: [0, [Validators.required, Validators.min(0), Validators.max(999)]],
+            discountAmount: [0, [Validators.required, Validators.min(0), Validators.max(99999)]],
+            netAmountAfterDiscount: ['', [Validators.required, Validators.min(0), Validators.max(99999)]],
             vatPercent: ['', [Validators.required, Validators.min(0), Validators.max(99)]],
             vatAmount: ['', [Validators.required, Validators.min(0), Validators.max(99999)]],
             grossAmount: ['', [Validators.required, Validators.min(0), Validators.max(99999)]],
@@ -651,6 +675,9 @@ export class ReservationFormComponent {
         const x: ReservationFeeDto = {
             reservationId: form.value.reservationId,
             netAmount: form.value.netAmount,
+            discountPercent: form.value.discountPercent,
+            discountAmount: form.value.discountAmount,
+            netAmountAfterDiscount: form.value.netAmountAfterDiscount,
             vatPercent: form.value.vatPercent,
             vatAmount: form.value.vatAmount,
             grossAmount: form.value.grossAmount,
@@ -707,6 +734,9 @@ export class ReservationFormComponent {
                 policyNo: this.reservation.insurance.policyNo,
                 policyEnds: this.reservation.insurance.policyEnds,
                 netAmount: this.reservation.fee.netAmount,
+                discountPercent: this.reservation.fee.discountPercent,
+                discountAmount: this.reservation.fee.discountAmount,
+                netAmountAfterDiscount: this.reservation.fee.netAmountAfterDiscount,
                 vatPercent: this.reservation.fee.vatPercent,
                 vatAmount: this.reservation.fee.vatAmount,
                 grossAmount: this.reservation.fee.grossAmount,
@@ -909,6 +939,18 @@ export class ReservationFormComponent {
 
     get netAmount(): AbstractControl {
         return this.form.get('netAmount')
+    }
+
+    get discountPercent(): AbstractControl {
+        return this.form.get('discountPercent')
+    }
+
+    get discountAmount(): AbstractControl {
+        return this.form.get('discountAmount')
+    }
+
+    get netAmountAfterDiscount(): AbstractControl {
+        return this.form.get('netAmountAfterDiscount')
     }
 
     get vatPercent(): AbstractControl {

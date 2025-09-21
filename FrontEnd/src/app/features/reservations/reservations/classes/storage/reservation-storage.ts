@@ -23,6 +23,9 @@ export interface ReservationStorage extends Metadata {
     policyNo: string
     policyEnds: string
     netAmount: number
+    discountPercent: number,
+    discountAmount: number,
+    netAmountAfterDiscount: number,
     vatPercent: number
     vatAmount: number
     grossAmount: number

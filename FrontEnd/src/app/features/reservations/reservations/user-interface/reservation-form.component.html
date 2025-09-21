@@ -137,12 +137,27 @@
                         <div class="group-input-field">
                             <mat-form-field>
                                 <mat-label>{{ getLabel('netAmount') }}</mat-label>
-                                <input (blur)="calculateVatAmountAndGrossAmountBasedOnNetAmount('netAmount',2)" [inputTabStop]="input" currencyMask dataTabIndex="1" formControlName="netAmount" matInput>
+                                <input (blur)="calculateFee('netAmount',2)" [inputTabStop]="input" currencyMask dataTabIndex="1" formControlName="netAmount" matInput>
+                                <mat-error *ngIf="netAmount.hasError('required')">{{ getHint("required") }}</mat-error>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('discountPercent') }}</mat-label>
+                                <input (blur)="calculateFee('discountPercent',2)" [inputTabStop]="input" currencyMask dataTabIndex="2" formControlName="discountPercent" matInput>
+                                <mat-error *ngIf="netAmount.hasError('required')">{{ getHint("required") }}</mat-error>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('discountAmount') }}</mat-label>
+                                <input currencyMask formControlName="discountAmount" matInput>
+                                <mat-error *ngIf="netAmount.hasError('required')">{{ getHint("required") }}</mat-error>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('netAmountAfterDiscount') }}</mat-label>
+                                <input currencyMask formControlName="netAmountAfterDiscount" matInput>
                                 <mat-error *ngIf="netAmount.hasError('required')">{{ getHint("required") }}</mat-error>
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-label>{{ getLabel('vatPercent') }}</mat-label>
-                                <input (blur)="calculateNetAndGrossAmountBasedOnVatPercent('vatPercent',0)" [inputTabStop]="input" currencyMask dataTabIndex="2" formControlName="vatPercent" matInput>
+                                <input (blur)="calculateFee('vatPercent',0)" [inputTabStop]="input" currencyMask dataTabIndex="3" formControlName="vatPercent" matInput>
                                 <mat-error *ngIf="vatPercent.hasError('required')">{{ getHint("required") }}</mat-error>
                             </mat-form-field>
                             <mat-form-field>
@@ -152,7 +167,7 @@
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-label>{{ getLabel('grossAmount') }}</mat-label>
-                                <input (blur)="calculateNetAmountBasedOnGrossAmount('grossAmount',2)" [inputTabStop]="input" currencyMask dataTabIndex="3" formControlName="grossAmount" matInput>
+                                <input currencyMask formControlName="grossAmount" matInput readonly>
                                 <mat-error *ngIf="grossAmount.hasError('required')">{{ getHint("required") }}</mat-error>
                             </mat-form-field>
                             <mat-form-field>
