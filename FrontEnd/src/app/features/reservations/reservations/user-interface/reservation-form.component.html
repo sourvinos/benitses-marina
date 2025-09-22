@@ -137,12 +137,12 @@
                         <div class="group-input-field">
                             <mat-form-field>
                                 <mat-label>{{ getLabel('netAmount') }}</mat-label>
-                                <input (blur)="calculateFee('netAmount',2)" [inputTabStop]="input" currencyMask dataTabIndex="1" formControlName="netAmount" matInput>
+                                <input (blur)="onCalculateFees('netAmount',2)" [inputTabStop]="input" currencyMask dataTabIndex="1" formControlName="netAmount" matInput>
                                 <mat-error *ngIf="netAmount.hasError('required')">{{ getHint("required") }}</mat-error>
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-label>{{ getLabel('discountPercent') }}</mat-label>
-                                <input (blur)="calculateFee('discountPercent',2)" [inputTabStop]="input" currencyMask dataTabIndex="2" formControlName="discountPercent" matInput>
+                                <input (blur)="onCalculateFees('discountPercent',2)" [inputTabStop]="input" currencyMask dataTabIndex="2" formControlName="discountPercent" matInput>
                                 <mat-error *ngIf="netAmount.hasError('required')">{{ getHint("required") }}</mat-error>
                             </mat-form-field>
                             <mat-form-field>
@@ -157,7 +157,7 @@
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-label>{{ getLabel('vatPercent') }}</mat-label>
-                                <input (blur)="calculateFee('vatPercent',0)" [inputTabStop]="input" currencyMask dataTabIndex="3" formControlName="vatPercent" matInput>
+                                <input (blur)="onCalculateFees('vatPercent',0)" [inputTabStop]="input" currencyMask dataTabIndex="3" formControlName="vatPercent" matInput>
                                 <mat-error *ngIf="vatPercent.hasError('required')">{{ getHint("required") }}</mat-error>
                             </mat-form-field>
                             <mat-form-field>

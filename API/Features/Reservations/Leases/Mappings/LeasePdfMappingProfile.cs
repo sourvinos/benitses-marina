@@ -60,6 +60,9 @@ namespace API.Features.Leases {
                     Id = x.Fee.Id,
                     ReservationId = x.Fee.ReservationId,
                     NetAmount = x.Fee.NetAmount,
+                    DiscountPercent = x.Fee.DiscountPercent,
+                    DiscountAmount = x.Fee.DiscountAmount,
+                    NetAmountAfterDiscount = x.Fee.NetAmountAfterDiscount,
                     VatPercent = x.Fee.VatPercent,
                     VatAmount = x.Fee.VatAmount,
                     GrossAmount = x.Fee.GrossAmount

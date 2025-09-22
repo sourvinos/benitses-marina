@@ -573,20 +573,20 @@ namespace API.Features.Leases {
             row.TopPadding = 2;
             row.BottomPadding = 2;
             row.VerticalAlignment = VerticalAlignment.Center;
-            row.Cells[0].AddParagraph("Συμφωνηθέν τίμημα / Initial fee");
+            row.Cells[0].AddParagraph("Συμφωνηθέν τίμημα / Initial fees");
             row.Cells[0].AddParagraph("Εκπτωση % / Discount %");
             row.Cells[0].AddParagraph("Ποσό έκπτωσης / Discount amount");
-            row.Cells[0].AddParagraph("Υπόλοιπο τιμήματος / Remaining fee");
+            row.Cells[0].AddParagraph("Υπόλοιπο τιμήματος / Remaining fees");
             row.Cells[0].AddParagraph("ΦΠΑ " + fee.VatPercent + "% / VAT " + fee.VatPercent + "%");
             row.Cells[1].AddParagraph(fee.NetAmount.ToString("N2", locale)).Format.Alignment = ParagraphAlignment.Right;
-            row.Cells[1].AddParagraph("0,00").Format.Alignment = ParagraphAlignment.Right;
-            row.Cells[1].AddParagraph("0,00").Format.Alignment = ParagraphAlignment.Right;
-            row.Cells[1].AddParagraph(fee.NetAmount.ToString("N2", locale)).Format.Alignment = ParagraphAlignment.Right;
+            row.Cells[1].AddParagraph(fee.DiscountPercent.ToString("N2", locale)).Format.Alignment = ParagraphAlignment.Right;
+            row.Cells[1].AddParagraph(fee.DiscountAmount.ToString("N2", locale)).Format.Alignment = ParagraphAlignment.Right;
+            row.Cells[1].AddParagraph(fee.NetAmountAfterDiscount.ToString("N2", locale)).Format.Alignment = ParagraphAlignment.Right;
             row.Cells[1].AddParagraph(fee.VatAmount.ToString("N2", locale)).Format.Alignment = ParagraphAlignment.Right;
             row = table.AddRow();
             row.TopPadding = 2;
             row.BottomPadding = 2;
-            row.Cells[0].AddParagraph("Τελικό τίμημα προς πληρωμή / Final fee");
+            row.Cells[0].AddParagraph("Τελικό τίμημα προς πληρωμή / Final payable fees");
             row.Cells[1].AddParagraph("EUR " + fee.GrossAmount.ToString("N2", locale)).Format.Alignment = ParagraphAlignment.Right;
             return row;
         }

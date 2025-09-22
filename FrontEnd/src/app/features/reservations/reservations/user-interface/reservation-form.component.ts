@@ -148,7 +148,7 @@ export class ReservationFormComponent {
         })
     }
 
-    public calculateFee(fieldName: string, digits: number): void {
+    public onCalculateFees(fieldName: string, digits: number): void {
         this.patchNumericFieldsWithZeroIfNullOrEmpty(fieldName, digits)
         const netAmount = parseFloat(this.form.value.netAmount)
         const discountPercent = parseFloat(this.form.value.discountPercent)
@@ -179,25 +179,6 @@ export class ReservationFormComponent {
         //     grossAmount: grossAmount.toFixed(2)
         // })
     }
-
-    public calculateNetAndGrossAmountBasedOnVatPercent(fieldName: string, digits: number): void {
-        this.patchNumericFieldsWithZeroIfNullOrEmpty(fieldName, digits)
-        this.calculateFee(fieldName, digits)
-    }
-
-    // public calculateNetAmountBasedOnGrossAmount(fieldName: string, digits: number): void {
-    //     this.patchNumericFieldsWithZeroIfNullOrEmpty(fieldName, digits)
-    //     const netAmount = this.form.value.grossAmount / (1 + (this.form.value.vatPercent / 100))
-    //     const vatPercent = this.form.value.vatPercent
-    //     const vatAmount = netAmount * (vatPercent / 100)
-    //     const grossAmount = parseFloat(this.form.value.grossAmount)
-    //     this.form.patchValue(
-    //         {
-    //             netAmount: netAmount.toFixed(2),
-    //             vatAmount: vatAmount.toFixed(2),
-    //             grossAmount: grossAmount.toFixed(2)
-    //         })
-    // }
 
     public copyOwnerToBilling(): void {
         this.form.patchValue({
