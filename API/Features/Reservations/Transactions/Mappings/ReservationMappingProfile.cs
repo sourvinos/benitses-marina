@@ -55,6 +55,13 @@ namespace API.Features.Reservations.Transactions {
                     PolicyNo = x.Insurance.PolicyNo,
                     PolicyEnds = DateHelpers.DateToISOString(x.Insurance.PolicyEnds)
                 }))
+                .ForMember(x => x.FishingLicence, x => x.MapFrom(x => new ReservationFishingLicenceDetailDto {
+                    Id = x.FishingLicence.Id,
+                    ReservationId = x.FishingLicence.ReservationId,
+                    IssuingAuthority = x.FishingLicence.IssuingAuthority,
+                    LicenceNo = x.FishingLicence.LicenceNo,
+                    LicenceEnds = DateHelpers.DateToISOString(x.FishingLicence.LicenceEnds)
+                }))
                 .ForMember(x => x.Owner, x => x.MapFrom(x => new ReservationOwnerDetailsDto {
                     Id = x.Owner.Id,
                     ReservationId = x.Owner.ReservationId,
@@ -112,6 +119,12 @@ namespace API.Features.Reservations.Transactions {
                     Name = x.Boat.Name,
                     RegistryNo = x.Boat.RegistryNo,
                     RegistryPort = x.Boat.RegistryPort
+                }))
+                .ForMember(x => x.FishingLicence, x => x.MapFrom(x => new ReservationFishingLicence {
+                    ReservationId = x.ReservationId,
+                    IssuingAuthority = x.FishingLicence.IssuingAuthority,
+                    LicenceNo = x.FishingLicence.LicenceNo,
+                    LicenceEnds = DateHelpers.StringToDate(x.FishingLicence.LicenceEnds)
                 }))
                 .ForMember(x => x.Insurance, x => x.MapFrom(x => new ReservationInsurance {
                     ReservationId = x.ReservationId,

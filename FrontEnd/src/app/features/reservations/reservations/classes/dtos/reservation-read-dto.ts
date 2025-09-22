@@ -7,6 +7,7 @@ import { ReservationFeeDto } from './reservation-fee-dto'
 import { ReservationInsuranceDto } from './reservation-insurance-dto'
 import { ReservationPersonDto } from './reservation-person-dto'
 import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
+import { ReservationFishingLicenceDto } from './reservation-fishing-licence-dto'
 
 export interface ReservationReadDto extends Metadata {
 
@@ -22,6 +23,7 @@ export interface ReservationReadDto extends Metadata {
     isRequest: boolean
     berths: BerthReadDto[]
     boat: ReservationBoatDto
+    fishingLicence: ReservationFishingLicenceDto
     insurance: ReservationInsuranceDto
     owner: ReservationPersonDto
     billing: ReservationPersonDto

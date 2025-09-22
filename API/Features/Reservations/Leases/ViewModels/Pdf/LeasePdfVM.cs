@@ -8,6 +8,7 @@ namespace API.Features.Leases {
         public string BackgroundColor { get; set; }
         public LeasePdfPeriodVM Period { get; set; }
         public LeasePdfBoatVM Boat { get; set; }
+        public LeasePdfFishingLicenceVM FishingLicence { get; set; }
         public LeasePdfInsuranceVM Insurance { get; set; }
         public LeasePdfPersonVM Owner { get; set; }
         public LeasePdfPersonVM Billing { get; set; }

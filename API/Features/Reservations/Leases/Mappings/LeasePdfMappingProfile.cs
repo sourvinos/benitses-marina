@@ -29,6 +29,13 @@ namespace API.Features.Leases {
                     RegistryPort = x.Boat.RegistryPort,
                     RegistryNo = x.Boat.RegistryNo,
                 }))
+                .ForMember(x => x.FishingLicence, x => x.MapFrom(x => new LeasePdfFishingLicenceVM {
+                    Id = x.FishingLicence.Id,
+                    ReservationId = x.FishingLicence.ReservationId,
+                    IssuingAuthority = x.FishingLicence.IssuingAuthority,
+                    LicenceNo = x.FishingLicence.LicenceNo,
+                    LicenceEnds = DateHelpers.DateToISOString(x.FishingLicence.LicenceEnds)
+                }))
                 .ForMember(x => x.Insurance, x => x.MapFrom(x => new LeasePdfInsuranceVM {
                     Id = x.Insurance.Id,
                     ReservationId = x.Insurance.ReservationId,

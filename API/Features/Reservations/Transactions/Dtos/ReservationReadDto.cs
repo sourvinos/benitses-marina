@@ -11,6 +11,7 @@ namespace API.Features.Reservations.Transactions {
         public Guid ReservationId { get; set; }
         // Children
         public ReservationBoatDetailsDto Boat { get; set; }
+        public ReservationFishingLicenceDetailDto FishingLicence { get; set; }
         public ReservationInsuranceDetailsDto Insurance { get; set; }
         public ReservationOwnerDetailsDto Owner { get; set; }
         public ReservationBillingDetailsDto Billing { get; set; }

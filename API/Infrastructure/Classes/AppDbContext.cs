@@ -56,6 +56,7 @@ namespace API.Infrastructure.Classes {
         public DbSet<ReservationBilling> ReservationBillingDetails { get; set; }
         public DbSet<ReservationBoat> ReservationBoats { get; set; }
         public DbSet<ReservationFee> ReservationFeeDetails { get; set; }
+        public DbSet<ReservationFishingLicence> ReservationFishingLicenceDetails { get; set; }
         public DbSet<ReservationInsurance> ReservationInsuranceDetails { get; set; }
         public DbSet<ReservationOwner> ReservationOwnerDetails { get; set; }
         public DbSet<ReservationParameter> ReservationParameters { get; set; }

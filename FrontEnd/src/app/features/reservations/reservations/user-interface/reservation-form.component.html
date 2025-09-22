@@ -294,7 +294,7 @@
                         </div>
                     </div>
                 </mat-tab>
-                <mat-tab class="left-align" label="{{ getLabel('tab5') }}">
+                <mat-tab label="{{ getLabel('tab5') }}">
                     <mat-form-field>
                         <mat-label>{{ getLabel("remarks") }}</mat-label>
                         <textarea #input formControlName="remarks" id="textarea" matInput></textarea>
@@ -311,6 +311,27 @@
                             <button (click)="onDeleteDocument(document,$event)">
                                 <mat-icon class="input-suffix material-icons-outlined">delete</mat-icon>
                             </button>
+                        </div>
+                    </div>
+                </mat-tab>
+                <mat-tab *ngIf="isFishingBoat()" label="{{ getLabel('tab6') }}">
+                    <div id="lease-tab">
+                        <div class="group-input-field">
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('fishingIssuingAuthority') }}</mat-label>
+                                <input [inputTabStop]="input" dataTabIndex="1" formControlName="issuingAuthority" matInput>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('fishingLicenceNo') }}</mat-label>
+                                <input [inputTabStop]="input" dataTabIndex="2" formControlName="licenceNo" matInput>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>{{ getLabel('fishingLicenceEnds') }}</mat-label>
+                                <input [inputTabStop]="input" [matDatepicker]="licenceEndsDatePicker" dataTabIndex="3" formControlName="licenceEnds" matInput>
+                                <mat-datepicker-toggle matIconSuffix [for]="licenceEndsDatePicker"></mat-datepicker-toggle>
+                                <mat-datepicker #licenceEndsDatePicker></mat-datepicker>
+                                <mat-error *ngIf="licenceEnds.hasError('required')">{{ getHint("required") }}</mat-error>
+                            </mat-form-field>
                         </div>
                     </div>
                 </mat-tab>

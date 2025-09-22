@@ -104,6 +104,7 @@ namespace API.Features.Reservations.Transactions {
                     .AsNoTracking()
                     .Include(x => x.Boat).ThenInclude(x => x.Type)
                     .Include(x => x.Boat).ThenInclude(x => x.Usage)
+                    .Include(x => x.FishingLicence)
                     .Include(x => x.Insurance)
                     .Include(x => x.Owner)
                     .Include(x => x.Billing)
@@ -116,6 +117,7 @@ namespace API.Features.Reservations.Transactions {
                   .AsNoTracking()
                     .Include(x => x.Boat)
                     .Include(x => x.Insurance)
+                    .Include(x => x.FishingLicence)
                     .Include(x => x.Owner)
                     .Include(x => x.Billing)
                     .Include(x => x.Fee)
@@ -129,6 +131,7 @@ namespace API.Features.Reservations.Transactions {
             using var transaction = context.Database.BeginTransaction();
             UpdateReservation(reservation);
             UpdateBoat(reservation.Boat);
+            UpdateFishingLicence(reservation.FishingLicence);
             UpdateInsurance(reservation.Insurance);
             UpdateOwner(reservation.Owner);
             UpdateBilling(reservation.Billing);
@@ -193,6 +196,11 @@ namespace API.Features.Reservations.Transactions {
         private void UpdateBoat(ReservationBoat boat) {
             var x = context.ReservationBoats.Where(x => x.ReservationId == boat.ReservationId).SingleOrDefault();
             context.ReservationBoats.Update(boat);
+        }
+
+        private void UpdateFishingLicence(ReservationFishingLicence fishingLicence) {
+            var x = context.ReservationFishingLicenceDetails.Where(x => x.ReservationId == fishingLicence.ReservationId).SingleOrDefault();
+            context.ReservationFishingLicenceDetails.Update(fishingLicence);
         }
 
         private void UpdateInsurance(ReservationInsurance insurance) {

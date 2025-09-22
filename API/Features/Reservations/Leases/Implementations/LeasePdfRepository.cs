@@ -37,6 +37,7 @@ namespace API.Features.Leases {
                 .AsNoTracking()
                 .Include(x => x.Boat).ThenInclude(x => x.Type)
                 .Include(x => x.Boat).ThenInclude(x => x.Usage)
+                .Include(x => x.FishingLicence)
                 .Include(x => x.Insurance)
                 .Include(x => x.Owner)
                 .Include(x => x.Billing)
@@ -63,9 +64,9 @@ namespace API.Features.Leases {
             VesselTypeAndUse(lease.Boat, section);
             MooringPeriod(lease.Period, section, lease.BackgroundColor);
             Spacer(section);
-            FishingLicenceHeaders(section, lease.BackgroundColor);
-            FishingLicenceDetails(lease.Insurance, section);
-            Spacer(section);
+            FishingLicenceHeaders(section, lease.BackgroundColor, lease.Boat.IsFishingBoat);
+            FishingLicenceDetails(lease.FishingLicence, section, lease.Boat.IsFishingBoat);
+            FishingLicenceSpacer(section, lease.Boat.IsFishingBoat);
             InsuranceHeaders(section, lease.BackgroundColor);
             InsuranceDetails(lease.Insurance, section);
             Spacer(section);
@@ -85,7 +86,7 @@ namespace API.Features.Leases {
             FeeDetails(lease.Fee, section, lease.BackgroundColor);
             Spacer(section);
             SmallTerms(section);
-            Spacer(section);
+            FooterSpacer(section);
             SignatureHeaders(section, lease.BackgroundColor);
             Signatures(section);
             Username(section, lease.BackgroundColor);
@@ -267,51 +268,57 @@ namespace API.Features.Leases {
             return row;
         }
 
-        private static Row FishingLicenceHeaders(Section section, string backgroundColor) {
-            var table = section.AddTable();
-            table.Borders.Width = 0.1;
-            table.Borders.Color = new Color(153, 162, 165);
-            table.Format.Font.Size = Unit.FromCentimeter(0.25);
-            table.AddColumn("19cm");
-            Row row = table.AddRow();
-            row.Shading.Color = Color.Parse(backgroundColor);
-            row.TopPadding = 2;
-            row.BottomPadding = 2;
-            row.VerticalAlignment = VerticalAlignment.Center;
-            row.Cells[0].AddParagraph("Στοιχεία επαγγελματικής άδειας αλιείας / Professional fishing license details");
-            row.Cells[0].Format.Alignment = ParagraphAlignment.Center;
-            return row;
+        private static Row FishingLicenceHeaders(Section section, string backgroundColor, bool isFishingBoat) {
+            if (isFishingBoat) {
+                var table = section.AddTable();
+                table.Borders.Width = 0.1;
+                table.Borders.Color = new Color(153, 162, 165);
+                table.Format.Font.Size = Unit.FromCentimeter(0.25);
+                table.AddColumn("19cm");
+                Row row = table.AddRow();
+                row.Shading.Color = Color.Parse(backgroundColor);
+                row.TopPadding = 2;
+                row.BottomPadding = 2;
+                row.VerticalAlignment = VerticalAlignment.Center;
+                row.Cells[0].AddParagraph("Στοιχεία επαγγελματικής άδειας αλιείας / Professional fishing license details");
+                row.Cells[0].Format.Alignment = ParagraphAlignment.Center;
+                return row;
+            }
+            return null;
         }
 
-        private static Row FishingLicenceDetails(LeasePdfInsuranceVM insurance, Section section) {
-            var table = section.AddTable();
-            table.Borders.Width = 0.1;
-            table.Borders.Color = new Color(153, 162, 165);
-            table.Format.Font.Size = Unit.FromCentimeter(0.25);
-            table.AddColumn("3.17cm");
-            table.AddColumn("3.17cm");
-            table.AddColumn("3.17cm");
-            table.AddColumn("3.17cm");
-            table.AddColumn("3.17cm");
-            table.AddColumn("3.17cm");
-            Row row = table.AddRow();
-            row.Shading.Color = Color.Parse("#ffffff");
-            row.TopPadding = 2;
-            row.BottomPadding = 2;
-            row.VerticalAlignment = VerticalAlignment.Center;
-            row.Cells[0].AddParagraph("Αρχή έκδοσης");
-            row.Cells[0].AddParagraph("Issuing authority");
-            row.Cells[0].Borders.Right.Clear();
-            row.Cells[1].AddParagraph(insurance.InsuranceCompany);
-            row.Cells[2].AddParagraph("Αριθμός αδείας");
-            row.Cells[2].AddParagraph("Licence number");
-            row.Cells[2].Borders.Right.Clear();
-            row.Cells[3].AddParagraph(insurance.PolicyNo);
-            row.Cells[4].AddParagraph("Ημερ/νία λήξης");
-            row.Cells[4].AddParagraph("Valid until");
-            row.Cells[4].Borders.Right.Clear();
-            row.Cells[5].AddParagraph(DateHelpers.FormatDateStringToLocaleString(insurance.PolicyEnds));
-            return row;
+        private static Row FishingLicenceDetails(LeasePdfFishingLicenceVM fishingLicence, Section section, bool isFishingBoat) {
+            if (isFishingBoat) {
+                var table = section.AddTable();
+                table.Borders.Width = 0.1;
+                table.Borders.Color = new Color(153, 162, 165);
+                table.Format.Font.Size = Unit.FromCentimeter(0.25);
+                table.AddColumn("3.17cm");
+                table.AddColumn("3.17cm");
+                table.AddColumn("3.17cm");
+                table.AddColumn("3.17cm");
+                table.AddColumn("3.17cm");
+                table.AddColumn("3.17cm");
+                Row row = table.AddRow();
+                row.Shading.Color = Color.Parse("#ffffff");
+                row.TopPadding = 2;
+                row.BottomPadding = 2;
+                row.VerticalAlignment = VerticalAlignment.Center;
+                row.Cells[0].AddParagraph("Αρχή έκδοσης");
+                row.Cells[0].AddParagraph("Issuing authority");
+                row.Cells[0].Borders.Right.Clear();
+                row.Cells[1].AddParagraph(fishingLicence.IssuingAuthority);
+                row.Cells[2].AddParagraph("Αριθμός αδείας");
+                row.Cells[2].AddParagraph("Licence number");
+                row.Cells[2].Borders.Right.Clear();
+                row.Cells[3].AddParagraph(fishingLicence.LicenceNo);
+                row.Cells[4].AddParagraph("Ημερ/νία λήξης");
+                row.Cells[4].AddParagraph("Valid until");
+                row.Cells[4].Borders.Right.Clear();
+                row.Cells[5].AddParagraph(DateHelpers.FormatDateStringToLocaleString(fishingLicence.LicenceEnds));
+                return row;
+            }
+            return null;
         }
 
         private static Row InsuranceHeaders(Section section, string backgroundColor) {
@@ -643,7 +650,7 @@ namespace API.Features.Leases {
         }
 
         private static Row SmallTerms(Section section) {
-            var table = section.AddTable();
+            var table = section.Footers.Primary.AddTable();
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
             table.Format.Font.Size = Unit.FromPoint(5);
@@ -719,6 +726,25 @@ namespace API.Features.Leases {
 
         private static Row Spacer(Section section) {
             var table = section.AddTable();
+            table.Borders.Width = 0;
+            table.AddColumn("19cm");
+            var row = table.AddRow();
+            return row;
+        }
+
+        private static Row FishingLicenceSpacer(Section section, bool isFishingBoat) {
+            if (isFishingBoat) {
+                var table = section.AddTable();
+                table.Borders.Width = 0;
+                table.AddColumn("19cm");
+                var row = table.AddRow();
+                return row;
+            }
+            return null;
+        }
+
+        private static Row FooterSpacer(Section section) {
+            var table = section.Footers.Primary.AddTable();
             table.Borders.Width = 0;
             table.AddColumn("19cm");
             var row = table.AddRow();

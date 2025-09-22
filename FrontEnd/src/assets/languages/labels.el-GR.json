@@ -142,7 +142,11 @@
             },
             {
                 "id": "tab5",
-                "description": "Εγγραφα & παρατηρήσεις"
+                "description": "Εγγραφα"
+            },
+            {
+                "id": "tab6",
+                "description": "Αδεια αλιείας"
             },
             {
                 "id": "boatName",
@@ -359,6 +363,18 @@
             {
                 "id": "pasteReservation",
                 "description": "Επικόλληση εγγραφής"
+            },
+            {
+                "id": "fishingIssuingAuthority",
+                "description": "Αρχή έκδοσης"
+            },
+            {
+                "id": "fishingLicenceNo",
+                "description": "Νο άδειας"
+            },
+            {
+                "id": "fishingLicenceEnds",
+                "description": "Ημερομηνία λήξης"
             }
         ]
     },

@@ -242,6 +242,10 @@ export class HelperService {
         }
     }
 
+    public convertStringToLowerCase(value: string): string {
+        return value.toLowerCase()
+    }
+
     //#endregion
 
     //#region private methods

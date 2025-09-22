@@ -17,6 +17,7 @@ namespace API.Features.Reservations.Transactions {
         public bool IsDryDock { get; set; }
         public bool IsRequest { get; set; }
         public ReservationBoatDetailsWriteDto Boat { get; set; }
+        public ReservationFishingLicenceDetailDto FishingLicence { get; set; }
         public ReservationInsuranceDetailsDto Insurance { get; set; }
         public ReservationOwnerDetailsDto Owner { get; set; }
         public ReservationBillingDetailsDto Billing { get; set; }

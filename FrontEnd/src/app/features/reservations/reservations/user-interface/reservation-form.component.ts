@@ -34,6 +34,8 @@ import { SessionStorageService } from 'src/app/shared/services/session-storage.s
 import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 import { ValidationService } from 'src/app/shared/services/validation.service'
 import { environment } from 'src/environments/environment'
+import { ReservationFishingLicenceDto } from '../classes/dtos/reservation-fishing-licence-dto'
+import FileSaver from 'file-saver'
 
 @Component({
     selector: 'reservation-form',
@@ -115,7 +117,6 @@ export class ReservationFormComponent {
 
     ngAfterViewInit(): void {
         this.focusOnField()
-        this.rightAlignLastTab()
     }
 
     //#endregion
@@ -135,7 +136,7 @@ export class ReservationFormComponent {
                     next: (response) => {
                         const blob = new Blob([response], { type: 'application/pdf' })
                         const fileURL = URL.createObjectURL(blob)
-                        window.open(fileURL, '_blank')
+                        FileSaver.saveAs(blob, this.helperService.convertStringToLowerCase(this.form.value.boatName) + " contract.pdf");
                     },
                     error: (errorFromInterceptor) => {
                         this.dialogService.open(this.messageDialogService.filterResponse(errorFromInterceptor), 'error', ['ok'])
@@ -204,61 +205,80 @@ export class ReservationFormComponent {
         return this.emojiService.getEmoji(emoji)
     }
 
+
     public getHint(id: string, minmax = 0): string {
         return this.messageHintService.getDescription(id, minmax)
     }
+
 
     public getIcon(filename: string): string {
         return environment.featuresIconDirectory + filename + '.svg'
     }
 
+
     public getLabel(id: string): string {
         return this.messageLabelService.getDescription(this.feature, id)
     }
+
 
     public getNewOrEditHeader(): string {
         return this.form.value.reservationId == '' ? 'headerNew' : 'headerEdit'
     }
 
+
     public getRemarksLength(): any {
         return this.form.value.remarks != null ? this.form.value.remarks.length : 0
     }
+
 
     public getFinancialRemarksLength(): any {
         return this.form.value.financialRemarks != null ? this.form.value.financialRemarks.length : 0
     }
 
+
     public imageIsLoading(): any {
         return this.imgIsLoaded ? '' : 'skeleton'
     }
 
+
     public isAdmin(): boolean {
         return this.cryptoService.decrypt(this.sessionStorageService.getItem('isAdmin')) == 'true' ? true : false
+    }
+
+
+    public isFishingBoat(): boolean {
+        return this.form.value.isFishingBoat
     }
 
     public isNotNewRecord(): boolean {
         return this.form.value.reservationId == ''
     }
 
+
     public isNewRecord(): boolean {
         return this.form.value.reservationId != '' && this.form.pristine == true
     }
+
 
     public isNotNewRecordAndIsReservationNotInStorage(): boolean {
         return this.form.value.reservationId == '' && this.localStorageService.getItem('reservation').length != 0
     }
 
+
     public canSendDocuments(): boolean {
         return (this.form.value.reservationId != '' && this.form.pristine == true && this.selectedDocuments.length != 0)
     }
+
 
     public canSendInvalidInsurance(): boolean {
         return (this.form.value.reservationId != '' && this.form.pristine == true && this.form.value.isDocked && this.expireDateMustBeInThePast(this.form.value.policyEnds))
     }
 
+
     public canSendEndOfLease(): boolean {
         return (this.form.value.reservationId != '' && this.form.pristine == true && this.form.value.isDocked)
     }
+
 
     public loadImage(): void {
         this.imgIsLoaded = true
@@ -452,14 +472,6 @@ export class ReservationFormComponent {
         }
     }
 
-    private isAnyRowSelected(): boolean {
-        if (this.selectedDocuments.length == 0) {
-            this.dialogService.open(this.messageDialogService.noRecordsSelected(), 'error', ['ok'])
-            return false
-        }
-        return true
-    }
-
     //#endregion
 
     //#region private methods
@@ -486,6 +498,7 @@ export class ReservationFormComponent {
             financialRemarks: this.form.value.financialRemarks,
             paymentStatusId: this.form.value.paymentStatus.id,
             boat: this.mapBoat(this.form),
+            fishingLicence: this.mapFishingLicence(this.form),
             insurance: this.mapInsurance(this.form),
             owner: this.mapOwner(this.form),
             billing: this.mapBilling(this.form),
@@ -549,6 +562,9 @@ export class ReservationFormComponent {
             remarks: ['', Validators.maxLength(2048)],
             financialRemarks: ['', Validators.maxLength(2048)],
             paymentStatus: ['', [Validators.required, ValidationService.requireAutocomplete]],
+            issuingAuthority: '',
+            licenceNo: '',
+            licenceEnds: ['2199-12-31', [Validators.required]],
             insuranceCompany: '',
             policyNo: '',
             policyEnds: ['', [Validators.required]],
@@ -593,10 +609,6 @@ export class ReservationFormComponent {
         })
     }
 
-    private rightAlignLastTab(): void {
-        this.helperService.leftAlignLastTab()
-    }
-
     private mapBoat(form: any): ReservationBoatWriteDto {
         const x: ReservationBoatWriteDto = {
             reservationId: form.value.reservationId,
@@ -610,6 +622,16 @@ export class ReservationFormComponent {
             isFishingBoat: form.value.isFishingBoat,
             typeId: form.value.boatType.id,
             usageId: form.value.boatUsage.id,
+        }
+        return x
+    }
+
+    private mapFishingLicence(form: any): ReservationFishingLicenceDto {
+        const x: ReservationFishingLicenceDto = {
+            reservationId: form.value.reservationId,
+            issuingAuthority: form.value.issuingAuthority,
+            licenceNo: form.value.licenceNo,
+            licenceEnds: this.dateHelperService.formatDateToIso(new Date(this.form.value.licenceEnds))
         }
         return x
     }
@@ -711,6 +733,9 @@ export class ReservationFormComponent {
                 paymentStatus: { 'id': this.reservation.paymentStatus.id, 'description': this.reservation.paymentStatus.description },
                 boatType: { 'id': this.reservation.boat.type.id, 'description': this.reservation.boat.type.description },
                 boatUsage: { 'id': this.reservation.boat.usage.id, 'description': this.reservation.boat.usage.description },
+                issuingAuthority: this.reservation.fishingLicence.issuingAuthority,
+                licenceNo: this.reservation.fishingLicence.licenceNo,
+                licenceEnds: this.reservation.fishingLicence.licenceEnds,
                 insuranceCompany: this.reservation.insurance.insuranceCompany,
                 policyNo: this.reservation.insurance.policyNo,
                 policyEnds: this.reservation.insurance.policyEnds,
@@ -842,6 +867,7 @@ export class ReservationFormComponent {
         return this.form.get('loa')
     }
 
+
     get beam(): AbstractControl {
         return this.form.get('beam')
     }
@@ -850,157 +876,208 @@ export class ReservationFormComponent {
         return this.form.get('draft')
     }
 
+
     get fromDate(): AbstractControl {
         return this.form.get('fromDate')
     }
+
 
     get toDate(): AbstractControl {
         return this.form.get('toDate')
     }
 
+
     get paymentStatus(): AbstractControl {
         return this.form.get('paymentStatus')
     }
+
 
     get remarks(): AbstractControl {
         return this.form.get('remarks')
     }
 
+
     get financialRemarks(): AbstractControl {
         return this.form.get('financialRemarks')
     }
+
 
     get postAt(): AbstractControl {
         return this.form.get('postAt')
     }
 
+
     get postUser(): AbstractControl {
         return this.form.get('postUser')
     }
+
 
     get putAt(): AbstractControl {
         return this.form.get('putAt')
     }
 
+
     get putUser(): AbstractControl {
         return this.form.get('putUser')
+    }
+
+
+    get issuingAuthority(): AbstractControl {
+        return this.form.get('issuingAuthority')
+    }
+
+    get licenceNo(): AbstractControl {
+        return this.form.get('licenceNo')
+    }
+
+    get licenceEnds(): AbstractControl {
+        return this.form.get('licenceEnds')
     }
 
     get insuranceCompany(): AbstractControl {
         return this.form.get('insuranceCompany')
     }
 
+
     get policyNo(): AbstractControl {
         return this.form.get('policyNo')
     }
+
 
     get policyEnds(): AbstractControl {
         return this.form.get('policyEnds')
     }
 
+
     get flag(): AbstractControl {
         return this.form.get('flag')
     }
+
 
     get registryPort(): AbstractControl {
         return this.form.get('registryPort')
     }
 
+
     get registryNo(): AbstractControl {
         return this.form.get('registryNo')
     }
+
 
     get boatType(): AbstractControl {
         return this.form.get('boatType')
     }
 
+
     get boatUsage(): AbstractControl {
         return this.form.get('boatUsage')
     }
+
 
     get netAmount(): AbstractControl {
         return this.form.get('netAmount')
     }
 
+
     get discountPercent(): AbstractControl {
         return this.form.get('discountPercent')
     }
+
 
     get discountAmount(): AbstractControl {
         return this.form.get('discountAmount')
     }
 
+
     get netAmountAfterDiscount(): AbstractControl {
         return this.form.get('netAmountAfterDiscount')
     }
+
 
     get vatPercent(): AbstractControl {
         return this.form.get('vatPercent')
     }
 
+
     get vatAmount(): AbstractControl {
         return this.form.get('vatAmount')
     }
+
 
     get grossAmount(): AbstractControl {
         return this.form.get('grossAmount')
     }
 
+
     get ownerName(): AbstractControl {
         return this.form.get('ownerName')
     }
+
 
     get ownwerAddress(): AbstractControl {
         return this.form.get('ownerAddress')
     }
 
+
     get ownerTaxNo(): AbstractControl {
         return this.form.get('ownerTaxNo')
     }
+
 
     get ownerTaxOffice(): AbstractControl {
         return this.form.get('ownerTaxOffice')
     }
 
+
     get ownerPassportNo(): AbstractControl {
         return this.form.get('ownerPassportNo')
     }
+
 
     get ownerPhones(): AbstractControl {
         return this.form.get('ownerPhones')
     }
 
+
     get ownerEmail(): AbstractControl {
         return this.form.get('ownerEmail')
     }
+
 
     get billingName(): AbstractControl {
         return this.form.get('billingName')
     }
 
+
     get billingAddress(): AbstractControl {
         return this.form.get('billingAddress')
     }
+
 
     get billingTaxNo(): AbstractControl {
         return this.form.get('billingTaxNo')
     }
 
+
     get billingTaxOffice(): AbstractControl {
         return this.form.get('billingTaxOffice')
     }
+
 
     get billingPassportNo(): AbstractControl {
         return this.form.get('billingPassportNo')
     }
 
+
     get billingPhones(): AbstractControl {
         return this.form.get('billingPhones')
     }
 
+
     get billingEmail(): AbstractControl {
         return this.form.get('billingEmail')
     }
+
 
     //#endregion
 

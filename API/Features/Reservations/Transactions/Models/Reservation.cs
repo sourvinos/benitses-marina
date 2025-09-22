@@ -24,6 +24,7 @@ namespace API.Features.Reservations.Transactions {
         public bool IsRequest { get; set; }
         // Children
         public ReservationBoat Boat { get; set; }
+        public ReservationFishingLicence FishingLicence { get; set; }
         public ReservationInsurance Insurance { get; set; }
         public ReservationOwner Owner { get; set; }
         public ReservationBilling Billing { get; set; }
