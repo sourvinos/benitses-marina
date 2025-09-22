@@ -324,6 +324,9 @@ export class ReservationFormComponent {
             remarks: this.storedReservation.remarks,
             financialRemarks: this.storedReservation.financialRemarks,
             paymentStatus: { 'id': this.storedReservation.paymentStatus.id, 'description': this.storedReservation.paymentStatus.description },
+            issuingAuthority: this.storedReservation.issuingAuthority,
+            licenceNo: this.storedReservation.licenceNo,
+            licenceEnds: this.storedReservation.licenceEnds,
             insuranceCompany: this.storedReservation.insuranceCompany,
             policyNo: this.storedReservation.policyNo,
             policyEnds: this.storedReservation.policyEnds,
@@ -489,7 +492,7 @@ export class ReservationFormComponent {
     }
 
     private flattenForm(): ReservationWriteDto {
-        return {
+        const x = {
             reservationId: this.form.value.reservationId != '' ? this.form.value.reservationId : null,
             fromDate: this.dateHelperService.formatDateToIso(new Date(this.form.value.fromDate)),
             toDate: this.dateHelperService.formatDateToIso(new Date(this.form.value.toDate)),
@@ -509,6 +512,7 @@ export class ReservationFormComponent {
             isRequest: this.form.value.isRequest,
             putAt: this.form.value.putAt
         }
+        return x
     }
 
     private focusOnField(): void {

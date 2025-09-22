@@ -19,6 +19,9 @@ export interface ReservationStorage extends Metadata {
     remarks: string
     financialRemarks: string
     paymentStatus: ReservationStorageSimpleEntity
+    issuingAuthority: string
+    licenceNo: string
+    licenceEnds: string
     insuranceCompany: string
     policyNo: string
     policyEnds: string
