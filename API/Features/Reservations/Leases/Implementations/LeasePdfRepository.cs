@@ -51,41 +51,44 @@ namespace API.Features.Leases {
             Style style = document.Styles["Normal"];
             style.Font.Name = "Verdana";
             var section = document.AddSection();
-            section.PageSetup.TopMargin = 20;
+            section.PageSetup.TopMargin = 1;
             section.PageSetup.LeftMargin = 30;
             LogoAndCompany(section);
             Spacer(section);
-            Header(section);
+            Header(section, lease.BackgroundColor, lease.Boat.IsFishingBoat);
             Spacer(section);
-            VesselNameAndFlag(lease.Boat, section);
+            VesselNameAndFlag(lease.Boat, section, lease.BackgroundColor);
             PortAndVesselRegistryNo(lease.Boat, section);
-            VesselDimensions(lease.Boat, section);
+            VesselDimensions(lease.Boat, section, lease.BackgroundColor);
             VesselTypeAndUse(lease.Boat, section);
-            MooringPeriod(lease.Period, section);
+            MooringPeriod(lease.Period, section, lease.BackgroundColor);
             Spacer(section);
-            InsuranceHeaders(section);
+            FishingLicenceHeaders(section, lease.BackgroundColor);
+            FishingLicenceDetails(lease.Insurance, section);
+            Spacer(section);
+            InsuranceHeaders(section, lease.BackgroundColor);
             InsuranceDetails(lease.Insurance, section);
             Spacer(section);
-            PersonHeaders(section);
+            PersonHeaders(section, lease.BackgroundColor);
             PersonNames(lease.Owner, lease.Billing, section);
-            PersonAddresses(lease.Owner, lease.Billing, section);
+            PersonAddresses(lease.Owner, lease.Billing, section, lease.BackgroundColor);
             PersonVATs(lease.Owner, lease.Billing, section);
-            PersonTaxOffices(lease.Owner, lease.Billing, section);
+            PersonTaxOffices(lease.Owner, lease.Billing, section, lease.BackgroundColor);
             PersonIdNumbers(lease.Owner, lease.Billing, section);
-            PersonPhoneNumbers(lease.Owner, lease.Billing, section);
+            PersonPhoneNumbers(lease.Owner, lease.Billing, section, lease.BackgroundColor);
             PersonEmails(lease.Owner, lease.Billing, section);
             Spacer(section);
-            CaptainHeaders(section);
+            CaptainHeaders(section, lease.BackgroundColor);
             CaptainDetails(section);
             Spacer(section);
-            FeeHeaders(section);
-            FeeDetails(lease.Fee, section);
+            FeeHeaders(section, lease.BackgroundColor);
+            FeeDetails(lease.Fee, section, lease.BackgroundColor);
             Spacer(section);
             SmallTerms(section);
             Spacer(section);
-            SignatureHeaders(section);
+            SignatureHeaders(section, lease.BackgroundColor);
             Signatures(section);
-            Username(section);
+            Username(section, lease.BackgroundColor);
             TermsAndConditions(document, section);
             return SavePdf(document, lease.ReservationId.ToString());
         }
@@ -117,23 +120,23 @@ namespace API.Features.Leases {
             return row;
         }
 
-        private static Row Header(Section section) {
+        private static Row Header(Section section, string backgroundColor, bool IsFishingBoat) {
             var table = section.AddTable();
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
             table.Format.Font.Size = Unit.FromCentimeter(0.25);
             table.AddColumn("19cm");
             Row row = table.AddRow();
-            row.Shading.Color = new Color(218, 238, 243);
+            row.Shading.Color = Color.Parse(backgroundColor);
             row.TopPadding = 7;
             row.BottomPadding = 7;
             row.VerticalAlignment = VerticalAlignment.Center;
-            row.Cells[0].AddParagraph("ΣΥΜΒΑΣΗ ΠΑΡΑΜΟΝΗΣ ΣΚΑΦΟΥΣ\nVESSEL'S BERTH LEASE AGREEMENT");
+            row.Cells[0].AddParagraph(IsFishingBoat ? "ΣΥΜΒΑΣΗ ΔΩΡΕΑΝ ΕΛΛΙΜΕΝΙΣΜΟΥ ΕΠΑΓΓΕΛΜΑΤΙΚΟΥ ΑΛΙΕΥΤΙΚΟΥ ΣΚΑΦΟΥΣ\nPROFESSIONAL FISHING VESSEL’S FREE BERTH LEASE AGREEMENT" : "ΣΥΜΒΑΣΗ ΠΑΡΑΜΟΝΗΣ ΣΚΑΦΟΥΣ\nVESSEL'S BERTH LEASE AGREEMENT");
             row.Cells[0].Format.Alignment = ParagraphAlignment.Center;
             return row;
         }
 
-        private static Row VesselNameAndFlag(LeasePdfBoatVM boat, Section section) {
+        private static Row VesselNameAndFlag(LeasePdfBoatVM boat, Section section, string backgroundColor) {
             var table = section.AddTable();
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
@@ -143,7 +146,7 @@ namespace API.Features.Leases {
             table.AddColumn("3.5cm");
             table.AddColumn("6cm");
             Row row = table.AddRow();
-            row.Shading.Color = new Color(218, 238, 243);
+            row.Shading.Color = Color.Parse(backgroundColor);
             row.TopPadding = 2;
             row.BottomPadding = 2;
             row.VerticalAlignment = VerticalAlignment.Center;
@@ -168,7 +171,7 @@ namespace API.Features.Leases {
             table.AddColumn("3.5cm");
             table.AddColumn("6cm");
             Row row = table.AddRow();
-            row.Shading.Color = new Color(255, 255, 255);
+            row.Shading.Color = Color.Parse("#ffffff");
             row.TopPadding = 2;
             row.BottomPadding = 2;
             row.VerticalAlignment = VerticalAlignment.Center;
@@ -183,7 +186,7 @@ namespace API.Features.Leases {
             return row;
         }
 
-        private static Row VesselDimensions(LeasePdfBoatVM boat, Section section) {
+        private static Row VesselDimensions(LeasePdfBoatVM boat, Section section, string backgroundColor) {
             var table = section.AddTable();
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
@@ -195,7 +198,7 @@ namespace API.Features.Leases {
             table.AddColumn("3.17cm");
             table.AddColumn("3.17cm");
             Row row = table.AddRow();
-            row.Shading.Color = new Color(218, 238, 243);
+            row.Shading.Color = Color.Parse(backgroundColor);
             row.TopPadding = 2;
             row.BottomPadding = 2;
             row.VerticalAlignment = VerticalAlignment.Center;
@@ -224,7 +227,7 @@ namespace API.Features.Leases {
             table.AddColumn("3.5cm");
             table.AddColumn("6cm");
             Row row = table.AddRow();
-            row.Shading.Color = new Color(255, 255, 255);
+            row.Shading.Color = Color.Parse("#ffffff");
             row.TopPadding = 2;
             row.BottomPadding = 2;
             row.VerticalAlignment = VerticalAlignment.Center;
@@ -239,7 +242,7 @@ namespace API.Features.Leases {
             return row;
         }
 
-        private static Row MooringPeriod(LeasePdfPeriodVM period, Section section) {
+        private static Row MooringPeriod(LeasePdfPeriodVM period, Section section, string backgroundColor) {
             var table = section.AddTable();
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
@@ -249,7 +252,7 @@ namespace API.Features.Leases {
             table.AddColumn("3.5cm");
             table.AddColumn("6cm");
             Row row = table.AddRow();
-            row.Shading.Color = new Color(218, 238, 243);
+            row.Shading.Color = Color.Parse(backgroundColor);
             row.TopPadding = 2;
             row.BottomPadding = 2;
             row.VerticalAlignment = VerticalAlignment.Center;
@@ -264,14 +267,61 @@ namespace API.Features.Leases {
             return row;
         }
 
-        private static Row InsuranceHeaders(Section section) {
+        private static Row FishingLicenceHeaders(Section section, string backgroundColor) {
             var table = section.AddTable();
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
             table.Format.Font.Size = Unit.FromCentimeter(0.25);
             table.AddColumn("19cm");
             Row row = table.AddRow();
-            row.Shading.Color = new Color(218, 238, 243);
+            row.Shading.Color = Color.Parse(backgroundColor);
+            row.TopPadding = 2;
+            row.BottomPadding = 2;
+            row.VerticalAlignment = VerticalAlignment.Center;
+            row.Cells[0].AddParagraph("Στοιχεία επαγγελματικής άδειας αλιείας / Professional fishing license details");
+            row.Cells[0].Format.Alignment = ParagraphAlignment.Center;
+            return row;
+        }
+
+        private static Row FishingLicenceDetails(LeasePdfInsuranceVM insurance, Section section) {
+            var table = section.AddTable();
+            table.Borders.Width = 0.1;
+            table.Borders.Color = new Color(153, 162, 165);
+            table.Format.Font.Size = Unit.FromCentimeter(0.25);
+            table.AddColumn("3.17cm");
+            table.AddColumn("3.17cm");
+            table.AddColumn("3.17cm");
+            table.AddColumn("3.17cm");
+            table.AddColumn("3.17cm");
+            table.AddColumn("3.17cm");
+            Row row = table.AddRow();
+            row.Shading.Color = Color.Parse("#ffffff");
+            row.TopPadding = 2;
+            row.BottomPadding = 2;
+            row.VerticalAlignment = VerticalAlignment.Center;
+            row.Cells[0].AddParagraph("Αρχή έκδοσης");
+            row.Cells[0].AddParagraph("Issuing authority");
+            row.Cells[0].Borders.Right.Clear();
+            row.Cells[1].AddParagraph(insurance.InsuranceCompany);
+            row.Cells[2].AddParagraph("Αριθμός αδείας");
+            row.Cells[2].AddParagraph("Licence number");
+            row.Cells[2].Borders.Right.Clear();
+            row.Cells[3].AddParagraph(insurance.PolicyNo);
+            row.Cells[4].AddParagraph("Ημερ/νία λήξης");
+            row.Cells[4].AddParagraph("Valid until");
+            row.Cells[4].Borders.Right.Clear();
+            row.Cells[5].AddParagraph(DateHelpers.FormatDateStringToLocaleString(insurance.PolicyEnds));
+            return row;
+        }
+
+        private static Row InsuranceHeaders(Section section, string backgroundColor) {
+            var table = section.AddTable();
+            table.Borders.Width = 0.1;
+            table.Borders.Color = new Color(153, 162, 165);
+            table.Format.Font.Size = Unit.FromCentimeter(0.25);
+            table.AddColumn("19cm");
+            Row row = table.AddRow();
+            row.Shading.Color = Color.Parse(backgroundColor);
             row.TopPadding = 2;
             row.BottomPadding = 2;
             row.VerticalAlignment = VerticalAlignment.Center;
@@ -292,7 +342,7 @@ namespace API.Features.Leases {
             table.AddColumn("3.17cm");
             table.AddColumn("3.17cm");
             Row row = table.AddRow();
-            row.Shading.Color = new Color(255, 255, 255);
+            row.Shading.Color = Color.Parse("#ffffff");
             row.TopPadding = 2;
             row.BottomPadding = 2;
             row.VerticalAlignment = VerticalAlignment.Center;
@@ -311,7 +361,7 @@ namespace API.Features.Leases {
             return row;
         }
 
-        private static Row PersonHeaders(Section section) {
+        private static Row PersonHeaders(Section section, string backgroundColor) {
             var table = section.AddTable();
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
@@ -319,7 +369,7 @@ namespace API.Features.Leases {
             table.AddColumn("9.5cm");
             table.AddColumn("9.5cm");
             Row row = table.AddRow();
-            row.Shading.Color = new Color(218, 238, 243);
+            row.Shading.Color = Color.Parse(backgroundColor);
             row.TopPadding = 2;
             row.BottomPadding = 2;
             row.VerticalAlignment = VerticalAlignment.Center;
@@ -340,7 +390,7 @@ namespace API.Features.Leases {
             table.AddColumn("3.5cm");
             table.AddColumn("6cm");
             Row row = table.AddRow();
-            row.Shading.Color = new Color(255, 255, 255);
+            row.Shading.Color = Color.Parse("#ffffff");
             row.TopPadding = 2;
             row.BottomPadding = 2;
             row.VerticalAlignment = VerticalAlignment.Center;
@@ -355,7 +405,7 @@ namespace API.Features.Leases {
             return row;
         }
 
-        private static Row PersonAddresses(LeasePdfPersonVM owner, LeasePdfPersonVM billing, Section section) {
+        private static Row PersonAddresses(LeasePdfPersonVM owner, LeasePdfPersonVM billing, Section section, string backgroundColor) {
             var table = section.AddTable();
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
@@ -365,7 +415,7 @@ namespace API.Features.Leases {
             table.AddColumn("3.5cm");
             table.AddColumn("6cm");
             Row row = table.AddRow();
-            row.Shading.Color = new Color(218, 238, 243);
+            row.Shading.Color = Color.Parse(backgroundColor);
             row.TopPadding = 2;
             row.BottomPadding = 2;
             row.VerticalAlignment = VerticalAlignment.Center;
@@ -405,7 +455,7 @@ namespace API.Features.Leases {
             return row;
         }
 
-        private static Row PersonTaxOffices(LeasePdfPersonVM owner, LeasePdfPersonVM billing, Section section) {
+        private static Row PersonTaxOffices(LeasePdfPersonVM owner, LeasePdfPersonVM billing, Section section, string backgroundColor) {
             var table = section.AddTable();
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
@@ -415,7 +465,7 @@ namespace API.Features.Leases {
             table.AddColumn("3.5cm");
             table.AddColumn("6cm");
             Row row = table.AddRow();
-            row.Shading.Color = new Color(218, 238, 243);
+            row.Shading.Color = Color.Parse(backgroundColor);
             row.TopPadding = 2;
             row.BottomPadding = 2;
             row.VerticalAlignment = VerticalAlignment.Center;
@@ -440,7 +490,7 @@ namespace API.Features.Leases {
             table.AddColumn("3.5cm");
             table.AddColumn("6cm");
             Row row = table.AddRow();
-            row.Shading.Color = new Color(255, 255, 255);
+            row.Shading.Color = Color.Parse("#ffffff");
             row.TopPadding = 2;
             row.BottomPadding = 2;
             row.VerticalAlignment = VerticalAlignment.Center;
@@ -455,7 +505,7 @@ namespace API.Features.Leases {
             return row;
         }
 
-        private static Row PersonPhoneNumbers(LeasePdfPersonVM owner, LeasePdfPersonVM billing, Section section) {
+        private static Row PersonPhoneNumbers(LeasePdfPersonVM owner, LeasePdfPersonVM billing, Section section, string backgroundColor) {
             var table = section.AddTable();
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
@@ -465,7 +515,7 @@ namespace API.Features.Leases {
             table.AddColumn("3.5cm");
             table.AddColumn("6cm");
             Row row = table.AddRow();
-            row.Shading.Color = new Color(218, 238, 243);
+            row.Shading.Color = Color.Parse(backgroundColor);
             row.TopPadding = 2;
             row.BottomPadding = 2;
             row.VerticalAlignment = VerticalAlignment.Center;
@@ -503,14 +553,14 @@ namespace API.Features.Leases {
             return row;
         }
 
-        private static Row CaptainHeaders(Section section) {
+        private static Row CaptainHeaders(Section section, string backgroundColor) {
             var table = section.AddTable();
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
             table.Format.Font.Size = Unit.FromCentimeter(0.25);
             table.AddColumn("19cm");
             Row row = table.AddRow();
-            row.Shading.Color = new Color(218, 238, 243);
+            row.Shading.Color = Color.Parse(backgroundColor);
             row.TopPadding = 2;
             row.BottomPadding = 2;
             row.VerticalAlignment = VerticalAlignment.Center;
@@ -544,14 +594,14 @@ namespace API.Features.Leases {
             return row;
         }
 
-        private static Row FeeHeaders(Section section) {
+        private static Row FeeHeaders(Section section, string backgroundColor) {
             var table = section.AddTable();
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
             table.Format.Font.Size = Unit.FromCentimeter(0.25);
             table.AddColumn("19cm");
             Row row = table.AddRow();
-            row.Shading.Color = new Color(218, 238, 243);
+            row.Shading.Color = Color.Parse(backgroundColor);
             row.TopPadding = 2;
             row.BottomPadding = 2;
             row.VerticalAlignment = VerticalAlignment.Center;
@@ -560,7 +610,7 @@ namespace API.Features.Leases {
             return row;
         }
 
-        private static Row FeeDetails(LeasePdfFeeVM fee, Section section) {
+        private static Row FeeDetails(LeasePdfFeeVM fee, Section section, string backgroundColor) {
             var locale = CultureInfo.CreateSpecificCulture("el-GR");
             var table = section.AddTable();
             table.Borders.Width = 0.1;
@@ -573,7 +623,7 @@ namespace API.Features.Leases {
             row.TopPadding = 2;
             row.BottomPadding = 2;
             row.VerticalAlignment = VerticalAlignment.Center;
-            row.Cells[0].AddParagraph("Συμφωνηθέν τίμημα / Initial fees");
+            row.Cells[0].AddParagraph("Αρχικό τίμημα / Initial fees");
             row.Cells[0].AddParagraph("Εκπτωση % / Discount %");
             row.Cells[0].AddParagraph("Ποσό έκπτωσης / Discount amount");
             row.Cells[0].AddParagraph("Υπόλοιπο τιμήματος / Remaining fees");
@@ -586,6 +636,7 @@ namespace API.Features.Leases {
             row = table.AddRow();
             row.TopPadding = 2;
             row.BottomPadding = 2;
+            row.Shading.Color = Color.Parse(backgroundColor);
             row.Cells[0].AddParagraph("Τελικό τίμημα προς πληρωμή / Final payable fees");
             row.Cells[1].AddParagraph("EUR " + fee.GrossAmount.ToString("N2", locale)).Format.Alignment = ParagraphAlignment.Right;
             return row;
@@ -595,7 +646,7 @@ namespace API.Features.Leases {
             var table = section.AddTable();
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
-            table.Format.Font.Size = Unit.FromPoint(7);
+            table.Format.Font.Size = Unit.FromPoint(5);
             table.AddColumn("9.5cm");
             table.AddColumn("9.5cm");
             Row row = table.AddRow();
@@ -608,7 +659,7 @@ namespace API.Features.Leases {
             return row;
         }
 
-        private static Row SignatureHeaders(Section section) {
+        private static Row SignatureHeaders(Section section, string backgroundColor) {
             var table = section.Footers.Primary.AddTable();
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
@@ -616,7 +667,7 @@ namespace API.Features.Leases {
             table.AddColumn("9.5cm");
             table.AddColumn("9.5cm");
             Row row = table.AddRow();
-            row.Shading.Color = new Color(218, 238, 243);
+            row.Shading.Color = Color.Parse(backgroundColor);
             row.TopPadding = 2;
             row.BottomPadding = 2;
             row.VerticalAlignment = VerticalAlignment.Center;
@@ -650,7 +701,7 @@ namespace API.Features.Leases {
             return row;
         }
 
-        private Row Username(Section section) {
+        private Row Username(Section section, string backgroundColor) {
             var table = section.Footers.Primary.AddTable();
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
@@ -658,11 +709,11 @@ namespace API.Features.Leases {
             table.AddColumn("9.5cm");
             table.AddColumn("9.5cm");
             Row row = table.AddRow();
-            row.Shading.Color = new Color(218, 238, 243);
+            row.Shading.Color = Color.Parse(backgroundColor);
             row.TopPadding = 2;
             row.BottomPadding = 2;
             row.VerticalAlignment = VerticalAlignment.Center;
-            row.Cells[1].AddParagraph("Signed by user: " + GetConnectedUsername()).Format.Alignment = ParagraphAlignment.Center;
+            row.Cells[1].AddParagraph("Υπογραφή χρήστη / Signed by user: " + GetConnectedUsername()).Format.Alignment = ParagraphAlignment.Center;
             return row;
         }
 

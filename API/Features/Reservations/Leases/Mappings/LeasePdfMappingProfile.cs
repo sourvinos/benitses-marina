@@ -9,6 +9,7 @@ namespace API.Features.Leases {
 
         public LeasePdfMappingProfile() {
             CreateMap<Reservation, LeasePdfVM>()
+                .ForMember(x => x.BackgroundColor, x => x.MapFrom(x => x.Boat.IsFishingBoat ? "#fbd4b4" : "#daeef3"))
                 .ForMember(x => x.Period, x => x.MapFrom(x => new LeasePdfPeriodVM {
                     ReservationId = x.ReservationId,
                     FromDate = DateHelpers.DateToISOString(x.FromDate),
@@ -19,6 +20,7 @@ namespace API.Features.Leases {
                     ReservationId = x.Boat.ReservationId,
                     Type = new SimpleEntity { Id = x.Boat.Type.Id, Description = x.Boat.Type.Description },
                     Usage = new SimpleEntity { Id = x.Boat.Usage.Id, Description = x.Boat.Usage.Description },
+                    IsFishingBoat = x.Boat.IsFishingBoat,
                     Name = x.Boat.Name,
                     Flag = x.Boat.Flag,
                     Loa = x.Boat.Loa,

@@ -9,6 +9,7 @@ namespace API.Features.Leases {
         public Guid? ReservationId { get; set; }
         public SimpleEntity Type { get; set; }
         public SimpleEntity Usage { get; set; }
+        public bool IsFishingBoat { get; set; }
         public string Name { get; set; }
         public string Flag { get; set; }
         public string Loa { get; set; }
