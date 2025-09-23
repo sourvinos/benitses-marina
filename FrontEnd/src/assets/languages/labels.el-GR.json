@@ -221,8 +221,16 @@
                 "description": "Αποθηκευση"
             },
             {
-                "id": "printLeaseButton",
-                "description": "Εκτύπωση σύμβασης ελλιμενισμού"
+                "id": "leaseButton",
+                "description": "Σύμβαση ελλιμενισμού"
+            },
+            {
+                "id": "saveLeaseButton",
+                "description": "Αποθήκευση"
+            },
+            {
+                "id": "showLeaseButton",
+                "description": "Εμφάνιση"
             },
             {
                 "id": "post",

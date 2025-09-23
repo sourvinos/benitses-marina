@@ -127,7 +127,7 @@ export class ReservationFormComponent {
         return object ? object[fieldName] : undefined
     }
 
-    public onCreateLeaseAndOpen(): void {
+    public onCreateLease(action: string): void {
         const ids = []
         ids.push(this.form.value.reservationId)
         this.leasePdfHttpService.buildLeasePdf(ids).subscribe({
@@ -135,8 +135,12 @@ export class ReservationFormComponent {
                 this.leasePdfHttpService.openLeasePdf(response.body[0]).subscribe({
                     next: (response) => {
                         const blob = new Blob([response], { type: 'application/pdf' })
-                        const fileURL = URL.createObjectURL(blob)
-                        FileSaver.saveAs(blob, this.helperService.convertStringToLowerCase(this.form.value.boatName) + " contract.pdf");
+                        if (action == 'show') {
+                            const fileURL = URL.createObjectURL(blob)
+                            window.open(fileURL, '_blank')
+                        } else {
+                            FileSaver.saveAs(blob, this.helperService.convertStringToLowerCase(this.form.value.boatName) + " contract.pdf");
+                        }
                     },
                     error: (errorFromInterceptor) => {
                         this.dialogService.open(this.messageDialogService.filterResponse(errorFromInterceptor), 'error', ['ok'])

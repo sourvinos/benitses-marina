@@ -350,7 +350,14 @@
             <mat-icon class="material-icons-outlined">more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu" class="primary" xPosition="after">
-            <ng-container *ngTemplateOutlet="actionsMenu"></ng-container>
+            <input type="file" #file placeholder="Choose file" (change)="onUploadAndRenameFile(file.files[0])" style="display: none;">
+            <button [disabled]="!isNewRecord()" (click)="file.click()" mat-menu-item>{{ getLabel("uploadButton") }}</button>
+            <button [disabled]="!isNewRecord()" mat-menu-item [matMenuTriggerFor]="leaseButton">{{ getLabel("leaseButton") }}</button>
+            <button [disabled]="!canSendDocuments()" (click)="onAddToEmailQueue('Reservation')" mat-menu-item><span>{{ getLabel("addReservationToEmailQueue") }}</span></button>
+            <button [disabled]="!canSendInvalidInsurance()" (click)="onAddToEmailQueue('InvalidInsurance')" mat-menu-item><span>{{ getLabel("addInvalidInsuranceToEmailQueue") }}</span></button>
+            <button [disabled]="!canSendEndOfLease()" (click)="onAddToEmailQueue('EndOfLease')" mat-menu-item><span>{{ getLabel("addEndOfLeaseToEmailQueue") }}</span></button>
+            <button [disabled]="isNotNewRecord()" (click)="onCopyReservation()" mat-menu-item><span>{{ getLabel("copyReservation") }}</span></button>
+            <button [disabled]="!isNotNewRecordAndIsReservationNotInStorage()" (click)="onPasteReservation()" mat-menu-item><span>{{ getLabel("pasteReservation") }}</span></button>
         </mat-menu>
         <div id="align-right">
             <button *ngIf="form.value.reservationId != ''" (click)="onDelete()" [disabled]="!isAdmin()" class="delete" mat-flat-button>
@@ -389,16 +396,10 @@
     </mat-option>
 </mat-autocomplete>
 
-<ng-template #actionsMenu>
-    <input type="file" #file placeholder="Choose file" (change)="onUploadAndRenameFile(file.files[0])" style="display: none;">
-    <button [disabled]="!isNewRecord()" (click)="file.click()" mat-menu-item>{{ getLabel("uploadButton") }}</button>
-    <button [disabled]="!isNewRecord()" (click)="onCreateLeaseAndOpen()" mat-menu-item><span>{{ getLabel("printLeaseButton") }}</span></button>
-    <button [disabled]="!canSendDocuments()" (click)="onAddToEmailQueue('Reservation')" mat-menu-item><span>{{ getLabel("addReservationToEmailQueue") }}</span></button>
-    <button [disabled]="!canSendInvalidInsurance()" (click)="onAddToEmailQueue('InvalidInsurance')" mat-menu-item><span>{{ getLabel("addInvalidInsuranceToEmailQueue") }}</span></button>
-    <button [disabled]="!canSendEndOfLease()" (click)="onAddToEmailQueue('EndOfLease')" mat-menu-item><span>{{ getLabel("addEndOfLeaseToEmailQueue") }}</span></button>
-    <button [disabled]="isNotNewRecord()" (click)="onCopyReservation()" mat-menu-item><span>{{ getLabel("copyReservation") }}</span></button>
-    <button [disabled]="!isNotNewRecordAndIsReservationNotInStorage()" (click)="onPasteReservation()" mat-menu-item><span>{{ getLabel("pasteReservation") }}</span></button>
-</ng-template>
+<mat-menu #leaseButton="matMenu">
+    <button (click)="onCreateLease('save')" mat-menu-item>{{ getLabel("saveLeaseButton")}}</button>
+    <button (click)="onCreateLease('show')" mat-menu-item>{{ getLabel("showLeaseButton")}}</button>
+</mat-menu>
 
 <ng-template #saveMenuTemplate>
     <button (click)="onSave(false)" mat-menu-item>
