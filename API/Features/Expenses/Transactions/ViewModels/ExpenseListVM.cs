@@ -1,10 +1,11 @@
+using System;
 using API.Infrastructure.Classes;
 
 namespace API.Features.Expenses.Transactions {
 
     public class ExpenseListVM {
 
-        public string ExpenseId { get; set; }
+        public Guid ExpenseId { get; set; }
         public string Date { get; set; }
         public SimpleEntity Company { get; set; }
         public SimpleEntity DocumentType { get; set; }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using API.Infrastructure.Extensions;
@@ -31,8 +32,8 @@ namespace API.Features.Reservations.Transactions {
 
         [HttpGet()]
         [Authorize(Roles = "user, admin")]
-        public async Task<IEnumerable<ReservationListVM>> GetAsync() {
-            return await reservationRepo.GetProjectedAsync();
+        public IQueryable<ReservationListVM> Get() {
+            return reservationRepo.GetProjected();
         }
 
         // [HttpGet()]

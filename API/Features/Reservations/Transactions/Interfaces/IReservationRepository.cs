@@ -10,10 +10,9 @@ namespace API.Features.Reservations.Transactions {
     public interface IReservationRepository : IRepository<Reservation> {
 
         Task<IEnumerable<ReservationListVM>> GetAsync();
-        Task<IEnumerable<ReservationListVM>> GetProjectedAsync();
+        IQueryable<ReservationListVM> GetProjected();
         IQueryable<Reservation> GetSqlQuery();
         IEnumerable<Reservation> GetFromStoredProcedure();
-        Task<IEnumerable<Reservation>> GetFromDapper();
         Task<IEnumerable<ReservationListVM>> GetArrivalsAsync(string date);
         Task<IEnumerable<ReservationListVM>> GetDeparturesAsync(string date);
         Task<Reservation> GetByIdAsync(string reservationId, bool includeTables);
