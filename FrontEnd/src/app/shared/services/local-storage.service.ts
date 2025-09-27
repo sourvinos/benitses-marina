@@ -12,7 +12,7 @@ export class LocalStorageService {
 
     public getLanguage(): string {
         const language = localStorage.getItem('language')
-        if (language == null || language != 'el-GR') {
+        if (language == null) {
             localStorage.setItem('language', environment.defaultLanguage)
             return environment.defaultLanguage
         }

@@ -27,8 +27,8 @@ namespace API.Features.Expenses.Transactions {
             this.testingEnvironment = testingEnvironment.Value;
         }
 
-        public async Task<IEnumerable<ExpenseListVM>> GetAsync(int? companyId) {
-            var expenses = await context.Expenses
+        public IEnumerable<ExpenseListVM> Get(int? companyId) {
+            var expenses = context.Expenses
                 .AsNoTracking()
                 .Where(x => companyId == null || x.CompanyId == companyId)
                 .Where(x => x.IsDeleted == false)
@@ -36,23 +36,10 @@ namespace API.Features.Expenses.Transactions {
                 .Include(x => x.DocumentType)
                 .Include(x => x.PaymentMethod)
                 .Include(x => x.Supplier)
-                .OrderBy(x => x.Date)
-                .ToListAsync();
-            return mapper.Map<IEnumerable<Expense>, IEnumerable<ExpenseListVM>>(expenses);
-        }
-
-        public async Task<IEnumerable<ExpenseListVM>> GetProjectedAsync(int? companyId) {
-            var expenses = await context.Expenses
-                .AsNoTracking()
-                .Where(x => companyId == null || x.CompanyId == companyId)
-                .Where(x => x.IsDeleted == false)
-                .Include(x => x.Company)
-                .Include(x => x.DocumentType)
-                .Include(x => x.PaymentMethod)
-                .Include(x => x.Supplier)
+                .AsEnumerable()
                 .OrderBy(x => x.Date)
                 .Select(x => new ExpenseListVM {
-                    ExpenseId = x.ExpenseId.ToString(),
+                    ExpenseId = x.ExpenseId,
                     Date = DateHelpers.DateToISOString(x.Date),
                     Company = new SimpleEntity {
                         Id = x.Company.Id,
@@ -71,11 +58,10 @@ namespace API.Features.Expenses.Transactions {
                         Description = x.Supplier.Description
                     },
                     DocumentNo = x.DocumentNo,
-                    HasDocument = ExpenseHelpers.HasDocument(x),
                     Amount = x.Amount,
-                    PutAt = x.PutAt.Substring(0, 10)
-                })
-                .ToListAsync();
+                    HasDocument = ExpenseHelpers.HasDocument(x),
+                    PutAt = x.PutAt[..10]
+                });
             return expenses;
         }
 

@@ -14,10 +14,6 @@ using System.Linq;
 using System.IO;
 using System;
 using API.Infrastructure.Helpers;
-using System.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
-using MySql.Data.MySqlClient;
-using Dapper;
 
 namespace API.Features.Reservations.Transactions {
 
@@ -25,14 +21,10 @@ namespace API.Features.Reservations.Transactions {
 
         private readonly IMapper mapper;
         private readonly TestingEnvironment testingEnvironment;
-        private readonly IConfiguration configuration;
-        private readonly string connectionString;
 
-        public ReservationRepository(IConfiguration configuration, AppDbContext context, IHttpContextAccessor httpContext, IMapper mapper, IOptions<TestingEnvironment> testingEnvironment, UserManager<UserExtended> userManager) : base(context, httpContext, testingEnvironment, userManager) {
+        public ReservationRepository(AppDbContext context, IHttpContextAccessor httpContext, IMapper mapper, IOptions<TestingEnvironment> testingEnvironment, UserManager<UserExtended> userManager) : base(context, httpContext, testingEnvironment, userManager) {
             this.mapper = mapper;
             this.testingEnvironment = testingEnvironment.Value;
-            this.configuration = configuration;
-            this.connectionString = configuration.GetConnectionString("LocalDevelopment");
         }
 
         public async Task<IEnumerable<ReservationListVM>> GetAsync() {
@@ -50,10 +42,10 @@ namespace API.Features.Reservations.Transactions {
             return mapper.Map<IEnumerable<Reservation>, IEnumerable<ReservationListVM>>(reservations);
         }
 
-        public async Task<IEnumerable<ReservationListVM>> GetProjectedAsync() {
-            return await context.Reservations
+        public IQueryable<ReservationListVM> GetProjected() {
+            return context.Reservations
                 .AsNoTracking()
-                .Include(x => x.Boat).ThenInclude(x => x.Type)
+                .Include(x => x.Boat)
                 .Include(x => x.Owner)
                 .Include(x => x.PaymentStatus)
                 .Include(x => x.Berths)
@@ -76,8 +68,7 @@ namespace API.Features.Reservations.Transactions {
                     IsFishingBoat = x.Boat.IsFishingBoat,
                     IsOverdue = ReservationHelpers.IsOverdue(x.IsDocked, x.ToDate),
                     IsRequest = x.IsRequest
-                })
-                .ToListAsync();
+                });
         }
 
         public async Task<IEnumerable<ReservationListVM>> GetArrivalsAsync(string date) {
@@ -156,16 +147,6 @@ namespace API.Features.Reservations.Transactions {
 
         public IEnumerable<Reservation> GetFromStoredProcedure() {
             return [.. context.Database.SqlQuery<Reservation>($"CALL get_all_reservations")];
-        }
-
-        public async Task<IEnumerable<Reservation>> GetFromDapper() {
-            // using var connection = context.GetConnection();
-            using var connection = new MySqlConnection(connectionString);
-            var sql = "select * from reservations";
-            var x = await connection.QueryAsync<Reservation>(sql);
-            // var sql = "select * from reservations inner join reservationBoats on reservations.reservationId = reservationBoats.reservationId";
-            // var x = await connection.QueryAsync<Reservation, ReservationBoat, Reservation>(sql, (reservation, reservationBoat) => { reservation.Boat = reservationBoat; return reservation; });
-            return x;
         }
 
         private static List<ReservationBerthVM> AddBerths(List<ReservationBerth> berths) {

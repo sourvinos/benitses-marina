@@ -90,7 +90,7 @@ namespace API.Features.Leases {
             SignatureHeaders(section, lease.BackgroundColor);
             Signatures(section);
             Username(section, lease.BackgroundColor);
-            TermsAndConditions(document, section);
+            Terms(lease.Boat.IsFishingBoat, document, section);
             return SavePdf(document, lease.ReservationId.ToString());
         }
 
@@ -650,7 +650,7 @@ namespace API.Features.Leases {
         }
 
         private static Row SmallTerms(Section section) {
-            var table = section.Footers.Primary.AddTable();
+            var table = section.AddTable();
             table.Borders.Width = 0.1;
             table.Borders.Color = new Color(153, 162, 165);
             table.Format.Font.Size = Unit.FromPoint(5);
@@ -761,6 +761,14 @@ namespace API.Features.Leases {
             Terms(section, "EL");
         }
 
+        private static void TermsAndConditionsFishingBoat(Document document, Section section) {
+            Style style = document.Styles["Normal"];
+            style.Font.Name = "Verdana";
+            section.PageSetup.TopMargin = 40;
+            section.AddPageBreak();
+            Terms(section, "Fishing Boat EL");
+        }
+
         private static Row Terms(Section section, string language) {
             var table = section.AddTable();
             table.Borders.Width = 0;
@@ -798,6 +806,14 @@ namespace API.Features.Leases {
         private string GetConnectedUsername() {
             var username = Identity.GetConnectedUserDetails(userManager, Identity.GetConnectedUserId(httpContextAccessor)).UserName;
             return username[0].ToString().ToUpper() + username[1..];
+        }
+
+        private static void Terms(bool isFishingBoat, Document document, Section section) {
+            if (isFishingBoat) {
+                TermsAndConditionsFishingBoat(document, section);
+            } else {
+                TermsAndConditions(document, section);
+            }
         }
 
     }

@@ -31,15 +31,14 @@ namespace API.Features.Expenses.Transactions {
 
         [HttpGet()]
         [Authorize(Roles = "user, admin")]
-        public async Task<IEnumerable<ExpenseListVM>> GetAsync() {
-            // return await expenseRepo.GetAsync(null);
-            return await expenseRepo.GetProjectedAsync(null);
+        public IEnumerable<ExpenseListVM> Get() {
+            return expenseRepo.Get(null);
         }
 
         [HttpGet("company/{companyId}")]
         [Authorize(Roles = "user, admin")]
-        public async Task<IEnumerable<ExpenseListVM>> GetByCompanyAsync(int companyId) {
-            return await expenseRepo.GetAsync(companyId);
+        public IEnumerable<ExpenseListVM> GetByCompanyAsync(int companyId) {
+            return expenseRepo.Get(companyId);
         }
 
         [HttpGet("{expenseId}")]

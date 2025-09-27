@@ -76,7 +76,7 @@ export class InvoiceFormComponent {
         this.getRecord()
         this.populateFields()
         this.populateDropdowns()
-        this.setIsRepeatedEntry()
+        // this.setIsRepeatedEntry()
         this.setLocale()
         this.getDocuments()
     }
@@ -405,7 +405,7 @@ export class InvoiceFormComponent {
     }
 
     private setLocale(): void {
-        this.dateAdapter.setLocale(this.localStorageService.getLanguage())
+        this.dateAdapter.setLocale('el-GR')
     }
 
     private setRecordId(): void {
