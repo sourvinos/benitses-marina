@@ -57,7 +57,7 @@ namespace API.Features.Reservations.Transactions {
                     BoatLoa = x.Boat.Loa,
                     FromDate = DateHelpers.DateToISOString(x.FromDate),
                     ToDate = DateHelpers.DateToISOString(x.ToDate),
-                    Berths = AddBerths(x.Berths.ToList()),
+                    Berths = AddBerths(x.Berths),
                     PaymentStatus = new SimpleEntity {
                         Id = x.PaymentStatus.Id,
                         Description = x.PaymentStatus.Description
@@ -150,6 +150,7 @@ namespace API.Features.Reservations.Transactions {
         }
 
         private static List<ReservationBerthVM> AddBerths(List<ReservationBerth> berths) {
+            berths.Sort((x, y) => x.Description.CompareTo(y.Description));
             var x = new List<ReservationBerthVM>();
             foreach (var berth in berths) {
                 var z = new ReservationBerthVM {
