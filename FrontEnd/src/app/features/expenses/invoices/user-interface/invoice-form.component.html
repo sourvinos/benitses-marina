@@ -158,6 +158,8 @@
 <ng-template #actionsMenu>
     <input type="file" #file placeholder="Choose file" (change)="onUploadAndRenameFile(file.files[0])" style="display: none;">
     <button [disabled]="isNewRecord()" (click)="file.click()" mat-menu-item>{{ getLabel("uploadButton") }}</button>
+    <!-- <input type="file" #file placeholder="Choose file" (change)="onUploadAndRenameFile(file.files[0])" style="display: none;"> -->
+    <!-- <button [disabled]="isNewRecord()" (click)="onUploadAndRenameFile()" mat-menu-item>{{ getLabel("uploadButton") }}</button> -->
 </ng-template>
 
 <ng-template #saveMenuTemplate>

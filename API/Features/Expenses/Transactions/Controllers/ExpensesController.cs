@@ -29,6 +29,22 @@ namespace API.Features.Expenses.Transactions {
             this.mapper = mapper;
         }
 
+        // [HttpGet()]
+        // [Authorize(Roles = "user, admin")]
+        // public IEnumerable<Expense> Get() {
+        //     DirectoryInfo directoryInfo = new(Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), Path.Combine("Uploaded Expenses"))));
+        //     var x = expenseRepo.Get(null);
+        //     foreach (var item in x) {
+        //         var i = directoryInfo.GetFiles(item.ExpenseId.ToString() + "*.pdf");
+        //         if (i.Length != 0) {
+        //             expenseRepo.Patch(item, true);
+        //         } else {
+        //             // 
+        //         }
+        //     }
+        //     return x;
+        // }
+
         [HttpGet()]
         [Authorize(Roles = "user, admin")]
         public IEnumerable<ExpenseListVM> Get() {
@@ -99,6 +115,26 @@ namespace API.Features.Expenses.Transactions {
                         ResponseCode = await z
                     };
                 }
+            } else {
+                throw new CustomException() {
+                    ResponseCode = 404
+                };
+            }
+        }
+
+        [HttpPatch("{expenseId}/{hasDocument}")]
+        [Authorize(Roles = "admin")]
+        [ServiceFilter(typeof(ModelValidationAttribute))]
+        public async Task<Response> PatchAsync(string expenseId, bool hasDocument) {
+            var x = await expenseRepo.GetByIdAsync(expenseId.ToString(), false);
+            if (x != null) {
+                expenseRepo.Patch(x, hasDocument);
+                return new Response {
+                    Code = 200,
+                    Icon = Icons.Success.ToString(),
+                    Id = x.ExpenseId.ToString(),
+                    Message = ApiMessages.OK()
+                };
             } else {
                 throw new CustomException() {
                     ResponseCode = 404

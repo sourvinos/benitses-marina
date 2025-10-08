@@ -59,7 +59,7 @@ namespace API.Features.Expenses.Transactions {
                     },
                     DocumentNo = x.DocumentNo,
                     Amount = x.Amount,
-                    HasDocument = ExpenseHelpers.HasDocument(x),
+                    HasDocument = x.HasDocument,
                     PutAt = x.PutAt[..10]
                 });
             return expenses;
@@ -89,12 +89,25 @@ namespace API.Features.Expenses.Transactions {
             return invoice;
         }
 
+        public Expense Patch(Expense invoice, bool hasDocument) {
+            using var transaction = context.Database.BeginTransaction();
+            PatchInvoice(invoice, hasDocument);
+            context.SaveChanges();
+            DisposeOrCommit(transaction);
+            return invoice;
+        }
+
         private void DisposeOrCommit(IDbContextTransaction transaction) {
             if (testingEnvironment.IsTesting) {
                 transaction.Dispose();
             } else {
                 transaction.Commit();
             }
+        }
+
+        private void PatchInvoice(Expense expense, bool hasDocument) {
+            expense.HasDocument = hasDocument;
+            context.Expenses.Update(expense);
         }
 
         private void UpdateInvoice(Expense expense) {

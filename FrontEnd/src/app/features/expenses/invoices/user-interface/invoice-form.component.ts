@@ -188,9 +188,11 @@ export class InvoiceFormComponent {
         this.dialogService.open(this.messageDialogService.confirmDelete(), 'question', ['abort', 'ok']).subscribe(response => {
             if (response) {
                 return new Promise<void>((resolve) => {
-                    this.invoiceHttpService.deleteDocument(filename).subscribe((x) => {
-                        resolve(x)
-                        this.getDocuments()
+                    this.invoiceHttpService.deleteDocument(filename).subscribe(() => {
+                        this.invoiceHttpService.patchExpense(this.form.value.expenseId, false).subscribe((x) => {
+                            resolve(x)
+                            this.getDocuments()
+                        })
                     })
                 })
             }
@@ -204,6 +206,7 @@ export class InvoiceFormComponent {
     public onUploadAndRenameFile(file: File): void {
         this.uploadFile(file).then((x) => {
             this.renameFile(file).then(() => {
+                this.patchRecord(this.form.value.expenseId, true)
                 this.getDocuments()
             })
         })
@@ -383,6 +386,15 @@ export class InvoiceFormComponent {
             putUser: ''
         })
         this.form.markAsUntouched()
+    }
+
+    private patchRecord(invoiceId: string, hasDocument: boolean): void {
+        this.invoiceHttpService.patchExpense(invoiceId, hasDocument).subscribe({
+            next: () => {
+            }, error: (errorFromInterceptor) => {
+                this.dialogService.open(this.messageDialogService.filterResponse(errorFromInterceptor), 'error', ['ok'])
+            }
+        })
     }
 
     private saveRecord(invoice: InvoiceWriteDto, closeForm: boolean): void {
