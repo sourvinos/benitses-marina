@@ -29,21 +29,21 @@ namespace API.Features.Expenses.Transactions {
             this.mapper = mapper;
         }
 
-        // [HttpGet()]
-        // [Authorize(Roles = "user, admin")]
-        // public IEnumerable<Expense> Get() {
-        //     DirectoryInfo directoryInfo = new(Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), Path.Combine("Uploaded Expenses"))));
-        //     var x = expenseRepo.Get(null);
-        //     foreach (var item in x) {
-        //         var i = directoryInfo.GetFiles(item.ExpenseId.ToString() + "*.pdf");
-        //         if (i.Length != 0) {
-        //             expenseRepo.Patch(item, true);
-        //         } else {
-        //             // 
-        //         }
-        //     }
-        //     return x;
-        // }
+        [HttpGet("getForPatching")]
+        [Authorize(Roles = "admin")]
+        public IEnumerable<Expense> GetForPatching() {
+            DirectoryInfo directoryInfo = new(Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), Path.Combine("Uploaded Expenses"))));
+            var x = expenseRepo.GetForDocumentPatching();
+            foreach (var item in x) {
+                var i = directoryInfo.GetFiles(item.ExpenseId.ToString() + "*.pdf");
+                if (i.Length != 0) {
+                    expenseRepo.Patch(item, true);
+                } else {
+                    // 
+                }
+            }
+            return x;
+        }
 
         [HttpGet()]
         [Authorize(Roles = "user, admin")]

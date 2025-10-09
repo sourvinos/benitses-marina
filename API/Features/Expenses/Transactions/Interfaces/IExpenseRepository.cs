@@ -9,6 +9,7 @@ namespace API.Features.Expenses.Transactions {
     public interface IExpenseRepository : IRepository<Expense> {
 
         IEnumerable<ExpenseListVM> Get(int? companyId);
+        IEnumerable<Expense> GetForDocumentPatching();
         Task<Expense> GetByIdAsync(string invoiceId, bool includeTables);
         Expense Update(Guid id, Expense invoice);
         Expense Patch(Expense invoice, bool hasDocument);

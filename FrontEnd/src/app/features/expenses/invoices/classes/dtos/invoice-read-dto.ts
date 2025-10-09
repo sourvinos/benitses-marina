@@ -14,6 +14,7 @@ export interface InvoiceReadDto extends Metadata {
     documentNo: string
     amount: number
     remarks: string
+    hasDocument: boolean
     isDeleted: boolean
     postAt: string
     postUser: string

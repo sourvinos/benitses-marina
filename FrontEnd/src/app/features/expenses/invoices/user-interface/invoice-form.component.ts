@@ -76,7 +76,6 @@ export class InvoiceFormComponent {
         this.getRecord()
         this.populateFields()
         this.populateDropdowns()
-        // this.setIsRepeatedEntry()
         this.setLocale()
         this.getDocuments()
     }
@@ -192,6 +191,7 @@ export class InvoiceFormComponent {
                         this.invoiceHttpService.patchExpense(this.form.value.expenseId, false).subscribe((x) => {
                             resolve(x)
                             this.getDocuments()
+                            this.patchFormWithHasDocument()
                         })
                     })
                 })
@@ -208,6 +208,7 @@ export class InvoiceFormComponent {
             this.renameFile(file).then(() => {
                 this.patchRecord(this.form.value.expenseId, true)
                 this.getDocuments()
+                this.patchFormWithHasDocument()
             })
         })
     }
@@ -247,6 +248,7 @@ export class InvoiceFormComponent {
             documentNo: this.form.value.documentNo,
             amount: this.form.value.amount,
             remarks: this.form.value.remarks,
+            hasDocument: this.form.value.hasDocument,
             isDeleted: this.form.value.isDeleted,
             putAt: this.form.value.putAt
         }
@@ -297,6 +299,7 @@ export class InvoiceFormComponent {
             documentNo: ['', [Validators.required, Validators.maxLength(128)]],
             amount: ['', [Validators.required, Validators.min(0), Validators.max(99999)]],
             remarks: ['', [Validators.maxLength(2048)]],
+            hasDocument: '',
             isDeleted: '',
             postAt: [''],
             postUser: [''],
@@ -319,6 +322,12 @@ export class InvoiceFormComponent {
     private patchFormWithSoftDelete(flattenForm: InvoiceWriteDto): InvoiceWriteDto {
         flattenForm.isDeleted = true
         return flattenForm
+    }
+
+    private patchFormWithHasDocument(): void {
+        setTimeout(() => {
+            this.documents.length >= 1 ? this.form.patchValue({ hasDocument: true }) : this.form.patchValue({ hasDocument: false })
+        }, 1000)
     }
 
     private populateDropdownFromDexieDB(dexieTable: string, filteredTable: string, formField: string, modelProperty: string, orderBy: string): void {
@@ -347,6 +356,7 @@ export class InvoiceFormComponent {
                 documentNo: this.invoice.documentNo,
                 amount: this.invoice.amount,
                 remarks: this.invoice.remarks,
+                hasDocument: this.invoice.hasDocument,
                 isDeleted: this.invoice.isDeleted,
                 postAt: this.invoice.postAt,
                 postUser: this.invoice.postUser,
@@ -379,6 +389,7 @@ export class InvoiceFormComponent {
             documentNo: '',
             amount: '',
             remarks: '',
+            hasDocument: '',
             isDeleted: '',
             postAt: '',
             postUser: '',

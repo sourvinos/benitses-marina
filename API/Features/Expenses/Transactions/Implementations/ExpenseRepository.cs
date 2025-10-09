@@ -65,6 +65,13 @@ namespace API.Features.Expenses.Transactions {
             return expenses;
         }
 
+        public IEnumerable<Expense> GetForDocumentPatching() {
+            var expenses = context.Expenses
+                .AsNoTracking()
+                .AsEnumerable();
+            return expenses;
+        }
+
         public async Task<Expense> GetByIdAsync(string invoiceId, bool includeTables) {
             return includeTables
                 ? await context.Expenses

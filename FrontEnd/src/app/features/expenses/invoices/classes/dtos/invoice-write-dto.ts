@@ -11,6 +11,7 @@ export interface InvoiceWriteDto {
     documentNo: string
     amount: number
     remarks: string
+    hasDocument: boolean
     isDeleted: boolean
     putAt: string
 
