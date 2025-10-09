@@ -11,6 +11,7 @@ namespace API.Features.Expenses.Transactions {
         IEnumerable<ExpenseListVM> Get(int? companyId);
         Task<Expense> GetByIdAsync(string invoiceId, bool includeTables);
         Expense Update(Guid id, Expense invoice);
+        Expense Patch(Expense invoice, bool hasDocument);
         FileStreamResult OpenDocument(string filename);
 
     }

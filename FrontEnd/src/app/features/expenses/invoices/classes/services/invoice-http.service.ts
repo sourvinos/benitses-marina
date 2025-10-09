@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpParams } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
 // Custom
@@ -17,6 +17,10 @@ export class InvoiceHttpService extends HttpDataService {
         return formData.expenseId == null
             ? this.http.post<any>(this.url, formData)
             : this.http.put<any>(this.url, formData)
+    }
+
+    public patchExpense(expenseId: string, hasDocument: boolean): Observable<any> {
+        return this.http.patch<any>(this.url + '/' + expenseId + '/' + hasDocument, null, { params: null })
     }
 
     public getDocuments(id: string): Observable<any> {

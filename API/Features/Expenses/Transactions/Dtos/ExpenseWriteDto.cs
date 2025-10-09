@@ -14,6 +14,7 @@ namespace API.Features.Expenses.Transactions {
         public string DocumentNo { get; set; }
         public decimal Amount { get; set; }
         public string Remarks { get; set; }
+        public bool HasDocument { get; set; }
         public bool IsDeleted { get; set; }
         public string PostAt { get; set; }
         public string PostUser { get; set; }
