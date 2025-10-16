@@ -8,6 +8,7 @@ import { DateHelperService } from 'src/app/shared/services/date-helper.service'
 import { DialogService } from 'src/app/shared/services/modal-dialog.service'
 import { EmojiService } from 'src/app/shared/services/emoji.service'
 import { HelperService } from 'src/app/shared/services/helper.service'
+import { InvoiceListExportService } from '../classes/services/invoice-list-export.service'
 import { InvoiceListVM } from '../classes/view-models/invoice-list-vm'
 import { ListResolved } from 'src/app/shared/classes/list-resolved'
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service'
@@ -45,7 +46,7 @@ export class InvoiceListComponent {
 
     //#endregion
 
-    constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateHelperService: DateHelperService, private dialogService: DialogService, private emojiService: EmojiService, private helperService: HelperService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService) { }
+    constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateHelperService: DateHelperService, private dialogService: DialogService, private emojiService: EmojiService, private helperService: HelperService, private invoiceListExportService: InvoiceListExportService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService) { }
 
     //#region lifecycle hooks
 
@@ -69,6 +70,12 @@ export class InvoiceListComponent {
     //#endregion
 
     //#region public methods
+
+    public exportSelected(): void {
+        if (this.isAnyRowSelected()) {
+            this.invoiceListExportService.exportToExcel(this.invoiceListExportService.buildList(this.selectedRecords))
+        }
+    }
 
     public onFilterTodayRecords(): void {
         this.helperService.clearTableTextFilters(this.table, ['date', 'no', 'amount'])
@@ -149,6 +156,14 @@ export class InvoiceListComponent {
 
     private hightlightSavedRow(): void {
         this.helperService.highlightSavedRow(this.feature)
+    }
+
+    private isAnyRowSelected(): boolean {
+        if (this.selectedRecords.length == 0) {
+            this.dialogService.open(this.messageDialogService.noRecordsSelected(), 'error', ['ok'])
+            return false
+        }
+        return true
     }
 
     private loadRecords(): Promise<any> {

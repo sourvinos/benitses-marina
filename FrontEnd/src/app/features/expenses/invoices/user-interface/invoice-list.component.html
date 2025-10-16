@@ -10,7 +10,7 @@
         </div>
 
         <div id="table-wrapper">
-            <p-table #table (onFilter)="onFilterRecords($event)" [(selection)]="selectedRecords" [scrollable]="true" [value]="records" [virtualScrollItemSize]="32" [virtualScroll]="true" dataKey="record" scrollHeight="flex" selectionMode="multiple" sortMode="multiple" stateKey="invoiceList-filters" stateStorage="session">
+            <p-table #table (onFilter)="onFilterRecords($event)" [(selection)]="selectedRecords" [scrollable]="true" [value]="records" [virtualScrollItemSize]="32" [virtualScroll]="true" dataKey="expenseId" scrollHeight="flex" selectionMode="multiple" sortMode="multiple" stateKey="invoiceList-filters" stateStorage="session">
                 <ng-template pTemplate="header">
                     <tr>
                         <th class="no-border-bottom width-3"></th>
@@ -109,6 +109,12 @@
     </div>
 
     <div id="footer">
+        <button [matMenuTriggerFor]="menu" class="fab fab-with-no-background" mat-icon-button>
+            <mat-icon class="material-icons-outlined">more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu" class="primary">
+            <ng-container *ngTemplateOutlet="threeDotsMenu"></ng-container>
+        </mat-menu>
         <table-total-filtered-records (resetTableFilters)="onResetTableFilters()" [filteredRecordCount]="recordsFilteredCount" [mustShowSelectedFilteredCount]="true" [recordCount]="records.length" [selectedRecordCount]="selectedRecords.length"></table-total-filtered-records>
         <div id="align-right">
             <button (click)="onNewRecord()" [disabled]="!isAdmin()" class="no-right-border-radius primary" mat-flat-button>{{ getLabel('newRecord') | uppercase }}</button>
@@ -116,3 +122,9 @@
     </div>
 
 </div>
+
+<ng-template #threeDotsMenu>
+    <button (click)="exportSelected()" mat-menu-item>
+        <span>{{ getLabel("exportSelected") }}</span>
+    </button>
+</ng-template>
