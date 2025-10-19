@@ -1,5 +1,5 @@
 <div class="table-wrapper">
-    <p-table #table [scrollable]="true" [value]="records" [virtualScrollItemSize]="32" [virtualScroll]="true" scrollHeight="flex" selectionMode="multiple" sortMode="multiple">
+    <p-table #table [(selection)]="selectedRecords" [scrollable]="true" [value]="records" [virtualScrollItemSize]="32" [virtualScroll]="true" scrollHeight="flex" selectionMode="multiple" sortMode="multiple">
         <ng-template pTemplate="header">
             <tr>
                 <th class="no-border-bottom width-3"></th>
@@ -12,7 +12,7 @@
                 <th class="no-border-bottom width-3"></th>
             </tr>
             <tr>
-                <th class="no-border-top width-3"><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
+                <th class="no-border-top width-3"><p-tableHeaderCheckbox (click)="outputSelected()"></p-tableHeaderCheckbox></th>
                 <th class="no-border-top width-15"><p-columnFilter (input)="onFilter($event.target.value,'supplier.description','contains')" class="center" field="supplier.description"></p-columnFilter></th>
                 <th class="no-border-top width-15"><p-columnFilter (input)="onFilter($event.target.value,'supplier.bank','contains')" class="center" field="supplier.bank"></p-columnFilter></th>
                 <th class="no-border-top width-15"><p-columnFilter (input)="onFilter($event.target.value,'supplier.iban','contains')" class="center" field="supplier.iban"></p-columnFilter></th>
@@ -25,7 +25,7 @@
         </ng-template>
         <ng-template let-record pTemplate="body">
             <tr (click)="onHighlightRow(record.supplier.id)" (dblclick)="onShowLedger(record.supplier.id,criteria)" [attr.id]=record.supplier.id style="height: 32px;">
-                <td class="width-3"><span class="center no-overflow" style="padding-right: 0 !important; padding-top: 0.25rem !important;"><p-tableCheckbox [value]="record"></p-tableCheckbox></span></td>
+                <td class="width-3"><span class="center no-overflow" style="padding-right: 0 !important; padding-top: 0.25rem !important;"><p-tableCheckbox (click)="outputSelected()" [value]="record"></p-tableCheckbox></span></td>
                 <td class="width-15"><span>{{ record.supplier.description }}</span></td>
                 <td class="width-15"><span>{{ record.supplier.bank }}</span></td>
                 <td class="width-15"><span>{{ record.supplier.iban }}</span></td>

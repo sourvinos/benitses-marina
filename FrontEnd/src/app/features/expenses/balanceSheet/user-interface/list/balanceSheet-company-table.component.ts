@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core'
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core'
 import { Table } from 'primeng/table'
 import { formatNumber } from '@angular/common'
 // Custom
@@ -24,9 +24,11 @@ export class BalanceSheetCompanyTableComponent {
 
     @Input() records: BalanceSheetVM[]
     @Input() criteria: BalanceSheetCriteriaVM
+    @Output() outputValues = new EventEmitter()
 
     public feature = 'balanceSheet'
     public totals: BalanceSheetVM
+    public selectedRecords: BalanceSheetVM[] = []
 
     //#endregion
 
@@ -89,6 +91,10 @@ export class BalanceSheetCompanyTableComponent {
             toDate: criteria.toDate
         }
         this.ledgerDialogService.open(x, '', ['ok'])
+    }
+
+    public outputSelected(): void {
+        this.outputValues.emit(this.selectedRecords)
     }
 
     //#endregion

@@ -210,7 +210,7 @@ export class SaleListComponent {
             this.getVirtualElement()
             this.scrollToSavedPosition()
             this.hightlightSavedRow()
-        }, 1000)
+        }, 500)
     }
 
     private filterColumn(element: any, field: string, matchMode: string): void {

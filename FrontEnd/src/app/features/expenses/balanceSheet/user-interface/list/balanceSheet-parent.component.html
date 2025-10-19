@@ -14,7 +14,7 @@
 
         <ng-template [ngIf]="filteredRecords.length > 0" [ngIfElse]="noData">
             <div id="table-wrapper">
-                <balanceSheetCompanyTable [records]="filteredRecords" [criteria]="criteria"></balanceSheetCompanyTable>
+                <balanceSheetCompanyTable (outputValues)="outputSelected($event)" [records]="filteredRecords" [criteria]="criteria"></balanceSheetCompanyTable>
             </div>
         </ng-template>
 
@@ -26,21 +26,22 @@
                 <mat-icon class="material-icons-outlined">more_vert</mat-icon>
             </button>
             <mat-menu #menu="matMenu" class="primary">
-                <ng-container *ngTemplateOutlet="utilityMenu"></ng-container>
+                <ng-container *ngTemplateOutlet="threeDotsMenu"></ng-container>
             </mat-menu>
         </div>
     </div>
 
 </div>
 
-<ng-template #utilityMenu>
-    <button [disabled]="records.length==0" (click)="onToggleZeroBalanceRows()" mat-menu-item>
-        <mat-checkbox [(ngModel)]="showZeroBalanceRow">
-            <span>{{ getLabel('zeroBalanceRowVisibility') }}</span>
-        </mat-checkbox>
-    </button>
-</ng-template>
-
 <ng-template #noData>
     <cat-page icon="face" [header]="getLabel('noDataHeader')" [subHeader]="getLabel('noDataSubHeader')"></cat-page>
+</ng-template>
+
+<ng-template #threeDotsMenu>
+    <button (click)="exportSelected()" mat-menu-item>
+        <span>{{ getLabel("exportSelected") }}</span>
+    </button>
+    <button [disabled]="records.length==0" (click)="onToggleZeroBalanceRows()" mat-menu-item>
+        <span>{{ getLabel('zeroBalanceRowVisibility') }}</span>
+    </button>
 </ng-template>

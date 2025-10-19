@@ -1208,6 +1208,10 @@
             {
                 "id": "zeroBalanceRowVisibility",
                 "description": "Εμφάνιση μηδενικών υπολοίπων"
+            },
+            {
+                "id": "exportSelected",
+                "description": "Εξαγωγή επιλεγμένων εγγραφών"
             }
         ]
     },

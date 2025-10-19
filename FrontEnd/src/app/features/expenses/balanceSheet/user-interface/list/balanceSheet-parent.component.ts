@@ -3,10 +3,13 @@ import { MatDialog } from '@angular/material/dialog'
 // Custom
 import { BalanceSheetCriteriaDialogComponent } from '../criteria/balanceSheet-criteria.component'
 import { BalanceSheetCriteriaVM } from '../../classes/view-models/criteria/balanceSheet-criteria-vm'
+import { BalanceSheetExportService } from '../../classes/services/balanceSheet-list-export.service'
 import { BalanceSheetHttpService } from '../../classes/services/balanceSheet-http.service'
 import { BalanceSheetVM } from '../../classes/view-models/list/balanceSheet-vm'
 import { DateHelperService } from 'src/app/shared/services/date-helper.service'
+import { DialogService } from 'src/app/shared/services/modal-dialog.service'
 import { HelperService } from '../../../../../shared/services/helper.service'
+import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
 
 @Component({
@@ -25,11 +28,12 @@ export class BalanceSheetParentComponent {
     public parentUrl = '/home'
     public records: BalanceSheetVM[] = []
     public filteredRecords: BalanceSheetVM[] = []
+    public selectedRecords: BalanceSheetVM[] = []
     public showZeroBalanceRow: boolean = true
 
     //#endregion
 
-    constructor(private balanceSheetHttpService: BalanceSheetHttpService, private dateHelperService: DateHelperService, private helperService: HelperService, private messageLabelService: MessageLabelService, public dialog: MatDialog) { }
+    constructor(private balanceSheetExportService: BalanceSheetExportService, private balanceSheetHttpService: BalanceSheetHttpService, private dateHelperService: DateHelperService, private dialogService: DialogService, private helperService: HelperService, private messageDialogService: MessageDialogService, private messageLabelService: MessageLabelService, public dialog: MatDialog) { }
 
     //#region lifecycle hooks
 
@@ -41,6 +45,12 @@ export class BalanceSheetParentComponent {
     //#endregion
 
     //#region public methods
+
+    public exportSelected(): void {
+        if (this.isAnyRowSelected()) {
+            this.balanceSheetExportService.exportToExcel(this.balanceSheetExportService.buildList(this.selectedRecords))
+        }
+    }
 
     public getCriteria(): string {
         return this.criteria ? this.dateHelperService.formatISODateToLocale(this.criteria.fromDate) + ' - ' + this.dateHelperService.formatISODateToLocale(this.criteria.toDate) : ''
@@ -68,6 +78,10 @@ export class BalanceSheetParentComponent {
 
     public onToggleZeroBalanceRows(): void {
         this.toggleZeroBalanceRecords()
+    }
+
+    public outputSelected(event: any): void {
+        this.selectedRecords = event
     }
 
     //#endregion
@@ -98,6 +112,14 @@ export class BalanceSheetParentComponent {
         this.showZeroBalanceRow = true
     }
 
+    private isAnyRowSelected(): boolean {
+        if (this.selectedRecords.length == 0) {
+            this.dialogService.open(this.messageDialogService.noRecordsSelected(), 'error', ['ok'])
+            return false
+        }
+        return true
+    }
+
     private setListHeight(): void {
         setTimeout(() => {
             document.getElementById('content').style.height = document.getElementById('list-wrapper').offsetHeight - 64 + 'px'
@@ -109,11 +131,8 @@ export class BalanceSheetParentComponent {
     }
 
     private toggleZeroBalanceRecords(): void {
-        if (this.showZeroBalanceRow) {
-            this.filteredRecords = this.records
-        } else {
-            this.filteredRecords = this.records.filter(x => x.actualBalance != 0)
-        }
+        this.showZeroBalanceRow = !this.showZeroBalanceRow
+        this.showZeroBalanceRow ? this.filteredRecords = this.records : this.filteredRecords = this.records.filter(x => x.actualBalance != 0)
     }
 
     //#endregion

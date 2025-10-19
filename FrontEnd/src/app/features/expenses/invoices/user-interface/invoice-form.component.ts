@@ -327,7 +327,7 @@ export class InvoiceFormComponent {
     private patchFormWithHasDocument(): void {
         setTimeout(() => {
             this.documents.length >= 1 ? this.form.patchValue({ hasDocument: true }) : this.form.patchValue({ hasDocument: false })
-        }, 1000)
+        }, 500)
     }
 
     private populateDropdownFromDexieDB(dexieTable: string, filteredTable: string, formField: string, modelProperty: string, orderBy: string): void {

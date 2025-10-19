@@ -139,7 +139,7 @@ export class InvoiceListComponent {
             this.getVirtualElement()
             this.scrollToSavedPosition()
             this.hightlightSavedRow()
-        }, 1000)
+        }, 500)
     }
 
     private enableDisableFilters(): void {
