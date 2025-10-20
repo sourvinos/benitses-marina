@@ -1,14 +1,16 @@
 import { NgModule } from '@angular/core'
 // Custom
+import { InvoiceFormComponent } from '../../user-interface/invoice-form/invoice-form.component'
+import { InvoiceListComponent } from '../../user-interface/invoice-list/invoice-list.component'
 import { InvoiceRoutingModule } from './invoice.routing.module'
+import { InvoiceCriteriaDialogComponent } from '../../user-interface/criteria/invoice-criteria.component'
 import { SharedModule } from '../../../../../shared/modules/shared.module'
-import { InvoiceListComponent } from '../../user-interface/invoice-list.component'
-import { InvoiceFormComponent } from '../../user-interface/invoice-form.component'
 
 @NgModule({
     declarations: [
         InvoiceListComponent,
-        InvoiceFormComponent
+        InvoiceFormComponent,
+        InvoiceCriteriaDialogComponent
     ],
     imports: [
         SharedModule,

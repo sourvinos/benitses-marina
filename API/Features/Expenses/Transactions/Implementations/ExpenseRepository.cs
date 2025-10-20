@@ -65,6 +65,43 @@ namespace API.Features.Expenses.Transactions {
             return expenses;
         }
 
+        public IEnumerable<ExpenseListVM> GetForPeriod(ExpenseListCriteriaVM criteria) {
+            var expenses = context.Expenses
+                .AsNoTracking()
+                .Where(x => x.Date >= Convert.ToDateTime(criteria.FromDate) && x.Date <= Convert.ToDateTime(criteria.ToDate) && x.IsDeleted == false)
+                .Include(x => x.Company)
+                .Include(x => x.DocumentType)
+                .Include(x => x.PaymentMethod)
+                .Include(x => x.Supplier)
+                .AsEnumerable()
+                .OrderBy(x => x.Date)
+                .Select(x => new ExpenseListVM {
+                    ExpenseId = x.ExpenseId,
+                    Date = DateHelpers.DateToISOString(x.Date),
+                    Company = new SimpleEntity {
+                        Id = x.Company.Id,
+                        Description = x.Company.Description
+                    },
+                    DocumentType = new SimpleEntity {
+                        Id = x.DocumentType.Id,
+                        Description = x.DocumentType.Description
+                    },
+                    PaymentMethod = new SimpleEntity {
+                        Id = x.PaymentMethod.Id,
+                        Description = x.PaymentMethod.Description
+                    },
+                    Supplier = new SimpleEntity {
+                        Id = x.Supplier.Id,
+                        Description = x.Supplier.Description
+                    },
+                    DocumentNo = x.DocumentNo,
+                    Amount = x.Amount,
+                    HasDocument = x.HasDocument,
+                    PutAt = x.PutAt[..10]
+                });
+            return expenses;
+        }
+
         public IEnumerable<Expense> GetForDocumentPatching() {
             var expenses = context.Expenses
                 .AsNoTracking()

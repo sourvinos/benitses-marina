@@ -13,9 +13,9 @@ import { DialogService } from 'src/app/shared/services/modal-dialog.service'
 import { FormResolved } from 'src/app/shared/classes/form-resolved'
 import { HelperService } from 'src/app/shared/services/helper.service'
 import { InputTabStopDirective } from 'src/app/shared/directives/input-tabstop.directive'
-import { InvoiceHttpService } from '../classes/services/invoice-http.service'
-import { InvoiceReadDto } from '../classes/dtos/invoice-read-dto'
-import { InvoiceWriteDto } from '../classes/dtos/invoice-write-dto'
+import { InvoiceHttpService } from '../../classes/services/invoice-http.service'
+import { InvoiceReadDto } from '../../classes/dtos/invoice-read-dto'
+import { InvoiceWriteDto } from '../../classes/dtos/invoice-write-dto'
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service'
 import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
 import { MessageInputHintService } from 'src/app/shared/services/message-input-hint.service'
@@ -28,7 +28,7 @@ import { environment } from 'src/environments/environment'
 @Component({
     selector: 'invoice-form',
     templateUrl: './invoice-form.component.html',
-    styleUrls: ['../../../../../assets/styles/custom/forms.css', './invoice-form.component.css']
+    styleUrls: ['../../../../../../assets/styles/custom/forms.css', './invoice-form.component.css']
 })
 
 export class InvoiceFormComponent {

@@ -77,6 +77,7 @@ export class AccountService extends HttpDataService {
             { 'item': 'expenseDocumentTypeList-id', 'when': 'always' },
             { 'item': 'expenseDocumentTypeList-scrollTop', 'when': 'always' },
             { 'item': 'invoiceList-filters', 'when': 'always' },
+            { 'item': 'invoicesListCriteria', 'when': 'always' },
             { 'item': 'invoiceList-id', 'when': 'always' },
             { 'item': 'invoiceList-scrollTop', 'when': 'always' },
             { 'item': 'ledgerCriteria', 'when': 'always' },

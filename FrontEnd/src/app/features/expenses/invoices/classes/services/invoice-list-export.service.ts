@@ -1,8 +1,8 @@
 import FileSaver from 'file-saver'
 import { Injectable } from '@angular/core'
-import { InvoiceListExportVM } from '../view-models/invoice-list-export-vm'
+import { InvoiceListExportVM } from '../view-models/list/invoice-list-export-vm'
 import { DateHelperService } from 'src/app/shared/services/date-helper.service'
-import { InvoiceListVM } from '../view-models/invoice-list-vm'
+import { InvoiceListVM } from '../view-models/list/invoice-list-vm'
 // Custom
 
 @Injectable({ providedIn: 'root' })

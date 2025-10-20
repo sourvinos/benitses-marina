@@ -8,19 +8,23 @@ import { DateHelperService } from 'src/app/shared/services/date-helper.service'
 import { DialogService } from 'src/app/shared/services/modal-dialog.service'
 import { EmojiService } from 'src/app/shared/services/emoji.service'
 import { HelperService } from 'src/app/shared/services/helper.service'
-import { InvoiceListExportService } from '../classes/services/invoice-list-export.service'
-import { InvoiceListVM } from '../classes/view-models/invoice-list-vm'
+import { InvoiceListExportService } from '../../classes/services/invoice-list-export.service'
+import { InvoiceListVM } from '../../classes/view-models/list/invoice-list-vm'
 import { ListResolved } from 'src/app/shared/classes/list-resolved'
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service'
 import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
 import { SessionStorageService } from 'src/app/shared/services/session-storage.service'
 import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
+import { MatDialog } from '@angular/material/dialog'
+import { InvoiceCriteriaDialogComponent } from '../criteria/invoice-criteria.component'
+import { InvoiceListCriteriaVM } from '../../classes/view-models/criteria/invoice-list-criteria-vm'
+import { InvoiceHttpService } from '../../classes/services/invoice-http.service'
 
 @Component({
     selector: 'invoice-list',
     templateUrl: './invoice-list.component.html',
-    styleUrls: ['../../../../../assets/styles/custom/lists.css', 'invoice-list.component.css']
+    styleUrls: ['../../../../../../assets/styles/custom/lists.css', 'invoice-list.component.css']
 })
 
 export class InvoiceListComponent {
@@ -29,6 +33,7 @@ export class InvoiceListComponent {
 
     @ViewChild('table') table: Table
 
+    private criteria: InvoiceListCriteriaVM
     private url = 'invoices'
     private virtualElement: any
     public feature = 'invoiceList'
@@ -46,15 +51,25 @@ export class InvoiceListComponent {
 
     //#endregion
 
-    constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateHelperService: DateHelperService, private dialogService: DialogService, private emojiService: EmojiService, private helperService: HelperService, private invoiceListExportService: InvoiceListExportService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService) { }
+    constructor(private invoiceHttpService: InvoiceHttpService, private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateHelperService: DateHelperService, private dialogService: DialogService, private emojiService: EmojiService, private helperService: HelperService, private invoiceListExportService: InvoiceListExportService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService, public dialog: MatDialog) { }
 
     //#region lifecycle hooks
 
     ngOnInit(): void {
-        this.loadRecords()
-        this.populateDropdownFilters()
-        this.setTabTitle()
-        this.doVirtualTableTasks()
+        this.getStoredCriteria()
+        this.buildCriteriaVM(this.criteria).then((response) => {
+            this.loadRecords(response).then(() => {
+                // this.createDateObjects()
+                // this.initFilteredRecordsCount()
+                // this.filterTableFromStoredFilters()
+                this.populateDropdownFilters()
+                // this.clearSelectedRecords()
+                this.doVirtualTableTasks()
+            })
+        })
+        // this.loadRecords()
+        // this.populateDropdownFilters()
+        // this.doVirtualTableTasks()
         this.setSidebarsHeight()
     }
 
@@ -88,6 +103,12 @@ export class InvoiceListComponent {
 
     public formatNumberToLocale(number: number, decimals = true): string {
         return formatNumber(number, this.localStorageService.getItem('language'), decimals ? '1.2' : '1.0')
+    }
+
+    public getCriteria(): string {
+        return this.criteria
+            ? this.dateHelperService.formatISODateToLocale(this.criteria.fromDate) + ' - ' + this.dateHelperService.formatISODateToLocale(this.criteria.toDate)
+            : ''
     }
 
     public getEmoji(anything: any): string {
@@ -130,9 +151,42 @@ export class InvoiceListComponent {
         this.helperService.clearTableTextFilters(this.table, ['date', 'no', 'amount'])
     }
 
+    public onShowCriteriaDialog(): void {
+        const dialogRef = this.dialog.open(InvoiceCriteriaDialogComponent, {
+            data: 'invoiceListCriteria',
+            height: '36.0625rem',
+            panelClass: 'dialog',
+            width: '32rem',
+        })
+        dialogRef.afterClosed().subscribe(criteria => {
+            if (criteria !== undefined) {
+                // this.onClearFilterTasks()
+                this.buildCriteriaVM(criteria).then((response) => {
+                    this.loadRecords(response).then(() => {
+                        // this.createDateObjects()
+                        // this.initFilteredRecordsCount()
+                        this.populateDropdownFilters()
+                        // this.clearSelectedRecords()
+                        this.doVirtualTableTasks()
+                    })
+                })
+            }
+        })
+    }
+
     //#endregion
 
     //#region private methods
+
+    private buildCriteriaVM(event: InvoiceListCriteriaVM): Promise<any> {
+        return new Promise((resolve) => {
+            this.criteria = {
+                fromDate: event.fromDate,
+                toDate: event.toDate
+            }
+            resolve(this.criteria)
+        })
+    }
 
     private doVirtualTableTasks(): void {
         setTimeout(() => {
@@ -144,6 +198,21 @@ export class InvoiceListComponent {
 
     private enableDisableFilters(): void {
         this.records.length == 0 ? this.helperService.disableTableFilters() : this.helperService.enableTableFilters()
+    }
+
+    private getStoredCriteria(): void {
+        const storedCriteria: any = this.sessionStorageService.getItem('invoicesListCriteria') ? JSON.parse(this.sessionStorageService.getItem('invoicesListCriteria')) : ''
+        if (storedCriteria) {
+            this.criteria = {
+                fromDate: storedCriteria.fromDate,
+                toDate: storedCriteria.toDate
+            }
+        } else {
+            this.criteria = {
+                fromDate: this.dateHelperService.formatDateToIso(new Date()),
+                toDate: this.dateHelperService.formatDateToIso(new Date())
+            }
+        }
     }
 
     private getVirtualElement(): void {
@@ -166,20 +235,29 @@ export class InvoiceListComponent {
         return true
     }
 
-    private loadRecords(): Promise<any> {
+    private loadRecords(criteria: InvoiceListCriteriaVM): Promise<InvoiceListVM[]> {
         return new Promise((resolve) => {
-            const listResolved: ListResolved = this.activatedRoute.snapshot.data[this.feature]
-            if (listResolved.error == null) {
-                this.records = listResolved.list
-                this.recordsFilteredCount = this.records.length
+            this.invoiceHttpService.getForList(criteria).subscribe(response => {
+                this.records = response
                 resolve(this.records)
-            } else {
-                this.dialogService.open(this.messageDialogService.filterResponse(listResolved.error), 'error', ['ok']).subscribe(() => {
-                    this.goBack()
-                })
-            }
+            })
         })
     }
+
+    // private loadRecords(): Promise<any> {
+    //     return new Promise((resolve) => {
+    //         const listResolved: ListResolved = this.activatedRoute.snapshot.data[this.feature]
+    //         if (listResolved.error == null) {
+    //             this.records = listResolved.list
+    //             this.recordsFilteredCount = this.records.length
+    //             resolve(this.records)
+    //         } else {
+    //             this.dialogService.open(this.messageDialogService.filterResponse(listResolved.error), 'error', ['ok']).subscribe(() => {
+    //                 this.goBack()
+    //             })
+    //         }
+    //     })
+    // }
 
     private navigateToRecord(id: any): void {
         this.router.navigate([this.url, id])
@@ -198,10 +276,6 @@ export class InvoiceListComponent {
 
     private setSidebarsHeight(): void {
         this.helperService.setSidebarsTopMargin('0')
-    }
-
-    private setTabTitle(): void {
-        this.helperService.setTabTitle(this.feature)
     }
 
     private storeSelectedId(id: string): void {
