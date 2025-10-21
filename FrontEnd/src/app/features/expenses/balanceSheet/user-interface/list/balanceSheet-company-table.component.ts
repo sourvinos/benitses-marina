@@ -75,6 +75,10 @@ export class BalanceSheetCompanyTableComponent {
         return this.messageLabelService.getDescription(this.feature, id)
     }
 
+    public isNumberNegative(number: number): string {
+        return this.helperService.isNumberNegative(number)
+    }
+
     public onFilter(event: any, column: string, matchMode: string): void {
         if (event) this.table.filter(event, column, matchMode)
     }

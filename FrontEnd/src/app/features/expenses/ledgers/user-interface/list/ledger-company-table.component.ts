@@ -54,6 +54,10 @@ export class LedgerCompanyTableComponent {
         return this.messageLabelService.getDescription(this.feature, id)
     }
 
+    public isNumberNegative(number: number): string {
+        return this.helperService.isNumberNegative(number)
+    }
+
     public onHighlightRow(id: any): void {
         this.helperService.highlightRow(id)
     }

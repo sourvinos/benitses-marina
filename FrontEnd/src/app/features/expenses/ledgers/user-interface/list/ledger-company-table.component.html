@@ -20,7 +20,7 @@
                 <td class="width-7"><span class="center">{{ record.invoiceNo }}</span></td>
                 <td class="width-7"><span class="number right with-right-padding">{{ formatNumberToLocale(record.debit) }}</span></td>
                 <td class="width-7"><span class="number right with-right-padding">{{ formatNumberToLocale(record.credit) }}</span></td>
-                <td class="width-7"><span class="number right with-right-padding">{{ formatNumberToLocale(record.balance) }}</span></td>
+                <td class="width-7"><span [ngClass]="isNumberNegative(record.balance)" class="number right with-right-padding">{{ formatNumberToLocale(record.balance) }}</span></td>
                 <td class="width-9"><span class="center">{{ record.formattedPutAt }}</span></td>
             </tr>
         </ng-template>

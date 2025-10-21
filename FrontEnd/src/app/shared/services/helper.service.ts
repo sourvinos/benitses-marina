@@ -246,6 +246,10 @@ export class HelperService {
         return value.toLowerCase()
     }
 
+    public isNumberNegative(number: number): string {
+        return number < 0 ? "color-red" : ""
+    }
+
     //#endregion
 
     //#region private methods

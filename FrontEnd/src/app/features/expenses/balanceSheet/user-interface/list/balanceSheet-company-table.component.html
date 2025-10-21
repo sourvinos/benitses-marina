@@ -29,10 +29,10 @@
                 <td class="width-15"><span>{{ record.supplier.description }}</span></td>
                 <td class="width-15"><span>{{ record.supplier.bank }}</span></td>
                 <td class="width-15"><span>{{ record.supplier.iban }}</span></td>
-                <td class="right width-10"><span class="number right with-right-padding">{{ formatNumberToLocale(record.previousBalance) }}</span></td>
+                <td class="right width-10"><span [ngClass]="isNumberNegative(record.previousBalance)" class="number right with-right-padding">{{ formatNumberToLocale(record.previousBalance) }}</span></td>
                 <td class="right width-10"><span class="number right with-right-padding">{{ formatNumberToLocale(record.debit) }}</span></td>
                 <td class="right width-10"><span class="number right with-right-padding">{{ formatNumberToLocale(record.credit) }}</span></td>
-                <td class="right width-10"><span class="number right with-right-padding">{{ formatNumberToLocale(record.actualBalance) }}</span></td>
+                <td class="right width-10"><span [ngClass]="isNumberNegative(record.actualBalance)" class="number right with-right-padding">{{ formatNumberToLocale(record.actualBalance) }}</span></td>
                 <td class="width-3">
                     <span (click)="onShowLedger(record.supplier.id,criteria)" class="center">
                         <mat-icon class="material-icons-outlined small-icon">more_horiz</mat-icon>

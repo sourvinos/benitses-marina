@@ -29,9 +29,9 @@
             <tr style="height: 32px;">
                 <td class="width-3"></td>
                 <td class="width-15"><span></span></td>
-                <td class="right width-10"><span class="number with-right-padding">{{ formatNumberToLocale(totals.previousBalance) }}</span></td>
-                <td class="right width-10"><span class="number with-right-padding">{{ formatNumberToLocale(totals.periodBalance) }}</span></td>
-                <td class="right width-10"><span class="number with-right-padding">{{ formatNumberToLocale(totals.actualBalance) }}</span></td>
+                <td class="right width-10"><span class="number with-right-padding">{{ formatNumberToLocale(invertSign(totals.previousBalance)) }}</span></td>
+                <td class="right width-10"><span class="number with-right-padding">{{ formatNumberToLocale(invertSign(totals.periodBalance)) }}</span></td>
+                <td class="right width-10"><span class="number with-right-padding">{{ formatNumberToLocale(invertSign(totals.actualBalance)) }}</span></td>
             </tr>
         </ng-template>
     </p-table>
