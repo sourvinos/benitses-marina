@@ -110,6 +110,10 @@
             {
                 "id": "headerIsRequest",
                 "description": "Αίτηση"
+            },
+            {
+                "id": "exportSelected",
+                "description": "Εξαγωγή επιλεγμένων εγγραφών"
             }
         ]
     },

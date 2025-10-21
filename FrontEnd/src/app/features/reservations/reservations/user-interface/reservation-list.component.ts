@@ -10,6 +10,7 @@ import { HelperService } from 'src/app/shared/services/helper.service'
 import { ListResolved } from 'src/app/shared/classes/list-resolved'
 import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
+import { ReservationListExportService } from '../classes/services/reservation-list-export.service'
 import { ReservationListVM } from '../classes/view-models/reservation-list-vm'
 import { SessionStorageService } from 'src/app/shared/services/session-storage.service'
 import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
@@ -46,7 +47,7 @@ export class ReservationListComponent {
 
     //#endregion
 
-    constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateHelperService: DateHelperService, private dialogService: DialogService, private emojiService: EmojiService, private helperService: HelperService, private messageDialogService: MessageDialogService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService) { }
+    constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateHelperService: DateHelperService, private dialogService: DialogService, private emojiService: EmojiService, private helperService: HelperService, private messageDialogService: MessageDialogService, private messageLabelService: MessageLabelService, private reservationListExportService: ReservationListExportService, private router: Router, private sessionStorageService: SessionStorageService) { }
 
     //#region lifecycle hooks
 
@@ -75,6 +76,12 @@ export class ReservationListComponent {
     //#endregion
 
     //#region public methods
+
+    public exportSelected(): void {
+        if (this.isAnyRowSelected()) {
+            this.reservationListExportService.exportToExcel(this.reservationListExportService.buildList(this.selectedRecords))
+        }
+    }
 
     public formatDateToLocale(date: string, showWeekday = false, showYear = false, returnEmptyString = false): string {
         return returnEmptyString && date == '2199-12-31' ? '' : this.dateHelperService.formatISODateToLocale(date, showWeekday, showYear)
@@ -183,13 +190,12 @@ export class ReservationListComponent {
         this.helperService.highlightSavedRow(this.feature)
     }
 
-    private stringifyBerths(): void {
-        this.records.forEach(record => {
-            const joinedBerths = record.berths.map((berth) => {
-                return berth.description
-            }).join(', ')
-            record.joinedBerths = joinedBerths
-        })
+    private isAnyRowSelected(): boolean {
+        if (this.selectedRecords.length == 0) {
+            this.dialogService.open(this.messageDialogService.noRecordsSelected(), 'error', ['ok'])
+            return false
+        }
+        return true
     }
 
     private loadRecords(): Promise<any> {
@@ -233,6 +239,15 @@ export class ReservationListComponent {
 
     private storeScrollTop(): void {
         this.sessionStorageService.saveItem(this.feature + '-scrollTop', this.virtualElement.scrollTop)
+    }
+
+    private stringifyBerths(): void {
+        this.records.forEach(record => {
+            const joinedBerths = record.berths.map((berth) => {
+                return berth.description
+            }).join(', ')
+            record.joinedBerths = joinedBerths
+        })
     }
 
     //#endregion
