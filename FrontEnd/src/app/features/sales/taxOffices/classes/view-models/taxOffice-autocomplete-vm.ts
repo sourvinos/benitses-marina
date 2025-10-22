@@ -1,8 +1,6 @@
-import { Guid } from 'guid-typescript'
-
 export interface TaxOfficeAutoCompleteVM {
 
-    id: Guid
+    id: number
     description: string
     isActive: boolean
 

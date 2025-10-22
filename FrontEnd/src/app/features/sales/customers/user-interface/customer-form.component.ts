@@ -1,6 +1,6 @@
 import { ActivatedRoute, Router } from '@angular/router'
 import { Component } from '@angular/core'
-import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms'
+import { FormBuilder, Validators, AbstractControl } from '@angular/forms'
 // Custom
 import { CryptoService } from 'src/app/shared/services/crypto.service'
 import { CustomerAadeHttpService } from '../classes/services/customer-aade-http.service'
@@ -30,13 +30,43 @@ import { ValidationService } from 'src/app/shared/services/validation.service'
 
 export class CustomerFormComponent {
 
+    //#region form
+
+    form = this.formBuilder.group({
+        id: 0,
+        nationality: [this.formBuilder.control<SimpleEntity | null>(null, [Validators.required, ValidationService.requireAutocomplete])],
+        taxOffice: [this.formBuilder.control<SimpleEntity | null>(null, [Validators.required, ValidationService.requireAutocomplete])],
+        vatPercent: [0, [Validators.required, Validators.min(0), Validators.max(100)]],
+        vatPercentId: [0, [Validators.required, Validators.min(1), Validators.max(9)]],
+        vatExemptionId: [0, [Validators.required, Validators.min(0), Validators.max(30)]],
+        description: ['', [Validators.required, Validators.maxLength(128)]],
+        fullDescription: ['', [Validators.required, Validators.maxLength(512)]],
+        vatNumber: ['', [Validators.required, Validators.maxLength(36)]],
+        branch: [0, [Validators.required, Validators.min(0), Validators.max(10)]],
+        profession: ['', [Validators.maxLength(128)]],
+        street: ['', [Validators.maxLength(128)]],
+        number: ['', [Validators.maxLength(4)]],
+        postalCode: ['', [Validators.required, Validators.maxLength(10)]],
+        city: ['', [Validators.required, Validators.maxLength(128)]],
+        phones: ['', [Validators.maxLength(128)]],
+        personInCharge: ['', [Validators.maxLength(128)]],
+        email: ['', [Validators.maxLength(128)]],
+        remarks: ['', Validators.maxLength(2048)],
+        isActive: true,
+        postAt: [''],
+        postUser: [''],
+        putAt: [''],
+        putUser: ['']
+    })
+
+    //#endregion
+
     //#region common
 
     private record: CustomerReadDto
     private recordId: number
     public feature = 'customerForm'
     public featureIcon = 'customers'
-    public form: FormGroup
     public icon = 'arrow_back'
     public input: InputTabStopDirective
     public parentUrl = '/customers'
@@ -234,32 +264,6 @@ export class CustomerFormComponent {
     }
 
     private initForm(): void {
-        this.form = this.formBuilder.group({
-            id: 0,
-            nationality: ['', [Validators.required, ValidationService.requireAutocomplete]],
-            taxOffice: ['', [Validators.required, ValidationService.requireAutocomplete]],
-            vatPercent: ['', [Validators.required, Validators.min(0), Validators.max(100)]],
-            vatPercentId: ['', [Validators.required, Validators.min(1), Validators.max(9)]],
-            vatExemptionId: [0, [Validators.required, Validators.min(0), Validators.max(30)]],
-            description: ['', [Validators.required, Validators.maxLength(128)]],
-            fullDescription: ['', [Validators.required, Validators.maxLength(512)]],
-            vatNumber: ['', [Validators.required, Validators.maxLength(36)]],
-            branch: [0, [Validators.required, Validators.min(0), Validators.max(10)]],
-            profession: ['', [Validators.maxLength(128)]],
-            street: ['', [Validators.maxLength(128)]],
-            number: ['', [Validators.maxLength(4)]],
-            postalCode: ['', [Validators.required, Validators.maxLength(10)]],
-            city: ['', [Validators.required, Validators.maxLength(128)]],
-            phones: ['', [Validators.maxLength(128)]],
-            personInCharge: ['', [Validators.maxLength(128)]],
-            email: ['', [Validators.maxLength(128)]],
-            remarks: ['', Validators.maxLength(2048)],
-            isActive: true,
-            postAt: [''],
-            postUser: [''],
-            putAt: [''],
-            putUser: ['']
-        })
     }
 
     private patchNumericFieldsWithZeroIfNullOrEmpty(fieldName: string, digits: number): void {
@@ -284,8 +288,8 @@ export class CustomerFormComponent {
         if (this.record != undefined) {
             this.form.setValue({
                 id: this.record.id,
-                nationality: { 'id': this.record.nationality.id, 'description': this.record.nationality.description },
-                taxOffice: { 'id': this.record.taxOffice.id, 'description': this.record.taxOffice.description },
+                nationality: { 'id': this.record.nationality.id, 'description': this.record.nationality.description, 'isActive': this.record.nationality.isActive },
+                taxOffice: { 'id': this.record.taxOffice.id, 'description': this.record.taxOffice.description, 'isActive': this.record.nationality.isActive },
                 vatPercent: this.record.vatPercent,
                 vatPercentId: this.record.vatPercentId,
                 vatExemptionId: this.record.vatExemptionId,
