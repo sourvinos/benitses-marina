@@ -2,6 +2,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { Component } from '@angular/core'
 import { FormBuilder, Validators, AbstractControl } from '@angular/forms'
 // Custom
+import { ButtonClickService } from 'src/app/shared/services/button-click.service'
 import { CryptoService } from 'src/app/shared/services/crypto.service'
 import { CustomerAadeHttpService } from '../classes/services/customer-aade-http.service'
 import { CustomerAadeRequestVM } from '../classes/view-models/customer-aade-request-vm'
@@ -13,6 +14,7 @@ import { DialogService } from 'src/app/shared/services/modal-dialog.service'
 import { FormResolved } from 'src/app/shared/classes/form-resolved'
 import { HelperService } from 'src/app/shared/services/helper.service'
 import { InputTabStopDirective } from 'src/app/shared/directives/input-tabstop.directive'
+import { KeyboardShortcuts, Unlisten } from 'src/app/shared/services/keyboard-shortcuts.service'
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete'
 import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
 import { MessageInputHintService } from 'src/app/shared/services/message-input-hint.service'
@@ -65,6 +67,7 @@ export class CustomerFormComponent {
 
     private record: CustomerReadDto
     private recordId: number
+    private unlisten: Unlisten
     public feature = 'customerForm'
     public featureIcon = 'customers'
     public icon = 'arrow_back'
@@ -81,7 +84,7 @@ export class CustomerFormComponent {
 
     //#endregion
 
-    constructor(private activatedRoute: ActivatedRoute, private customerAadeHttpService: CustomerAadeHttpService, private customerHttpService: CustomerHttpService, private cryptoService: CryptoService, private dexieService: DexieService, private dialogService: DialogService, private formBuilder: FormBuilder, private helperService: HelperService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService) { }
+    constructor(private activatedRoute: ActivatedRoute, private buttonClickService: ButtonClickService, private cryptoService: CryptoService, private customerAadeHttpService: CustomerAadeHttpService, private customerHttpService: CustomerHttpService, private dexieService: DexieService, private dialogService: DialogService, private formBuilder: FormBuilder, private helperService: HelperService, private keyboardShortcutsService: KeyboardShortcuts, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService) { }
 
     //#region lifecycle hooks
 
@@ -91,10 +94,15 @@ export class CustomerFormComponent {
         this.getRecord()
         this.populateFields()
         this.populateDropdowns()
+        this.addShortcuts()
     }
 
     ngAfterViewInit(): void {
         this.focusOnField()
+    }
+
+    ngOnDestroy(): void {
+        this.unlisten()
     }
 
     //#endregion
@@ -194,6 +202,27 @@ export class CustomerFormComponent {
     //#endregion
 
     //#region private methods
+
+    private addShortcuts(): void {
+        this.unlisten = this.keyboardShortcutsService.listen({
+            'Escape': (event: KeyboardEvent) => {
+                if (document.getElementsByClassName('cdk-overlay-pane').length === 0) {
+                    this.buttonClickService.clickOnButton(event, 'goBack')
+                }
+            },
+            'Alt.D': (event: KeyboardEvent) => {
+                this.buttonClickService.clickOnButton(event, 'delete')
+            },
+            'Alt.S': (event: KeyboardEvent) => {
+                if (document.getElementsByClassName('cdk-overlay-pane').length === 0) {
+                    this.buttonClickService.clickOnButton(event, 'save')
+                }
+            },
+        }, {
+            priority: 1,
+            inputs: true
+        })
+    }
 
     private buildCustomerAadeRequesrtVM(vatNumber: string): CustomerAadeRequestVM {
         const x: CustomerAadeRequestVM = {
