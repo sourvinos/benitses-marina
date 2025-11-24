@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http'
-import { Observable } from 'rxjs'
+import { Observable, shareReplay } from 'rxjs'
 
 export class HttpDataService {
 
@@ -16,8 +16,8 @@ export class HttpDataService {
 
     public save(formData: any): Observable<any> {
         return formData.id == 0 || formData.id == null
-            ? this.http.post<any>(this.url, formData)
-            : this.http.put<any>(this.url, formData)
+            ? this.http.post<any>(this.url, formData).pipe(shareReplay(1))
+            : this.http.put<any>(this.url, formData).pipe(shareReplay(1))
     }
 
     public softDelete(formData: any): Observable<any> {
