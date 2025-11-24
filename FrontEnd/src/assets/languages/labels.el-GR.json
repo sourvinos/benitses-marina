@@ -741,6 +741,10 @@
                 "description": "Επωνυμία"
             },
             {
+                "id": "headerBankDescription",
+                "description": "Τραπεζικός δικαιούχος"
+            },
+            {
                 "id": "headerLongDescription",
                 "description": "Περιγραφή"
             },
@@ -776,6 +780,10 @@
             {
                 "id": "description",
                 "description": "Επωνυμία"
+            },
+            {
+                "id": "bankDescription",
+                "description": "Τραπεζικός δικαιούχος"
             },
             {
                 "id": "longDescription",
@@ -1246,6 +1254,10 @@
             {
                 "id": "headerSupplier",
                 "description": "Επωνυμία"
+            },
+            {
+                "id": "headerBankDescription",
+                "description": "Τραπεζικός δικαιούχος"
             },
             {
                 "id": "headerBank",

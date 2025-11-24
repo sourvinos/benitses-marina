@@ -15,6 +15,7 @@ namespace API.Features.Expenses.Suppliers {
             CreateMap<SupplierWriteDto, Supplier>()
                 .ForMember(x => x.Description, x => x.MapFrom(x => x.Description.Trim()))
                 .ForMember(x => x.LongDescription, x => x.MapFrom(x => x.LongDescription.Trim()))
+                .ForMember(x => x.BankDescription, x => x.MapFrom(x => x.BankDescription.Trim()))
                 .ForMember(x => x.VatNumber, x => x.MapFrom(x => x.VatNumber.Trim()))
                 .ForMember(x => x.Phones, x => x.MapFrom(x => x.Phones.Trim()));
             CreateMap<Supplier, BalanceSheetSupplierVM>()

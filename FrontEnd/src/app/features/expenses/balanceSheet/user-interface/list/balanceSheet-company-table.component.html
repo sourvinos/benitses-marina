@@ -4,9 +4,10 @@
             <tr>
                 <th class="no-border-bottom width-3"></th>
                 <th class="no-border-bottom width-15" pSortableColumn="supplier.description">{{ getLabel("headerSupplier") }}</th>
+                <th class="no-border-bottom width-15" pSortableColumn="supplier.bankDescription">{{ getLabel("headerBankDescription") }}</th>
                 <th class="no-border-bottom width-15" pSortableColumn="supplier.bank">{{ getLabel("headerBank") }}</th>
                 <th class="no-border-bottom width-15" pSortableColumn="supplier.iban">{{ getLabel("headerIban") }}</th>
-                <th class="no-border-bottom width-10" pSortableColumn="previousBalance">{{ getLabel("headerPreviousBalance") }}</th>
+                <th class="no-border-bottom width-8" pSortableColumn="previousBalance">{{ getLabel("headerPreviousBalance") }}</th>
                 <th colspan="2">{{ getLabel("headerPeriod") }}</th>
                 <th class="no-border-bottom width-10" pSortableColumn="actualBalance">{{ getLabel("headerActualBalance") }}</th>
                 <th class="no-border-bottom width-3"></th>
@@ -14,9 +15,10 @@
             <tr>
                 <th class="no-border-top width-3"><p-tableHeaderCheckbox (click)="outputSelected()"></p-tableHeaderCheckbox></th>
                 <th class="no-border-top width-15"><p-columnFilter (input)="onFilter($event.target.value,'supplier.description','contains')" class="center" field="supplier.description"></p-columnFilter></th>
+                <th class="no-border-top width-15"><p-columnFilter (input)="onFilter($event.target.value,'supplier.bankDescription','contains')" class="center" field="supplier.description"></p-columnFilter></th>
                 <th class="no-border-top width-15"><p-columnFilter (input)="onFilter($event.target.value,'supplier.bank','contains')" class="center" field="supplier.bank"></p-columnFilter></th>
                 <th class="no-border-top width-15"><p-columnFilter (input)="onFilter($event.target.value,'supplier.iban','contains')" class="center" field="supplier.iban"></p-columnFilter></th>
-                <th class="no-border-top width-10"><p-columnFilter (input)="onFilter($event.target.value,'previousBalance','contains')" class="center" field="previousBalance"></p-columnFilter></th>
+                <th class="no-border-top width-8"><p-columnFilter (input)="onFilter($event.target.value,'previousBalance','contains')" class="center" field="previousBalance"></p-columnFilter></th>
                 <th class="no-border-top width-10">{{ getLabel("headerDebit") }}</th>
                 <th class="no-border-top width-10">{{ getLabel("headerCredit") }}</th>
                 <th class="no-border-top width-10"><p-columnFilter (input)="onFilter($event.target.value,'actualBalance','contains')" class="center" field="actualBalance"></p-columnFilter></th>
@@ -27,9 +29,10 @@
             <tr (click)="onHighlightRow(record.supplier.id)" (dblclick)="onShowLedger(record.supplier.id,criteria)" [attr.id]=record.supplier.id style="height: 32px;">
                 <td class="width-3"><span class="center no-overflow" style="padding-right: 0 !important; padding-top: 0.25rem !important;"><p-tableCheckbox (click)="outputSelected()" [value]="record"></p-tableCheckbox></span></td>
                 <td class="width-15"><span>{{ record.supplier.description }}</span></td>
+                <td class="width-15"><span>{{ record.supplier.bankDescription }}</span></td>
                 <td class="width-15"><span>{{ record.supplier.bank }}</span></td>
                 <td class="width-15"><span>{{ record.supplier.iban }}</span></td>
-                <td class="right width-10"><span [ngClass]="isNumberNegative(record.previousBalance)" class="number right with-right-padding">{{ formatNumberToLocale(record.previousBalance) }}</span></td>
+                <td class="right width-8"><span [ngClass]="isNumberNegative(record.previousBalance)" class="number right with-right-padding">{{ formatNumberToLocale(record.previousBalance) }}</span></td>
                 <td class="right width-10"><span class="number right with-right-padding">{{ formatNumberToLocale(record.debit) }}</span></td>
                 <td class="right width-10"><span class="number right with-right-padding">{{ formatNumberToLocale(record.credit) }}</span></td>
                 <td class="right width-10"><span [ngClass]="isNumberNegative(record.actualBalance)" class="number right with-right-padding">{{ formatNumberToLocale(record.actualBalance) }}</span></td>
@@ -46,7 +49,8 @@
                 <td class="width-15"><span></span></td>
                 <td class="width-15"><span></span></td>
                 <td class="width-15"><span></span></td>
-                <td class="right width-10"><span class="number with-right-padding">{{ formatNumberToLocale(totals.previousBalance) }}</span></td>
+                <td class="width-15"><span></span></td>
+                <td class="right width-8"><span class="number with-right-padding">{{ formatNumberToLocale(totals.previousBalance) }}</span></td>
                 <td class="right width-10"><span class="number with-right-padding">{{ formatNumberToLocale(totals.debit) }}</span></td>
                 <td class="right width-10"><span class="number with-right-padding">{{ formatNumberToLocale(totals.credit) }}</span></td>
                 <td class="right width-10"><span class="number with-right-padding">{{ formatNumberToLocale(totals.actualBalance) }}</span></td>

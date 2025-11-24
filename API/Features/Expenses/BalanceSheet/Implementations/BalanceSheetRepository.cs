@@ -113,6 +113,7 @@ namespace API.Features.Expenses.BalanceSheet {
                 Supplier = new BalanceSheetSupplierVM {
                     Id = supplier.Id,
                     Description = supplier.Description,
+                    BankDescription = supplier.BankDescription,
                     Bank = supplier.Bank,
                     Iban = supplier.Iban
                 },

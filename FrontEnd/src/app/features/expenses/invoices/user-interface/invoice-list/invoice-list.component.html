@@ -12,10 +12,10 @@
                 <!-- <button (click)="onRefreshList()" class="fab fab-with-no-background" mat-icon-button>
                     <mat-icon class="material-icons-outlined">refresh</mat-icon>
                 </button> -->
+                <button (click)="onFilterTodayRecords()" class="fab fab-with-no-background" id="today" mat-icon-button matTooltipPosition="left">
+                    <span class="material-symbols-outlined">today</span>
+                </button>
             </div>
-            <!-- <button (click)="onFilterTodayRecords()" [matTooltip]="getLabel('today')" class="fab fab-with-no-background" id="today" mat-icon-button matTooltipPosition="left">
-                <span class="material-symbols-outlined">today</span>
-            </button> -->
         </div>
 
         <div id="table-wrapper">

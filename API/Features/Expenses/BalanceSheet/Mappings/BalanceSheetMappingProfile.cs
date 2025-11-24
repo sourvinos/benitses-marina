@@ -12,6 +12,7 @@ namespace API.Features.Expenses.BalanceSheet {
                 .ForMember(x => x.Supplier, x => x.MapFrom(x => new BalanceSheetSupplierVM {
                     Id = x.Supplier.Id,
                     Description = x.Supplier.Description,
+                    BankDescription = x.Supplier.BankDescription,
                     Bank = x.Supplier.Bank.Description,
                     Iban = x.Supplier.Iban
                 }))

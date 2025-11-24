@@ -59,7 +59,7 @@ export class BalanceSheetCompanyTableComponent {
 
     private calculateTotals(): void {
         this.totals = {
-            supplier: { id: 0, description: '', bank: '', iban: '' },
+            supplier: { id: 0, description: '', bankDescription: '', bank: '', iban: '' },
             previousBalance: this.records.reduce((sum: number, array: { previousBalance: number }) => sum + array.previousBalance, 0),
             debit: this.records.reduce((sum: number, array: { debit: number }) => sum + array.debit, 0),
             credit: this.records.reduce((sum: number, array: { credit: number }) => sum + array.credit, 0),

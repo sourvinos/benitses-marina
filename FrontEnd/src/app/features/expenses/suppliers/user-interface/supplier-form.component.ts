@@ -144,6 +144,7 @@ export class SupplierFormComponent {
             iban: this.form.value.iban,
             description: this.form.value.description,
             longDescription: this.form.value.longDescription,
+            bankDescription: this.form.value.bankDescription,
             vatNumber: this.form.value.vatNumber,
             phones: this.form.value.phones,
             email: this.form.value.email,
@@ -185,6 +186,7 @@ export class SupplierFormComponent {
             iban: [''],
             description: ['', [Validators.required, Validators.maxLength(128)]],
             longDescription: ['', [Validators.maxLength(128)]],
+            bankDescription: ['', [Validators.maxLength(128)]],
             vatNumber: ['', [Validators.required, Validators.maxLength(36)]],
             phones: ['', [Validators.maxLength(128)]],
             email: ['', [Validators.maxLength(128)]],
@@ -216,6 +218,7 @@ export class SupplierFormComponent {
                 iban: this.record.iban,
                 description: this.record.description,
                 longDescription: this.record.longDescription,
+                bankDescription: this.record.bankDescription,
                 vatNumber: this.record.vatNumber,
                 phones: this.record.phones,
                 email: this.record.email,
@@ -271,6 +274,10 @@ export class SupplierFormComponent {
 
     get longDescription(): AbstractControl {
         return this.form.get('longDescription')
+    }
+
+    get bankDescription(): AbstractControl {
+        return this.form.get('bankDescription')
     }
 
     get bank(): AbstractControl {

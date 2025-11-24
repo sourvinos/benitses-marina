@@ -51,7 +51,7 @@ export class HelperService {
                     }
                 }
             )
-        }, 1000)
+        }, 500)
     }
 
     public leftAlignLastTab(): void {

@@ -8,6 +8,7 @@ export interface SupplierReadDto extends Metadata {
     iban: string
     description: string
     longDescription: string
+    bankDescription: string
     vatNumber: string
     phones: string
     email: string

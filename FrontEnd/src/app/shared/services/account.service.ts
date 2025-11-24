@@ -68,7 +68,7 @@ export class AccountService extends HttpDataService {
             { 'item': 'returnUrl', 'when': 'always' },
             { 'item': 'userId', 'when': 'always' },
             // Lists and filters
-            { 'item': 'balanceSheetCriteria', 'when': 'always' },
+            // { 'item': 'balanceSheetCriteria', 'when': 'always' },
             { 'item': 'cards-active-tab', 'when': 'always' },
             { 'item': 'customerList-filters', 'when': 'always' },
             { 'item': 'customerList-id', 'when': 'always' },

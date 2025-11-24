@@ -14,6 +14,11 @@
                     <input [inputTabStop]="input" class="tabable" formControlName="description" matInput>
                     <mat-error *ngIf="description.hasError('required')">{{ getHint("required") }}</mat-error>
                 </mat-form-field>
+                <!-- Bank description -->
+                <mat-form-field>
+                    <mat-label>{{ getLabel('bankDescription') }}</mat-label>
+                    <input [inputTabStop]="input" class="tabable" formControlName="bankDescription" matInput>
+                </mat-form-field>
                 <!-- Long description -->
                 <mat-form-field>
                     <mat-label>{{ getLabel('longDescription') }}</mat-label>
