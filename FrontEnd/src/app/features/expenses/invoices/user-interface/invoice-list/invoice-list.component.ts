@@ -59,7 +59,7 @@ export class InvoiceListComponent {
         this.buildCriteriaVM(this.criteria).then((response) => {
             this.loadRecords(response).then(() => {
                 // this.createDateObjects()
-                // this.initFilteredRecordsCount()
+                this.initFilteredRecordsCount()
                 // this.filterTableFromStoredFilters()
                 this.populateDropdownFilters()
                 // this.clearSelectedRecords()
@@ -159,13 +159,13 @@ export class InvoiceListComponent {
         })
         dialogRef.afterClosed().subscribe(criteria => {
             if (criteria !== undefined) {
-                // this.onClearFilterTasks()
+                this.onClearFilterTasks()
                 this.buildCriteriaVM(criteria).then((response) => {
                     this.loadRecords(response).then(() => {
                         // this.createDateObjects()
-                        // this.initFilteredRecordsCount()
+                        this.initFilteredRecordsCount()
                         this.populateDropdownFilters()
-                        // this.clearSelectedRecords()
+                        this.clearSelectedRecords()
                         this.doVirtualTableTasks()
                     })
                 })
@@ -187,6 +187,30 @@ export class InvoiceListComponent {
         })
     }
 
+    private clearFilters(): void {
+        this.table != undefined
+            ? this.helperService.clearTableTextFilters(this.table, ['documentNo', 'amount'])
+            : null
+    }
+
+    private clearSelectedRecords(): void {
+        this.selectedRecords = []
+    }
+
+    // private createDateObjects(): void {
+    //     this.records.forEach(record => {
+    //         record.date = {
+    //             id: this.dateHelperService.convertIsoDateToUnixTime(record.date.toString()),
+    //             description: this.formatDateToLocale(record.date.toString()),
+    //             isActive: true
+    //         }
+    //     })
+    // }
+
+    private deleteStoredFilters(): void {
+        this.sessionStorageService.deleteItems([{ 'item': 'invoiceList-filters', 'when': 'always' }])
+    }
+
     private doVirtualTableTasks(): void {
         setTimeout(() => {
             this.getVirtualElement()
@@ -196,7 +220,7 @@ export class InvoiceListComponent {
     }
 
     private enableDisableFilters(): void {
-        this.records.length == 0 ? this.helperService.disableTableFilters() : this.helperService.enableTableFilters()
+        // this.records.length == 0 ? this.helperService.disableTableFilters() : this.helperService.enableTableFilters()
     }
 
     private getStoredCriteria(): void {
@@ -224,6 +248,10 @@ export class InvoiceListComponent {
 
     private hightlightSavedRow(): void {
         this.helperService.highlightSavedRow(this.feature)
+    }
+
+    private initFilteredRecordsCount(): void {
+        this.recordsFilteredCount = this.records.length
     }
 
     private isAnyRowSelected(): boolean {
@@ -260,6 +288,13 @@ export class InvoiceListComponent {
 
     private navigateToRecord(id: any): void {
         this.router.navigate([this.url, id])
+    }
+
+    public onClearFilterTasks(): void {
+        this.clearFilters()
+        this.deleteStoredFilters()
+        this.clearSelectedRecords()
+        this.initFilteredRecordsCount()
     }
 
     private populateDropdownFilters(): void {

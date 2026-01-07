@@ -717,7 +717,15 @@
             },
             {
                 "id": "headerBoatName",
-                "description": "Ονομα"
+                "description": "Σκάφος"
+            },
+            {
+                "id": "headerBoatLoa",
+                "description": "Μήκος"
+            },
+            {
+                "id": "headerBoatBeam",
+                "description": "Πλάτος"
             },
             {
                 "id": "headerLeaseEnds",

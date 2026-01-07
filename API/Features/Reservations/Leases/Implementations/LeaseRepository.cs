@@ -22,7 +22,7 @@ namespace API.Features.Leases {
             this.mapper = mapper;
         }
 
-        public async Task<IEnumerable<LeaseUpcomingTerminationListVM>> GetAsync(int days) {
+        public async Task<IEnumerable<LeaseEndingListVM>> GetAsync(int days) {
             var today = DateHelpers.GetLocalDateTime();
             var reservations = await context.Reservations
                 .Include(x => x.Boat)
@@ -30,7 +30,7 @@ namespace API.Features.Leases {
                 .Where(x => x.ToDate <= today.AddDays(days) && x.IsDocked && x.Boat.IsFishingBoat == false)
                 .OrderBy(x => x.ToDate)
                 .ToListAsync();
-            return mapper.Map<IEnumerable<Reservation>, IEnumerable<LeaseUpcomingTerminationListVM>>(reservations);
+            return mapper.Map<IEnumerable<Reservation>, IEnumerable<LeaseEndingListVM>>(reservations);
         }
 
     }

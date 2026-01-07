@@ -20,7 +20,7 @@ namespace API.Features.Leases {
 
         [HttpGet("{days}")]
         [Authorize(Roles = "user, admin")]
-        public async Task<IEnumerable<LeaseUpcomingTerminationListVM>> GetAsync(int days) {
+        public async Task<IEnumerable<LeaseEndingListVM>> GetAsync(int days) {
             return await leaseRepo.GetAsync(days);
         }
 

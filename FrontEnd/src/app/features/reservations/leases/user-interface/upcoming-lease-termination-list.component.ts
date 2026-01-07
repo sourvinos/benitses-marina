@@ -10,7 +10,7 @@ import { HelperService } from 'src/app/shared/services/helper.service'
 import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
 import { SessionStorageService } from 'src/app/shared/services/session-storage.service'
-import { UpcomingLeaseTerminationListVM } from '../classes/view-models/upcoming-lease-termination-list-vm'
+import { LeaseEndingListVM } from '../classes/view-models/lease-ending-list-vm'
 
 @Component({
     selector: 'upcoming-lease-termination-list',
@@ -31,17 +31,18 @@ export class UpcomingLeaseTerminationListComponent {
     public featureIcon = 'leases'
     public icon = 'home'
     public parentUrl = '/home'
-    public records: UpcomingLeaseTerminationListVM[] = []
+    public records: LeaseEndingListVM[] = []
     public recordsFilteredCount = 0
 
-    public selectedRecords: UpcomingLeaseTerminationListVM[] = []
+    public selectedRecords: LeaseEndingListVM[] = []
 
     public leaseDays: any[] = [
         { label: '30', value: '30' },
-        { label: '45', value: '45' },
         { label: '60', value: '60' },
-        { label: '75', value: '75' },
-        { label: '90', value: '90' }
+        { label: '90', value: '90' },
+        { label: '120', value: '120' },
+        { label: '150', value: '150' },
+        { label: '180', value: '180' },
     ]
 
     //#endregion

@@ -29,7 +29,7 @@ namespace API.Features.InsurancePolicies {
                 .AsNoTracking()
                 .Include(x => x.Boat)
                 .Include(x => x.Insurance)
-                .Where(x => x.Insurance.PolicyEnds <= today.AddDays(daysToAdd) && x.IsDocked)
+                .Where(x => x.Insurance.PolicyEnds <= today.AddDays(daysToAdd) && x.IsDocked && !x.IsDryDock)
                 .OrderBy(x => x.Insurance.PolicyEnds)
                 .ToListAsync();
             return mapper.Map<IEnumerable<Reservation>, IEnumerable<InsurancePolicyListVM>>(reservations);

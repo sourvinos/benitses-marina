@@ -7,8 +7,13 @@ namespace API.Features.Leases {
     public class LeaseMappingProfile : Profile {
 
         public LeaseMappingProfile() {
-            CreateMap<Reservation, LeaseUpcomingTerminationListVM>()
-                .ForMember(x => x.BoatName, x => x.MapFrom(x => x.Boat.Name))
+            CreateMap<Reservation, LeaseEndingListVM>()
+                .ForMember(x => x.Boat, x => x.MapFrom(x => new LeaseEndingBoatListVM {
+                    Id = x.Boat.Id,
+                    Description = x.Boat.Name,
+                    Loa = x.Boat.Loa,
+                    Beam = x.Boat.Beam,
+                }))
                 .ForMember(x => x.LeaseEnds, x => x.MapFrom(x => DateHelpers.DateToISOString(x.ToDate)));
         }
 
