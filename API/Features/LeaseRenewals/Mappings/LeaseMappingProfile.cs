@@ -11,6 +11,7 @@ namespace API.Features.Leases {
                 .ForMember(x => x.Boat, x => x.MapFrom(x => new LeaseEndingBoatListVM {
                     Id = x.Boat.Id,
                     Description = x.Boat.Name,
+                    Owner = x.Owner.Name,
                     Loa = x.Boat.Loa,
                     Beam = x.Boat.Beam,
                 }))

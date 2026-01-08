@@ -24,7 +24,7 @@ const appRoutes: Routes = [
     { path: 'berths', loadChildren: () => import('../features/reservations/berths/classes/modules/berth.module').then(m => m.BerthModule) },
     { path: 'insurancePolicies', loadChildren: () => import('../features/reservations/insurancePolicies/classes/modules/insurance-policy.module').then(m => m.InsurancePolicyModule) },
     { path: 'reservations', loadChildren: () => import('../features/reservations/reservations/classes/modules/reservation.module').then(m => m.ReservationModule) },
-    { path: 'upcomingLeaseTerminations', loadChildren: () => import('../features/reservations/leases/classes/modules/upcoming-lease-termination.module').then(m => m.UpcomingLeaseTerminationModule) },
+    { path: 'leaseRenewals', loadChildren: () => import('../features/lease-renewals/classes/modules/lease-renewal.module').then(m => m.LeaseRenewalModule) },
     // Expenses
     { path: 'balanceSheet', loadChildren: () => import('../features/expenses/balanceSheet/classes/modules/balanceSheet.module').then(m => m.BalanceSheetModule) },
     { path: 'banks', loadChildren: () => import('../features/expenses/banks/classes/modules/bank.module').then(m => m.BankModule) },

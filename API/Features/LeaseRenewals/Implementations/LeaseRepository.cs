@@ -26,6 +26,7 @@ namespace API.Features.Leases {
             var today = DateHelpers.GetLocalDateTime();
             var reservations = await context.Reservations
                 .Include(x => x.Boat)
+                .Include(x => x.Owner)
                 .AsNoTracking()
                 .Where(x => x.ToDate <= today.AddDays(days) && x.IsDocked && x.Boat.IsFishingBoat == false)
                 .OrderBy(x => x.ToDate)

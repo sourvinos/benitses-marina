@@ -17,6 +17,7 @@
                         <th class="no-border-bottom width-5" pSortableColumn="boat.loa">{{ getLabel("headerBoatLoa") }}</th>
                         <th class="no-border-bottom width-5" pSortableColumn="boat.beam">{{ getLabel("headerBoatBeam") }}</th>
                         <th class="no-border-bottom width-auto" pSortableColumn="boat.description">{{ getLabel("headerBoatName") }}</th>
+                        <th class="no-border-bottom width-40" pSortableColumn="boat.owner">{{ getLabel("headerOwner") }}</th>
                         <th class="no-border-bottom width-7" pSortableColumn="leaseEnds">{{ getLabel("headerLeaseEnds") }}</th>
                     </tr>
                     <tr>
@@ -24,6 +25,7 @@
                         <th class="no-border-top width-5"><p-columnFilter (input)="onFilter($event.target.value,'boat.loa','contains')" field="boat.loa"></p-columnFilter></th>
                         <th class="no-border-top width-5"><p-columnFilter (input)="onFilter($event.target.value,'boat.beam','contains')" field="boat.beam"></p-columnFilter></th>
                         <th class="no-border-top width-auto"><p-columnFilter (input)="onFilter($event.target.value,'boat.description','contains')" field="boat.description"></p-columnFilter></th>
+                        <th class="no-border-top width-40"><p-columnFilter (input)="onFilter($event.target.value,'boat.owner','contains')" field="boat.owner"></p-columnFilter></th>
                         <th class="no-border-top width-7"><p-columnFilter (input)="onFilter($event.target.value,'policyEnds','contains')" field="policyEnds"></p-columnFilter></th>
                     </tr>
                 </ng-template>
@@ -33,6 +35,7 @@
                         <td class="width-5"><span class="center no-overflow">{{ record.boat.loa | number:'1.2'}}</span></td>
                         <td class="width-5"><span class="center no-overflow">{{ record.boat.beam | number:'1.2'}}</span></td>
                         <td class="width-auto"><span>{{ record.boat.description }}</span></td>
+                        <td class="width-40"><span>{{ record.boat.owner }}</span></td>
                         <td class="width-7"><span class="center no-overflow">{{ formatDateToLocale(record.leaseEnds,false,true) }}</span></td>
                     </tr>
                 </ng-template>
@@ -42,7 +45,20 @@
     </div>
 
     <div id="footer">
+        <button [matMenuTriggerFor]="menu" class="fab fab-with-no-background" mat-icon-button>
+            <mat-icon class="material-icons-outlined">more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu" class="primary">
+            <ng-container *ngTemplateOutlet="threeDotsMenu"></ng-container>
+        </mat-menu>
         <table-total-filtered-records (resetTableFilters)="onResetTableFilters()" [filteredRecordCount]="recordsFilteredCount" [mustShowSelectedFilteredCount]="true" [recordCount]="records.length" [selectedRecordCount]="selectedRecords.length"></table-total-filtered-records>
     </div>
 
 </div>
+
+
+<ng-template #threeDotsMenu>
+    <button (click)="exportSelected()" mat-menu-item>
+        <span>{{ getLabel("exportSelected") }}</span>
+    </button>
+</ng-template>

@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment'
 
 @Injectable({ providedIn: 'root' })
 
-export class LeasePdfHttpService extends HttpDataService {
+export class LeaseRenewalPdfHttpService extends HttpDataService {
 
     constructor(httpClient: HttpClient) {
         super(httpClient, environment.apiUrl)

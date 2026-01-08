@@ -709,7 +709,7 @@
         ]
     },
     {
-        "feature": "upcomingLeasesList",
+        "feature": "leaseRenewalList",
         "labels": [
             {
                 "id": "header",
@@ -718,6 +718,10 @@
             {
                 "id": "headerBoatName",
                 "description": "Σκάφος"
+            },
+            {
+                "id": "headerOwner",
+                "description": "Πλοιοκτήτης"
             },
             {
                 "id": "headerBoatLoa",
@@ -730,6 +734,10 @@
             {
                 "id": "headerLeaseEnds",
                 "description": "Λήξη"
+            },
+            {
+                "id": "exportSelected",
+                "description": "Εξαγωγή επιλεγμένων εγγραφών"
             }
         ]
     },
@@ -871,11 +879,11 @@
                 "description": "Εμφανίστε τις επερχόμενες λήξεις των ασφαλιστήριων συμβολαίων."
             },
             {
-                "id": "upcomingLeaseTerminationsTitle",
+                "id": "leaseRenewalsTitle",
                 "description": "Λήξεις συμβάσεων"
             },
             {
-                "id": "upcomingLeaseTerminationsSubTitle",
+                "id": "leaseRenewalsSubTitle",
                 "description": "Εμφανίστε τις επερχόμενες λήξεις των συμβάσεων ελλιμενισμού."
             },
             {

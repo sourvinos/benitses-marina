@@ -16,7 +16,6 @@ import { EmojiService } from 'src/app/shared/services/emoji.service'
 import { FormResolved } from 'src/app/shared/classes/form-resolved'
 import { HelperService } from 'src/app/shared/services/helper.service'
 import { InputTabStopDirective } from 'src/app/shared/directives/input-tabstop.directive'
-import { LeasePdfHttpService } from '../../leases/classes/services/lease-pdf-http.service'
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service'
 import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
 import { MessageInputHintService } from 'src/app/shared/services/message-input-hint.service'
@@ -36,6 +35,7 @@ import { ValidationService } from 'src/app/shared/services/validation.service'
 import { environment } from 'src/environments/environment'
 import { ReservationFishingLicenceDto } from '../classes/dtos/reservation-fishing-licence-dto'
 import FileSaver from 'file-saver'
+import { LeaseRenewalPdfHttpService } from 'src/app/features/lease-renewals/classes/services/lease-renewal-pdf-http.service'
 
 @Component({
     selector: 'reservation-form',
@@ -99,7 +99,7 @@ export class ReservationFormComponent {
 
     //#endregion
 
-    constructor(private emailQueueHttpService: EmailQueueHttpService, private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateAdapter: DateAdapter<any>, private dateHelperService: DateHelperService, private dexieService: DexieService, private dialogService: DialogService, private emojiService: EmojiService, private formBuilder: FormBuilder, private helperService: HelperService, private leasePdfHttpService: LeasePdfHttpService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private reservationHttpService: ReservationHttpService, private reservationHelperService: ReservationHelperService, private router: Router, private sessionStorageService: SessionStorageService) { }
+    constructor(private emailQueueHttpService: EmailQueueHttpService, private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateAdapter: DateAdapter<any>, private dateHelperService: DateHelperService, private dexieService: DexieService, private dialogService: DialogService, private emojiService: EmojiService, private formBuilder: FormBuilder, private helperService: HelperService, private leaseRenewalPdfHttpService: LeaseRenewalPdfHttpService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageHintService: MessageInputHintService, private messageLabelService: MessageLabelService, private reservationHttpService: ReservationHttpService, private reservationHelperService: ReservationHelperService, private router: Router, private sessionStorageService: SessionStorageService) { }
 
     //#region lifecycle hooks
 
@@ -130,9 +130,9 @@ export class ReservationFormComponent {
     public onCreateLease(action: string): void {
         const ids = []
         ids.push(this.form.value.reservationId)
-        this.leasePdfHttpService.buildLeasePdf(ids).subscribe({
+        this.leaseRenewalPdfHttpService.buildLeasePdf(ids).subscribe({
             next: (response) => {
-                this.leasePdfHttpService.openLeasePdf(response.body[0]).subscribe({
+                this.leaseRenewalPdfHttpService.openLeasePdf(response.body[0]).subscribe({
                     next: (response) => {
                         const blob = new Blob([response], { type: 'application/pdf' })
                         if (action == 'show') {
@@ -169,20 +169,6 @@ export class ReservationFormComponent {
             vatAmount: vatAmount,
             grossAmount: grossAmount
         })
-
-        // const discountPercent = this.form.value.discountPercent
-        // const discountAmount = this.form.value.discountAmount
-        // const netAmountAfterDiscount = parseFloat(this.form.value.netAmountAfterDiscount)
-        // const vatAmount = netAmountAfterDiscount * (vatPercent / 100)
-        // const grossAmount = netAmountAfterDiscount + vatAmount
-        // this.form.patchValue({
-        //     netAmount: netAmount.toFixed(2),
-        //     discountPercent: discountPercent.toFixed(2),
-        //     discountAmount: discountAmount.toFixed(2),
-        //     netAmountAfterDiscount: netAmountAfterDiscount.toFixed(2),
-        //     vatAmount: vatAmount.toFixed(2),
-        //     grossAmount: grossAmount.toFixed(2)
-        // })
     }
 
     public copyOwnerToBilling(): void {

@@ -4,7 +4,7 @@
     </button>
     <mat-menu #menu="matMenu" class="primary">
         <button (click)="doNavigation('insurancePolicies',true)" mat-menu-item><span>{{ getLabel('insurance-policies') }}</span></button>
-        <button (click)="doNavigation('upcomingLeaseTerminations',true)" mat-menu-item><span>{{ getLabel('lease-terminations') }}</span></button>
+        <button (click)="doNavigation('leaseRenewals',true)" mat-menu-item><span>{{ getLabel('lease-terminations') }}</span></button>
         <button (click)="doNavigation('reservations',true)" mat-menu-item><span>{{ getLabel('reservations') }}</span></button>
         <button (click)="doNavigation('berths',true)" mat-menu-item><span>{{ getLabel('current-status') }}</span></button>
     </mat-menu>

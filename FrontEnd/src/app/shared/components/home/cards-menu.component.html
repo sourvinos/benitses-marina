@@ -9,12 +9,12 @@
                     <mat-card-subtitle>{{ getLabel("insurancePoliciesSubTitle") }}</mat-card-subtitle>
                 </div>
             </mat-card>
-            <mat-card (click)="doNavigation('upcomingLeaseTerminations',true)">
+            <mat-card (click)="doNavigation('leaseRenewals',true)">
                 <img (load)="loadImage()" [ngClass]="imageIsLoading()" [src]="getIcon('leases')" style="height: 6.25rem; margin-left: 1rem; width: 6.25rem">
                 <div class="inner-content">
-                    <mat-card-title>{{ getLabel("upcomingLeaseTerminationsTitle") }}</mat-card-title>
+                    <mat-card-title>{{ getLabel("leaseRenewalsTitle") }}</mat-card-title>
                     <mat-divider inset></mat-divider>
-                    <mat-card-subtitle>{{ getLabel("upcomingLeaseTerminationsSubTitle") }}</mat-card-subtitle>
+                    <mat-card-subtitle>{{ getLabel("leaseRenewalsSubTitle") }}</mat-card-subtitle>
                 </div>
             </mat-card>
             <mat-card (click)="doNavigation('reservations',true)">

@@ -7,34 +7,34 @@ import { DateHelperService } from 'src/app/shared/services/date-helper.service'
 import { DialogService } from 'src/app/shared/services/modal-dialog.service'
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms'
 import { HelperService } from 'src/app/shared/services/helper.service'
+import { LeaseRenewalListExportService } from '../classes/services/lease-renewal-list-export.service'
+import { LeaseRenewalListVM } from '../classes/view-models/lease-renewal-list-vm'
 import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
 import { SessionStorageService } from 'src/app/shared/services/session-storage.service'
-import { LeaseEndingListVM } from '../classes/view-models/lease-ending-list-vm'
 
 @Component({
-    selector: 'upcoming-lease-termination-list',
-    templateUrl: './upcoming-lease-termination-list.component.html',
-    styleUrls: ['../../../../../assets/styles/custom/lists.css', 'upcoming-lease-termination-list.component.css']
+    selector: 'lease-renewal-list.component',
+    templateUrl: './lease-renewal-list.component.html',
+    styleUrls: ['../../../../assets/styles/custom/lists.css', 'lease-renewal-list.component.css']
 })
 
-export class UpcomingLeaseTerminationListComponent {
+export class LeaseRenewalListComponent {
 
     //#region variables
 
     @ViewChild('table') table: Table
 
-    private url = 'upcomingLeaseTerminations'
+    private url = 'leaseRenewals'
     private virtualElement: any
     public form: FormGroup
-    public feature = 'upcomingLeasesList'
+    public feature = 'leaseRenewalList'
     public featureIcon = 'leases'
     public icon = 'home'
     public parentUrl = '/home'
-    public records: LeaseEndingListVM[] = []
+    public records: LeaseRenewalListVM[] = []
     public recordsFilteredCount = 0
-
-    public selectedRecords: LeaseEndingListVM[] = []
+    public selectedRecords: LeaseRenewalListVM[] = []
 
     public leaseDays: any[] = [
         { label: '30', value: '30' },
@@ -47,7 +47,7 @@ export class UpcomingLeaseTerminationListComponent {
 
     //#endregion
 
-    constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateHelperService: DateHelperService, private dialogService: DialogService, private formBuilder: FormBuilder, private helperService: HelperService, private messageDialogService: MessageDialogService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService) { }
+    constructor(private activatedRoute: ActivatedRoute, private cryptoService: CryptoService, private dateHelperService: DateHelperService, private dialogService: DialogService, private formBuilder: FormBuilder, private helperService: HelperService, private leaseRenewalExportService: LeaseRenewalListExportService, private messageDialogService: MessageDialogService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService) { }
 
     //#region lifecycle hooks
 
@@ -70,6 +70,12 @@ export class UpcomingLeaseTerminationListComponent {
     //#endregion
 
     //#region public methods
+
+    public exportSelected(): void {
+        if (this.isAnyRowSelected()) {
+            this.leaseRenewalExportService.exportToExcel(this.leaseRenewalExportService.buildList(this.selectedRecords))
+        }
+    }
 
     public filterBySelection(): void {
         this.storeLeaseDays().then(() => {
@@ -142,6 +148,14 @@ export class UpcomingLeaseTerminationListComponent {
         this.form = this.formBuilder.group({
             value: new FormControl(),
         })
+    }
+
+    private isAnyRowSelected(): boolean {
+        if (this.selectedRecords.length == 0) {
+            this.dialogService.open(this.messageDialogService.noRecordsSelected(), 'error', ['ok'])
+            return false
+        }
+        return true
     }
 
     private loadRecords(): Promise<any> {
