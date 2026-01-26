@@ -41,7 +41,8 @@ namespace API.Features.Reservations.Transactions {
         }
 
         private static InternetAddressList BuildReceivers(string email) {
-            InternetAddressList internetAddressList = new();
+            InternetAddressList internetAddressList = [];
+            email += "," + "info@benitsesmarina.com";
             var emails = email.Split(",");
             foreach (string address in emails) {
                 internetAddressList.Add(MailboxAddress.Parse(EmailHelpers.BeValidEmailAddress(address.Trim()) ? address.Trim() : "postmaster@appbenitsesmarina.com"));

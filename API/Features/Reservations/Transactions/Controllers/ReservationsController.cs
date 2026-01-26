@@ -36,12 +36,6 @@ namespace API.Features.Reservations.Transactions {
             return reservationRepo.GetProjected();
         }
 
-        // [HttpGet()]
-        // [Authorize(Roles = "user, admin")]
-        // public IEnumerable<Reservation> Get() {
-        //     return reservationRepo.GetSqlQuery();
-        // }
-
         [HttpGet("arrivals/{date}")]
         [Authorize(Roles = "user, admin")]
         public async Task<IEnumerable<ReservationListVM>> GetArrivalsAsync(string date) {

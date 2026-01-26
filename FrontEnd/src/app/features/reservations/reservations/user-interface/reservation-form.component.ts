@@ -1,3 +1,4 @@
+import FileSaver from 'file-saver'
 import { ActivatedRoute, Router } from '@angular/router'
 import { Component, HostListener } from '@angular/core'
 import { DateAdapter } from '@angular/material/core'
@@ -16,12 +17,14 @@ import { EmojiService } from 'src/app/shared/services/emoji.service'
 import { FormResolved } from 'src/app/shared/classes/form-resolved'
 import { HelperService } from 'src/app/shared/services/helper.service'
 import { InputTabStopDirective } from 'src/app/shared/directives/input-tabstop.directive'
+import { LeaseRenewalPdfHttpService } from 'src/app/features/lease-renewals/classes/services/lease-renewal-pdf-http.service'
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service'
 import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
 import { MessageInputHintService } from 'src/app/shared/services/message-input-hint.service'
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
 import { ReservationBoatWriteDto } from '../classes/dtos/reservation-boat-write-dto'
 import { ReservationFeeDto } from '../classes/dtos/reservation-fee-dto'
+import { ReservationFishingLicenceDto } from '../classes/dtos/reservation-fishing-licence-dto'
 import { ReservationHelperService } from '../classes/services/reservation-helper.service';
 import { ReservationHttpService } from '../classes/services/reservation-http.service'
 import { ReservationInsuranceDto } from '../classes/dtos/reservation-insurance-dto'
@@ -33,9 +36,6 @@ import { SessionStorageService } from 'src/app/shared/services/session-storage.s
 import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 import { ValidationService } from 'src/app/shared/services/validation.service'
 import { environment } from 'src/environments/environment'
-import { ReservationFishingLicenceDto } from '../classes/dtos/reservation-fishing-licence-dto'
-import FileSaver from 'file-saver'
-import { LeaseRenewalPdfHttpService } from 'src/app/features/lease-renewals/classes/services/lease-renewal-pdf-http.service'
 
 @Component({
     selector: 'reservation-form',
