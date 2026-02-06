@@ -29,6 +29,22 @@ namespace API.Features.Cashiers.Transactions {
             this.mapper = mapper;
         }
 
+        [HttpGet("getForPatching")]
+        [Authorize(Roles = "admin")]
+        public IEnumerable<Cashier> GetForPatching() {
+            DirectoryInfo directoryInfo = new(Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), Path.Combine("Uploaded Cashiers"))));
+            var x = cashierRepo.GetForDocumentPatching();
+            foreach (var item in x) {
+                var i = directoryInfo.GetFiles(item.CashierId.ToString() + "*.pdf");
+                if (i.Length != 0) {
+                    cashierRepo.Patch(item, true);
+                } else {
+                    // 
+                }
+            }
+            return x;
+        }
+
         [HttpGet()]
         [Authorize(Roles = "user, admin")]
         public async Task<IEnumerable<CashierListVM>> GetAsync() {
@@ -99,6 +115,26 @@ namespace API.Features.Cashiers.Transactions {
                         ResponseCode = z
                     };
                 }
+            } else {
+                throw new CustomException() {
+                    ResponseCode = 404
+                };
+            }
+        }
+
+        [HttpPatch("{expenseId}/{hasDocument}")]
+        [Authorize(Roles = "admin")]
+        [ServiceFilter(typeof(ModelValidationAttribute))]
+        public async Task<Response> PatchAsync(string expenseId, bool hasDocument) {
+            var x = await cashierRepo.GetByIdAsync(expenseId.ToString(), false);
+            if (x != null) {
+                cashierRepo.Patch(x, hasDocument);
+                return new Response {
+                    Code = 200,
+                    Icon = Icons.Success.ToString(),
+                    Id = x.CashierId.ToString(),
+                    Message = ApiMessages.OK()
+                };
             } else {
                 throw new CustomException() {
                     ResponseCode = 404

@@ -26,6 +26,21 @@ namespace API.Features.Cashiers.Transactions {
             this.testingEnvironment = testingEnvironment.Value;
         }
 
+        public Cashier Patch(Cashier invoice, bool hasDocument) {
+            using var transaction = context.Database.BeginTransaction();
+            PatchInvoice(invoice, hasDocument);
+            context.SaveChanges();
+            DisposeOrCommit(transaction);
+            return invoice;
+        }
+
+        public IEnumerable<Cashier> GetForDocumentPatching() {
+            var cashiers = context.Cashiers
+                .AsNoTracking()
+                .AsEnumerable();
+            return cashiers;
+        }
+
         public async Task<IEnumerable<CashierListVM>> GetAsync(int? companyId) {
             var cashiers = await context.Cashiers
                 .AsNoTracking()
@@ -70,6 +85,11 @@ namespace API.Features.Cashiers.Transactions {
 
         private void UpdateCashier(Cashier cashier) {
             context.Cashiers.Update(cashier);
+        }
+
+        private void PatchInvoice(Cashier expense, bool hasDocument) {
+            expense.HasDocument = hasDocument;
+            context.Cashiers.Update(expense);
         }
 
         public FileStreamResult OpenDocument(string filename) {

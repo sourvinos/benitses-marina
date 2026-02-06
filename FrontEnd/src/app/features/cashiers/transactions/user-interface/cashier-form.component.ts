@@ -187,7 +187,9 @@ export class CashierFormComponent {
                 return new Promise<void>((resolve) => {
                     this.cashierHttpService.deleteDocument(filename).subscribe((x) => {
                         resolve(x)
+                        this.patchRecord(this.form.value.cashierId, false)
                         this.getDocuments()
+                        this.patchFormWithHasDocument()
                     })
                 })
             }
@@ -201,7 +203,9 @@ export class CashierFormComponent {
     public onUploadAndRenameFile(file: File): void {
         this.uploadFile(file).then((x) => {
             this.renameFile(file).then(() => {
+                this.patchRecord(this.form.value.cashierId, true)
                 this.getDocuments()
+                this.patchFormWithHasDocument()
             })
         })
     }
@@ -300,6 +304,21 @@ export class CashierFormComponent {
     private patchFormWithSoftDelete(flattenForm: CashierWriteDto): CashierWriteDto {
         flattenForm.isDeleted = true
         return flattenForm
+    }
+
+    private patchFormWithHasDocument(): void {
+        setTimeout(() => {
+            this.documents.length >= 1 ? this.form.patchValue({ hasDocument: true }) : this.form.patchValue({ hasDocument: false })
+        }, 500)
+    }
+
+    private patchRecord(invoiceId: string, hasDocument: boolean): void {
+        this.cashierHttpService.patchExpense(invoiceId, hasDocument).subscribe({
+            next: () => {
+            }, error: (errorFromInterceptor) => {
+                this.dialogService.open(this.messageDialogService.filterResponse(errorFromInterceptor), 'error', ['ok'])
+            }
+        })
     }
 
     private populateDropdownFromDexieDB(dexieTable: string, filteredTable: string, formField: string, modelProperty: string, orderBy: string): void {

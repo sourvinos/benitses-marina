@@ -10,6 +10,8 @@ namespace API.Features.Cashiers.Transactions {
 
         Task<IEnumerable<CashierListVM>> GetAsync(int? companyId);
         Task<Cashier> GetByIdAsync(string cashierId, bool includeTables);
+        IEnumerable<Cashier> GetForDocumentPatching();
+        Cashier Patch(Cashier invoice, bool hasDocument);
         Cashier Update(Guid id, Cashier cashier);
         FileStreamResult OpenDocument(string filename);
 

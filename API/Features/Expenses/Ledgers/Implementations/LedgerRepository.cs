@@ -30,7 +30,7 @@ namespace API.Features.Expenses.Ledgers {
                 .Include(x => x.PaymentMethod)
                 .Where(x => x.CompanyId == companyId && x.SupplierId == supplierId && x.Date <= Convert.ToDateTime(toDate))
                 .Where(x => x.IsDeleted == false)
-                .OrderBy(x => x.Date)
+                .OrderBy(x => x.Date).ThenBy(x => x.DocumentNo)
                 .ToListAsync();
             return mapper.Map<IEnumerable<Expense>, IEnumerable<LedgerVM>>(records);
         }

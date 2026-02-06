@@ -190,6 +190,7 @@ export class InvoiceFormComponent {
                     this.invoiceHttpService.deleteDocument(filename).subscribe(() => {
                         this.invoiceHttpService.patchExpense(this.form.value.expenseId, false).subscribe((x) => {
                             resolve(x)
+                            this.patchRecord(this.form.value.expenseId, false)
                             this.getDocuments()
                             this.patchFormWithHasDocument()
                         })

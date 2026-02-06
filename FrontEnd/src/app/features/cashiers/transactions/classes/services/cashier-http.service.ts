@@ -19,6 +19,10 @@ export class CashierHttpService extends HttpDataService {
             : this.http.put<any>(this.url, formData)
     }
 
+    public patchExpense(cashierId: string, hasDocument: boolean): Observable<any> {
+        return this.http.patch<any>(this.url + '/' + cashierId + '/' + hasDocument, null, { params: null })
+    }
+
     public getDocuments(id: string): Observable<any> {
         return this.http.get(this.url + '/documents/' + id)
     }

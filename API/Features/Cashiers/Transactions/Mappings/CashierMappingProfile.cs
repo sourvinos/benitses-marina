@@ -22,9 +22,9 @@ namespace API.Features.Cashiers.Transactions {
                     Description = x.Safe.Description
                 }))
                 .ForMember(x => x.Remarks, x => x.MapFrom(x => x.Remarks ?? ""))
-                .ForMember(x => x.PutAt, x => x.MapFrom(x => x.PutAt.Substring(0, 10)))
-                .ForMember(x => x.HasDocument, x => x.MapFrom(x => CashierHelpers.HasDocument(x)))
-                .ForMember(x => x.DocumentName, x => x.MapFrom(x => CashierHelpers.DocumentName(x) ?? ""));
+                .ForMember(x => x.PutAt, x => x.MapFrom(x => x.PutAt.Substring(0, 10)));
+                // .ForMember(x => x.HasDocument, x => x.MapFrom(x => CashierHelpers.HasDocument(x)))
+                // .ForMember(x => x.DocumentName, x => x.MapFrom(x => CashierHelpers.DocumentName(x) ?? ""));
             // GetById
             CreateMap<Cashier, CashierReadDto>()
                 .ForMember(x => x.Date, x => x.MapFrom(x => DateHelpers.DateToISOString(x.Date)))

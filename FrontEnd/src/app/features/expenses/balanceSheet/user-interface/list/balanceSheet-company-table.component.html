@@ -15,7 +15,7 @@
             <tr>
                 <th class="no-border-top width-3"><p-tableHeaderCheckbox (click)="outputSelected()"></p-tableHeaderCheckbox></th>
                 <th class="no-border-top width-15"><p-columnFilter (input)="onFilter($event.target.value,'supplier.description','contains')" class="center" field="supplier.description"></p-columnFilter></th>
-                <th class="no-border-top width-15"><p-columnFilter (input)="onFilter($event.target.value,'supplier.bankDescription','contains')" class="center" field="supplier.description"></p-columnFilter></th>
+                <th class="no-border-top width-15"><p-columnFilter (input)="onFilter($event.target.value,'supplier.bankDescription','contains')" class="center" field="supplier.bankDescription"></p-columnFilter></th>
                 <th class="no-border-top width-15"><p-columnFilter (input)="onFilter($event.target.value,'supplier.bank','contains')" class="center" field="supplier.bank"></p-columnFilter></th>
                 <th class="no-border-top width-15"><p-columnFilter (input)="onFilter($event.target.value,'supplier.iban','contains')" class="center" field="supplier.iban"></p-columnFilter></th>
                 <th class="no-border-top width-8"><p-columnFilter (input)="onFilter($event.target.value,'previousBalance','contains')" class="center" field="previousBalance"></p-columnFilter></th>
