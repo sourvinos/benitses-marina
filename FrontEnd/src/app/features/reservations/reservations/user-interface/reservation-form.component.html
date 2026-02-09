@@ -353,9 +353,9 @@
             <input type="file" #file placeholder="Choose file" (change)="onUploadAndRenameFile(file.files[0])" style="display: none;">
             <button [disabled]="!isNewRecord()" (click)="file.click()" mat-menu-item>{{ getLabel("uploadButton") }}</button>
             <button [disabled]="!isNewRecord()" mat-menu-item [matMenuTriggerFor]="leaseButton">{{ getLabel("leaseButton") }}</button>
-            <button [disabled]="!canSendDocuments()" (click)="onAddToEmailQueue('Reservation')" mat-menu-item><span>{{ getLabel("addReservationToEmailQueue") }}</span></button>
-            <button [disabled]="!canSendInvalidInsurance()" (click)="onAddToEmailQueue('InvalidInsurance')" mat-menu-item><span>{{ getLabel("addInvalidInsuranceToEmailQueue") }}</span></button>
-            <button [disabled]="!canSendEndOfLease()" (click)="onAddToEmailQueue('EndOfLease')" mat-menu-item><span>{{ getLabel("addEndOfLeaseToEmailQueue") }}</span></button>
+            <button [disabled]="!canSendDocuments()" (click)="addToEmailQueue('Reservation')" mat-menu-item><span>{{ getLabel("addReservationToEmailQueue") }}</span></button>
+            <button [disabled]="!canSendInvalidInsurance()" (click)="onAskToAddToEmailQueue('InvalidInsurance')" mat-menu-item><span>{{ getLabel("addInvalidInsuranceToEmailQueue") }}</span></button>
+            <button [disabled]="!canSendEndOfLease()" (click)="onAskToAddToEmailQueue('EndOfLease')" mat-menu-item><span>{{ getLabel("addEndOfLeaseToEmailQueue") }}</span></button>
             <button [disabled]="isNotNewRecord()" (click)="onCopyReservation()" mat-menu-item><span>{{ getLabel("copyReservation") }}</span></button>
             <button [disabled]="!isNotNewRecordAndIsReservationNotInStorage()" (click)="onPasteReservation()" mat-menu-item><span>{{ getLabel("pasteReservation") }}</span></button>
         </mat-menu>

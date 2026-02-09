@@ -215,26 +215,21 @@ export class ReservationFormComponent {
         return this.form.value.reservationId == '' ? 'headerNew' : 'headerEdit'
     }
 
-
     public getRemarksLength(): any {
         return this.form.value.remarks != null ? this.form.value.remarks.length : 0
     }
-
 
     public getFinancialRemarksLength(): any {
         return this.form.value.financialRemarks != null ? this.form.value.financialRemarks.length : 0
     }
 
-
     public imageIsLoading(): any {
         return this.imgIsLoaded ? '' : 'skeleton'
     }
 
-
     public isAdmin(): boolean {
         return this.cryptoService.decrypt(this.sessionStorageService.getItem('isAdmin')) == 'true' ? true : false
     }
-
 
     public isFishingBoat(): boolean {
         return this.form.value.isFishingBoat
@@ -244,31 +239,25 @@ export class ReservationFormComponent {
         return this.form.value.reservationId == ''
     }
 
-
     public isNewRecord(): boolean {
         return this.form.value.reservationId != '' && this.form.pristine == true
     }
-
 
     public isNotNewRecordAndIsReservationNotInStorage(): boolean {
         return this.form.value.reservationId == '' && this.localStorageService.getItem('reservation').length != 0
     }
 
-
     public canSendDocuments(): boolean {
         return (this.form.value.reservationId != '' && this.form.pristine == true && this.selectedDocuments.length != 0)
     }
-
 
     public canSendInvalidInsurance(): boolean {
         return (this.form.value.reservationId != '' && this.form.pristine == true && this.form.value.isDocked && this.expireDateMustBeInThePast(this.form.value.policyEnds))
     }
 
-
     public canSendEndOfLease(): boolean {
-        return (this.form.value.reservationId != '' && this.form.pristine == true && this.form.value.isDocked)
+        return (this.form.value.reservationId != '' && this.form.pristine == true && this.form.value.paymentStatus.description == "NONE")
     }
-
 
     public loadImage(): void {
         this.imgIsLoaded = true
@@ -438,7 +427,19 @@ export class ReservationFormComponent {
         return this.documents ? this.documents : []
     }
 
-    public onAddToEmailQueue(discriminator: string): void {
+    public onAskToAddToEmailQueue(discriminator: string): void {
+        if (this.reservation.isDocked == false) {
+            this.dialogService.open(this.messageDialogService.confirmSendRenew(), 'question', ['abort', 'ok']).subscribe(response => {
+                if (response) {
+                    this.addToEmailQueue(discriminator)
+                }
+            })
+        } else {
+            this.addToEmailQueue(discriminator)
+        }
+    }
+
+    public addToEmailQueue(discriminator: string): void {
         if (discriminator == 'InvalidInsurance' || discriminator == 'EndOfLease') {
             const x: EmailQueueDto = {
                 initiator: discriminator,
@@ -463,6 +464,7 @@ export class ReservationFormComponent {
                 this.dialogService.open(this.messageDialogService.success(), 'ok', ['ok']).subscribe(() => { })
             })
         }
+
     }
 
     //#endregion

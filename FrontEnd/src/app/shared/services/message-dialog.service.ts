@@ -56,6 +56,7 @@ export class MessageDialogService {
     public noContactWithServer(): string { return this.getDescription(this.feature, 'noContactWithServer') }
     public success(): string { return this.getDescription(this.feature, 'success') }
     public confirmDelete(): string { return this.getDescription(this.feature, 'warning') }
+    public confirmSendRenew(): string { return this.getDescription(this.feature, 'confirmSendRenew') }
     public confirmDeleteDexieDB(): string { return this.getDescription(this.feature, 'confirmDeleteDexieDB') }
     public confirmLogout(): string { return this.getDescription(this.feature, 'confirmLogout') }
     public supplierVatNumberIsDuplicate(): string { return this.getDescription(this.feature, 'supplierVatNumberIsDuplicate') }
