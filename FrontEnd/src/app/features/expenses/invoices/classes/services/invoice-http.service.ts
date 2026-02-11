@@ -19,6 +19,10 @@ export class InvoiceHttpService extends HttpDataService {
         return this.http.request<InvoiceListVM[]>('post', environment.apiUrl + '/expenses/getForPeriod', { body: criteria })
     }
 
+    public getForToday(): Observable<InvoiceListVM[]> {
+        return this.http.request<InvoiceListVM[]>('post', environment.apiUrl + '/expenses/getForToday')
+    }
+
     public saveExpense(formData: any): Observable<any> {
         return formData.expenseId == null
             ? this.http.post<any>(this.url, formData)

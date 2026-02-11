@@ -1,7 +1,6 @@
 using API.Infrastructure.Users;
 using API.Infrastructure.Classes;
 using API.Infrastructure.Implementations;
-using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -19,11 +18,9 @@ namespace API.Features.Expenses.Transactions {
 
     public class ExpenseRepository : Repository<Expense>, IExpenseRepository {
 
-        private readonly IMapper mapper;
         private readonly TestingEnvironment testingEnvironment;
 
-        public ExpenseRepository(AppDbContext context, IHttpContextAccessor httpContext, IMapper mapper, IOptions<TestingEnvironment> testingEnvironment, UserManager<UserExtended> userManager) : base(context, httpContext, testingEnvironment, userManager) {
-            this.mapper = mapper;
+        public ExpenseRepository(AppDbContext context, IHttpContextAccessor httpContext, IOptions<TestingEnvironment> testingEnvironment, UserManager<UserExtended> userManager) : base(context, httpContext, testingEnvironment, userManager) {
             this.testingEnvironment = testingEnvironment.Value;
         }
 
@@ -69,6 +66,44 @@ namespace API.Features.Expenses.Transactions {
             var expenses = context.Expenses
                 .AsNoTracking()
                 .Where(x => x.Date >= Convert.ToDateTime(criteria.FromDate) && x.Date <= Convert.ToDateTime(criteria.ToDate) && x.IsDeleted == false)
+                .Include(x => x.Company)
+                .Include(x => x.DocumentType)
+                .Include(x => x.PaymentMethod)
+                .Include(x => x.Supplier)
+                .AsEnumerable()
+                .OrderBy(x => x.Date)
+                .Select(x => new ExpenseListVM {
+                    ExpenseId = x.ExpenseId,
+                    Date = DateHelpers.DateToISOString(x.Date),
+                    Company = new SimpleEntity {
+                        Id = x.Company.Id,
+                        Description = x.Company.Description
+                    },
+                    DocumentType = new SimpleEntity {
+                        Id = x.DocumentType.Id,
+                        Description = x.DocumentType.Description
+                    },
+                    PaymentMethod = new SimpleEntity {
+                        Id = x.PaymentMethod.Id,
+                        Description = x.PaymentMethod.Description
+                    },
+                    Supplier = new SimpleEntity {
+                        Id = x.Supplier.Id,
+                        Description = x.Supplier.Description
+                    },
+                    DocumentNo = x.DocumentNo,
+                    Amount = x.Amount,
+                    HasDocument = x.HasDocument,
+                    PutAt = x.PutAt[..10]
+                });
+            return expenses;
+        }
+
+        public IEnumerable<ExpenseListVM> GetForToday() {
+            var today = DateHelpers.DateTimeToISOString(DateHelpers.GetLocalDateTime())[..10];
+            var expenses = context.Expenses
+                .AsNoTracking()
+                .Where(x => x.PostAt.Substring(0, 10) == today && x.IsDeleted == false)
                 .Include(x => x.Company)
                 .Include(x => x.DocumentType)
                 .Include(x => x.PaymentMethod)

@@ -39,9 +39,7 @@ export class CashierLedgerParentComponent {
         this.setListHeight()
     }
 
-    ngOnDestroy(): void {
-
-    }
+    ngOnDestroy(): void { }
 
     //#endregion
 

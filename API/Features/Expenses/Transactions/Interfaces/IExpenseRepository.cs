@@ -10,6 +10,7 @@ namespace API.Features.Expenses.Transactions {
 
         IEnumerable<ExpenseListVM> Get(int? companyId);
         IEnumerable<ExpenseListVM> GetForPeriod(ExpenseListCriteriaVM criteria);
+        IEnumerable<ExpenseListVM> GetForToday();
         IEnumerable<Expense> GetForDocumentPatching();
         Task<Expense> GetByIdAsync(string invoiceId, bool includeTables);
         Expense Update(Guid id, Expense invoice);

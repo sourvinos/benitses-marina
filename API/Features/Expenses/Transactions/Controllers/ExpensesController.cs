@@ -57,6 +57,12 @@ namespace API.Features.Expenses.Transactions {
             return expenseRepo.GetForPeriod(criteria);
         }
 
+        [HttpPost("[action]")]
+        [Authorize(Roles = "admin")]
+        public IEnumerable<ExpenseListVM> GetForToday() {
+            return expenseRepo.GetForToday();
+        }
+
         [HttpGet("company/{companyId}")]
         [Authorize(Roles = "user, admin")]
         public IEnumerable<ExpenseListVM> GetByCompanyAsync(int companyId) {
