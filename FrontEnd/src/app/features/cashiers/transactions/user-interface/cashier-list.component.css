@@ -1,9 +1,0 @@
-#today span {
-    color: #fb5e5e;
-    font-size: 20px;
-    margin: 2px 0 0 0;
-}
-
-#today:hover {
-    cursor: pointer;
-}

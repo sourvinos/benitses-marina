@@ -4,13 +4,19 @@
 
         <div id="header">
             <home-button-and-title [featureIcon]="featureIcon" [feature]="feature" [icon]="icon" [parentUrl]="parentUrl"></home-button-and-title>
-            <button (click)="onFilterTodayRecords()" [matTooltip]="getLabel('today')" class="fab fab-with-no-background" id="today" mat-icon-button matTooltipPosition="left">
-                <span class="material-symbols-outlined">today</span>
-            </button>
+            <div id="header-right">
+                <span id="criteria-caption">{{ getCriteria() }}</span>
+                <button (click)="onShowCriteriaDialog()" class="fab fab-with-no-background" mat-icon-button>
+                    <mat-icon class="material-icons-outlined">filter_alt</mat-icon>
+                </button>
+                <button (click)="onGetRecordsForToday()" class="fab fab-with-no-background" id="today" mat-icon-button matTooltipPosition="left">
+                    <span class="material-symbols-outlined">filter_arrow_right</span>
+                </button>
+            </div>
         </div>
 
         <div id="table-wrapper">
-            <p-table #table (onFilter)="onFilterRecords($event)" [(selection)]="selectedRecords" [scrollable]="true" [value]="records" [virtualScrollItemSize]="32" [virtualScroll]="true" dataKey="record" scrollHeight="flex" selectionMode="multiple" sortMode="multiple" stateKey="cashierList-filters" stateStorage="session">
+            <p-table #table (onFilter)="onFilterRecords($event)" [(selection)]="selectedRecords" [scrollable]="true" [value]="records" [virtualScrollItemSize]="32" [virtualScroll]="true" dataKey="id" scrollHeight="flex" selectionMode="multiple" sortMode="multiple" stateKey="cashiersList-filters" stateStorage="session">
                 <ng-template pTemplate="header">
                     <tr>
                         <th class="no-border-bottom width-3"></th>

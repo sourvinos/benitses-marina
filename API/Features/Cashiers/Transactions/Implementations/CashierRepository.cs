@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using System;
 using System.IO;
+using API.Infrastructure.Helpers;
 
 namespace API.Features.Cashiers.Transactions {
 
@@ -46,6 +47,28 @@ namespace API.Features.Cashiers.Transactions {
                 .AsNoTracking()
                 .Where(x => companyId == null || x.CompanyId == companyId)
                 .Where(x => x.IsDeleted == false)
+                .Include(x => x.Company)
+                .Include(x => x.Safe)
+                .OrderBy(x => x.Date)
+                .ToListAsync();
+            return mapper.Map<IEnumerable<Cashier>, IEnumerable<CashierListVM>>(cashiers);
+        }
+
+        public async Task<IEnumerable<CashierListVM>> GetForPeriod(CashierListCriteriaVM criteria) {
+            var cashiers = await context.Cashiers
+                .AsNoTracking()
+                .Where(x => x.Date >= Convert.ToDateTime(criteria.FromDate) && x.Date <= Convert.ToDateTime(criteria.ToDate) && x.IsDeleted == false)
+                .Include(x => x.Company)
+                .Include(x => x.Safe)
+                .OrderBy(x => x.Date)
+                .ToListAsync();
+            return mapper.Map<IEnumerable<Cashier>, IEnumerable<CashierListVM>>(cashiers);
+        }
+
+        public async Task<IEnumerable<CashierListVM>> GetForTodayAsync() {
+            var cashiers = await context.Cashiers
+                .AsNoTracking()
+                .Where(x => x.PostAt.Substring(0, 10) == DateHelpers.DateTimeToISOString(DateHelpers.GetLocalDateTime()).Substring(0, 10) && x.IsDeleted == false)
                 .Include(x => x.Company)
                 .Include(x => x.Safe)
                 .OrderBy(x => x.Date)

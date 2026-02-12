@@ -29,26 +29,22 @@ namespace API.Features.Cashiers.Transactions {
             this.mapper = mapper;
         }
 
-        [HttpGet("getForPatching")]
-        [Authorize(Roles = "admin")]
-        public IEnumerable<Cashier> GetForPatching() {
-            DirectoryInfo directoryInfo = new(Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), Path.Combine("Uploaded Cashiers"))));
-            var x = cashierRepo.GetForDocumentPatching();
-            foreach (var item in x) {
-                var i = directoryInfo.GetFiles(item.CashierId.ToString() + "*.pdf");
-                if (i.Length != 0) {
-                    cashierRepo.Patch(item, true);
-                } else {
-                    // 
-                }
-            }
-            return x;
-        }
-
         [HttpGet()]
         [Authorize(Roles = "user, admin")]
         public async Task<IEnumerable<CashierListVM>> GetAsync() {
             return await cashierRepo.GetAsync(null);
+        }
+
+        [HttpPost("[action]")]
+        [Authorize(Roles = "admin")]
+        public async Task<IEnumerable<CashierListVM>> GetForPeriod([FromBody] CashierListCriteriaVM criteria) {
+            return await cashierRepo.GetForPeriod(criteria);
+        }
+
+        [HttpPost("[action]")]
+        [Authorize(Roles = "admin")]
+        public async Task<IEnumerable<CashierListVM>> GetForToday() {
+            return await cashierRepo.GetForTodayAsync();
         }
 
         [HttpGet("company/{companyId}")]
@@ -226,6 +222,22 @@ namespace API.Features.Cashiers.Transactions {
         [Authorize(Roles = "user, admin")]
         public FileStreamResult OpenDocument(string filename) {
             return cashierRepo.OpenDocument(filename);
+        }
+
+        [HttpGet("getForPatching")]
+        [Authorize(Roles = "admin")]
+        public IEnumerable<Cashier> GetForPatching() {
+            DirectoryInfo directoryInfo = new(Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), Path.Combine("Uploaded Cashiers"))));
+            var x = cashierRepo.GetForDocumentPatching();
+            foreach (var item in x) {
+                var i = directoryInfo.GetFiles(item.CashierId.ToString() + "*.pdf");
+                if (i.Length != 0) {
+                    cashierRepo.Patch(item, true);
+                } else {
+                    // 
+                }
+            }
+            return x;
         }
 
     }

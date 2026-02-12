@@ -2,7 +2,7 @@ import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 
 export interface CashierListVM {
 
-    cashierId: string
+    id: string
     date: string
     company: SimpleEntity
     safe: SimpleEntity

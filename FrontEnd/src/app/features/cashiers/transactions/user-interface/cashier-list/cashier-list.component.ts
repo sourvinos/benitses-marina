@@ -1,56 +1,51 @@
 import { Router } from '@angular/router'
 import { Component, ViewChild } from '@angular/core'
-import { MatDialog } from '@angular/material/dialog'
 import { Table } from 'primeng/table'
 import { formatNumber } from '@angular/common'
 // Custom
+import { CashierCriteriaDialogComponent } from '../cashier-criteria/cashier-criteria.component'
+import { CashierHttpService } from '../../classes/services/cashier-http.service'
+import { CashierListCriteriaVM } from '../../classes/view-models/criteria/cashier-list-criteria-vm'
+import { CashierListVM } from '../../classes/view-models/list/cashier-list-vm'
 import { CryptoService } from 'src/app/shared/services/crypto.service'
 import { DateHelperService } from 'src/app/shared/services/date-helper.service'
-import { DialogService } from 'src/app/shared/services/modal-dialog.service'
 import { EmojiService } from 'src/app/shared/services/emoji.service'
 import { HelperService } from 'src/app/shared/services/helper.service'
-import { InvoiceCriteriaDialogComponent } from '../criteria/invoice-criteria.component'
-import { InvoiceHttpService } from '../../classes/services/invoice-http.service'
-import { InvoiceListCriteriaVM } from '../../classes/view-models/criteria/invoice-list-criteria-vm'
-import { InvoiceListExportService } from '../../classes/services/invoice-list-export.service'
-import { InvoiceListVM } from '../../classes/view-models/list/invoice-list-vm'
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service'
-import { MessageDialogService } from 'src/app/shared/services/message-dialog.service'
+import { MatDialog } from '@angular/material/dialog'
 import { MessageLabelService } from 'src/app/shared/services/message-label.service'
 import { SessionStorageService } from 'src/app/shared/services/session-storage.service'
 import { SimpleEntity } from 'src/app/shared/classes/simple-entity'
 
 @Component({
-    selector: 'invoice-list',
-    templateUrl: './invoice-list.component.html',
-    styleUrls: ['../../../../../../assets/styles/custom/lists.css', 'invoice-list.component.css']
+    selector: 'cashier-list',
+    templateUrl: './cashier-list.component.html',
+    styleUrls: ['../../../../../../assets/styles/custom/lists.css', 'cashier-list.component.css']
 })
 
-export class InvoiceListComponent {
+export class CashierListComponent {
 
     //#region variables
 
     @ViewChild('table') table: Table
 
-    private criteria: InvoiceListCriteriaVM
-    private url = 'invoices'
+    private criteria: CashierListCriteriaVM
+    private url = 'cashiers'
     private virtualElement: any
-    public feature = 'invoiceList'
-    public featureIcon = 'invoices'
+    public feature = 'cashierList'
+    public featureIcon = 'cashiers'
     public icon = 'home'
     public parentUrl = '/home'
-    public records: InvoiceListVM[] = []
+    public records: CashierListVM[] = []
     public recordsFilteredCount = 0
 
-    public selectedRecords: InvoiceListVM[] = []
+    public selectedRecords: CashierListVM[] = []
     public distinctCompanies: SimpleEntity[] = []
-    public distinctDocumentTypes: SimpleEntity[] = []
-    public distinctPaymentMethods: SimpleEntity[] = []
-    public distinctSuppliers: SimpleEntity[] = []
+    public distinctSafes: SimpleEntity[] = []
 
     //#endregion
 
-    constructor(private invoiceHttpService: InvoiceHttpService, private cryptoService: CryptoService, private dateHelperService: DateHelperService, private dialogService: DialogService, private emojiService: EmojiService, private helperService: HelperService, private invoiceListExportService: InvoiceListExportService, private localStorageService: LocalStorageService, private messageDialogService: MessageDialogService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService, public dialog: MatDialog) { }
+    constructor(private cashierHttpService: CashierHttpService, private cryptoService: CryptoService, private dateHelperService: DateHelperService, private emojiService: EmojiService, private helperService: HelperService, private localStorageService: LocalStorageService, private messageLabelService: MessageLabelService, private router: Router, private sessionStorageService: SessionStorageService, public dialog: MatDialog) { }
 
     //#region lifecycle hooks
 
@@ -87,10 +82,25 @@ export class InvoiceListComponent {
 
     //#region public methods
 
-    public exportSelected(): void {
-        if (this.isAnyRowSelected()) {
-            this.invoiceListExportService.exportToExcel(this.invoiceListExportService.buildList(this.selectedRecords))
-        }
+    public onClearFilterTasks(): void {
+        this.clearFilters()
+        this.deleteStoredFilters()
+        this.clearSelectedRecords()
+        this.initFilteredRecordsCount()
+    }
+
+    public onGetRecordsForToday(): Promise<CashierListVM[]> {
+        return new Promise((resolve) => {
+            this.cashierHttpService.getForToday().subscribe(response => {
+                this.records = response
+                resolve(this.records)
+                this.sessionStorageService.deleteItems([
+                    { 'item': 'cashiersListCriteria', 'when': 'always' },
+                    { 'item': 'cashiersList-filters', 'when': 'always' }
+                ])
+                this.sessionStorageService.saveItem('isTodaysRecords', 'true')
+            })
+        })
     }
 
     public formatDateToLocale(date: string, showWeekday = false, showYear = false, returnEmptyString = false): string {
@@ -121,17 +131,10 @@ export class InvoiceListComponent {
         return this.cryptoService.decrypt(this.sessionStorageService.getItem('isAdmin')) == 'true' ? true : false
     }
 
-    public onClearFilterTasks(): void {
-        this.clearFilters()
-        this.deleteStoredFilters()
-        this.clearSelectedRecords()
-        this.initFilteredRecordsCount()
-    }
-
-    public onEditRecord(invoiceId: string): void {
+    public onEditRecord(id: string): void {
         this.storeScrollTop()
-        this.storeSelectedId(invoiceId)
-        this.navigateToRecord(invoiceId)
+        this.storeSelectedId(id)
+        this.navigateToRecord(id)
     }
 
     public onFilter(event: any, column: string, matchMode: string): void {
@@ -142,35 +145,17 @@ export class InvoiceListComponent {
         this.recordsFilteredCount = event.filteredValue.length
     }
 
-    public onGetRecordsForToday(): Promise<InvoiceListVM[]> {
-        return new Promise((resolve) => {
-            this.invoiceHttpService.getForToday().subscribe(response => {
-                this.records = response
-                resolve(this.records)
-                this.sessionStorageService.deleteItems([
-                    { 'item': 'invoicesListCriteria', 'when': 'always' },
-                    { 'item': 'invoiceList-filters', 'when': 'always' }
-                ])
-                this.sessionStorageService.saveItem('isTodaysRecords', 'true')
-            })
-        })
-    }
-
     public onHighlightRow(id: any): void {
         this.helperService.highlightRow(id)
     }
 
     public onNewRecord(): void {
-        this.router.navigate([this.url, 'new'])
-    }
-
-    public onResetTableFilters(): void {
-        this.helperService.clearTableTextFilters(this.table, ['date', 'no', 'amount'])
+        this.router.navigate([this.url + '/new'])
     }
 
     public onShowCriteriaDialog(): void {
-        const dialogRef = this.dialog.open(InvoiceCriteriaDialogComponent, {
-            data: 'invoiceListCriteria',
+        const dialogRef = this.dialog.open(CashierCriteriaDialogComponent, {
+            data: 'cashierListCriteria',
             height: '36.0625rem',
             panelClass: 'dialog',
             width: '32rem',
@@ -190,11 +175,15 @@ export class InvoiceListComponent {
         })
     }
 
+    public onResetTableFilters(): void {
+        this.helperService.clearTableTextFilters(this.table, ['date', 'debit', 'credit'])
+    }
+
     //#endregion
 
     //#region private methods
 
-    private buildCriteriaVM(event: InvoiceListCriteriaVM): Promise<any> {
+    private buildCriteriaVM(event: CashierListCriteriaVM): Promise<any> {
         return new Promise((resolve) => {
             this.criteria = {
                 fromDate: event.fromDate,
@@ -215,7 +204,7 @@ export class InvoiceListComponent {
     }
 
     private deleteStoredFilters(): void {
-        this.sessionStorageService.deleteItems([{ 'item': 'invoiceList-filters', 'when': 'always' }])
+        this.sessionStorageService.deleteItems([{ 'item': 'cashierList-filters', 'when': 'always' }])
     }
 
     private doVirtualTableTasks(): void {
@@ -227,18 +216,7 @@ export class InvoiceListComponent {
     }
 
     private enableDisableFilters(): void {
-        // this.records.length == 0 ? this.helperService.disableTableFilters() : this.helperService.enableTableFilters()
-    }
-
-    private getStoredCriteria(): boolean {
-        const storedCriteria: any = this.sessionStorageService.getItem('invoicesListCriteria') ? JSON.parse(this.sessionStorageService.getItem('invoicesListCriteria')) : ''
-        if (storedCriteria) {
-            this.criteria = {
-                fromDate: storedCriteria.fromDate,
-                toDate: storedCriteria.toDate
-            }
-            return true
-        }
+        this.records.length == 0 ? this.helperService.disableTableFilters() : this.helperService.enableTableFilters()
     }
 
     private getStoredIsTodaysRecords(): boolean {
@@ -250,6 +228,17 @@ export class InvoiceListComponent {
         this.virtualElement = document.getElementsByClassName('p-scroller-inline')[0]
     }
 
+    private getStoredCriteria(): boolean {
+        const storedCriteria: any = this.sessionStorageService.getItem('cashiersListCriteria') ? JSON.parse(this.sessionStorageService.getItem('cashiersListCriteria')) : ''
+        if (storedCriteria) {
+            this.criteria = {
+                fromDate: storedCriteria.fromDate,
+                toDate: storedCriteria.toDate
+            }
+            return true
+        }
+    }
+
     private hightlightSavedRow(): void {
         this.helperService.highlightSavedRow(this.feature)
     }
@@ -258,17 +247,9 @@ export class InvoiceListComponent {
         this.recordsFilteredCount = this.records.length
     }
 
-    private isAnyRowSelected(): boolean {
-        if (this.selectedRecords.length == 0) {
-            this.dialogService.open(this.messageDialogService.noRecordsSelected(), 'error', ['ok'])
-            return false
-        }
-        return true
-    }
-
-    private loadRecords(criteria: InvoiceListCriteriaVM): Promise<InvoiceListVM[]> {
+    private loadRecords(criteria: CashierListCriteriaVM): Promise<CashierListVM[]> {
         return new Promise((resolve) => {
-            this.invoiceHttpService.getForList(criteria).subscribe(response => {
+            this.cashierHttpService.getForList(criteria).subscribe(response => {
                 this.records = response
                 resolve(this.records)
             })
@@ -281,9 +262,7 @@ export class InvoiceListComponent {
 
     private populateDropdownFilters(): void {
         this.distinctCompanies = this.helperService.getDistinctRecords(this.records, 'company', 'description')
-        this.distinctDocumentTypes = this.helperService.getDistinctRecords(this.records, 'documentType', 'description')
-        this.distinctPaymentMethods = this.helperService.getDistinctRecords(this.records, 'paymentMethod', 'description')
-        this.distinctSuppliers = this.helperService.getDistinctRecords(this.records, 'supplier', 'description')
+        this.distinctSafes = this.helperService.getDistinctRecords(this.records, 'safe', 'description')
     }
 
     private scrollToSavedPosition(): void {

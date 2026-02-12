@@ -4,6 +4,8 @@ import { Observable } from 'rxjs'
 // Custom
 import { HttpDataService } from 'src/app/shared/services/http-data.service'
 import { environment } from 'src/environments/environment'
+import { CashierListVM } from '../view-models/list/cashier-list-vm'
+import { CashierListCriteriaVM } from '../view-models/criteria/cashier-list-criteria-vm'
 
 @Injectable({ providedIn: 'root' })
 
@@ -11,6 +13,14 @@ export class CashierHttpService extends HttpDataService {
 
     constructor(httpClient: HttpClient) {
         super(httpClient, environment.apiUrl + '/cashiers')
+    }
+
+    public getForList(criteria: CashierListCriteriaVM): Observable<CashierListVM[]> {
+        return this.http.request<CashierListVM[]>('post', environment.apiUrl + '/cashiers/getForPeriod', { body: criteria })
+    }
+
+    public getForToday(): Observable<CashierListVM[]> {
+        return this.http.request<CashierListVM[]>('post', environment.apiUrl + '/cashiers/getForToday')
     }
 
     public saveCashier(formData: any): Observable<any> {

@@ -100,10 +100,9 @@ namespace API.Features.Expenses.Transactions {
         }
 
         public IEnumerable<ExpenseListVM> GetForToday() {
-            var today = DateHelpers.DateTimeToISOString(DateHelpers.GetLocalDateTime())[..10];
             var expenses = context.Expenses
                 .AsNoTracking()
-                .Where(x => x.PostAt.Substring(0, 10) == today && x.IsDeleted == false)
+                .Where(x => x.PostAt.Substring(0, 10) == DateHelpers.DateTimeToISOString(DateHelpers.GetLocalDateTime()).Substring(0, 10) && x.IsDeleted == false)
                 .Include(x => x.Company)
                 .Include(x => x.DocumentType)
                 .Include(x => x.PaymentMethod)

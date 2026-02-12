@@ -6,9 +6,9 @@ import { HttpEventType } from '@angular/common/http'
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete'
 import { map, Observable, startWith } from 'rxjs'
 // Custom
-import { CashierHttpService } from '../classes/services/cashier-http.service'
-import { CashierReadDto } from '../classes/dtos/cashier-read-dto'
-import { CashierWriteDto } from '../classes/dtos/cashier-write-dto'
+import { CashierHttpService } from '../../classes/services/cashier-http.service'
+import { CashierReadDto } from '../../classes/dtos/cashier-read-dto'
+import { CashierWriteDto } from '../../classes/dtos/cashier-write-dto'
 import { CryptoService } from 'src/app/shared/services/crypto.service'
 import { DateHelperService } from 'src/app/shared/services/date-helper.service'
 import { DebugDialogService } from 'src/app/shared/services/debug-dialog.service'
@@ -29,7 +29,7 @@ import { environment } from 'src/environments/environment'
 @Component({
     selector: 'cashier-form',
     templateUrl: './cashier-form.component.html',
-    styleUrls: ['../../../../../assets/styles/custom/forms.css', './cashier-form.component.css']
+    styleUrls: ['../../../../../../assets/styles/custom/forms.css', './cashier-form.component.css']
 })
 
 export class CashierFormComponent {

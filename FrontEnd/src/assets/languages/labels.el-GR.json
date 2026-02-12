@@ -2119,6 +2119,27 @@
         ]
     },
     {
+        "feature": "cashiersListCriteria",
+        "labels": [
+            {
+                "id": "header",
+                "description": "Ημερολόγιο ταμείων"
+            },
+            {
+                "id": "subHeader",
+                "description": "Δώστε τα κριτήρια με τα οποία θα γίνει η αναζήτηση"
+            },
+            {
+                "id": "cancelButton",
+                "description": "Ακυρο"
+            },
+            {
+                "id": "okButton",
+                "description": "Συνεχεια"
+            }
+        ]
+    },
+    {
         "feature": "cashierList",
         "labels": [
             {
